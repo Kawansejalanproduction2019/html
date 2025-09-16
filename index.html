@@ -267,6 +267,7 @@
         }
         #profile .logo-container img {
             max-width: 250px;
+            border-radius: 12px;
         }
         #profile .description-container {
             flex: 2;
@@ -547,7 +548,7 @@
     <main>
         <section class="hero">
             <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Bot Logo" class="hero-logo fade-in">
-            <h1 class="fade-in" data-lang-id="Temui reSwan" data-lang-en="Meet reSwan">Temui reSwan</h1>
+            <h1 class="fade-in" data-lang-id="Perkenalkan, reSwan" data-lang-en="Introducing, reSwan">Perkenalkan, reSwan</h1>
             <p class="fade-in" data-lang-id="Solusi anggun dan serba guna untuk meningkatkan server Discord Anda. Dari sistem interaksi mendalam hingga moderasi kuat dan hiburan tanpa akhir, reSwan bisa semuanya." data-lang-en="The graceful, all-in-one solution to elevate your Discord server. From deep engagement systems to powerful moderation and endless entertainment, reSwan does it all.">Solusi anggun dan serba guna untuk meningkatkan server Discord Anda. Dari sistem interaksi mendalam hingga moderasi kuat dan hiburan tanpa akhir, reSwan bisa semuanya.</p>
             <div class="hero-buttons fade-in">
                  <a href="#features" class="hero-button primary" data-lang-id="Jelajahi Fitur" data-lang-en="Discover Features">Jelajahi Fitur</a>
@@ -559,10 +560,10 @@
             <div class="container">
                 <div class="profile-content">
                     <div class="logo-container">
-                        <img src="https://i.ibb.co/L5rCg1m/6217328455519946915.jpg" alt="reSwan Logo large">
+                        <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo large">
                     </div>
                     <div class="description-container">
-                        <h3 data-lang-id="Jiwa reSwan" data-lang-en="The Soul of reSwan">Jiwa reSwan</h3>
+                        <h3 data-lang-id="Filosofi di Balik reSwan" data-lang-en="The Philosophy Behind reSwan">Filosofi di Balik reSwan</h3>
                         <p data-lang-id="Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:" data-lang-en="The reSwan logo is more than just an elegant bird; it's a fusion of community and technology. The swan, a symbol of grace and community, is intricately woven with elements that define the modern digital experience. Its form contains:">Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:</p>
                         <ul>
                             <li data-lang-id="<strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap." data-lang-en="<strong>Gaming & Entertainment:</strong> A game controller, headphones, and music notes represent the bot's core entertainment features, from interactive games to a full-fledged music system."><strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap.</li>
@@ -646,37 +647,9 @@
                 
                 <div class="accordion">
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Admin & Konfigurasi" data-lang-en="Admin & Configuration">Admin & Konfigurasi</div>
+                        <div class="accordion-header" data-lang-id="Leveling & Ekonomi" data-lang-en="Leveling & Economy">Leveling & Ekonomi</div>
                         <div class="accordion-content">
                              <table class="command-table">
-                                <tbody>
-                                    <tr><td data-label="Perintah"><code>!setup</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll)." data-lang-en="Opens an interactive setup panel for major bot features (auto-role, welcome messages, logs, etc.).">Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll).</span></td><td data-label="Penggunaan"><code>!setup</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setannounce</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel untuk pengumuman kenaikan level." data-lang-en="Sets the channel for level-up announcements.">Mengatur channel untuk pengumuman kenaikan level.</span></td><td data-label="Penggunaan"><code>!setannounce [#channel]</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setlevelrole</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan role otomatis saat pengguna mencapai level tertentu." data-lang-en="Assigns a role to be automatically given at a specific level.">Memberikan role otomatis saat pengguna mencapai level tertentu.</span></td><td data-label="Penggunaan"><code>!setlevelrole {level} {@role}</code><br>Contoh: <code>!setlevelrole 10 @Veteran</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!removelevelrole</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus hadiah role untuk sebuah level." data-lang-en="Removes the role reward for a level.">Menghapus hadiah role untuk sebuah level.</span></td><td data-label="Penggunaan"><code>!removelevelrole {level}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setwelcomechannel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel tempat pesan selamat datang akan dikirim." data-lang-en="Sets the channel where welcome messages will be sent.">Mengatur channel tempat pesan selamat datang akan dikirim.</span></td><td data-label="Penggunaan"><code>!setwelcomechannel {#channel}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setboostchannel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel untuk pengumuman saat ada yang boost server." data-lang-en="Sets the channel for server boost announcements.">Mengatur channel untuk pengumuman saat ada yang boost server.</span></td><td data-label="Penggunaan"><code>!setboostchannel {#channel}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!set_gender</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka menu untuk mengatur sistem role gender." data-lang-en="Opens a menu to set up the gender role system.">Membuka menu untuk mengatur sistem role gender.</span></td><td data-label="Penggunaan"><code>!set_gender</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setchannelq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel khusus untuk menerima kiriman kutipan (quotes)." data-lang-en="Sets the dedicated channel for receiving quote submissions.">Mengatur channel khusus untuk menerima kiriman kutipan (quotes).</span></td><td data-label="Penggunaan"><code>!setchannelq {#channel}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setgamechannel</code></td><td data-label="Deskripsi"><span data-lang-id="Membatasi atau mengizinkan game tertentu untuk dimainkan di channel spesifik." data-lang-en="Restricts or allows specific games to be played in a specific channel.">Membatasi atau mengizinkan game tertentu untuk dimainkan di channel spesifik.</span></td><td data-label="Penggunaan"><code>!setgamechannel {nama_game} {add/remove/list} [#channel]</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!settriger</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel suara pemicu untuk pembuatan channel sementara." data-lang-en="Sets the trigger voice channel for temporary channel creation.">Mengatur channel suara pemicu untuk pembuatan channel sementara.</span></td><td data-label="Penggunaan"><code>!settriger {id_channel}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setcat</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur kategori tujuan tempat channel suara sementara akan dibuat." data-lang-en="Sets the target category where temporary voice channels will be created.">Mengatur kategori tujuan tempat channel suara sementara akan dibuat.</span></td><td data-label="Penggunaan"><code>!setcat {id_kategori}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!uangall</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan sejumlah RSWN kepada semua anggota di server." data-lang-en="Gives a specified amount of RSWN to all members in the server.">Memberikan sejumlah RSWN kepada semua anggota di server.</span></td><td data-label="Penggunaan"><code>!uangall {jumlah}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!xpall</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan sejumlah EXP kepada semua anggota di server." data-lang-en="Gives a specified amount of EXP to all members in the server.">Memberikan sejumlah EXP kepada semua anggota di server.</span></td><td data-label="Penggunaan"><code>!xpall {jumlah}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!giveexp</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan EXP ke satu pengguna secara rahasia." data-lang-en="Gives EXP to a single user secretly.">Memberikan EXP ke satu pengguna secara rahasia.</span></td><td data-label="Penggunaan"><code>!giveexp {@pengguna} {jumlah}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!givecoins</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan RSWN ke satu pengguna secara rahasia." data-lang-en="Gives RSWN to a single user secretly.">Memberikan RSWN ke satu pengguna secara rahasia.</span></td><td data-label="Penggunaan"><code>!givecoins {@pengguna} {jumlah}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!setlevel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur level pengguna secara manual." data-lang-en="Manually sets a user's level.">Mengatur level pengguna secara manual.</span></td><td data-label="Penggunaan"><code>!setlevel {@pengguna} {level}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!reduce_user</code></td><td data-label="Deskripsi"><span data-lang-id="Mengurangi EXP dan RSWN dari seorang pengguna dengan alasan." data-lang-en="Reduces EXP and RSWN from a user with a reason.">Mengurangi EXP dan RSWN dari seorang pengguna dengan alasan.</span></td><td data-label="Penggunaan"><code>!reduce_user {@pengguna} {exp} {rsw} {alasan}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!resetall</code></td><td data-label="Deskripsi"><span data-lang-id="Mereset semua data EXP, level, dan badge di server." data-lang-en="Resets all EXP, level, and badge data on the server.">Mereset semua data EXP, level, dan badge di server.</span></td><td data-label="Penggunaan"><code>!resetall</code></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah Ekonomi & Leveling" data-lang-en="Economy & Leveling Commands">Perintah Ekonomi & Leveling</div>
-                        <div class="accordion-content">
-                            <table class="command-table">
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!rank</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan level, EXP, dan saldo RSWN Anda." data-lang-en="Displays your level, EXP, and RSWN balance.">Menampilkan level, EXP, dan saldo RSWN Anda.</span></td><td data-label="Penggunaan"><code>!rank</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!leaderboard</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan papan peringkat EXP teratas di server." data-lang-en="Shows the top EXP leaderboard on the server.">Menampilkan papan peringkat EXP teratas di server.</span></td><td data-label="Penggunaan"><code>!leaderboard</code></td></tr>
@@ -689,9 +662,9 @@
                             </table>
                         </div>
                     </div>
-                    
+
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah Moderasi" data-lang-en="Moderation Commands">Perintah Moderasi</div>
+                        <div class="accordion-header" data-lang-id="Administrasi & Moderasi" data-lang-en="Administration & Moderation">Administrasi & Moderasi</div>
                         <div class="accordion-content">
                             <table class="command-table">
                                 <tbody>
@@ -707,13 +680,39 @@
                                     <tr><td data-label="Perintah"><code>!slowmode</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur mode lambat di channel." data-lang-en="Sets slowmode in a channel.">Mengatur mode lambat di channel.</span></td><td data-label="Penggunaan"><code>!slowmode {detik}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!lock</code></td><td data-label="Deskripsi"><span data-lang-id="Mengunci channel agar tidak bisa mengirim pesan." data-lang-en="Locks a channel to prevent sending messages.">Mengunci channel agar tidak bisa mengirim pesan.</span></td><td data-label="Penggunaan"><code>!lock [#channel]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!unlock</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka kunci channel." data-lang-en="Unlocks a channel.">Membuka kunci channel.</span></td><td data-label="Penggunaan"><code>!unlock [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setup</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll)." data-lang-en="Opens an interactive setup panel for major bot features (auto-role, welcome messages, logs, etc.).">Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll).</span></td><td data-label="Penggunaan"><code>!setup</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!announce</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk mengirim pengumuman global." data-lang-en="Opens a wizard to send a global announcement.">Membuka wizard untuk mengirim pengumuman global.</span></td><td data-label="Penggunaan"><code>!announce {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!modpanel</code></td><td data-label="Deskripsi"><span data-lang-id="Membuat panel statistik & moderasi server yang persisten." data-lang-en="Creates a persistent server stats & moderation panel.">Membuat panel statistik & moderasi server yang persisten.</span></td><td data-label="Penggunaan"><code>!modpanel</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!toggle_status</code></td><td data-label="Deskripsi"><span data-lang-id="Mengubah status bot di modpanel." data-lang-en="Toggles the bot's status on the modpanel.">Mengubah status bot di modpanel.</span></td><td data-label="Penggunaan"><code>!toggle_status</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!addrole</code></td><td data-label="Deskripsi"><span data-lang-id="Menambahkan peran ke pengguna." data-lang-en="Adds a role to a user.">Menambahkan peran ke pengguna.</span></td><td data-label="Penggunaan"><code>!addrole {@pengguna} {@peran}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!removerole</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus peran dari pengguna." data-lang-en="Removes a role from a user.">Menghapus peran dari pengguna.</span></td><td data-label="Penggunaan"><code>!removerole {@pengguna} {@peran}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!nick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengubah nama panggilan pengguna." data-lang-en="Changes a user's nickname.">Mengubah nama panggilan pengguna.</span></td><td data-label="Penggunaan"><code>!nick {@pengguna} [nama_baru]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!channelrules</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur aturan spesifik untuk sebuah channel." data-lang-en="Sets specific rules for a channel.">Mengatur aturan spesifik untuk sebuah channel.</span></td><td data-label="Penggunaan"><code>!channelrules [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!addwhitelistrole</code></td><td data-label="Deskripsi"><span data-lang-id="Menambahkan peran ke daftar putih filter spam." data-lang-en="Adds a role to the spam filter whitelist.">Menambahkan peran ke daftar putih filter spam.</span></td><td data-label="Penggunaan"><code>!addwhitelistrole {id_peran}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!removewhitelistrole</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus peran dari daftar putih filter spam." data-lang-en="Removes a role from the spam filter whitelist.">Menghapus peran dari daftar putih filter spam.</span></td><td data-label="Penggunaan"><code>!removewhitelistrole {id_peran}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setreactionrole</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur peran reaksi pada sebuah pesan." data-lang-en="Sets up a reaction role on a message.">Mengatur peran reaksi pada sebuah pesan.</span></td><td data-label="Penggunaan"><code>!setreactionrole {id_pesan} {emoji} {@peran}</code></td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    
+
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah Game & Hiburan" data-lang-en="Games & Entertainment Commands">Perintah Game & Hiburan</div>
+                        <div class="accordion-header" data-lang-id="Sistem Kutipan (Quotes)" data-lang-en="Quotes System">Sistem Kutipan (Quotes)</div>
+                        <div class="accordion-content">
+                             <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!resq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirimkan sebuah kutipan untuk ditinjau oleh admin." data-lang-en="Submits a quote to be reviewed by admins.">Mengirimkan sebuah kutipan untuk ditinjau oleh admin.</span></td><td data-label="Penggunaan"><code>!resq {ya/tidak utk nama} {kutipan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setchannelq</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Mengatur channel untuk menerima kiriman kutipan." data-lang-en="(Admin) Sets the channel for receiving quote submissions.">(Admin) Mengatur channel untuk menerima kiriman kutipan.</span></td><td data-label="Penggunaan"><code>!setchannelq {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!sendquote</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Mengirim kutipan langsung tanpa perlu persetujuan." data-lang-en="(Admin) Sends a quote directly without approval.">(Admin) Mengirim kutipan langsung tanpa perlu persetujuan.</span></td><td data-label="Penggunaan"><code>!sendquote {kutipan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!deletequote</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Menghapus sebuah kutipan berdasarkan ID-nya." data-lang-en="(Admin) Deletes a quote by its ID.">(Admin) Menghapus sebuah kutipan berdasarkan ID-nya.</span></td><td data-label="Penggunaan"><code>!deletequote {id_kutipan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!listquotes</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Menampilkan semua kutipan yang telah dikirim." data-lang-en="(Admin) Displays all submitted quotes.">(Admin) Menampilkan semua kutipan yang telah dikirim.</span></td><td data-label="Penggunaan"><code>!listquotes</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Game & Hiburan" data-lang-en="Games & Entertainment">Game & Hiburan</div>
                         <div class="accordion-content">
                             <table class="command-table">
                                 <tbody>
@@ -727,6 +726,8 @@
                                     <tr><td data-label="Perintah"><code>!pernahgak</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan 'Pernah Gak Pernah' di voice channel." data-lang-en="Starts a 'Never Have I Ever' game in a voice channel.">Memulai permainan 'Pernah Gak Pernah' di voice channel.</span></td><td data-label="Penggunaan"><code>!pernahgak</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!hitungcepat</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai kuis hitung cepat." data-lang-en="Starts a fast math quiz.">Memulai kuis hitung cepat.</span></td><td data-label="Penggunaan"><code>!hitungcepat</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!matamata</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan Mata-Mata (Spyfall)." data-lang-en="Starts a game of Spyfall.">Memulai permainan Mata-Mata (Spyfall).</span></td><td data-label="Penggunaan"><code>!matamata</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!tuduh</code></td><td data-label="Deskripsi"><span data-lang-id="Menuduh pemain dalam game Mata-Mata." data-lang-en="Accuse a player in a Spyfall game.">Menuduh pemain dalam game Mata-Mata.</span></td><td data-label="Penggunaan"><code>!tuduh {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ungkap_lokasi</code></td><td data-label="Deskripsi"><span data-lang-id="(Mata-Mata) Menebak lokasi di game Mata-Mata." data-lang-en="(Spy) Guess the location in a Spyfall game.">(Mata-Mata) Menebak lokasi di game Mata-Mata.</span></td><td data-label="Penggunaan"><code>!ungkap_lokasi {tebakan_lokasi}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!jawab</code></td><td data-label="Deskripsi"><span data-lang-id="Menjawab teka-teki harian." data-lang-en="Answer the daily riddle.">Menjawab teka-teki harian.</span></td><td data-label="Penggunaan"><code>!jawab {jawaban}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!ww join</code></td><td data-label="Deskripsi"><span data-lang-id="Bergabung antrean game Werewolf." data-lang-en="Join the Werewolf game queue.">Bergabung antrean game Werewolf.</span></td><td data-label="Penggunaan"><code>!ww join</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!ww mulai</code></td><td data-label="Deskripsi"><span data-lang-id="(Host) Memulai game Werewolf." data-lang-en="(Host) Starts the Werewolf game.">(Host) Memulai game Werewolf.</span></td><td data-label="Penggunaan"><code>!ww mulai</code></td></tr>
@@ -739,7 +740,7 @@
                     </div>
 
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah Musik" data-lang-en="Music Commands">Perintah Musik</div>
+                        <div class="accordion-header" data-lang-id="Musik & Channel Suara" data-lang-en="Music & Voice Channel">Musik & Channel Suara</div>
                         <div class="accordion-content">
                              <table class="command-table">
                                 <tbody>
@@ -757,33 +758,22 @@
                                     <tr><td data-label="Perintah"><code>!resclear</code></td><td data-label="Deskripsi"><span data-lang-id="Membersihkan antrean lagu." data-lang-en="Clears the song queue.">Membersihkan antrean lagu.</span></td><td data-label="Penggunaan"><code>!resclear</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!resprandom</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar playlist acak pribadi." data-lang-en="Plays a personal random playlist.">Memutar playlist acak pribadi.</span></td><td data-label="Penggunaan"><code>!resprandom</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!respliked</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar playlist lagu yang disukai." data-lang-en="Plays your liked songs playlist.">Memutar playlist lagu yang disukai.</span></td><td data-label="Penggunaan"><code>!respliked</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vchelp</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan bantuan untuk mengelola channel suara sementara." data-lang-en="Shows help for managing temporary voice channels.">Menampilkan bantuan untuk mengelola channel suara sementara.</span></td><td data-label="Penggunaan"><code>!vchelp</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vclock</code></td><td data-label="Deskripsi"><span data-lang-id="Mengunci channel suara sementara Anda." data-lang-en="Locks your temporary voice channel.">Mengunci channel suara sementara Anda.</span></td><td data-label="Penggunaan"><code>!vclock</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcunlock</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka kunci channel suara sementara Anda." data-lang-en="Unlocks your temporary voice channel.">Membuka kunci channel suara sementara Anda.</span></td><td data-label="Penggunaan"><code>!vcunlock</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcsetlimit</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur batas pengguna di channel sementara Anda." data-lang-en="Sets the user limit on your temporary channel.">Mengatur batas pengguna di channel sementara Anda.</span></td><td data-label="Penggunaan"><code>!vcsetlimit {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcrename</code></td><td data-label="Deskripsi"><span data-lang-id="Mengganti nama channel sementara Anda." data-lang-en="Renames your temporary channel.">Mengganti nama channel sementara Anda.</span></td><td data-label="Penggunaan"><code>!vcrename {nama_baru}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vckick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengeluarkan pengguna dari channel sementara Anda." data-lang-en="Kicks a user from your temporary channel.">Mengeluarkan pengguna dari channel sementara Anda.</span></td><td data-label="Penggunaan"><code>!vckick {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcgrant</code></td><td data-label="Deskripsi"><span data-lang-id="Memberi akses pengguna ke channel sementara Anda yang terkunci." data-lang-en="Grants a user access to your locked temporary channel.">Memberi akses pengguna ke channel sementara Anda yang terkunci.</span></td><td data-label="Penggunaan"><code>!vcgrant {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcrevoke</code></td><td data-label="Deskripsi"><span data-lang-id="Mencabut akses pengguna dari channel sementara Anda." data-lang-en="Revokes a user's access from your temporary channel.">Mencabut akses pengguna dari channel sementara Anda.</span></td><td data-label="Penggunaan"><code>!vcrevoke {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcowner</code></td><td data-label="Deskripsi"><span data-lang-id="Mentransfer kepemilikan channel sementara Anda." data-lang-en="Transfers ownership of your temporary channel.">Mentransfer kepemilikan channel sementara Anda.</span></td><td data-label="Penggunaan"><code>!vcowner {@pengguna}</code></td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Manajemen Channel Suara Sementara" data-lang-en="Temporary Voice Channel Management">Manajemen Channel Suara Sementara</div>
-                        <div class="accordion-content">
-                             <table class="command-table">
-                                <tbody>
-                                    <tr><td data-label="Perintah"><code>!vchelp</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan panduan lengkap untuk mengelola channel suara pribadi Anda." data-lang-en="Shows the complete guide to managing your private voice channel.">Menampilkan panduan lengkap untuk mengelola channel suara pribadi Anda.</span></td><td data-label="Penggunaan"><code>!vchelp</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vclock</code></td><td data-label="Deskripsi"><span data-lang-id="Mengunci channel suara Anda sehingga hanya pengguna yang diundang dapat bergabung." data-lang-en="Locks your voice channel so only invited users can join.">Mengunci channel suara Anda sehingga hanya pengguna yang diundang dapat bergabung.</span></td><td data-label="Penggunaan"><code>!vclock</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcunlock</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka kunci channel suara Anda untuk umum." data-lang-en="Unlocks your voice channel for everyone.">Membuka kunci channel suara Anda untuk umum.</span></td><td data-label="Penggunaan"><code>!vcunlock</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcsetlimit</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur batas maksimal pengguna di channel Anda (0 untuk tanpa batas)." data-lang-en="Sets the maximum user limit for your channel (0 for unlimited).">Mengatur batas maksimal pengguna di channel Anda (0 untuk tanpa batas).</span></td><td data-label="Penggunaan"><code>!vcsetlimit {jumlah}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcrename</code></td><td data-label="Deskripsi"><span data-lang-id="Mengganti nama channel suara pribadi Anda." data-lang-en="Renames your private voice channel.">Mengganti nama channel suara pribadi Anda.</span></td><td data-label="Penggunaan"><code>!vcrename {nama_baru}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vckick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengeluarkan pengguna dari channel suara Anda." data-lang-en="Kicks a user from your voice channel.">Mengeluarkan pengguna dari channel suara Anda.</span></td><td data-label="Penggunaan"><code>!vckick {@pengguna}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcgrant</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan akses kepada pengguna untuk masuk ke channel Anda yang terkunci." data-lang-en="Grants a user access to join your locked channel.">Memberikan akses kepada pengguna untuk masuk ke channel Anda yang terkunci.</span></td><td data-label="Penggunaan"><code>!vcgrant {@pengguna}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcrevoke</code></td><td data-label="Deskripsi"><span data-lang-id="Mencabut akses pengguna dari channel Anda yang terkunci." data-lang-en="Revokes a user's access from your locked channel.">Mencabut akses pengguna dari channel Anda yang terkunci.</span></td><td data-label="Penggunaan"><code>!vcrevoke {@pengguna}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!vcowner</code></td><td data-label="Deskripsi"><span data-lang-id="Mentransfer kepemilikan channel suara Anda ke pengguna lain." data-lang-en="Transfers ownership of your voice channel to another user.">Mentransfer kepemilikan channel suara Anda ke pengguna lain.</span></td><td data-label="Penggunaan"><code>!vcowner {@pengguna}</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!adminvcowner</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Mengganti pemilik channel suara sementara mana pun secara paksa." data-lang-en="(Admin) Forcefully changes the owner of any temporary voice channel.">(Admin) Mengganti pemilik channel suara sementara mana pun secara paksa.</span></td><td data-label="Penggunaan"><code>!adminvcowner {#channel} {@pengguna_baru}</code></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah Utilitas Canggih" data-lang-en="Advanced Utility Commands">Perintah Utilitas Canggih</div>
+                        <div class="accordion-header" data-lang-id="Utilitas Webhook & Pengumuman" data-lang-en="Webhook & Announcement Utilities">Utilitas Webhook & Pengumuman</div>
                         <div class="accordion-content">
                             <table class="command-table">
                                 <tbody>
@@ -794,13 +784,14 @@
                                     <tr><td data-label="Perintah"><code>!list_schedules</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar pengumuman terjadwal." data-lang-en="Lists all scheduled announcements.">Menampilkan daftar pengumuman terjadwal.</span></td><td data-label="Penggunaan"><code>!list_schedules</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!load_config</code></td><td data-label="Deskripsi"><span data-lang-id="Memuat konfigurasi webhook yang tersimpan." data-lang-en="Loads a saved webhook configuration.">Memuat konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!load_config {nama_konfig} {#channel}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!list_configs</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar konfigurasi webhook yang tersimpan." data-lang-en="Lists saved webhook configurations.">Menampilkan daftar konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!list_configs</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!backup_config</code></td><td data-label="Deskripsi"><span data-lang-id="Mencadangkan konfigurasi dari sebuah pesan webhook yang sudah terkirim." data-lang-en="Backs up the configuration from an already sent webhook message.">Mencadangkan konfigurasi dari sebuah pesan webhook yang sudah terkirim.</span></td><td data-label="Penggunaan"><code>!backup_config {id_pesan}</code></td></tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Perintah AI & Utilitas Umum" data-lang-en="AI & General Utility Commands">Perintah AI & Utilitas Umum</div>
+                        <div class="accordion-header" data-lang-id="AI & Utilitas Umum" data-lang-en="AI & General Utilities">AI & Utilitas Umum</div>
                         <div class="accordion-content">
                             <table class="command-table">
                                 <tbody>
@@ -812,6 +803,7 @@
                                     <tr><td data-label="Perintah"><code>!user</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan info profil pengguna." data-lang-en="Shows user profile info.">Menampilkan info profil pengguna.</span></td><td data-label="Penggunaan"><code>!user [@pengguna]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!avatar</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan avatar pengguna." data-lang-en="Shows a user's avatar.">Menampilkan avatar pengguna.</span></td><td data-label="Penggunaan"><code>!avatar [@pengguna]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!resq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirimkan kutipan untuk ditinjau." data-lang-en="Submits a quote for review.">Mengirimkan kutipan untuk ditinjau.</span></td><td data-label="Penggunaan"><code>!resq {ya/tidak} {kutipan}</code></td></tr>
+                                     <tr><td data-label="Perintah"><code>!help</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar perintah dasar atau detail perintah spesifik." data-lang-en="Shows the basic command list or details for a specific command.">Menampilkan daftar perintah dasar atau detail perintah spesifik.</span></td><td data-label="Penggunaan"><code>!help [perintah]</code></td></tr>
                                 </tbody>
                             </table>
                         </div>
