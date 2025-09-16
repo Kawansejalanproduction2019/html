@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reSwan - Bot Discord Serba Guna</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0D1117;
+            --secondary-bg: #161B22;
+            --border-color: #30363D;
+            --primary-text: #E6EDF3;
+            --secondary-text: #8B949E;
+            --accent-blue: #58A6FF;
+            --accent-green: #3FB950;
+            --accent-purple: #BC8CFF;
+            --accent-red: #F85149;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: var(--primary-text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+        
+        .invite-btn-nav {
+            background-color: var(--accent-green);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .invite-btn-nav:hover {
+            background-color: #2ea043;
+            color: white;
+        }
+
+        .lang-switcher {
+            display: flex;
+            background: var(--secondary-bg);
+            border-radius: 6px;
+            padding: 4px;
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            cursor: pointer;
+            padding: 4px 8px;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lang-btn.active {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle .bar {
+            height: 3px;
+            width: 25px;
+            background-color: var(--primary-text);
+            margin: 4px 0;
+            transition: 0.4s;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .hero-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+            animation-delay: 0.2s;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-text);
+            animation-delay: 0.4s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            max-width: 600px;
+            margin-bottom: 30px;
+            animation-delay: 0.6s;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            animation-delay: 0.8s;
+        }
+
+        .hero-button {
+            color: #fff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+        }
+        
+        .hero-button.primary {
+            background-color: var(--accent-blue);
+        }
+        .hero-button.primary:hover {
+            background-color: #388bfd;
+            transform: translateY(-2px);
+        }
+        
+        .hero-button.secondary {
+            background-color: var(--accent-green);
+        }
+        .hero-button.secondary:hover {
+            background-color: #2ea043;
+            transform: translateY(-2px);
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-text);
+        }
+        
+        .section-header p {
+            color: var(--secondary-text);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* --- Profile Section --- */
+        #profile .profile-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        #profile .logo-container {
+            flex: 1;
+            text-align: center;
+        }
+        #profile .logo-container img {
+            max-width: 250px;
+        }
+        #profile .description-container {
+            flex: 2;
+        }
+        #profile h3 {
+            color: var(--accent-purple);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* --- Features Slider Section --- */
+        #features {
+            background-color: var(--secondary-bg);
+            position: relative;
+        }
+        
+        .slider-wrapper {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: 10px; /* Padding for spacing between cards */
+        }
+
+        .feature-card {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+        }
+        .feature-card .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-green);
+        }
+        
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 10px;
+            pointer-events: none; /* Allows clicks to pass through */
+        }
+
+        .slider-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: background 0.3s;
+            pointer-events: all; /* Make buttons clickable */
+        }
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .swipe-indicator {
+            display: none;
+            text-align: center;
+            color: var(--secondary-text);
+            margin-top: 20px;
+        }
+
+        /* --- Commands Accordion Section --- */
+        .accordion {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .accordion-item {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            background-color: var(--secondary-bg);
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #1f252d;
+        }
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(45deg);
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            padding: 0 20px;
+        }
+
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .command-table th, .command-table td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .command-table th {
+            color: var(--accent-blue);
+        }
+        
+        .command-table td code {
+            background-color: var(--primary-bg);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--accent-green);
+            word-break: break-all;
+        }
+
+        .command-table td:nth-child(1) { width: 20%; }
+        .command-table td:nth-child(2) { width: 45%; }
+        .command-table td:nth-child(3) { width: 35%; }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--secondary-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--secondary-bg);
+                position: absolute;
+                top: 70px; /* Should match header height */
+                left: 0;
+                padding: 20px 0;
+                border-bottom: 1px solid var(--border-color);
+                align-items: center;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                margin: 15px 0;
+                text-align: center;
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            #profile .profile-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .slider-controls {
+                display: none; /* Hide arrows on mobile, rely on swipe */
+            }
+            .swipe-indicator {
+                display: block;
+            }
+            
+            .command-table thead {
+                display: none;
+            }
+            .command-table, .command-table tbody, .command-table tr, .command-table td {
+                display: block;
+                width: 100%;
+            }
+            .command-table tr {
+                margin-bottom: 15px;
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                padding: 10px;
+            }
+            .command-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                min-height: 40px; /* Ensure space for label */
+            }
+            .command-table tr td:last-child {
+                 border-bottom: 0;
+            }
+            .command-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+                color: var(--accent-blue);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="nav-logo">
+                    <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo">
+                    reSwan
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#profile" data-lang-id="Profil" data-lang-en="Profile">Profil</a></li>
+                    <li><a href="#features" data-lang-id="Fitur" data-lang-en="Features">Fitur</a></li>
+                    <li><a href="#commands" data-lang-id="Perintah" data-lang-en="Commands">Perintah</a></li>
+                    <li><a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246" target="_blank" class="invite-btn-nav" data-lang-id="Undang Bot" data-lang-en="Invite Bot">Undang Bot</a></li>
+                    <li>
+                        <div class="lang-switcher">
+                            <button class="lang-btn active" onclick="switchLanguage('id')">ID</button>
+                            <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+                        </div>
+                    </li>
+                </ul>
+                <div class="menu-toggle">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Bot Logo" class="hero-logo fade-in">
+            <h1 class="fade-in" data-lang-id="Temui reSwan" data-lang-en="Meet reSwan">Temui reSwan</h1>
+            <p class="fade-in" data-lang-id="Solusi anggun dan serba guna untuk meningkatkan server Discord Anda. Dari sistem interaksi mendalam hingga moderasi kuat dan hiburan tanpa akhir, reSwan bisa semuanya." data-lang-en="The graceful, all-in-one solution to elevate your Discord server. From deep engagement systems to powerful moderation and endless entertainment, reSwan does it all.">Solusi anggun dan serba guna untuk meningkatkan server Discord Anda. Dari sistem interaksi mendalam hingga moderasi kuat dan hiburan tanpa akhir, reSwan bisa semuanya.</p>
+            <div class="hero-buttons fade-in">
+                 <a href="#features" class="hero-button primary" data-lang-id="Jelajahi Fitur" data-lang-en="Discover Features">Jelajahi Fitur</a>
+                 <a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246" target="_blank" class="hero-button secondary" data-lang-id="Undang ke Server" data-lang-en="Invite to Server">Undang ke Server</a>
+            </div>
+        </section>
+
+        <section id="profile" class="scroll-fade">
+            <div class="container">
+                <div class="profile-content">
+                    <div class="logo-container">
+                        <img src="https://i.ibb.co/L5rCg1m/6217328455519946915.jpg" alt="reSwan Logo large">
+                    </div>
+                    <div class="description-container">
+                        <h3 data-lang-id="Jiwa reSwan" data-lang-en="The Soul of reSwan">Jiwa reSwan</h3>
+                        <p data-lang-id="Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:" data-lang-en="The reSwan logo is more than just an elegant bird; it's a fusion of community and technology. The swan, a symbol of grace and community, is intricately woven with elements that define the modern digital experience. Its form contains:">Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:</p>
+                        <ul>
+                            <li data-lang-id="<strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap." data-lang-en="<strong>Gaming & Entertainment:</strong> A game controller, headphones, and music notes represent the bot's core entertainment features, from interactive games to a full-fledged music system."><strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap.</li>
+                            <li data-lang-id="<strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar yang terintegrasi ke dalam papan sirkuit melambangkan sistem ekonomi dan leveling yang mendalam dan memuaskan, yang mendorong aktivitas pengguna." data-lang-en="<strong>Economy & Growth:</strong> A dollar sign integrated into a circuit board symbolizes a deep, rewarding economy and leveling system that encourages user activity."><strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar yang terintegrasi ke dalam papan sirkuit melambangkan sistem ekonomi dan leveling yang mendalam dan memuaskan, yang mendorong aktivitas pengguna.</li>
+                            <li data-lang-id="<strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman." data-lang-en="<strong>Security & Moderation:</strong> A shield and a judge's gavel are seamlessly embedded, signifying powerful, reliable moderation and server administration tools to keep your community safe."><strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman.</li>
+                            <li data-lang-id="<strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung." data-lang-en="<strong>Connectivity:</strong> The network nodes illustrate how reSwan connects all these features into one cohesive, intelligent system, creating a vibrant and interconnected community."><strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung.</li>
+                        </ul>
+                        <br>
+                        <p><strong data-lang-id="reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat." data-lang-en="reSwan isn't just a bot; it's the central nervous system for a thriving server.">reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat.</strong><span data-lang-id=" Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat." data-lang-en=" It’s designed to be powerful yet graceful, providing every tool you need without complexity, ensuring your community runs smoothly and stays engaged."> Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat.</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="scroll-fade">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-lang-id="Fitur Inti" data-lang-en="Core Features">Fitur Inti</h2>
+                    <p data-lang-id="Bot multifaset yang dibuat untuk mencakup setiap aspek kebutuhan server Anda." data-lang-en="A multi-faceted bot built to cover every aspect of your server's needs.">Bot multifaset yang dibuat untuk mencakup setiap aspek kebutuhan server Anda.</p>
+                    <p class="swipe-indicator" data-lang-id="Geser untuk melihat lebih banyak" data-lang-en="Swipe to see more">Geser untuk melihat lebih banyak</p>
+                </div>
+                
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <div class="slider">
+                            <div class="slide">
+                                <div class="feature-card">
+                                    <div class="icon">💰</div>
+                                    <h3 data-lang-id="Ekonomi & Leveling Canggih" data-lang-en="Advanced Economy & Leveling">Ekonomi & Leveling Canggih</h3>
+                                    <p data-lang-id="Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat." data-lang-en="Foster a vibrant community with a rewarding progression system. Members earn currency (RSWN) and EXP just by chatting and participating in voice channels. This encourages activity and gives members tangible goals, with a shop to spend their earnings on badges, roles, and boosters. Weekly and all-time leaderboards spark friendly competition.">Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat.</p>
+                                </div>
+                            </div>
+
+                            <div class="slide">
+                                <div class="feature-card">
+                                    <div class="icon">🛡️</div>
+                                    <h3 data-lang-id="Paket Moderasi Tak Tertandingi" data-lang-en="Unmatched Moderation Suite">Paket Moderasi Tak Tertandingi</h3>
+                                    <p data-lang-id="Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing." data-lang-en="Keep your server safe and clean with a comprehensive set of moderation tools. From basic commands like kick, ban, and timeout to advanced features like channel-specific rules (disabling links, media, or bot commands), automated message deletion, and a full warning system. The integrated AI link filter provides an extra layer of security against phishing.">Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing.</p>
+                                </div>
+                            </div>
+
+                            <div class="slide">
+                                <div class="feature-card">
+                                    <div class="icon">🎮</div>
+                                    <h3 data-lang-id="Hiburan & Game Tanpa Batas" data-lang-en="Endless Games & Entertainment">Hiburan & Game Tanpa Batas</h3>
+                                    <p data-lang-id="Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok." data-lang-en="Never have a dull moment. reSwan is packed with interactive games for everyone: fast-paced quizzes (Music, Emoji, Science), word games (Hangman, Scramble), social deduction (Werewolf, Spyfall), and even a thrilling Horse Racing simulation with betting. There's a game for every mood and every group.">Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok.</p>
+                                </div>
+                            </div>
+
+                            <div class="slide">
+                                <div class="feature-card">
+                                    <div class="icon">🧠</div>
+                                    <h3 data-lang-id="Integrasi AI Cerdas" data-lang-en="Intelligent AI Integration">Integrasi AI Cerdas</h3>
+                                    <p data-lang-id="Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik." data-lang-en="Powered by Google's Gemini, reSwan offers a smart, customizable AI personality named 'Yuki' for engaging conversations. Beyond chat, the AI provides a powerful security layer by analyzing links for phishing threats in real-time. It also features an in-depth personality test (!jiwaku) for a unique user engagement experience.">Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="slide">
+                                <div class="feature-card">
+                                    <div class="icon">🛠️</div>
+                                    <h3 data-lang-id="Utilitas Server yang Kuat" data-lang-en="Powerful Server Utilities">Utilitas Server yang Kuat</h3>
+                                    <p data-lang-id="Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda." data-lang-en="Simplify server management with powerful utilities. Create stunningly professional announcements and role menus with the advanced Webhook Message Builder. Set up temporary voice channels, manage roles with reaction menus, and provide information to your members with custom FAQ commands. reSwan is your ultimate admin toolkit.">Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-btn prev-btn">❮</button>
+                        <button class="slider-btn next-btn">❯</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="commands" class="scroll-fade">
+            <div class="container">
+                <div class="section-header">
+                    <h2 data-lang-id="Daftar Perintah Lengkap" data-lang-en="Complete Command List">Daftar Perintah Lengkap</h2>
+                    <p data-lang-id="Setiap perintah ada di ujung jari Anda. Klik pada kategori untuk melihat detailnya." data-lang-en="Every command at your fingertips. Click on a category to expand and see the details.">Setiap perintah ada di ujung jari Anda. Klik pada kategori untuk melihat detailnya.</p>
+                </div>
+                
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Admin & Konfigurasi" data-lang-en="Admin & Configuration">Admin & Konfigurasi</div>
+                        <div class="accordion-content">
+                             <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!setup</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll)." data-lang-en="Opens an interactive setup panel for major bot features (auto-role, welcome messages, logs, etc.).">Membuka panel pengaturan interaktif untuk fitur utama bot (auto-role, pesan selamat datang, log, dll).</span></td><td data-label="Penggunaan"><code>!setup</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setannounce</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel untuk pengumuman kenaikan level." data-lang-en="Sets the channel for level-up announcements.">Mengatur channel untuk pengumuman kenaikan level.</span></td><td data-label="Penggunaan"><code>!setannounce [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setlevelrole</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan role otomatis saat pengguna mencapai level tertentu." data-lang-en="Assigns a role to be automatically given at a specific level.">Memberikan role otomatis saat pengguna mencapai level tertentu.</span></td><td data-label="Penggunaan"><code>!setlevelrole {level} {@role}</code><br>Contoh: <code>!setlevelrole 10 @Veteran</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!removelevelrole</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus hadiah role untuk sebuah level." data-lang-en="Removes the role reward for a level.">Menghapus hadiah role untuk sebuah level.</span></td><td data-label="Penggunaan"><code>!removelevelrole {level}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setwelcomechannel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel tempat pesan selamat datang akan dikirim." data-lang-en="Sets the channel where welcome messages will be sent.">Mengatur channel tempat pesan selamat datang akan dikirim.</span></td><td data-label="Penggunaan"><code>!setwelcomechannel {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setboostchannel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel untuk pengumuman saat ada yang boost server." data-lang-en="Sets the channel for server boost announcements.">Mengatur channel untuk pengumuman saat ada yang boost server.</span></td><td data-label="Penggunaan"><code>!setboostchannel {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!set_gender</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka menu untuk mengatur sistem role gender." data-lang-en="Opens a menu to set up the gender role system.">Membuka menu untuk mengatur sistem role gender.</span></td><td data-label="Penggunaan"><code>!set_gender</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setchannelq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel khusus untuk menerima kiriman kutipan (quotes)." data-lang-en="Sets the dedicated channel for receiving quote submissions.">Mengatur channel khusus untuk menerima kiriman kutipan (quotes).</span></td><td data-label="Penggunaan"><code>!setchannelq {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setgamechannel</code></td><td data-label="Deskripsi"><span data-lang-id="Membatasi atau mengizinkan game tertentu untuk dimainkan di channel spesifik." data-lang-en="Restricts or allows specific games to be played in a specific channel.">Membatasi atau mengizinkan game tertentu untuk dimainkan di channel spesifik.</span></td><td data-label="Penggunaan"><code>!setgamechannel {nama_game} {add/remove/list} [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!settriger</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur channel suara pemicu untuk pembuatan channel sementara." data-lang-en="Sets the trigger voice channel for temporary channel creation.">Mengatur channel suara pemicu untuk pembuatan channel sementara.</span></td><td data-label="Penggunaan"><code>!settriger {id_channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setcat</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur kategori tujuan tempat channel suara sementara akan dibuat." data-lang-en="Sets the target category where temporary voice channels will be created.">Mengatur kategori tujuan tempat channel suara sementara akan dibuat.</span></td><td data-label="Penggunaan"><code>!setcat {id_kategori}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!uangall</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan sejumlah RSWN kepada semua anggota di server." data-lang-en="Gives a specified amount of RSWN to all members in the server.">Memberikan sejumlah RSWN kepada semua anggota di server.</span></td><td data-label="Penggunaan"><code>!uangall {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!xpall</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan sejumlah EXP kepada semua anggota di server." data-lang-en="Gives a specified amount of EXP to all members in the server.">Memberikan sejumlah EXP kepada semua anggota di server.</span></td><td data-label="Penggunaan"><code>!xpall {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!giveexp</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan EXP ke satu pengguna secara rahasia." data-lang-en="Gives EXP to a single user secretly.">Memberikan EXP ke satu pengguna secara rahasia.</span></td><td data-label="Penggunaan"><code>!giveexp {@pengguna} {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!givecoins</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan RSWN ke satu pengguna secara rahasia." data-lang-en="Gives RSWN to a single user secretly.">Memberikan RSWN ke satu pengguna secara rahasia.</span></td><td data-label="Penggunaan"><code>!givecoins {@pengguna} {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!setlevel</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur level pengguna secara manual." data-lang-en="Manually sets a user's level.">Mengatur level pengguna secara manual.</span></td><td data-label="Penggunaan"><code>!setlevel {@pengguna} {level}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!reduce_user</code></td><td data-label="Deskripsi"><span data-lang-id="Mengurangi EXP dan RSWN dari seorang pengguna dengan alasan." data-lang-en="Reduces EXP and RSWN from a user with a reason.">Mengurangi EXP dan RSWN dari seorang pengguna dengan alasan.</span></td><td data-label="Penggunaan"><code>!reduce_user {@pengguna} {exp} {rsw} {alasan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resetall</code></td><td data-label="Deskripsi"><span data-lang-id="Mereset semua data EXP, level, dan badge di server." data-lang-en="Resets all EXP, level, and badge data on the server.">Mereset semua data EXP, level, dan badge di server.</span></td><td data-label="Penggunaan"><code>!resetall</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah Ekonomi & Leveling" data-lang-en="Economy & Leveling Commands">Perintah Ekonomi & Leveling</div>
+                        <div class="accordion-content">
+                            <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!rank</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan level, EXP, dan saldo RSWN Anda." data-lang-en="Displays your level, EXP, and RSWN balance.">Menampilkan level, EXP, dan saldo RSWN Anda.</span></td><td data-label="Penggunaan"><code>!rank</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!leaderboard</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan papan peringkat EXP teratas di server." data-lang-en="Shows the top EXP leaderboard on the server.">Menampilkan papan peringkat EXP teratas di server.</span></td><td data-label="Penggunaan"><code>!leaderboard</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!weekly</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan papan peringkat EXP mingguan teratas." data-lang-en="Shows the top weekly EXP leaderboard.">Menampilkan papan peringkat EXP mingguan teratas.</span></td><td data-label="Penggunaan"><code>!weekly</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!transfercoins</code></td><td data-label="Deskripsi"><span data-lang-id="Mentransfer RSWN ke pengguna lain." data-lang-en="Transfers RSWN to another user.">Mentransfer RSWN ke pengguna lain.</span></td><td data-label="Penggunaan"><code>!transfercoins {@pengguna} {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!shop</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka toko server untuk membeli item dengan RSWN." data-lang-en="Opens the server shop to buy items with RSWN.">Membuka toko server untuk membeli item dengan RSWN.</span></td><td data-label="Penggunaan"><code>!shop</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!daily_quest</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan quest harian yang tersedia." data-lang-en="Displays the available daily quest.">Menampilkan quest harian yang tersedia.</span></td><td data-label="Penggunaan"><code>!daily_quest</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!complete_quest</code></td><td data-label="Deskripsi"><span data-lang-id="Menyelesaikan quest harian untuk mendapatkan hadiah." data-lang-en="Completes the daily quest to get rewards.">Menyelesaikan quest harian untuk mendapatkan hadiah.</span></td><td data-label="Penggunaan"><code>!complete_quest</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah Moderasi" data-lang-en="Moderation Commands">Perintah Moderasi</div>
+                        <div class="accordion-content">
+                            <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!kick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengeluarkan pengguna dari server." data-lang-en="Removes a user from the server.">Mengeluarkan pengguna dari server.</span></td><td data-label="Penggunaan"><code>!kick {@pengguna} [alasan]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ban</code></td><td data-label="Deskripsi"><span data-lang-id="Mem-ban pengguna dari server secara permanen." data-lang-en="Permanently bans a user from the server.">Mem-ban pengguna dari server secara permanen.</span></td><td data-label="Penggunaan"><code>!ban {@pengguna} [alasan]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!unban</code></td><td data-label="Deskripsi"><span data-lang-id="Mencabut ban pengguna." data-lang-en="Unbans a user.">Mencabut ban pengguna.</span></td><td data-label="Penggunaan"><code>!unban {id_pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!timeout</code></td><td data-label="Deskripsi"><span data-lang-id="Membisukan pengguna untuk sementara waktu." data-lang-en="Mutes a user for a period of time.">Membisukan pengguna untuk sementara waktu.</span></td><td data-label="Penggunaan"><code>!timeout {@pengguna} {durasi} [alasan]</code> (e.g., 10m, 1h, 1d)</td></tr>
+                                    <tr><td data-label="Perintah"><code>!removetimeout</code></td><td data-label="Deskripsi"><span data-lang-id="Mencabut status timeout dari pengguna." data-lang-en="Removes a timeout from a user.">Mencabut status timeout dari pengguna.</span></td><td data-label="Penggunaan"><code>!removetimeout {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!warn</code></td><td data-label="Deskripsi"><span data-lang-id="Memberi peringatan kepada pengguna." data-lang-en="Warns a user.">Memberi peringatan kepada pengguna.</span></td><td data-label="Penggunaan"><code>!warn {@pengguna} {alasan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!warnings</code></td><td data-label="Deskripsi"><span data-lang-id="Melihat riwayat peringatan seorang pengguna." data-lang-en="Views a user's warning history.">Melihat riwayat peringatan seorang pengguna.</span></td><td data-label="Penggunaan"><code>!warnings {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!unwarn</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus peringatan dari pengguna." data-lang-en="Removes a warning from a user.">Menghapus peringatan dari pengguna.</span></td><td data-label="Penggunaan"><code>!unwarn {@pengguna} {indeks_peringatan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!clear</code></td><td data-label="Deskripsi"><span data-lang-id="Menghapus sejumlah pesan di channel." data-lang-en="Deletes a number of messages in a channel.">Menghapus sejumlah pesan di channel.</span></td><td data-label="Penggunaan"><code>!clear {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!slowmode</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur mode lambat di channel." data-lang-en="Sets slowmode in a channel.">Mengatur mode lambat di channel.</span></td><td data-label="Penggunaan"><code>!slowmode {detik}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!lock</code></td><td data-label="Deskripsi"><span data-lang-id="Mengunci channel agar tidak bisa mengirim pesan." data-lang-en="Locks a channel to prevent sending messages.">Mengunci channel agar tidak bisa mengirim pesan.</span></td><td data-label="Penggunaan"><code>!lock [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!unlock</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka kunci channel." data-lang-en="Unlocks a channel.">Membuka kunci channel.</span></td><td data-label="Penggunaan"><code>!unlock [#channel]</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah Game & Hiburan" data-lang-en="Games & Entertainment Commands">Perintah Game & Hiburan</div>
+                        <div class="accordion-content">
+                            <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!resmoji</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan tebak emoji." data-lang-en="Starts an emoji guessing game.">Memulai permainan tebak emoji.</span></td><td data-label="Penggunaan"><code>!resmoji</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!startquiz</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai kuis musik di voice channel." data-lang-en="Starts a music quiz in a voice channel.">Memulai kuis musik di voice channel.</span></td><td data-label="Penggunaan"><code>!startquiz</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resman</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan hangman." data-lang-en="Starts a game of hangman.">Memulai permainan hangman.</span></td><td data-label="Penggunaan"><code>!resman</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resacak</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan tebak kata acak." data-lang-en="Starts a word scramble game.">Memulai permainan tebak kata acak.</span></td><td data-label="Penggunaan"><code>!resacak</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resipa</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai kuis tebak kata sains." data-lang-en="Starts a science word guessing quiz.">Memulai kuis tebak kata sains.</span></td><td data-label="Penggunaan"><code>!resipa</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ressambung</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan sambung kata di voice channel." data-lang-en="Starts a word chain game in a voice channel.">Memulai permainan sambung kata di voice channel.</span></td><td data-label="Penggunaan"><code>!ressambung</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!siapakahaku</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan tebak 'Siapakah Aku?'." data-lang-en="Starts a 'Who am I?' guessing game.">Memulai permainan tebak 'Siapakah Aku?'.</span></td><td data-label="Penggunaan"><code>!siapakahaku</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!pernahgak</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan 'Pernah Gak Pernah' di voice channel." data-lang-en="Starts a 'Never Have I Ever' game in a voice channel.">Memulai permainan 'Pernah Gak Pernah' di voice channel.</span></td><td data-label="Penggunaan"><code>!pernahgak</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!hitungcepat</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai kuis hitung cepat." data-lang-en="Starts a fast math quiz.">Memulai kuis hitung cepat.</span></td><td data-label="Penggunaan"><code>!hitungcepat</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!matamata</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan Mata-Mata (Spyfall)." data-lang-en="Starts a game of Spyfall.">Memulai permainan Mata-Mata (Spyfall).</span></td><td data-label="Penggunaan"><code>!matamata</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!jawab</code></td><td data-label="Deskripsi"><span data-lang-id="Menjawab teka-teki harian." data-lang-en="Answer the daily riddle.">Menjawab teka-teki harian.</span></td><td data-label="Penggunaan"><code>!jawab {jawaban}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ww join</code></td><td data-label="Deskripsi"><span data-lang-id="Bergabung antrean game Werewolf." data-lang-en="Join the Werewolf game queue.">Bergabung antrean game Werewolf.</span></td><td data-label="Penggunaan"><code>!ww join</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ww mulai</code></td><td data-label="Deskripsi"><span data-lang-id="(Host) Memulai game Werewolf." data-lang-en="(Host) Starts the Werewolf game.">(Host) Memulai game Werewolf.</span></td><td data-label="Penggunaan"><code>!ww mulai</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ww help</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan bantuan perintah game Werewolf." data-lang-en="Shows help for Werewolf game commands.">Menampilkan bantuan perintah game Werewolf.</span></td><td data-label="Penggunaan"><code>!ww help</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!balapan</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai acara balapan kuda." data-lang-en="Starts a horse racing event.">Memulai acara balapan kuda.</span></td><td data-label="Penggunaan"><code>!balapan</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!taruhan</code></td><td data-label="Deskripsi"><span data-lang-id="Memasang taruhan pada kuda." data-lang-en="Place a bet on a horse.">Memasang taruhan pada kuda.</span></td><td data-label="Penggunaan"><code>!taruhan {jumlah} {nomor_kuda}</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah Musik" data-lang-en="Music Commands">Perintah Musik</div>
+                        <div class="accordion-content">
+                             <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!resjoin</code></td><td data-label="Deskripsi"><span data-lang-id="Membuat bot bergabung ke voice channel." data-lang-en="Makes the bot join the voice channel.">Membuat bot bergabung ke voice channel.</span></td><td data-label="Penggunaan"><code>!resjoin</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resp</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar lagu atau menambahkannya ke antrean." data-lang-en="Plays a song or adds it to the queue.">Memutar lagu atau menambahkannya ke antrean.</span></td><td data-label="Penggunaan"><code>!resp {nama lagu/URL}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resskip</code></td><td data-label="Deskripsi"><span data-lang-id="Melewatkan lagu yang sedang diputar." data-lang-en="Skips the currently playing song.">Melewatkan lagu yang sedang diputar.</span></td><td data-label="Penggunaan"><code>!resskip</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!respause</code></td><td data-label="Deskripsi"><span data-lang-id="Menjeda pemutaran lagu." data-lang-en="Pauses the music playback.">Menjeda pemutaran lagu.</span></td><td data-label="Penggunaan"><code>!respause</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resresume</code></td><td data-label="Deskripsi"><span data-lang-id="Melanjutkan pemutaran lagu." data-lang-en="Resumes the music playback.">Melanjutkan pemutaran lagu.</span></td><td data-label="Penggunaan"><code>!resresume</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resstop</code></td><td data-label="Deskripsi"><span data-lang-id="Menghentikan musik dan mengeluarkan bot." data-lang-en="Stops the music and disconnects the bot.">Menghentikan musik dan mengeluarkan bot.</span></td><td data-label="Penggunaan"><code>!resstop</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resqueue</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan antrean lagu." data-lang-en="Displays the song queue.">Menampilkan antrean lagu.</span></td><td data-label="Penggunaan"><code>!resqueue</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resloop</code></td><td data-label="Deskripsi"><span data-lang-id="Mengaktifkan/menonaktifkan mode loop." data-lang-en="Toggles loop mode.">Mengaktifkan/menonaktifkan mode loop.</span></td><td data-label="Penggunaan"><code>!resloop</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!reslyrics</code></td><td data-label="Deskripsi"><span data-lang-id="Mencari lirik lagu." data-lang-en="Searches for song lyrics.">Mencari lirik lagu.</span></td><td data-label="Penggunaan"><code>!reslyrics [nama lagu]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resvolume</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur volume (0-100)." data-lang-en="Sets the volume (0-100).">Mengatur volume (0-100).</span></td><td data-label="Penggunaan"><code>!resvolume {angka}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resshuffle</code></td><td data-label="Deskripsi"><span data-lang-id="Mengacak antrean lagu." data-lang-en="Shuffles the song queue.">Mengacak antrean lagu.</span></td><td data-label="Penggunaan"><code>!resshuffle</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resclear</code></td><td data-label="Deskripsi"><span data-lang-id="Membersihkan antrean lagu." data-lang-en="Clears the song queue.">Membersihkan antrean lagu.</span></td><td data-label="Penggunaan"><code>!resclear</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resprandom</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar playlist acak pribadi." data-lang-en="Plays a personal random playlist.">Memutar playlist acak pribadi.</span></td><td data-label="Penggunaan"><code>!resprandom</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!respliked</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar playlist lagu yang disukai." data-lang-en="Plays your liked songs playlist.">Memutar playlist lagu yang disukai.</span></td><td data-label="Penggunaan"><code>!respliked</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Manajemen Channel Suara Sementara" data-lang-en="Temporary Voice Channel Management">Manajemen Channel Suara Sementara</div>
+                        <div class="accordion-content">
+                             <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!vchelp</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan panduan lengkap untuk mengelola channel suara pribadi Anda." data-lang-en="Shows the complete guide to managing your private voice channel.">Menampilkan panduan lengkap untuk mengelola channel suara pribadi Anda.</span></td><td data-label="Penggunaan"><code>!vchelp</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vclock</code></td><td data-label="Deskripsi"><span data-lang-id="Mengunci channel suara Anda sehingga hanya pengguna yang diundang dapat bergabung." data-lang-en="Locks your voice channel so only invited users can join.">Mengunci channel suara Anda sehingga hanya pengguna yang diundang dapat bergabung.</span></td><td data-label="Penggunaan"><code>!vclock</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcunlock</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka kunci channel suara Anda untuk umum." data-lang-en="Unlocks your voice channel for everyone.">Membuka kunci channel suara Anda untuk umum.</span></td><td data-label="Penggunaan"><code>!vcunlock</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcsetlimit</code></td><td data-label="Deskripsi"><span data-lang-id="Mengatur batas maksimal pengguna di channel Anda (0 untuk tanpa batas)." data-lang-en="Sets the maximum user limit for your channel (0 for unlimited).">Mengatur batas maksimal pengguna di channel Anda (0 untuk tanpa batas).</span></td><td data-label="Penggunaan"><code>!vcsetlimit {jumlah}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcrename</code></td><td data-label="Deskripsi"><span data-lang-id="Mengganti nama channel suara pribadi Anda." data-lang-en="Renames your private voice channel.">Mengganti nama channel suara pribadi Anda.</span></td><td data-label="Penggunaan"><code>!vcrename {nama_baru}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vckick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengeluarkan pengguna dari channel suara Anda." data-lang-en="Kicks a user from your voice channel.">Mengeluarkan pengguna dari channel suara Anda.</span></td><td data-label="Penggunaan"><code>!vckick {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcgrant</code></td><td data-label="Deskripsi"><span data-lang-id="Memberikan akses kepada pengguna untuk masuk ke channel Anda yang terkunci." data-lang-en="Grants a user access to join your locked channel.">Memberikan akses kepada pengguna untuk masuk ke channel Anda yang terkunci.</span></td><td data-label="Penggunaan"><code>!vcgrant {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcrevoke</code></td><td data-label="Deskripsi"><span data-lang-id="Mencabut akses pengguna dari channel Anda yang terkunci." data-lang-en="Revokes a user's access from your locked channel.">Mencabut akses pengguna dari channel Anda yang terkunci.</span></td><td data-label="Penggunaan"><code>!vcrevoke {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!vcowner</code></td><td data-label="Deskripsi"><span data-lang-id="Mentransfer kepemilikan channel suara Anda ke pengguna lain." data-lang-en="Transfers ownership of your voice channel to another user.">Mentransfer kepemilikan channel suara Anda ke pengguna lain.</span></td><td data-label="Penggunaan"><code>!vcowner {@pengguna}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!adminvcowner</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Mengganti pemilik channel suara sementara mana pun secara paksa." data-lang-en="(Admin) Forcefully changes the owner of any temporary voice channel.">(Admin) Mengganti pemilik channel suara sementara mana pun secara paksa.</span></td><td data-label="Penggunaan"><code>!adminvcowner {#channel} {@pengguna_baru}</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah Utilitas Canggih" data-lang-en="Advanced Utility Commands">Perintah Utilitas Canggih</div>
+                        <div class="accordion-content">
+                            <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!swh</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk membuat pesan webhook kustom dengan embed dan tombol." data-lang-en="Opens a wizard to create custom webhook messages with embeds and buttons.">Membuka wizard untuk membuat pesan webhook kustom dengan embed dan tombol.</span></td><td data-label="Penggunaan"><code>!swh {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!announcement</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk membuat pengumuman server." data-lang-en="Opens a wizard to create a server announcement.">Membuka wizard untuk membuat pengumuman server.</span></td><td data-label="Penggunaan"><code>!announcement {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!send_media</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirim media dari pesan yang dibalas ke channel lain." data-lang-en="Sends media from a replied message to another channel.">Mengirim media dari pesan yang dibalas ke channel lain.</span></td><td data-label="Penggunaan"><span data-lang-id="Balas pesan & ketik" data-lang-en="Reply to a message & type">Balas pesan & ketik</span> <code>!send_media [#channel]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!schedule</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk menjadwalkan pengumuman." data-lang-en="Opens a wizard to schedule an announcement.">Membuka wizard untuk menjadwalkan pengumuman.</span></td><td data-label="Penggunaan"><code>!schedule</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!list_schedules</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar pengumuman terjadwal." data-lang-en="Lists all scheduled announcements.">Menampilkan daftar pengumuman terjadwal.</span></td><td data-label="Penggunaan"><code>!list_schedules</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!load_config</code></td><td data-label="Deskripsi"><span data-lang-id="Memuat konfigurasi webhook yang tersimpan." data-lang-en="Loads a saved webhook configuration.">Memuat konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!load_config {nama_konfig} {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!list_configs</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar konfigurasi webhook yang tersimpan." data-lang-en="Lists saved webhook configurations.">Menampilkan daftar konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!list_configs</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header" data-lang-id="Perintah AI & Utilitas Umum" data-lang-en="AI & General Utility Commands">Perintah AI & Utilitas Umum</div>
+                        <div class="accordion-content">
+                            <table class="command-table">
+                                <tbody>
+                                    <tr><td data-label="Perintah"><code>!ai ngobrol</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai mode obrolan dengan AI Yuki." data-lang-en="Starts a conversation mode with Yuki AI.">Memulai mode obrolan dengan AI Yuki.</span></td><td data-label="Penggunaan"><code>!ai ngobrol</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!ai tanya</code></td><td data-label="Deskripsi"><span data-lang-id="Mengajukan satu pertanyaan ke AI Yuki." data-lang-en="Asks a single question to Yuki AI.">Mengajukan satu pertanyaan ke AI Yuki.</span></td><td data-label="Penggunaan"><code>!ai tanya {pertanyaan}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!jiwaku</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai tes kepribadian mendalam." data-lang-en="Starts an in-depth personality test.">Memulai tes kepribadian mendalam.</span></td><td data-label="Penggunaan"><code>!jiwaku</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!tulis</code></td><td data-label="Deskripsi"><span data-lang-id="Mengubah teks menjadi gambar tulisan tangan." data-lang-en="Converts text into a handwritten image.">Mengubah teks menjadi gambar tulisan tangan.</span></td><td data-label="Penggunaan"><code>!tulis {nama} {teks}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!faq</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan panel FAQ interaktif." data-lang-en="Displays the interactive FAQ panel.">Menampilkan panel FAQ interaktif.</span></td><td data-label="Penggunaan"><code>!faq</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!user</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan info profil pengguna." data-lang-en="Shows user profile info.">Menampilkan info profil pengguna.</span></td><td data-label="Penggunaan"><code>!user [@pengguna]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!avatar</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan avatar pengguna." data-lang-en="Shows a user's avatar.">Menampilkan avatar pengguna.</span></td><td data-label="Penggunaan"><code>!avatar [@pengguna]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!resq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirimkan kutipan untuk ditinjau." data-lang-en="Submits a quote for review.">Mengirimkan kutipan untuk ditinjau.</span></td><td data-label="Penggunaan"><code>!resq {ya/tidak} {kutipan}</code></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-lang-id="© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat." data-lang-en="© 2025 reSwan Bot. A graceful solution for a powerful community.">© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Navigation ---
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // --- Accordion Logic ---
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                const content = item.querySelector('.accordion-content');
+                header.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    accordionItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    });
+                    if (!isActive) {
+                        item.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+
+            // --- Features Slider Logic ---
+            const slider = document.querySelector('.slider');
+            if (slider) {
+                const slides = document.querySelectorAll('.slide');
+                const prevBtn = document.querySelector('.prev-btn');
+                const nextBtn = document.querySelector('.next-btn');
+                let currentIndex = 0;
+                
+                function updateSlider() {
+                    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+                }
+
+                if (nextBtn && prevBtn) {
+                    nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % slides.length; updateSlider(); });
+                    prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + slides.length) % slides.length; updateSlider(); });
+                }
+
+                let touchstartX = 0;
+                let touchendX = 0;
+                const sliderWrapper = document.querySelector('.slider-wrapper');
+                if(sliderWrapper){
+                    sliderWrapper.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, { passive: true });
+                    sliderWrapper.addEventListener('touchend', e => {
+                        touchendX = e.changedTouches[0].screenX;
+                        if (touchendX < touchstartX - 50) { currentIndex = (currentIndex + 1) % slides.length; }
+                        if (touchendX > touchstartX + 50) { currentIndex = (currentIndex - 1 + slides.length) % slides.length; }
+                        updateSlider();
+                    }, { passive: true });
+                }
+            }
+
+            // --- Scroll Fade-in Animation ---
+            const scrollElements = document.querySelectorAll('.scroll-fade');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            scrollElements.forEach(el => observer.observe(el));
+
+            // --- Language Switcher ---
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const translatableElements = document.querySelectorAll('[data-lang-id], [data-lang-en]');
+            
+            window.switchLanguage = (lang) => {
+                localStorage.setItem('reSwanLang', lang);
+                document.documentElement.lang = lang;
+
+                langButtons.forEach(btn => {
+                    btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+                });
+                
+                translatableElements.forEach(el => {
+                    const text = el.getAttribute(`data-lang-${lang}`);
+                    if (text !== null) {
+                       el.innerHTML = text;
+                    }
+                });
+            };
+            const savedLang = localStorage.getItem('reSwanLang') || 'id';
+            switchLanguage(savedLang);
+        });
+    </script>
+</body>
+</html>
