@@ -6,18 +6,21 @@
     <title>reSwan - Bot Discord Serba Guna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-bg: #0D1117;
-            --secondary-bg: #161B22;
-            --border-color: #30363D;
+            --primary-bg: #0C1014;
+            --secondary-bg: #1A1F25;
+            --card-bg: #22282E;
+            --border-color: #3C4249;
             --primary-text: #E6EDF3;
-            --secondary-text: #8B949E;
+            --secondary-text: #B4BCC6;
             --accent-blue: #58A6FF;
             --accent-green: #3FB950;
             --accent-purple: #BC8CFF;
             --accent-red: #F85149;
+            --shadow-color: rgba(0, 0, 0, 0.2);
         }
 
         * {
@@ -67,14 +70,13 @@
 
         /* --- Header & Navigation --- */
         header {
-            background-color: rgba(13, 17, 23, 0.8);
+            background-color: rgba(12, 16, 20, 0.8);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
             padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            width: 100%;
         }
 
         nav {
@@ -95,6 +97,7 @@
             width: 40px;
             height: auto;
             margin-right: 10px;
+            border-radius: 50%;
         }
 
         .nav-links {
@@ -104,45 +107,65 @@
         }
 
         .nav-links li {
-            margin-left: 25px;
+            margin-left: 30px;
         }
 
         .nav-links a {
-            color: var(--primary-text);
+            color: var(--secondary-text);
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
             padding: 5px 0;
         }
-
-        .nav-links a:hover {
-            color: var(--accent-blue);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
         }
-        
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary-text);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
         .invite-btn-nav {
-            background-color: var(--accent-green);
+            background: linear-gradient(45deg, var(--accent-green), #4CAF50);
             color: white;
-            padding: 8px 15px;
-            border-radius: 6px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(63, 185, 80, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .invite-btn-nav:hover {
-            background-color: #2ea043;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(63, 185, 80, 0.4);
             color: white;
+        }
+        .invite-btn-nav::after {
+            display: none;
         }
 
         .lang-switcher {
             display: flex;
-            background: var(--secondary-bg);
+            background: var(--card-bg);
             border-radius: 6px;
             padding: 4px;
+            margin-left: 20px;
         }
         .lang-btn {
             background: none;
             border: none;
             color: var(--secondary-text);
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 6px 12px;
             font-weight: 600;
             border-radius: 4px;
             transition: background-color 0.3s, color 0.3s;
@@ -151,11 +174,12 @@
             background-color: var(--accent-blue);
             color: white;
         }
-
+        
         .menu-toggle {
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 1001;
         }
 
         .menu-toggle .bar {
@@ -165,6 +189,9 @@
             margin: 4px 0;
             transition: 0.4s;
         }
+        .menu-toggle.active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+        .menu-toggle.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* --- Hero Section --- */
         .hero {
@@ -175,90 +202,142 @@
             align-items: center;
             justify-content: center;
             min-height: 80vh;
+            background-image: radial-gradient(circle, rgba(88, 166, 255, 0.1) 0%, transparent 60%);
         }
 
         .hero-logo {
-            width: 180px;
+            width: 200px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             animation-delay: 0.2s;
+            border-radius: 50%;
+            box-shadow: 0 8px 30px rgba(88, 166, 255, 0.2);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
+            font-size: 4rem;
+            margin-bottom: 15px;
             color: var(--primary-text);
             animation-delay: 0.4s;
+            line-height: 1.2;
+            text-shadow: 2px 2px 5px var(--shadow-color);
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--secondary-text);
-            max-width: 600px;
-            margin-bottom: 30px;
+            max-width: 700px;
+            margin-bottom: 40px;
             animation-delay: 0.6s;
         }
-        
+
         .hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             animation-delay: 0.8s;
         }
 
         .hero-button {
             color: #fff;
-            padding: 12px 25px;
+            padding: 15px 30px;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: inline-block;
         }
-        
+
         .hero-button.primary {
-            background-color: var(--accent-blue);
+            background: linear-gradient(45deg, var(--accent-blue), #388bfd);
+            box-shadow: 0 4px 15px rgba(88, 166, 255, 0.3);
         }
         .hero-button.primary:hover {
-            background-color: #388bfd;
-            transform: translateY(-2px);
+            background: linear-gradient(45deg, #388bfd, #58a6ff);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.4);
         }
-        
+
         .hero-button.secondary {
-            background-color: var(--accent-green);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--primary-text);
+            box-shadow: none;
         }
         .hero-button.secondary:hover {
-            background-color: #2ea043;
-            transform: translateY(-2px);
+            background-color: #2a3139;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow-color);
         }
 
         /* --- Section Styling --- */
         section {
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
         .section-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 15px;
             color: var(--primary-text);
+            position: relative;
+            display: inline-block;
         }
-        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-blue);
+            border-radius: 2px;
+        }
+
         .section-header p {
             color: var(--secondary-text);
-            font-size: 1.1rem;
-            max-width: 700px;
+            font-size: 1.2rem;
+            max-width: 800px;
             margin: 0 auto;
+        }
+        
+        /* --- Pride Section --- */
+        #pride {
+            background-color: var(--secondary-bg);
+        }
+
+        .pride-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .pride-content h3 {
+            font-size: 2.2rem;
+            color: var(--accent-purple);
+            margin-bottom: 20px;
+        }
+        .pride-content p {
+            font-size: 1.1rem;
+            color: var(--secondary-text);
+            max-width: 900px;
+            margin: 0 auto 15px;
         }
 
         /* --- Profile Section --- */
         #profile .profile-content {
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 60px;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-color);
         }
 
         #profile .logo-container {
@@ -266,16 +345,41 @@
             text-align: center;
         }
         #profile .logo-container img {
-            max-width: 250px;
+            max-width: 300px;
             border-radius: 12px;
+            box-shadow: 0 5px 20px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        #profile .logo-container img:hover {
+            transform: scale(1.03);
         }
         #profile .description-container {
             flex: 2;
         }
         #profile h3 {
-            color: var(--accent-purple);
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        #profile ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 20px;
+        }
+        #profile li {
             margin-bottom: 15px;
-            font-size: 1.5rem;
+            padding-left: 20px;
+            position: relative;
+        }
+        #profile li::before {
+            content: '✓';
+            color: var(--accent-green);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        #profile p strong {
+            color: var(--accent-purple);
         }
 
         /* --- Features Slider Section --- */
@@ -283,7 +387,7 @@
             background-color: var(--secondary-bg);
             position: relative;
         }
-        
+
         .slider-wrapper {
             overflow: hidden;
             width: 100%;
@@ -296,27 +400,36 @@
 
         .slide {
             min-width: 100%;
-            padding: 10px; /* Padding for spacing between cards */
+            padding: 15px;
         }
 
         .feature-card {
-            background: var(--primary-bg);
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 40px;
             text-align: center;
             height: 100%;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
         }
         .feature-card .icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+            font-size: 3.5rem;
+            margin-bottom: 25px;
             color: var(--accent-green);
         }
-        
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary-text);
+        }
+        .feature-card p {
+            color: var(--secondary-text);
+        }
+
         .slider-controls {
             position: absolute;
             top: 50%;
@@ -325,25 +438,27 @@
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
-            padding: 0 10px;
-            pointer-events: none; /* Allows clicks to pass through */
+            padding: 0 20px;
+            pointer-events: none;
         }
 
         .slider-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
             color: white;
-            padding: 10px 15px;
+            padding: 12px 18px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1.5rem;
-            transition: background 0.3s;
-            pointer-events: all; /* Make buttons clickable */
+            font-size: 1.8rem;
+            transition: background 0.3s, transform 0.3s;
+            pointer-events: all;
+            box-shadow: 0 4px 10px var(--shadow-color);
         }
         .slider-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
-        
+
         .swipe-indicator {
             display: none;
             text-align: center;
@@ -352,83 +467,115 @@
         }
 
         /* --- Commands Accordion Section --- */
+        #commands {
+            padding-bottom: 100px;
+        }
+
         .accordion {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .accordion-item {
-            background-color: var(--secondary-bg);
+            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             overflow: hidden;
+            transition: box-shadow 0.3s ease;
         }
-        
+        .accordion-item:hover {
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
         .accordion-header {
-            background-color: var(--secondary-bg);
-            padding: 15px 20px;
+            background-color: var(--card-bg);
+            padding: 20px 25px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             transition: background-color 0.3s ease;
+            color: var(--primary-text);
         }
         .accordion-header:hover {
-            background-color: #1f252d;
+            background-color: #283038;
         }
-        .accordion-header::after {
-            content: '+';
-            font-size: 1.5rem;
+        .accordion-header .icon-toggle {
             transition: transform 0.3s ease;
+            color: var(--accent-blue);
         }
-        .accordion-item.active .accordion-header::after {
+        .accordion-item.active .accordion-header .icon-toggle {
             transform: rotate(45deg);
         }
-        
+
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s ease-out;
-            padding: 0 20px;
+            padding: 0 25px;
+        }
+        .accordion-item.active .accordion-content {
+            padding-bottom: 25px;
         }
 
         .command-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
+            font-family: 'Roboto Mono', monospace;
         }
 
         .command-table th, .command-table td {
             text-align: left;
-            padding: 12px;
+            padding: 15px;
             border-bottom: 1px solid var(--border-color);
         }
         .command-table th {
             color: var(--accent-blue);
-        }
-        
-        .command-table td code {
-            background-color: var(--primary-bg);
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--accent-green);
-            word-break: break-all;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
 
-        .command-table td:nth-child(1) { width: 20%; }
+        .command-table td code {
+            background-color: var(--primary-bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--accent-green);
+            white-space: nowrap;
+            overflow-x: auto;
+            display: inline-block;
+        }
+        .command-table td:nth-child(1) { width: 25%; }
         .command-table td:nth-child(2) { width: 45%; }
-        .command-table td:nth-child(3) { width: 35%; }
+        .command-table td:nth-child(3) { width: 30%; }
         
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             background-color: var(--secondary-bg);
             border-top: 1px solid var(--border-color);
+            color: var(--secondary-text);
+        }
+        .footer-logo img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: var(--secondary-text);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-blue);
         }
 
         /* --- Responsive Design --- */
@@ -439,7 +586,7 @@
                 width: 100%;
                 background-color: var(--secondary-bg);
                 position: absolute;
-                top: 70px; /* Should match header height */
+                top: 70px;
                 left: 0;
                 padding: 20px 0;
                 border-bottom: 1px solid var(--border-color);
@@ -452,29 +599,39 @@
                 margin: 15px 0;
                 text-align: center;
             }
+            .nav-links .lang-switcher {
+                margin-top: 10px;
+                margin-left: 0;
+            }
             .menu-toggle {
                 display: flex;
             }
             #profile .profile-content {
                 flex-direction: column;
+                padding: 30px;
             }
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
+            .section-header h2 {
                 font-size: 2.5rem;
             }
-            .hero p {
-                font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
             }
-            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
             .slider-controls {
-                display: none; /* Hide arrows on mobile, rely on swipe */
+                display: none;
             }
             .swipe-indicator {
                 display: block;
             }
-            
             .command-table thead {
                 display: none;
             }
@@ -489,28 +646,31 @@
                 padding: 10px;
             }
             .command-table td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-                border-bottom: 1px solid var(--border-color);
                 display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                min-height: 40px; /* Ensure space for label */
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+                border-bottom: 1px solid var(--border-color);
+                position: relative;
             }
             .command-table tr td:last-child {
                  border-bottom: 0;
             }
             .command-table td::before {
                 content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                width: calc(50% - 20px);
-                padding-right: 10px;
-                white-space: nowrap;
-                text-align: left;
-                font-weight: bold;
+                font-weight: 600;
                 color: var(--accent-blue);
+                margin-bottom: 5px;
+                font-size: 0.9rem;
+            }
+            .command-table td code {
+                font-size: 0.9rem;
+                word-break: break-all;
+                overflow-x: auto;
+                white-space: pre-wrap;
+            }
+            .accordion-header {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -525,7 +685,8 @@
                     reSwan
                 </a>
                 <ul class="nav-links">
-                    <li><a href="#profile" data-lang-id="Profil" data-lang-en="Profile">Profil</a></li>
+                    <li><a href="#pride" data-lang-id="Mengapa Kami?" data-lang-en="Why Us?">Mengapa Kami?</a></li>
+                    <li><a href="#profile" data-lang-id="Filosofi" data-lang-en="Philosophy">Filosofi</a></li>
                     <li><a href="#features" data-lang-id="Fitur" data-lang-en="Features">Fitur</a></li>
                     <li><a href="#commands" data-lang-id="Perintah" data-lang-en="Commands">Perintah</a></li>
                     <li><a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246" target="_blank" class="invite-btn-nav" data-lang-id="Undang Bot" data-lang-en="Invite Bot">Undang Bot</a></li>
@@ -555,15 +716,27 @@
                  <a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246" target="_blank" class="hero-button secondary" data-lang-id="Undang ke Server" data-lang-en="Invite to Server">Undang ke Server</a>
             </div>
         </section>
+        
+        <section id="pride" class="scroll-fade">
+            <div class="container pride-content">
+                <h3 data-lang-id="Keunggulan Kami yang Tak Tertandingi" data-lang-en="Our Unmatched Excellence">Keunggulan Kami yang Tak Tertandingi ✨</h3>
+                <p data-lang-id="Kami telah menjelajahi berbagai komunitas dan server Discord terkemuka, dan hasilnya menunjukkan bahwa bot kami adalah yang paling unggul dalam kompleksitas dan integrasi. Dengan bangga, kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem keamanan yang tangguh dan terpadu." data-lang-en="We have explored various leading Discord communities and servers, and the results show that our bot is the most superior in complexity and integration. We are proud to have successfully unified all advanced features into a single robust and integrated security system.">Kami telah menjelajahi berbagai komunitas dan server Discord terkemuka, dan hasilnya menunjukkan bahwa bot kami adalah yang paling unggul dalam kompleksitas dan integrasi. Dengan bangga, kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem keamanan yang tangguh dan terpadu.</p>
+                <p data-lang-id="Keunggulan ini bukan kebetulan, melainkan hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Dedikasi inilah yang membuat reSwan terus berevolusi menjadi produk yang andal dan superior. Saat ini, reSwan sudah sangat lengkap, namun semangat kami untuk mencari inovasi baru tidak akan pernah berhenti." data-lang-en="This excellence is no coincidence, but rather the result of our commitment to continuous learning and innovation. We regularly analyze vulnerabilities and shortcomings, and then swiftly address them so our bot remains intelligent, secure, and stable. This dedication is what allows reSwan to continually evolve into a reliable and superior product. At present, reSwan is remarkably comprehensive, yet our passion for seeking new innovations will never cease.">Keunggulan ini bukan kebetulan, melainkan hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Dedikasi inilah yang membuat reSwan terus berevolusi menjadi produk yang andal dan superior. Saat ini, reSwan sudah sangat lengkap, namun semangat kami untuk mencari inovasi baru tidak akan pernah berhenti.</p>
+            </div>
+        </section>
 
         <section id="profile" class="scroll-fade">
             <div class="container">
+                <div class="section-header">
+                    <h2 data-lang-id="Filosofi di Balik reSwan" data-lang-en="The Philosophy Behind reSwan">Filosofi di Balik reSwan</h2>
+                    <p data-lang-id="Simbol elegan yang mewakili perpaduan harmoni antara teknologi dan komunitas." data-lang-en="An elegant symbol representing the harmonious fusion of technology and community.">Simbol elegan yang mewakili perpaduan harmoni antara teknologi dan komunitas.</p>
+                </div>
                 <div class="profile-content">
                     <div class="logo-container">
                         <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo large">
                     </div>
                     <div class="description-container">
-                        <h3 data-lang-id="Filosofi di Balik reSwan" data-lang-en="The Philosophy Behind reSwan">Filosofi di Balik reSwan</h3>
+                        <p data-lang-id="Nama reSwan merupakan perpaduan antara dua elemen kunci: 're-' yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta 'Swan' yang berarti angsa, simbol **keanggunan** dan **komunitas**. Ini menggambarkan misi kami untuk menciptakan bot yang terus berinovasi (revolusi), selalu relevan dengan kebutuhan pengguna, sangat responsif, dan memberikan pengalaman yang anggun bagi setiap komunitas." data-lang-en="The name reSwan is a fusion of two key elements: 're-' which signifies **revolution**, **relevance**, and **responsiveness**, and 'Swan,' representing **grace** and **community**. This encapsulates our mission to create a bot that constantly innovates (revolution), remains relevant to user needs, is highly responsive, and provides a graceful experience for every community.">Nama reSwan merupakan perpaduan antara dua elemen kunci: 're-' yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta 'Swan' yang berarti angsa, simbol **keanggunan** dan **komunitas**. Ini menggambarkan misi kami untuk menciptakan bot yang terus berinovasi (revolusi), selalu relevan dengan kebutuhan pengguna, sangat responsif, dan memberikan pengalaman yang anggun bagi setiap komunitas.</p>
                         <p data-lang-id="Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:" data-lang-en="The reSwan logo is more than just an elegant bird; it's a fusion of community and technology. The swan, a symbol of grace and community, is intricately woven with elements that define the modern digital experience. Its form contains:">Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:</p>
                         <ul>
                             <li data-lang-id="<strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap." data-lang-en="<strong>Gaming & Entertainment:</strong> A game controller, headphones, and music notes represent the bot's core entertainment features, from interactive games to a full-fledged music system."><strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap.</li>
@@ -571,7 +744,6 @@
                             <li data-lang-id="<strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman." data-lang-en="<strong>Security & Moderation:</strong> A shield and a judge's gavel are seamlessly embedded, signifying powerful, reliable moderation and server administration tools to keep your community safe."><strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman.</li>
                             <li data-lang-id="<strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung." data-lang-en="<strong>Connectivity:</strong> The network nodes illustrate how reSwan connects all these features into one cohesive, intelligent system, creating a vibrant and interconnected community."><strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung.</li>
                         </ul>
-                        <br>
                         <p><strong data-lang-id="reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat." data-lang-en="reSwan isn't just a bot; it's the central nervous system for a thriving server.">reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat.</strong><span data-lang-id=" Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat." data-lang-en=" It’s designed to be powerful yet graceful, providing every tool you need without complexity, ensuring your community runs smoothly and stays engaged."> Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat.</span></p>
                     </div>
                 </div>
@@ -591,7 +763,7 @@
                         <div class="slider">
                             <div class="slide">
                                 <div class="feature-card">
-                                    <div class="icon">💰</div>
+                                    <div class="icon"><i class="fas fa-coins"></i></div>
                                     <h3 data-lang-id="Ekonomi & Leveling Canggih" data-lang-en="Advanced Economy & Leveling">Ekonomi & Leveling Canggih</h3>
                                     <p data-lang-id="Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat." data-lang-en="Foster a vibrant community with a rewarding progression system. Members earn currency (RSWN) and EXP just by chatting and participating in voice channels. This encourages activity and gives members tangible goals, with a shop to spend their earnings on badges, roles, and boosters. Weekly and all-time leaderboards spark friendly competition.">Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat.</p>
                                 </div>
@@ -599,7 +771,7 @@
 
                             <div class="slide">
                                 <div class="feature-card">
-                                    <div class="icon">🛡️</div>
+                                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
                                     <h3 data-lang-id="Paket Moderasi Tak Tertandingi" data-lang-en="Unmatched Moderation Suite">Paket Moderasi Tak Tertandingi</h3>
                                     <p data-lang-id="Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing." data-lang-en="Keep your server safe and clean with a comprehensive set of moderation tools. From basic commands like kick, ban, and timeout to advanced features like channel-specific rules (disabling links, media, or bot commands), automated message deletion, and a full warning system. The integrated AI link filter provides an extra layer of security against phishing.">Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing.</p>
                                 </div>
@@ -607,7 +779,7 @@
 
                             <div class="slide">
                                 <div class="feature-card">
-                                    <div class="icon">🎮</div>
+                                    <div class="icon"><i class="fas fa-gamepad"></i></div>
                                     <h3 data-lang-id="Hiburan & Game Tanpa Batas" data-lang-en="Endless Games & Entertainment">Hiburan & Game Tanpa Batas</h3>
                                     <p data-lang-id="Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok." data-lang-en="Never have a dull moment. reSwan is packed with interactive games for everyone: fast-paced quizzes (Music, Emoji, Science), word games (Hangman, Scramble), social deduction (Werewolf, Spyfall), and even a thrilling Horse Racing simulation with betting. There's a game for every mood and every group.">Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok.</p>
                                 </div>
@@ -615,7 +787,7 @@
 
                             <div class="slide">
                                 <div class="feature-card">
-                                    <div class="icon">🧠</div>
+                                    <div class="icon"><i class="fas fa-robot"></i></div>
                                     <h3 data-lang-id="Integrasi AI Cerdas" data-lang-en="Intelligent AI Integration">Integrasi AI Cerdas</h3>
                                     <p data-lang-id="Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik." data-lang-en="Powered by Google's Gemini, reSwan offers a smart, customizable AI personality named 'Yuki' for engaging conversations. Beyond chat, the AI provides a powerful security layer by analyzing links for phishing threats in real-time. It also features an in-depth personality test (!jiwaku) for a unique user engagement experience.">Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik.</p>
                                 </div>
@@ -623,7 +795,7 @@
                             
                             <div class="slide">
                                 <div class="feature-card">
-                                    <div class="icon">🛠️</div>
+                                    <div class="icon"><i class="fas fa-tools"></i></div>
                                     <h3 data-lang-id="Utilitas Server yang Kuat" data-lang-en="Powerful Server Utilities">Utilitas Server yang Kuat</h3>
                                     <p data-lang-id="Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda." data-lang-en="Simplify server management with powerful utilities. Create stunningly professional announcements and role menus with the advanced Webhook Message Builder. Set up temporary voice channels, manage roles with reaction menus, and provide information to your members with custom FAQ commands. reSwan is your ultimate admin toolkit.">Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda.</p>
                                 </div>
@@ -647,9 +819,12 @@
                 
                 <div class="accordion">
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Leveling & Ekonomi" data-lang-en="Leveling & Economy">Leveling & Ekonomi</div>
+                        <div class="accordion-header" data-lang-id="Leveling & Ekonomi" data-lang-en="Leveling & Economy">
+                            Leveling & Ekonomi <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                              <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!rank</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan level, EXP, dan saldo RSWN Anda." data-lang-en="Displays your level, EXP, and RSWN balance.">Menampilkan level, EXP, dan saldo RSWN Anda.</span></td><td data-label="Penggunaan"><code>!rank</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!leaderboard</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan papan peringkat EXP teratas di server." data-lang-en="Shows the top EXP leaderboard on the server.">Menampilkan papan peringkat EXP teratas di server.</span></td><td data-label="Penggunaan"><code>!leaderboard</code></td></tr>
@@ -664,9 +839,12 @@
                     </div>
 
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Administrasi & Moderasi" data-lang-en="Administration & Moderation">Administrasi & Moderasi</div>
+                        <div class="accordion-header" data-lang-id="Administrasi & Moderasi" data-lang-en="Administration & Moderation">
+                            Administrasi & Moderasi <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                             <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!kick</code></td><td data-label="Deskripsi"><span data-lang-id="Mengeluarkan pengguna dari server." data-lang-en="Removes a user from the server.">Mengeluarkan pengguna dari server.</span></td><td data-label="Penggunaan"><code>!kick {@pengguna} [alasan]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!ban</code></td><td data-label="Deskripsi"><span data-lang-id="Mem-ban pengguna dari server secara permanen." data-lang-en="Permanently bans a user from the server.">Mem-ban pengguna dari server secara permanen.</span></td><td data-label="Penggunaan"><code>!ban {@pengguna} [alasan]</code></td></tr>
@@ -697,9 +875,12 @@
                     </div>
 
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Sistem Kutipan (Quotes)" data-lang-en="Quotes System">Sistem Kutipan (Quotes)</div>
+                        <div class="accordion-header" data-lang-id="Sistem Kutipan (Quotes)" data-lang-en="Quotes System">
+                            Sistem Kutipan (Quotes) <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                              <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!resq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirimkan sebuah kutipan untuk ditinjau oleh admin." data-lang-en="Submits a quote to be reviewed by admins.">Mengirimkan sebuah kutipan untuk ditinjau oleh admin.</span></td><td data-label="Penggunaan"><code>!resq {ya/tidak utk nama} {kutipan}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!setchannelq</code></td><td data-label="Deskripsi"><span data-lang-id="(Admin) Mengatur channel untuk menerima kiriman kutipan." data-lang-en="(Admin) Sets the channel for receiving quote submissions.">(Admin) Mengatur channel untuk menerima kiriman kutipan.</span></td><td data-label="Penggunaan"><code>!setchannelq {#channel}</code></td></tr>
@@ -712,9 +893,12 @@
                     </div>
 
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Game & Hiburan" data-lang-en="Games & Entertainment">Game & Hiburan</div>
+                        <div class="accordion-header" data-lang-id="Game & Hiburan" data-lang-en="Games & Entertainment">
+                            Game & Hiburan <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                             <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!resmoji</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai permainan tebak emoji." data-lang-en="Starts an emoji guessing game.">Memulai permainan tebak emoji.</span></td><td data-label="Penggunaan"><code>!resmoji</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!startquiz</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai kuis musik di voice channel." data-lang-en="Starts a music quiz in a voice channel.">Memulai kuis musik di voice channel.</span></td><td data-label="Penggunaan"><code>!startquiz</code></td></tr>
@@ -740,9 +924,12 @@
                     </div>
 
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Musik & Channel Suara" data-lang-en="Music & Voice Channel">Musik & Channel Suara</div>
+                        <div class="accordion-header" data-lang-id="Musik & Channel Suara" data-lang-en="Music & Voice Channel">
+                            Musik & Channel Suara <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                              <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!resjoin</code></td><td data-label="Deskripsi"><span data-lang-id="Membuat bot bergabung ke voice channel." data-lang-en="Makes the bot join the voice channel.">Membuat bot bergabung ke voice channel.</span></td><td data-label="Penggunaan"><code>!resjoin</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!resp</code></td><td data-label="Deskripsi"><span data-lang-id="Memutar lagu atau menambahkannya ke antrean." data-lang-en="Plays a song or adds it to the queue.">Memutar lagu atau menambahkannya ke antrean.</span></td><td data-label="Penggunaan"><code>!resp {nama lagu/URL}</code></td></tr>
@@ -773,9 +960,12 @@
                     </div>
                     
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="Utilitas Webhook & Pengumuman" data-lang-en="Webhook & Announcement Utilities">Utilitas Webhook & Pengumuman</div>
+                        <div class="accordion-header" data-lang-id="Utilitas Webhook & Pengumuman" data-lang-en="Webhook & Announcement Utilities">
+                            Utilitas Webhook & Pengumuman <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                             <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!swh</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk membuat pesan webhook kustom dengan embed dan tombol." data-lang-en="Opens a wizard to create custom webhook messages with embeds and buttons.">Membuka wizard untuk membuat pesan webhook kustom dengan embed dan tombol.</span></td><td data-label="Penggunaan"><code>!swh {#channel}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!announcement</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk membuat pengumuman server." data-lang-en="Opens a wizard to create a server announcement.">Membuka wizard untuk membuat pengumuman server.</span></td><td data-label="Penggunaan"><code>!announcement {#channel}</code></td></tr>
@@ -791,9 +981,12 @@
                     </div>
                     
                     <div class="accordion-item">
-                        <div class="accordion-header" data-lang-id="AI & Utilitas Umum" data-lang-en="AI & General Utilities">AI & Utilitas Umum</div>
+                        <div class="accordion-header" data-lang-id="AI & Utilitas Umum" data-lang-en="AI & General Utilities">
+                            AI & Utilitas Umum <i class="fas fa-plus icon-toggle"></i>
+                        </div>
                         <div class="accordion-content">
                             <table class="command-table">
+                                <thead><tr><th>Perintah</th><th>Deskripsi</th><th>Penggunaan</th></tr></thead>
                                 <tbody>
                                     <tr><td data-label="Perintah"><code>!ai ngobrol</code></td><td data-label="Deskripsi"><span data-lang-id="Memulai mode obrolan dengan AI Yuki." data-lang-en="Starts a conversation mode with Yuki AI.">Memulai mode obrolan dengan AI Yuki.</span></td><td data-label="Penggunaan"><code>!ai ngobrol</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!ai tanya</code></td><td data-label="Deskripsi"><span data-lang-id="Mengajukan satu pertanyaan ke AI Yuki." data-lang-en="Asks a single question to Yuki AI.">Mengajukan satu pertanyaan ke AI Yuki.</span></td><td data-label="Penggunaan"><code>!ai tanya {pertanyaan}</code></td></tr>
@@ -815,6 +1008,14 @@
 
     <footer>
         <div class="container">
+            <div class="footer-logo">
+                 <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo">
+            </div>
+            <div class="social-links">
+                <a href="https://discord.gg/your-server" target="_blank" aria-label="Discord Server"><i class="fab fa-discord"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
             <p data-lang-id="© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat." data-lang-en="© 2025 reSwan Bot. A graceful solution for a powerful community.">© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat.</p>
         </div>
     </footer>
@@ -826,6 +1027,7 @@
             const navLinks = document.querySelector('.nav-links');
             menuToggle.addEventListener('click', () => {
                 navLinks.classList.toggle('active');
+                menuToggle.classList.toggle('active');
             });
 
             // --- Accordion Logic ---
@@ -848,33 +1050,38 @@
 
             // --- Features Slider Logic ---
             const slider = document.querySelector('.slider');
-            if (slider) {
-                const slides = document.querySelectorAll('.slide');
-                const prevBtn = document.querySelector('.prev-btn');
-                const nextBtn = document.querySelector('.next-btn');
-                let currentIndex = 0;
-                
-                function updateSlider() {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            let currentIndex = 0;
+
+            function updateSlider() {
+                if (slider) {
                     slider.style.transform = `translateX(-${currentIndex * 100}%)`;
                 }
+            }
+            if (nextBtn && prevBtn) {
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    updateSlider();
+                });
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+                    updateSlider();
+                });
+            }
 
-                if (nextBtn && prevBtn) {
-                    nextBtn.addEventListener('click', () => { currentIndex = (currentIndex + 1) % slides.length; updateSlider(); });
-                    prevBtn.addEventListener('click', () => { currentIndex = (currentIndex - 1 + slides.length) % slides.length; updateSlider(); });
-                }
-
-                let touchstartX = 0;
-                let touchendX = 0;
-                const sliderWrapper = document.querySelector('.slider-wrapper');
-                if(sliderWrapper){
-                    sliderWrapper.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, { passive: true });
-                    sliderWrapper.addEventListener('touchend', e => {
-                        touchendX = e.changedTouches[0].screenX;
-                        if (touchendX < touchstartX - 50) { currentIndex = (currentIndex + 1) % slides.length; }
-                        if (touchendX > touchstartX + 50) { currentIndex = (currentIndex - 1 + slides.length) % slides.length; }
-                        updateSlider();
-                    }, { passive: true });
-                }
+            let touchstartX = 0;
+            let touchendX = 0;
+            const sliderWrapper = document.querySelector('.slider-wrapper');
+            if (sliderWrapper) {
+                sliderWrapper.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, { passive: true });
+                sliderWrapper.addEventListener('touchend', e => {
+                    touchendX = e.changedTouches[0].screenX;
+                    if (touchendX < touchstartX - 50) { currentIndex = (currentIndex + 1) % slides.length; }
+                    if (touchendX > touchstartX + 50) { currentIndex = (currentIndex - 1 + slides.length) % slides.length; }
+                    updateSlider();
+                }, { passive: true });
             }
 
             // --- Scroll Fade-in Animation ---
@@ -886,7 +1093,6 @@
                     }
                 });
             }, { threshold: 0.1 });
-
             scrollElements.forEach(el => observer.observe(el));
 
             // --- Language Switcher ---
@@ -896,11 +1102,9 @@
             window.switchLanguage = (lang) => {
                 localStorage.setItem('reSwanLang', lang);
                 document.documentElement.lang = lang;
-
                 langButtons.forEach(btn => {
                     btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
                 });
-                
                 translatableElements.forEach(el => {
                     const text = el.getAttribute(`data-lang-${lang}`);
                     if (text !== null) {
@@ -910,6 +1114,27 @@
             };
             const savedLang = localStorage.getItem('reSwanLang') || 'id';
             switchLanguage(savedLang);
+
+            // --- Active Nav Link ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinksDesktop = document.querySelectorAll('.nav-links a:not(.invite-btn-nav)');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinksDesktop.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
