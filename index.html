@@ -20,6 +20,7 @@
             --accent-blue: #58A6FF;
             --accent-green: #3FB950;
             --accent-purple: #BC8CFF;
+            --accent-red: #FA7979; /* Tambahan warna merah untuk moderasi */
             --shadow-color: rgba(0, 0, 0, 0.4);
             --gradient-text: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
         }
@@ -29,7 +30,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Tambahkan animasi transisi default yang lembut */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
@@ -42,7 +42,7 @@
             background-color: var(--primary-bg);
             color: var(--primary-text);
             line-height: 1.6;
-            overflow-x: hidden; /* Mencegah scroll horizontal */
+            overflow-x: hidden;
         }
 
         .container {
@@ -51,7 +51,7 @@
             margin: 0 auto;
         }
 
-        /* --- Global Animations (Lebih Menarik & Halus) --- */
+        /* --- Global Animations --- */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -76,7 +76,6 @@
             animation: fadeInScale 0.8s cubic-bezier(0.2, 0.8, 0.6, 1) forwards;
         }
 
-        /* Animasi Scroll yang Lebih Dinamis */
         .scroll-animate {
             opacity: 0;
             transform: translateY(30px);
@@ -354,7 +353,7 @@
             margin: 0 auto;
         }
 
-        /* --- Pride Section --- */
+        /* --- Pride Section (Mengapa Kami) --- */
         #pride {
             background-color: var(--secondary-bg);
             border-bottom: 1px solid var(--border-color);
@@ -383,8 +382,12 @@
         .pride-content p:last-child {
             margin-bottom: 0;
         }
+        .pride-content p i { /* Ikon di dalam paragraf Pride */
+            color: var(--accent-green);
+            margin-right: 8px;
+        }
 
-        /* --- Profile Section --- */
+        /* --- Profile Section (Filosofi) --- */
         #profile .profile-content {
             flex-direction: column;
             padding: 20px;
@@ -410,42 +413,36 @@
         #profile .description-container {
             width: 100%;
         }
+        /* Penyesuaian Kepadatan Teks di sini */
         #profile p {
-            font-size: 0.95rem;
-            margin-bottom: 15px;
+            font-size: 1.0rem; /* Sedikit lebih besar untuk keterbacaan */
+            margin-bottom: 20px;
+            line-height: 1.7; /* Line height lebih tinggi */
         }
         #profile ul {
             padding-left: 0;
-            margin-top: 15px;
+            margin-top: 20px; /* Jarak lebih besar setelah paragraf */
+            list-style: none; /* Hilangkan bullet default */
         }
         #profile li {
-            margin-bottom: 10px;
-            padding-left: 25px;
+            margin-bottom: 15px; /* Jarak antar list item lebih besar */
+            padding-left: 10px;
             position: relative;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             background-color: #1A1F25;
-            padding: 10px;
+            padding: 12px 15px;
             border-radius: 8px;
-            border-left: 3px solid var(--accent-green);
+            border-left: 4px solid var(--accent-green);
             opacity: 0;
             animation: fadeInScale 0.5s forwards;
+            box-shadow: 0 2px 8px var(--shadow-color);
         }
-        #profile li:nth-child(1) { animation-delay: 0.1s; }
-        #profile li:nth-child(2) { animation-delay: 0.2s; }
-        #profile li:nth-child(3) { animation-delay: 0.3s; }
-        #profile li:nth-child(4) { animation-delay: 0.4s; }
-
-        #profile li::before {
-            content: '\f02e';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
+        /* Hapus ikon list-style yang lama dan gunakan ikon fa di dalam li */
+        #profile li i {
             color: var(--accent-green);
-            position: absolute;
-            left: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.8rem;
+            margin-right: 10px;
         }
+
         #profile p strong {
             color: var(--accent-purple);
         }
@@ -457,23 +454,56 @@
             position: relative;
         }
 
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+        .slider-controls button {
+            background-color: var(--card-bg);
+            color: var(--accent-blue);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .slider-controls button:hover {
+            background-color: #283038;
+            transform: scale(1.1);
+        }
+
         .slider-wrapper {
-            overflow-x: scroll; /* Mengaktifkan swipe/scroll horizontal */
+            overflow-x: scroll;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 20px;
+            margin-bottom: 10px; /* Jarak untuk kontrol */
+            /* Sembunyikan scrollbar di Webkit (Chrome, Safari) */
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
         .slider {
             display: flex;
             width: max-content;
-            gap: 10px;
+            gap: 20px; /* Jarak antar slide lebih besar */
+            padding: 0 5vw; /* Padding di awal/akhir slider */
         }
 
         .slide {
             flex-shrink: 0;
-            width: 90vw;
-            margin: 0 5vw;
+            width: 80vw; /* Lebar slide sedikit diperkecil */
             scroll-snap-align: center;
             padding: 10px 0;
         }
@@ -495,29 +525,27 @@
             box-shadow: 0 15px 40px rgba(88, 166, 255, 0.3);
         }
         .feature-card .icon {
-            font-size: 3rem;
+            font-size: 3.5rem; /* Ikon lebih besar */
             margin-bottom: 20px;
-            color: var(--accent-green);
-            filter: drop-shadow(0 0 5px rgba(63, 185, 80, 0.5));
+            filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.5));
             animation: float 2.5s ease-in-out infinite;
         }
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 10px;
             font-weight: 700;
             color: var(--accent-blue);
         }
         .feature-card p {
-            font-size: 0.9rem;
+            font-size: 1.0rem;
             color: var(--secondary-text);
         }
-
-        .slider-controls {
-            display: none;
+        .feature-card p strong {
+            color: var(--accent-green);
         }
 
         .swipe-indicator {
-            display: block !important;
+            display: none; /* Sembunyikan indicator 'Geser' jika ada tombol navigasi */
             text-align: center;
             color: var(--accent-purple);
             margin-top: 20px;
@@ -526,6 +554,42 @@
             animation: fadeInScale 0.8s 0.2s forwards;
             opacity: 0;
         }
+
+        /* Tampilkan swipe-indicator HANYA di mobile/saat kontrol di hidden */
+        @media (max-width: 768px) {
+            .swipe-indicator {
+                display: block !important;
+            }
+            .slider-controls {
+                display: none;
+            }
+        }
+        /* Atur ulang lebar slide dan wrapper untuk desktop */
+        @media (min-width: 768px) {
+            .slider-wrapper {
+                overflow-x: hidden;
+            }
+            .slider {
+                gap: 30px;
+                padding: 0;
+                justify-content: center;
+                transform: none !important; /* Nonaktifkan transformasi slide JS di desktop */
+            }
+            .slide {
+                width: 300px; /* Lebar card tetap di desktop */
+                max-width: 300px;
+                scroll-snap-align: none;
+            }
+            .feature-card {
+                transform: scale(1);
+                min-height: 400px; /* Tinggi disesuaikan */
+                padding: 25px;
+            }
+            .feature-card:hover {
+                transform: scale(1.03); /* Hover efek sedikit berbeda */
+            }
+        }
+
 
         /* --- Commands Accordion Section --- */
         #commands {
@@ -538,12 +602,12 @@
         }
 
         .accordion-item {
-            border: 1px solid var(--border-color); /* Tambahkan kembali border tegas */
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             margin-bottom: 15px;
             box-shadow: 0 6px 15px var(--shadow-color);
             background-color: var(--card-bg);
-            overflow: hidden; /* Penting untuk animasi max-height */
+            overflow: hidden;
         }
 
         .accordion-header {
@@ -559,7 +623,7 @@
             align-items: center;
         }
         .accordion-item.active .accordion-header {
-             border-radius: 12px 12px 0 0; /* Hapus radius bawah saat aktif */
+             border-radius: 12px 12px 0 0;
              background: var(--secondary-bg);
         }
         
@@ -573,9 +637,9 @@
         }
 
         .accordion-content {
-            max-height: 0; /* Awalnya 0, diubah oleh JS */
+            max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out; /* Transisi untuk animasi buka/tutup */
+            transition: max-height 0.5s ease-out;
             padding: 0 20px;
             background-color: #1A1F25;
             border-top: 1px solid var(--border-color);
@@ -585,7 +649,6 @@
             padding-bottom: 15px;
         }
         
-        /* Tambahkan padding di dalam konten agar terlihat jelas */
         .accordion-content > * {
             padding: 0;
         }
@@ -594,7 +657,6 @@
             width: 100%;
             margin: 0;
             font-size: 0.9rem;
-            /* Pastikan tabel mengambil seluruh lebar konten yang tersedia */
             display: block; 
         }
 
@@ -615,8 +677,8 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         .command-table td {
-            display: flex; /* Gunakan flex untuk label dan konten */
-            flex-direction: column; /* Tumpuk label dan konten */
+            display: flex;
+            flex-direction: column;
             align-items: flex-start;
             padding: 8px 5px;
             border-bottom: 1px dotted var(--border-color);
@@ -628,7 +690,7 @@
             content: attr(data-label);
             font-weight: 700;
             color: var(--accent-blue);
-            margin-bottom: 5px; /* Jarak antara label dan konten */
+            margin-bottom: 5px;
             font-size: 0.85rem;
         }
         .command-table td code {
@@ -647,12 +709,17 @@
             padding: 40px 15px;
             border-top: 5px solid var(--accent-purple);
             background-color: var(--secondary-bg);
+            text-align: center;
         }
         .footer-logo img {
             width: 50px;
             border-radius: 50%;
             box-shadow: 0 0 10px rgba(188, 140, 255, 0.5);
             animation: float 5s ease-in-out infinite reverse;
+            margin-bottom: 15px;
+        }
+        .social-links {
+            margin-bottom: 20px;
         }
         .social-links a {
             font-size: 1.8rem;
@@ -666,21 +733,116 @@
             transform: scale(1.1);
             filter: drop-shadow(0 0 8px var(--accent-purple));
         }
+        footer p {
+            font-size: 0.85rem;
+            color: var(--secondary-text);
+        }
 
-        /* Memastikan tampilan tidak pecah di ukuran desktop yang tidak didukung */
+        /* Media Query untuk Desktop */
         @media (min-width: 992px) {
             .container {
-                max-width: 100%;
-                padding: 0 15px;
+                max-width: 1200px;
+                padding: 0 30px;
             }
             .nav-links {
-                display: none !important;
+                position: static;
+                transform: translateX(0);
+                flex-direction: row;
+                height: auto;
+                width: auto;
+                background-color: transparent;
+                padding: 0;
+                gap: 15px;
+                overflow-y: visible;
+                display: flex !important; /* Paksa tampilan flex di desktop */
+            }
+            .nav-links li {
+                opacity: 1;
+                transform: translateX(0);
+                margin: 0;
+            }
+            .nav-links li a {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+            .nav-links li a:hover {
+                color: var(--accent-blue);
+                background-color: rgba(88, 166, 255, 0.1);
             }
             .menu-toggle {
-                display: flex !important;
+                display: none; /* Sembunyikan toggle di desktop */
+            }
+            .invite-btn-nav {
+                margin-top: 0 !important;
+                margin-left: 20px;
+                padding: 10px 20px !important;
+            }
+            .lang-switcher {
+                margin-top: 0 !important;
+            }
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 100px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+                max-width: 700px;
+                margin: 0 auto 40px auto;
+            }
+            .hero-buttons {
+                flex-direction: row;
+                justify-content: center;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            .hero-button {
+                width: 50%;
             }
             #profile .profile-content {
-                flex-direction: column;
+                flex-direction: row;
+                text-align: left;
+                padding: 40px;
+            }
+            #profile .logo-container {
+                width: 40%;
+            }
+            #profile .description-container {
+                width: 60%;
+            }
+            .command-table thead {
+                display: table-header-group; /* Tampilkan header tabel di desktop */
+            }
+            .command-table tr {
+                display: table-row;
+                background-color: transparent;
+                border: none;
+                margin-bottom: 0;
+                padding: 0;
+            }
+            .command-table td {
+                display: table-cell;
+                border-bottom: 1px solid var(--border-color);
+                padding: 15px 10px;
+                background-color: var(--card-bg);
+                box-shadow: none;
+                flex-direction: row;
+                align-items: center;
+            }
+            .command-table tr:hover td {
+                background-color: #283038;
+            }
+            .command-table td::before {
+                display: none; /* Sembunyikan label di desktop */
+            }
+            .command-table th {
+                background-color: var(--secondary-bg);
+                color: var(--accent-blue);
+                padding: 15px 10px;
+                text-align: left;
+                border-bottom: 2px solid var(--accent-blue);
             }
         }
     </style>
@@ -730,8 +892,8 @@
         <section id="pride" class="scroll-animate">
             <div class="container pride-content">
                 <h3 data-lang-id="Keunggulan Kami yang Tak Tertandingi" data-lang-en="Our Unmatched Excellence">Keunggulan Kami yang Tak Tertandingi ✨</h3>
-                <p class="scroll-animate" data-lang-id="Kami telah menjelajahi berbagai komunitas dan server Discord terkemuka, dan hasilnya menunjukkan bahwa bot kami adalah yang paling unggul dalam kompleksitas dan integrasi. Dengan bangga, kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem keamanan yang tangguh dan terpadu." data-lang-en="We have explored various leading Discord communities and servers, and the results show that our bot is the most superior in complexity and integration. We are proud to have successfully unified all advanced features into a single robust and integrated security system.">Kami telah menjelajahi berbagai komunitas dan server Discord terkemuka, dan hasilnya menunjukkan bahwa bot kami adalah yang paling unggul dalam kompleksitas dan integrasi. Dengan bangga, kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem keamanan yang tangguh dan terpadu.</p>
-                <p class="scroll-animate" style="transition-delay: 0.2s;" data-lang-id="Keunggulan ini bukan kebetulan, melainkan hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Dedikasi inilah yang membuat reSwan terus berevolusi menjadi produk yang andal dan superior. Saat ini, reSwan sudah sangat lengkap, namun semangat kami untuk mencari inovasi baru tidak akan pernah berhenti." data-lang-en="This excellence is no coincidence, but rather the result of our commitment to continuous learning and innovation. We regularly analyze vulnerabilities and shortcomings, and then swiftly address them so our bot remains intelligent, secure, and stable. This dedication is what allows reSwan to continually evolve into a reliable and superior product. At present, reSwan is remarkably comprehensive, yet our passion for seeking new innovations will never cease.">Keunggulan ini bukan kebetulan, melainkan hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Dedikasi inilah yang membuat reSwan terus berevolusi menjadi produk yang andal dan superior. Saat ini, reSwan sudah sangat lengkap, namun semangat kami untuk mencari inovasi baru tidak akan pernah berhenti.</p>
+                <p class="scroll-animate" data-lang-id="<i class='fas fa-flask'></i> **Integrasi Fitur Kompleks:** Kami telah menjelajahi berbagai komunitas Discord, dan hasilnya menunjukkan bahwa reSwan adalah yang paling unggul dalam kompleksitas dan integrasi. Kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem yang tangguh dan terpadu." data-lang-en="<i class='fas fa-flask'></i> **Complex Feature Integration:** We have explored various Discord communities, and the results show that reSwan is the most superior in complexity and integration. We successfully unified all advanced features into a single robust and integrated system."><i class="fas fa-flask"></i> **Integrasi Fitur Kompleks:** Kami telah menjelajahi berbagai komunitas Discord, dan hasilnya menunjukkan bahwa reSwan adalah yang paling unggul dalam kompleksitas dan integrasi. Kami berhasil menyatukan seluruh fitur canggih ke dalam satu sistem yang tangguh dan terpadu.</p>
+                <p class="scroll-animate" style="transition-delay: 0.2s;" data-lang-id="<i class='fas fa-bolt'></i> **Dedikasi Inovasi Berkelanjutan:** Keunggulan ini adalah hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Semangat kami untuk mencari inovasi baru tidak akan pernah berhenti." data-lang-en="<i class='fas fa-bolt'></i> **Commitment to Continuous Innovation:** This excellence is the result of our commitment to continuous learning and innovation. We regularly analyze vulnerabilities and shortcomings, and swiftly address them so our bot remains intelligent, secure, and stable. Our passion for seeking new innovations will never cease."><i class="fas fa-bolt"></i> **Dedikasi Inovasi Berkelanjutan:** Keunggulan ini adalah hasil dari komitmen kami untuk terus belajar dan berinovasi. Kami secara berkala menganalisis celah dan kekurangan, lalu mengatasinya secara sigap agar bot kami selalu cerdas, aman, dan stabil. Semangat kami untuk mencari inovasi baru tidak akan pernah berhenti.</p>
             </div>
         </section>
 
@@ -746,13 +908,13 @@
                         <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo large">
                     </div>
                     <div class="description-container">
-                        <p data-lang-id="Nama reSwan merupakan perpaduan antara dua elemen kunci: 're-' yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta 'Swan' yang berarti angsa, simbol **keanggunan** dan **komunitas**. Ini menggambarkan misi kami untuk menciptakan bot yang terus berinovasi (revolusi), selalu relevan dengan kebutuhan pengguna, sangat responsif, dan memberikan pengalaman yang anggun bagi setiap komunitas." data-lang-en="The name reSwan is a fusion of two key elements: 're-' which signifies **revolution**, **relevance**, and **responsiveness**, and 'Swan,' representing **grace** and **community**. This encapsulates our mission to create a bot that constantly innovates (revolution), remains relevant to user needs, is highly responsive, and provides a graceful experience for every community.">Nama reSwan merupakan perpaduan antara dua elemen kunci: 're-' yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta 'Swan' yang berarti angsa, simbol **keanggunan** dan **komunitas**. Ini menggambarkan misi kami untuk menciptakan bot yang terus berinovasi (revolusi), selalu relevan dengan kebutuhan pengguna, sangat responsif, dan memberikan pengalaman yang anggun bagi setiap komunitas.</p>
-                        <p data-lang-id="Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:" data-lang-en="The reSwan logo is more than just an elegant bird; it's a fusion of community and technology. The swan, a symbol of grace and community, is intricately woven with elements that define the modern digital experience. Its form contains:">Logo reSwan lebih dari sekadar burung yang elegan; ini adalah perpaduan antara komunitas dan teknologi. Angsa, simbol keanggunan dan komunitas, terjalin secara rumit dengan elemen-elemen yang mendefinisikan pengalaman digital modern. Bentuknya mengandung:</p>
+                        <p data-lang-id="Nama reSwan merupakan perpaduan antara dua elemen kunci: **'re-'** yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta **'Swan'** (angsa) yang berarti simbol **keanggunan** dan **komunitas**. Misi kami adalah menciptakan bot yang selalu berinovasi, relevan, dan memberikan pengalaman yang anggun." data-lang-en="The name reSwan is a fusion of two key elements: **'re-'** which signifies **revolution**, **relevance**, and **responsiveness**, and **'Swan'** (goose) representing **grace** and **community**. Our mission is to create a bot that constantly innovates, remains relevant, and provides a graceful experience.">Nama reSwan merupakan perpaduan antara dua elemen kunci: **'re-'** yang melambangkan **revolusi**, **relevansi**, dan **responsif**, serta **'Swan'** (angsa) yang berarti simbol **keanggunan** dan **komunitas**. Misi kami adalah menciptakan bot yang selalu berinovasi, relevan, dan memberikan pengalaman yang anggun.</p>
+                        <p data-lang-id="Logo reSwan adalah perpaduan rumit antara komunitas dan teknologi modern. Bentuknya mengandung elemen-elemen kunci yang mendefinisikan pengalaman digital modern:" data-lang-en="The reSwan logo is an intricate fusion of community and modern technology. Its form contains key elements that define the modern digital experience:">Logo reSwan adalah perpaduan rumit antara komunitas dan teknologi modern. Bentuknya mengandung elemen-elemen kunci yang mendefinisikan pengalaman digital modern:</p>
                         <ul>
-                            <li data-lang-id="<strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap." data-lang-en="<strong>Gaming & Entertainment:</strong> A game controller, headphones, and music notes represent the bot's core entertainment features, from interactive games to a full-fledged music system."><strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik mewakili fitur hiburan inti bot, dari game interaktif hingga sistem musik yang lengkap.</li>
-                            <li data-lang-id="<strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar yang terintegrasi ke dalam papan sirkuit melambangkan sistem ekonomi dan leveling yang mendalam dan memuaskan, yang mendorong aktivitas pengguna." data-lang-en="<strong>Economy & Growth:</strong> A dollar sign integrated into a circuit board symbolizes a deep, rewarding economy and leveling system that encourages user activity."><strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar yang terintegrasi ke dalam papan sirkuit melambangkan sistem ekonomi dan leveling yang mendalam dan memuaskan, yang mendorong aktivitas pengguna.</li>
-                            <li data-lang-id="<strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman." data-lang-en="<strong>Security & Moderation:</strong> A shield and a judge's gavel are seamlessly embedded, signifying powerful, reliable moderation and server administration tools to keep your community safe."><strong>Keamanan & Moderasi:</strong> Sebuah perisai dan palu hakim tertanam dengan mulus, menandakan alat moderasi dan administrasi server yang kuat dan andal untuk menjaga komunitas Anda tetap aman.</li>
-                            <li data-lang-id="<strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung." data-lang-en="<strong>Connectivity:</strong> The network nodes illustrate how reSwan connects all these features into one cohesive, intelligent system, creating a vibrant and interconnected community."><strong>Konektivitas:</strong> Simpul-simpul jaringan menggambarkan bagaimana reSwan menghubungkan semua fitur ini menjadi satu sistem yang kohesif dan cerdas, menciptakan komunitas yang hidup dan saling terhubung.</li>
+                            <li data-lang-id="<i class='fas fa-gamepad'></i> <strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik untuk fitur hiburan hingga sistem musik yang lengkap." data-lang-en="<i class='fas fa-gamepad'></i> <strong>Gaming & Entertainment:</strong> Game controller, headphones, and music notes for entertainment features and a complete music system."><i class="fas fa-gamepad"></i> <strong>Game & Hiburan:</strong> Stik game, headphone, dan not musik untuk fitur hiburan hingga sistem musik yang lengkap.</li>
+                            <li data-lang-id="<i class='fas fa-chart-line'></i> <strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar terintegrasi dalam papan sirkuit untuk sistem ekonomi dan leveling yang memuaskan." data-lang-en="<i class='fas fa-chart-line'></i> <strong>Economy & Growth:</strong> A dollar sign integrated into a circuit board for a rewarding economy and leveling system."><i class="fas fa-chart-line"></i> <strong>Ekonomi & Pertumbuhan:</strong> Simbol dolar terintegrasi dalam papan sirkuit untuk sistem ekonomi dan leveling yang memuaskan.</li>
+                            <li data-lang-id="<i class='fas fa-shield-alt'></i> <strong>Keamanan & Moderasi:</strong> Perisai dan palu hakim untuk alat moderasi yang kuat dan andal." data-lang-en="<i class='fas fa-shield-alt'></i> <strong>Security & Moderation:</strong> A shield and a judge's gavel for powerful and reliable moderation tools."><i class="fas fa-shield-alt"></i> <strong>Keamanan & Moderasi:</strong> Perisai dan palu hakim untuk alat moderasi yang kuat dan andal.</li>
+                            <li data-lang-id="<i class='fas fa-network-wired'></i> <strong>Konektivitas:</strong> Simpul-simpul jaringan yang menyatukan semua fitur menjadi sistem yang kohesif dan cerdas." data-lang-en="<i class='fas fa-network-wired'></i> <strong>Connectivity:</strong> Network nodes that connect all features into one cohesive and intelligent system."><i class="fas fa-network-wired"></i> <strong>Konektivitas:</strong> Simpul-simpul jaringan yang menyatukan semua fitur menjadi sistem yang kohesif dan cerdas.</li>
                         </ul>
                         <p class="scroll-animate" style="transition-delay: 0.5s;"><strong data-lang-id="reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat." data-lang-en="reSwan isn't just a bot; it's the central nervous system for a thriving server.">reSwan bukan hanya bot; ini adalah sistem saraf pusat untuk server yang berkembang pesat.</strong><span data-lang-id=" Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat." data-lang-en=" It’s designed to be powerful yet graceful, providing every tool you need without complexity, ensuring your community runs smoothly and stays engaged."> Ia dirancang untuk menjadi kuat namun tetap anggun, menyediakan setiap alat yang Anda butuhkan tanpa kerumitan, memastikan komunitas Anda berjalan lancar dan tetap terlibat.</span></p>
                     </div>
@@ -769,37 +931,42 @@
                 </div>
                 
                 <div class="slider-container">
+                    <div class="slider-controls">
+                        <button id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+                        <p class="swipe-indicator-desktop" style="color: var(--accent-blue); font-weight: 600;" data-lang-id="Gunakan tombol untuk navigasi" data-lang-en="Use buttons for navigation">Gunakan tombol untuk navigasi</p>
+                        <button id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                     <div class="slider-wrapper">
                         <div class="slider">
                             <div class="slide">
                                 <div class="feature-card scroll-animate">
                                     <div class="icon" style="color: var(--accent-purple);"><i class="fas fa-coins"></i></div>
-                                    <h3 data-lang-id="Ekonomi & Leveling Canggih" data-lang-en="Advanced Economy & Leveling">Ekonomi & Leveling Canggih 💰</h3>
-                                    <p data-lang-id="Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat." data-lang-en="Foster a vibrant community with a rewarding progression system. Members earn currency (RSWN) and EXP just by chatting and participating in voice channels. This encourages activity and gives members tangible goals, with a shop to spend their earnings on badges, roles, and boosters. Weekly and all-time leaderboards spark friendly competition.">Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan mata uang (RSWN) dan EXP hanya dengan mengobrol dan berpartisipasi di channel suara. Ini mendorong aktivitas dan memberi anggota tujuan nyata, dengan toko untuk membelanjakan penghasilan mereka pada lencana, peran, dan booster. Papan peringkat mingguan dan sepanjang masa memicu persaingan yang bersahabat.</p>
+                                    <h3 data-lang-id="Ekonomi & Leveling Canggih" data-lang-en="Advanced Economy & Leveling">Ekonomi & Leveling Canggih 💸</h3>
+                                    <p data-lang-id="Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan **RSWN** dan **EXP** hanya dengan mengobrol/berpartisipasi di voice channel. Ada toko untuk membelanjakan penghasilan pada lencana, peran, dan booster. Papan peringkat mingguan memicu persaingan yang bersahabat." data-lang-en="Foster a vibrant community with a rewarding progression system. Members earn **RSWN** and **EXP** just by chatting/participating in voice channels. There's a shop to spend earnings on badges, roles, and boosters. Weekly leaderboards spark friendly competition.">Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan **RSWN** dan **EXP** hanya dengan mengobrol/berpartisipasi di voice channel. Ada toko untuk membelanjakan penghasilan pada lencana, peran, dan booster. Papan peringkat mingguan memicu persaingan yang bersahabat.</p>
                                 </div>
                             </div>
 
                             <div class="slide">
                                 <div class="feature-card scroll-animate" style="transition-delay: 0.1s;">
                                     <div class="icon" style="color: var(--accent-red);"><i class="fas fa-shield-alt"></i></div>
-                                    <h3 data-lang-id="Paket Moderasi Tak Tertandingi" data-lang-en="Unmatched Moderation Suite">Paket Moderasi Tak Tertandingi 🛡️</h3>
-                                    <p data-lang-id="Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing." data-lang-en="Keep your server safe and clean with a comprehensive set of moderation tools. From basic commands like kick, ban, and timeout to advanced features like channel-specific rules (disabling links, media, or bot commands), automated message deletion, and a full warning system. The integrated AI link filter provides an extra layer of security against phishing.">Jaga server Anda tetap aman dan bersih dengan serangkaian alat moderasi yang komprehensif. Mulai dari perintah dasar seperti tendang, ban, dan timeout hingga fitur canggih seperti aturan khusus channel (menonaktifkan tautan, media, atau perintah bot), penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan AI yang terintegrasi memberikan lapisan keamanan ekstra terhadap phishing.</p>
+                                    <h3 data-lang-id="Paket Moderasi Tak Tertandingi" data-lang-en="Unmatched Moderation Suite">Paket Moderasi Tak Tertandingi 🚨</h3>
+                                    <p data-lang-id="Jaga server Anda tetap **aman** dan bersih dengan serangkaian alat moderasi yang komprehensif. Termasuk perintah dasar (kick, ban) dan fitur canggih seperti aturan khusus channel, penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan **AI** terintegrasi memberikan lapisan keamanan ekstra terhadap phishing." data-lang-en="Keep your server **safe** and clean with a comprehensive set of moderation tools. Includes basic commands (kick, ban) and advanced features like channel-specific rules, automated message deletion, and a full warning system. The integrated **AI** link filter provides an extra layer of security against phishing.">Jaga server Anda tetap **aman** dan bersih dengan serangkaian alat moderasi yang komprehensif. Termasuk perintah dasar (kick, ban) dan fitur canggih seperti aturan khusus channel, penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan **AI** terintegrasi memberikan lapisan keamanan ekstra terhadap phishing.</p>
                                 </div>
                             </div>
 
                             <div class="slide">
                                 <div class="feature-card scroll-animate" style="transition-delay: 0.2s;">
                                     <div class="icon" style="color: var(--accent-blue);"><i class="fas fa-gamepad"></i></div>
-                                    <h3 data-lang-id="Hiburan & Game Tanpa Batas" data-lang-en="Endless Games & Entertainment">Hiburan & Game Tanpa Batas 🎮</h3>
-                                    <p data-lang-id="Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok." data-lang-en="Never have a dull moment. reSwan is packed with interactive games for everyone: fast-paced quizzes (Music, Emoji, Science), word games (Hangman, Scramble), social deduction (Werewolf, Spyfall), and even a thrilling Horse Racing simulation with betting. There's a game for every mood and every group.">Jangan pernah ada momen yang membosankan. reSwan dilengkapi dengan game interaktif untuk semua orang: kuis cepat (Musik, Emoji, Sains), permainan kata (Hangman, Acak Kata), deduksi sosial (Werewolf, Mata-Mata), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati dan setiap kelompok.</p>
+                                    <h3 data-lang-id="Hiburan & Game Tanpa Batas" data-lang-en="Endless Games & Entertainment">Hiburan & Game Tanpa Batas 🎲</h3>
+                                    <p data-lang-id="Jangan pernah ada momen yang membosankan! reSwan memiliki banyak game interaktif untuk semua orang: kuis cepat (**Musik, Emoji, Sains**), permainan kata (**Hangman**), deduksi sosial (**Werewolf, Mata-Mata**), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati." data-lang-en="Never have a dull moment! reSwan is packed with interactive games for everyone: fast-paced quizzes (**Music, Emoji, Science**), word games (**Hangman**), social deduction (**Werewolf, Spyfall**), and even a thrilling Horse Racing simulation with betting. There's a game for every mood.">Jangan pernah ada momen yang membosankan! reSwan memiliki banyak game interaktif untuk semua orang: kuis cepat (**Musik, Emoji, Sains**), permainan kata (**Hangman**), deduksi sosial (**Werewolf, Mata-Mata**), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati.</p>
                                 </div>
                             </div>
 
                             <div class="slide">
                                 <div class="feature-card scroll-animate" style="transition-delay: 0.3s;">
                                     <div class="icon" style="color: var(--accent-green);"><i class="fas fa-robot"></i></div>
-                                    <h3 data-lang-id="Integrasi AI Cerdas" data-lang-en="Intelligent AI Integration">Integrasi AI Cerdas 🤖</h3>
-                                    <p data-lang-id="Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik." data-lang-en="Powered by Google's Gemini, reSwan offers a smart, customizable AI personality named 'Yuki' for engaging conversations. Beyond chat, the AI provides a powerful security layer by analyzing links for phishing threats in real-time. It also features an in-depth personality test (!jiwaku) for a unique user engagement experience.">Didukung oleh Gemini dari Google, reSwan menawarkan kepribadian AI yang cerdas dan dapat disesuaikan bernama 'Yuki' untuk percakapan yang menarik. Di luar obrolan, AI memberikan lapisan keamanan yang kuat dengan menganalisis tautan untuk ancaman phishing secara real-time. Bot ini juga dilengkapi tes kepribadian mendalam (!jiwaku) untuk pengalaman keterlibatan pengguna yang unik.</p>
+                                    <h3 data-lang-id="Integrasi AI Cerdas" data-lang-en="Intelligent AI Integration">Integrasi AI Cerdas 🧠</h3>
+                                    <p data-lang-id="Didukung oleh **Gemini dari Google**, reSwan menawarkan kepribadian AI cerdas bernama **'Yuki'** untuk percakapan yang menarik. AI ini juga memberikan lapisan keamanan kuat dengan menganalisis tautan untuk ancaman phishing secara real-time, serta dilengkapi tes kepribadian mendalam (**!jiwaku**) yang unik." data-lang-en="Powered by **Google's Gemini**, reSwan offers a smart AI personality named **'Yuki'** for engaging conversations. The AI also provides a powerful security layer by analyzing links for real-time phishing threats, and features a unique in-depth personality test (**!jiwaku**).">Didukung oleh **Gemini dari Google**, reSwan menawarkan kepribadian AI cerdas bernama **'Yuki'** untuk percakapan yang menarik. AI ini juga memberikan lapisan keamanan kuat dengan menganalisis tautan untuk ancaman phishing secara real-time, serta dilengkapi tes kepribadian mendalam (**!jiwaku**) yang unik.</p>
                                 </div>
                             </div>
                             
@@ -807,7 +974,7 @@
                                 <div class="feature-card scroll-animate" style="transition-delay: 0.4s;">
                                     <div class="icon" style="color: var(--accent-blue);"><i class="fas fa-tools"></i></div>
                                     <h3 data-lang-id="Utilitas Server yang Kuat" data-lang-en="Powerful Server Utilities">Utilitas Server yang Kuat ⚙️</h3>
-                                    <p data-lang-id="Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda." data-lang-en="Simplify server management with powerful utilities. Create stunningly professional announcements and role menus with the advanced Webhook Message Builder. Set up temporary voice channels, manage roles with reaction menus, and provide information to your members with custom FAQ commands. reSwan is your ultimate admin toolkit.">Sederhanakan manajemen server dengan utilitas yang kuat. Buat pengumuman dan menu peran yang terlihat profesional dengan Pembangun Pesan Webhook yang canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi kepada anggota Anda dengan perintah FAQ khusus. reSwan adalah toolkit admin utama Anda.</p>
+                                    <p data-lang-id="Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap." data-lang-en="Simplify your server management. Create professional announcements/role menus with the advanced **Webhook Message Builder**. Set up temporary voice channels, manage roles with reaction menus, and provide information with custom **FAQ** commands. reSwan is your complete ultimate admin toolkit.">Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap.</p>
                                 </div>
                             </div>
                         </div>
@@ -1002,7 +1169,7 @@
                                     <tr><td data-label="Perintah"><code>!user</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan info profil pengguna." data-lang-en="Shows user profile info.">Menampilkan info profil pengguna.</span></td><td data-label="Penggunaan"><code>!user [@pengguna]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!avatar</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan avatar pengguna." data-lang-en="Shows a user's avatar.">Menampilkan avatar pengguna.</span></td><td data-label="Penggunaan"><code>!avatar [@pengguna]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!resq</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirimkan kutipan untuk ditinjau." data-lang-en="Submits a quote for review.">Mengirimkan kutipan untuk ditinjau.</span></td><td data-label="Penggunaan"><code>!resq {ya/tidak} {kutipan}</code></td></tr>
-                                     <tr><td data-label="Perintah"><code>!help</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar perintah dasar atau detail perintah spesifik." data-lang-en="Shows the basic command list or details for a specific command.">Menampilkan daftar perintah dasar atau detail perintah spesifik.</span></td><td data-label="Penggunaan"><code>!help [perintah]</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!help</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar perintah dasar atau detail perintah spesifik." data-lang-en="Shows the basic command list or details for a specific command.">Menampilkan daftar perintah dasar atau detail perintah spesifik.</span></td><td data-label="Penggunaan"><code>!help [perintah]</code></td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1018,10 +1185,9 @@
                     <img src="https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/main/6217328455519946915.jpg" alt="reSwan Logo">
             </div>
             <div class="social-links">
-                <a href="https://discord.gg/your-server" target="_blank" aria-label="Discord Server"><i class="fab fa-discord"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
+                <a href="https://discord.gg/Xxh6ScQBcg" target="_blank" aria-label="Discord Server"><i class="fab fa-discord"></i></a>
+                <a href="https://www.instagram.com/rhnxxhkm/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
             <p data-lang-id="© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat." data-lang-en="© 2025 reSwan Bot. A graceful solution for a powerful community.">© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat.</p>
         </div>
     </footer>
@@ -1078,35 +1244,76 @@
                 });
             });
 
-            // --- Features Slider Logic (Scroll Snap & Card Animation) ---
+            // --- Features Slider Logic (Scroll Snap & Card Animation + Tombol Navigasi) ---
             const sliderWrapper = document.querySelector('.slider-wrapper');
+            const slider = document.querySelector('.slider');
             const slides = document.querySelectorAll('.slide');
+            const nextButton = document.getElementById('nextSlide');
+            const prevButton = document.getElementById('prevSlide');
+
+            let currentIndex = 0;
+
+            const updateCardAnimation = () => {
+                const wrapperCenter = sliderWrapper.scrollLeft + (sliderWrapper.clientWidth / 2);
+                slides.forEach(slide => {
+                    const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+                    const distance = Math.abs(slideCenter - wrapperCenter);
+                    const threshold = sliderWrapper.clientWidth / 3;
+
+                    if (distance < threshold) {
+                        slide.querySelector('.feature-card').style.transform = 'scale(1)';
+                        slide.querySelector('.feature-card').style.boxShadow = '0 15px 40px rgba(88, 166, 255, 0.3)';
+                    } else {
+                        slide.querySelector('.feature-card').style.transform = 'scale(0.95)';
+                        slide.querySelector('.feature-card').style.boxShadow = '0 10px 30px var(--shadow-color)';
+                    }
+                });
+            };
+
+            const goToSlide = (index) => {
+                if (slides.length === 0) return;
+                currentIndex = (index + slides.length) % slides.length;
+                
+                // Hitung posisi scroll untuk slide yang dituju
+                const slideWidth = slides[0].offsetWidth;
+                const margin = parseInt(getComputedStyle(slider).gap) || 0;
+                
+                // Gunakan scrollIntoView untuk hasil yang lebih alami dengan scroll-snap
+                slides[currentIndex].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+
+                // Perbarui animasi kartu setelah sedikit delay
+                setTimeout(updateCardAnimation, 300);
+            };
+
+
+            if (nextButton && prevButton && slides.length > 0) {
+                // Tampilkan kontrol di desktop
+                if (window.innerWidth >= 768) {
+                     document.querySelector('.slider-controls').style.display = 'flex';
+                     // Menghilangkan fungsi scroll-snap di desktop untuk tombol navigasi bekerja lebih baik
+                     sliderWrapper.style.scrollSnapType = 'none';
+                }
+
+                nextButton.addEventListener('click', () => {
+                    goToSlide(currentIndex + 1);
+                });
+
+                prevButton.addEventListener('click', () => {
+                    goToSlide(currentIndex - 1);
+                });
+            }
 
             if (sliderWrapper) {
-                const updateCardAnimation = () => {
-                    const wrapperCenter = sliderWrapper.scrollLeft + (sliderWrapper.clientWidth / 2);
-                    slides.forEach(slide => {
-                        const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
-                        const distance = Math.abs(slideCenter - wrapperCenter);
-                        const threshold = sliderWrapper.clientWidth / 3;
-
-                        if (distance < threshold) {
-                            slide.querySelector('.feature-card').style.transform = 'scale(1)';
-                            slide.querySelector('.feature-card').style.boxShadow = '0 15px 40px rgba(88, 166, 255, 0.3)';
-                        } else {
-                            slide.querySelector('.feature-card').style.transform = 'scale(0.95)';
-                            slide.querySelector('.feature-card').style.boxShadow = '0 10px 30px var(--shadow-color)';
-                        }
-                    });
-                };
-
                 sliderWrapper.addEventListener('scroll', updateCardAnimation, { passive: true });
-
                 // Panggil sekali untuk memastikan slide pertama teranimasi
                 setTimeout(updateCardAnimation, 100);
             }
             
-            // --- Scroll Fade-in Animation (Lebih Agresif) ---
+            // --- Scroll Fade-in Animation ---
             const scrollElements = document.querySelectorAll('.scroll-animate');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1121,7 +1328,7 @@
             });
             scrollElements.forEach(el => observer.observe(el));
 
-            // --- Language Switcher ---
+            // --- Language Switcher (Ditingkatkan untuk menangani innerHTML) ---
             const langButtons = document.querySelectorAll('.lang-btn');
             const translatableElements = document.querySelectorAll('[data-lang-id], [data-lang-en]');
             
@@ -1134,6 +1341,7 @@
                 translatableElements.forEach(el => {
                     const text = el.getAttribute(`data-lang-${lang}`);
                     if (text !== null) {
+                        // Gunakan innerHTML untuk mempertahankan tag HTML di dalam string (misalnya <i> atau <strong>)
                         el.innerHTML = text; 
                     }
                 });
@@ -1149,12 +1357,14 @@
                 let current = '';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 100) { 
+                    // Sesuaikan offset scroll (misalnya, 100px di bawah header)
+                    if (window.pageYOffset >= sectionTop - 100) { 
                         current = section.getAttribute('id');
                     }
                 });
                 navLinksDesktop.forEach(link => {
                     link.classList.remove('active');
+                    // Tambahkan tanda pagar di depan ID untuk perbandingan
                     if (link.getAttribute('href').substring(1) === current) {
                         link.classList.add('active');
                     }
