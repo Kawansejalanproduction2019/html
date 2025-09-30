@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>reSwan - Bot Discord Serba Guna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
             --accent-blue: #58A6FF;
             --accent-green: #3FB950;
             --accent-purple: #BC8CFF;
-            --accent-red: #FA7979; /* Tambahan warna merah untuk moderasi */
+            --accent-red: #FA7979;
             --shadow-color: rgba(0, 0, 0, 0.4);
             --gradient-text: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
         }
@@ -51,7 +51,7 @@
             margin: 0 auto;
         }
 
-        /* --- Global Animations --- */
+        /* --- Global Animations (dibiarkan sama) --- */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -88,7 +88,7 @@
             transform: translateY(0);
         }
 
-        /* --- Header & Navigation (Mobile-First) --- */
+        /* --- Header & Navigation (dibiarkan sama) --- */
         header {
             background-color: rgba(12, 16, 20, 0.95);
             backdrop-filter: blur(12px);
@@ -225,7 +225,7 @@
         .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
         .menu-toggle.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-        /* --- Hero Section (Mobile-Optimized) --- */
+        /* --- Hero Section & Pride/Profile (dibiarkan sama) --- */
         .hero {
             padding: 80px 15px 60px;
             min-height: 80vh;
@@ -233,7 +233,6 @@
             background-image: radial-gradient(circle at top, rgba(88, 166, 255, 0.15) 0%, transparent 60%);
             overflow: hidden;
         }
-
         .hero-logo {
             width: 150px;
             margin-bottom: 20px;
@@ -243,7 +242,6 @@
             animation: fadeInScale 0.8s 0.2s forwards, float 4s ease-in-out infinite 1s;
             opacity: 0;
         }
-
         .hero h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
@@ -252,13 +250,10 @@
             text-shadow: 2px 2px 5px var(--shadow-color);
             animation: fadeInScale 0.8s 0.4s forwards;
             opacity: 0;
-            
-            /* Efek Teks Gradient yang Menarik */
             background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .hero p {
             font-size: 1.1rem;
             color: var(--secondary-text);
@@ -267,7 +262,6 @@
             animation: fadeInScale 0.8s 0.6s forwards;
             opacity: 0;
         }
-
         .hero-buttons {
             display: flex;
             flex-direction: column;
@@ -276,7 +270,6 @@
             opacity: 0;
             padding: 0 20px;
         }
-
         .hero-button {
             width: 100%;
             padding: 14px 20px;
@@ -287,44 +280,29 @@
             font-weight: 700;
             box-shadow: 0 4px 15px var(--shadow-color);
         }
-
         .hero-button.primary {
             background: linear-gradient(45deg, var(--accent-blue), #388bfd);
             box-shadow: 0 6px 20px rgba(88, 166, 255, 0.4);
             color: white;
             animation: glowingBorder 2s infinite alternate 1s;
         }
-        .hero-button.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(88, 166, 255, 0.6);
-        }
-
         .hero-button.secondary {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--primary-text);
             box-shadow: 0 4px 10px var(--shadow-color);
         }
-        .hero-button.secondary:hover {
-            background-color: #283038;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px var(--shadow-color);
-        }
 
-        /* --- Section Styling --- */
         section {
             padding: 80px 0;
             overflow: hidden;
-            /* Animasi Border di Section */
             border-top: 1px solid var(--border-color);
             animation: sectionGlow 4s infinite alternate;
         }
-
         .section-header {
             text-align: center;
             margin-bottom: 40px;
         }
-
         .section-header h2 {
             font-size: 2rem;
             margin-bottom: 10px;
@@ -345,7 +323,6 @@
             border-radius: 2px;
             opacity: 0.8;
         }
-
         .section-header p {
             color: var(--secondary-text);
             font-size: 1rem;
@@ -353,12 +330,10 @@
             margin: 0 auto;
         }
 
-        /* --- Pride Section (Mengapa Kami) --- */
         #pride {
             background-color: var(--secondary-bg);
             border-bottom: 1px solid var(--border-color);
         }
-
         .pride-content {
             text-align: left;
             padding: 0 10px;
@@ -379,15 +354,11 @@
             border-left: 5px solid var(--accent-purple);
             box-shadow: 0 4px 10px var(--shadow-color);
         }
-        .pride-content p:last-child {
-            margin-bottom: 0;
-        }
-        .pride-content p i { /* Ikon di dalam paragraf Pride */
+        .pride-content p i {
             color: var(--accent-green);
             margin-right: 8px;
         }
-
-        /* --- Profile Section (Filosofi) --- */
+        
         #profile .profile-content {
             flex-direction: column;
             padding: 20px;
@@ -397,7 +368,6 @@
             box-shadow: 0 15px 35px var(--shadow-color);
             gap: 30px;
         }
-
         #profile .logo-container {
             width: 100%;
             text-align: center;
@@ -413,19 +383,18 @@
         #profile .description-container {
             width: 100%;
         }
-        /* Penyesuaian Kepadatan Teks di sini */
         #profile p {
-            font-size: 1.0rem; /* Sedikit lebih besar untuk keterbacaan */
+            font-size: 1.0rem;
             margin-bottom: 20px;
-            line-height: 1.7; /* Line height lebih tinggi */
+            line-height: 1.7;
         }
         #profile ul {
             padding-left: 0;
-            margin-top: 20px; /* Jarak lebih besar setelah paragraf */
-            list-style: none; /* Hilangkan bullet default */
+            margin-top: 20px;
+            list-style: none;
         }
         #profile li {
-            margin-bottom: 15px; /* Jarak antar list item lebih besar */
+            margin-bottom: 15px;
             padding-left: 10px;
             position: relative;
             font-size: 0.95rem;
@@ -437,21 +406,20 @@
             animation: fadeInScale 0.5s forwards;
             box-shadow: 0 2px 8px var(--shadow-color);
         }
-        /* Hapus ikon list-style yang lama dan gunakan ikon fa di dalam li */
         #profile li i {
             color: var(--accent-green);
             margin-right: 10px;
         }
-
         #profile p strong {
             color: var(--accent-purple);
         }
 
-        /* --- Features Slider Section (Mobile-First) --- */
+        /* --- FEATURES SLIDER SECTION (MODIFIKASI FULL-WIDTH & SLIDE) --- */
         #features {
             background-color: var(--secondary-bg);
             border-top: 1px solid var(--border-color);
             position: relative;
+            padding: 80px 0 0 0;
         }
 
         .slider-controls {
@@ -460,7 +428,10 @@
             align-items: center;
             gap: 15px;
             margin-top: 20px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding: 0 15px;
+            position: relative;
+            z-index: 50;
         }
         .slider-controls button {
             background-color: var(--card-bg);
@@ -481,35 +452,39 @@
         }
 
         .slider-wrapper {
+            width: 100vw;
+            margin-left: calc(50% - 50vw);
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 20px;
-            margin-bottom: 10px; /* Jarak untuk kontrol */
-            /* Sembunyikan scrollbar di Webkit (Chrome, Safari) */
+            padding: 20px 0;
+            padding-bottom: 80px;
+            
+            /* Sembunyikan scrollbar */
             &::-webkit-scrollbar {
                 display: none;
             }
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         .slider {
             display: flex;
             width: max-content;
-            gap: 20px; /* Jarak antar slide lebih besar */
-            padding: 0 5vw; /* Padding di awal/akhir slider */
+            gap: 15px;
+            padding: 0 15px;
         }
 
         .slide {
             flex-shrink: 0;
-            width: 80vw; /* Lebar slide sedikit diperkecil */
+            width: calc(100vw - 30px); 
+            max-width: 450px;
             scroll-snap-align: center;
-            padding: 10px 0;
+            padding: 0; 
         }
 
         .feature-card {
-            min-height: 450px;
+            min-height: 400px;
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             border-radius: 20px;
@@ -519,13 +494,20 @@
             transform: scale(0.95);
             transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
             border-left: 8px solid var(--accent-blue);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .feature-card.active { 
+             transform: scale(1);
+             box-shadow: 0 15px 40px rgba(88, 166, 255, 0.3);
         }
         .feature-card:hover {
-            transform: scale(1);
-            box-shadow: 0 15px 40px rgba(88, 166, 255, 0.3);
+            transform: scale(1.05) !important;
         }
         .feature-card .icon {
-            font-size: 3.5rem; /* Ikon lebih besar */
+            font-size: 3.5rem;
             margin-bottom: 20px;
             filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.5));
             animation: float 2.5s ease-in-out infinite;
@@ -540,56 +522,15 @@
             font-size: 1.0rem;
             color: var(--secondary-text);
         }
-        .feature-card p strong {
-            color: var(--accent-green);
-        }
 
         .swipe-indicator {
-            display: none; /* Sembunyikan indicator 'Geser' jika ada tombol navigasi */
             text-align: center;
             color: var(--accent-purple);
-            margin-top: 20px;
             font-style: italic;
             font-size: 0.9rem;
             animation: fadeInScale 0.8s 0.2s forwards;
             opacity: 0;
         }
-
-        /* Tampilkan swipe-indicator HANYA di mobile/saat kontrol di hidden */
-        @media (max-width: 768px) {
-            .swipe-indicator {
-                display: block !important;
-            }
-            .slider-controls {
-                display: none;
-            }
-        }
-        /* Atur ulang lebar slide dan wrapper untuk desktop */
-        @media (min-width: 768px) {
-            .slider-wrapper {
-                overflow-x: hidden;
-            }
-            .slider {
-                gap: 30px;
-                padding: 0;
-                justify-content: center;
-                transform: none !important; /* Nonaktifkan transformasi slide JS di desktop */
-            }
-            .slide {
-                width: 300px; /* Lebar card tetap di desktop */
-                max-width: 300px;
-                scroll-snap-align: none;
-            }
-            .feature-card {
-                transform: scale(1);
-                min-height: 400px; /* Tinggi disesuaikan */
-                padding: 25px;
-            }
-            .feature-card:hover {
-                transform: scale(1.03); /* Hover efek sedikit berbeda */
-            }
-        }
-
 
         /* --- Commands Accordion Section --- */
         #commands {
@@ -621,6 +562,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: var(--accent-blue);
         }
         .accordion-item.active .accordion-header {
              border-radius: 12px 12px 0 0;
@@ -649,62 +591,69 @@
             padding-bottom: 15px;
         }
         
-        .accordion-content > * {
-            padding: 0;
-        }
-
+        /* RE-DESIGN TABEL COMMANDS UNTUK MOBILE-FIRST */
         .command-table {
             width: 100%;
             margin: 0;
-            font-size: 0.9rem;
-            display: block; 
+            font-size: 0.95rem;
+            border-collapse: collapse;
         }
 
-        /* Mobile Command Table Styling (Data Label) */
+        /* Sembunyikan Header di Mobile */
         .command-table thead {
             display: none;
         }
-        .command-table, .command-table tbody, .command-table tr, .command-table td {
-            display: block;
-            width: 100%;
-        }
+
+        /* Baris sebagai Block */
         .command-table tr {
+            display: block;
             margin-bottom: 15px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px;
+            padding: 0;
             background-color: var(--card-bg);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
+        
+        /* Setiap sel sebagai baris baru dengan label */
         .command-table td {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            padding: 8px 5px;
+            padding: 10px 15px;
             border-bottom: 1px dotted var(--border-color);
+            width: 100%;
         }
+        /* Hapus batas bawah di sel terakhir */
         .command-table tr td:last-child {
-             border-bottom: 0;
+             border-bottom: none;
         }
+
+        /* Label Data */
         .command-table td::before {
-            content: attr(data-label);
+            content: attr(data-label) ":";
             font-weight: 700;
-            color: var(--accent-blue);
+            color: var(--accent-purple);
             margin-bottom: 5px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
         }
+        
+        /* Kode Command */
         .command-table td code {
             font-family: 'Roboto Mono', monospace;
             background-color: var(--secondary-bg);
-            padding: 3px 6px;
-            border-radius: 4px;
+            padding: 4px 8px;
+            border-radius: 6px;
             color: var(--accent-green);
             word-break: break-all;
             white-space: pre-wrap;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
-        /* --- Footer --- */
+        /* --- Footer (dibiarkan sama) --- */
         footer {
             padding: 40px 15px;
             border-top: 5px solid var(--accent-purple);
@@ -725,8 +674,6 @@
             font-size: 1.8rem;
             margin: 0 10px;
             color: var(--secondary-text);
-            transform: scale(1);
-            filter: drop-shadow(0 0 0 rgba(188, 140, 255, 0));
         }
         .social-links a:hover {
             color: var(--accent-purple);
@@ -744,105 +691,68 @@
                 max-width: 1200px;
                 padding: 0 30px;
             }
-            .nav-links {
-                position: static;
-                transform: translateX(0);
-                flex-direction: row;
-                height: auto;
-                width: auto;
-                background-color: transparent;
+            .slider-wrapper {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 1200px;
+                padding: 0 30px;
+                overflow-x: hidden;
+            }
+            .slider {
+                gap: 30px;
                 padding: 0;
-                gap: 15px;
-                overflow-y: visible;
-                display: flex !important; /* Paksa tampilan flex di desktop */
-            }
-            .nav-links li {
-                opacity: 1;
-                transform: translateX(0);
-                margin: 0;
-            }
-            .nav-links li a {
-                font-size: 1rem;
-                padding: 8px 12px;
-            }
-            .nav-links li a:hover {
-                color: var(--accent-blue);
-                background-color: rgba(88, 166, 255, 0.1);
-            }
-            .menu-toggle {
-                display: none; /* Sembunyikan toggle di desktop */
-            }
-            .invite-btn-nav {
-                margin-top: 0 !important;
-                margin-left: 20px;
-                padding: 10px 20px !important;
-            }
-            .lang-switcher {
-                margin-top: 0 !important;
-            }
-            .hero {
-                padding-top: 100px;
-                padding-bottom: 100px;
-            }
-            .hero h1 {
-                font-size: 4rem;
-            }
-            .hero p {
-                font-size: 1.2rem;
-                max-width: 700px;
-                margin: 0 auto 40px auto;
-            }
-            .hero-buttons {
-                flex-direction: row;
                 justify-content: center;
-                max-width: 500px;
-                margin: 0 auto;
             }
-            .hero-button {
-                width: 50%;
+            .slide {
+                width: 300px; 
+                max-width: 300px;
+                scroll-snap-align: none;
             }
-            #profile .profile-content {
-                flex-direction: row;
-                text-align: left;
-                padding: 40px;
+            .feature-card {
+                transform: scale(1);
             }
-            #profile .logo-container {
-                width: 40%;
+            .feature-card.active {
+                transform: scale(1);
             }
-            #profile .description-container {
-                width: 60%;
+
+            /* Reset Table Commands ke Tampilan Desktop Klasik */
+            .accordion {
+                padding: 0;
             }
             .command-table thead {
-                display: table-header-group; /* Tampilkan header tabel di desktop */
+                display: table-header-group;
+                color: var(--accent-blue);
+                border-bottom: 2px solid var(--accent-blue);
+            }
+            .command-table th {
+                background-color: var(--secondary-bg);
+                padding: 15px 10px;
+                text-align: left;
+                font-weight: 700;
             }
             .command-table tr {
                 display: table-row;
-                background-color: transparent;
+                background-color: var(--card-bg);
                 border: none;
                 margin-bottom: 0;
-                padding: 0;
+                transition: background-color 0.3s;
+            }
+            .command-table tr:hover {
+                background-color: #283038;
             }
             .command-table td {
                 display: table-cell;
                 border-bottom: 1px solid var(--border-color);
                 padding: 15px 10px;
-                background-color: var(--card-bg);
-                box-shadow: none;
                 flex-direction: row;
                 align-items: center;
             }
-            .command-table tr:hover td {
-                background-color: #283038;
-            }
             .command-table td::before {
-                display: none; /* Sembunyikan label di desktop */
+                content: none;
             }
-            .command-table th {
-                background-color: var(--secondary-bg);
-                color: var(--accent-blue);
-                padding: 15px 10px;
-                text-align: left;
-                border-bottom: 2px solid var(--accent-blue);
+            .command-table td code {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -927,19 +837,18 @@
                 <div class="section-header">
                     <h2 data-lang-id="Fitur Inti" data-lang-en="Core Features">Fitur Inti 🛠️</h2>
                     <p data-lang-id="Bot multifaset yang dibuat untuk mencakup setiap aspek kebutuhan server Anda." data-lang-en="A multi-faceted bot built to cover every aspect of your server's needs.">Bot multifaset yang dibuat untuk mencakup setiap aspek kebutuhan server Anda.</p>
-                    <p class="swipe-indicator" data-lang-id="&larr; **GESER** ke Kanan/Kiri untuk melihat lebih banyak &rarr;" data-lang-en="&larr; **SWIPE** Right/Left to see more &rarr;">&larr; **GESER** ke Kanan/Kiri untuk melihat lebih banyak &rarr;</p>
                 </div>
                 
                 <div class="slider-container">
                     <div class="slider-controls">
-                        <button id="prevSlide"><i class="fas fa-chevron-left"></i></button>
-                        <p class="swipe-indicator-desktop" style="color: var(--accent-blue); font-weight: 600;" data-lang-id="Gunakan tombol untuk navigasi" data-lang-en="Use buttons for navigation">Gunakan tombol untuk navigasi</p>
-                        <button id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+                        <button id="prevSlide" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
+                        <p class="swipe-indicator" data-lang-id="Auto-geser diaktifkan. Geser atau klik tombol!" data-lang-en="Auto-slide enabled. Swipe or click buttons!"><i class="fas fa-sync-alt fa-spin"></i> Auto-geser diaktifkan. Geser atau klik tombol!</p>
+                        <button id="nextSlide" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div class="slider-wrapper">
-                        <div class="slider">
+                        <div class="slider"> 
                             <div class="slide">
-                                <div class="feature-card scroll-animate">
+                                <div class="feature-card scroll-animate" data-slide-index="0">
                                     <div class="icon" style="color: var(--accent-purple);"><i class="fas fa-coins"></i></div>
                                     <h3 data-lang-id="Ekonomi & Leveling Canggih" data-lang-en="Advanced Economy & Leveling">Ekonomi & Leveling Canggih 💸</h3>
                                     <p data-lang-id="Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan **RSWN** dan **EXP** hanya dengan mengobrol/berpartisipasi di voice channel. Ada toko untuk membelanjakan penghasilan pada lencana, peran, dan booster. Papan peringkat mingguan memicu persaingan yang bersahabat." data-lang-en="Foster a vibrant community with a rewarding progression system. Members earn **RSWN** and **EXP** just by chatting/participating in voice channels. There's a shop to spend earnings on badges, roles, and boosters. Weekly leaderboards spark friendly competition.">Pelihara komunitas yang dinamis dengan sistem progresi yang memuaskan. Anggota mendapatkan **RSWN** dan **EXP** hanya dengan mengobrol/berpartisipasi di voice channel. Ada toko untuk membelanjakan penghasilan pada lencana, peran, dan booster. Papan peringkat mingguan memicu persaingan yang bersahabat.</p>
@@ -947,7 +856,7 @@
                             </div>
 
                             <div class="slide">
-                                <div class="feature-card scroll-animate" style="transition-delay: 0.1s;">
+                                <div class="feature-card scroll-animate" data-slide-index="1" style="transition-delay: 0.1s;">
                                     <div class="icon" style="color: var(--accent-red);"><i class="fas fa-shield-alt"></i></div>
                                     <h3 data-lang-id="Paket Moderasi Tak Tertandingi" data-lang-en="Unmatched Moderation Suite">Paket Moderasi Tak Tertandingi 🚨</h3>
                                     <p data-lang-id="Jaga server Anda tetap **aman** dan bersih dengan serangkaian alat moderasi yang komprehensif. Termasuk perintah dasar (kick, ban) dan fitur canggih seperti aturan khusus channel, penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan **AI** terintegrasi memberikan lapisan keamanan ekstra terhadap phishing." data-lang-en="Keep your server **safe** and clean with a comprehensive set of moderation tools. Includes basic commands (kick, ban) and advanced features like channel-specific rules, automated message deletion, and a full warning system. The integrated **AI** link filter provides an extra layer of security against phishing.">Jaga server Anda tetap **aman** dan bersih dengan serangkaian alat moderasi yang komprehensif. Termasuk perintah dasar (kick, ban) dan fitur canggih seperti aturan khusus channel, penghapusan pesan otomatis, dan sistem peringatan penuh. Filter tautan **AI** terintegrasi memberikan lapisan keamanan ekstra terhadap phishing.</p>
@@ -955,7 +864,7 @@
                             </div>
 
                             <div class="slide">
-                                <div class="feature-card scroll-animate" style="transition-delay: 0.2s;">
+                                <div class="feature-card scroll-animate" data-slide-index="2" style="transition-delay: 0.2s;">
                                     <div class="icon" style="color: var(--accent-blue);"><i class="fas fa-gamepad"></i></div>
                                     <h3 data-lang-id="Hiburan & Game Tanpa Batas" data-lang-en="Endless Games & Entertainment">Hiburan & Game Tanpa Batas 🎲</h3>
                                     <p data-lang-id="Jangan pernah ada momen yang membosankan! reSwan memiliki banyak game interaktif untuk semua orang: kuis cepat (**Musik, Emoji, Sains**), permainan kata (**Hangman**), deduksi sosial (**Werewolf, Mata-Mata**), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati." data-lang-en="Never have a dull moment! reSwan is packed with interactive games for everyone: fast-paced quizzes (**Music, Emoji, Science**), word games (**Hangman**), social deduction (**Werewolf, Spyfall**), and even a thrilling Horse Racing simulation with betting. There's a game for every mood.">Jangan pernah ada momen yang membosankan! reSwan memiliki banyak game interaktif untuk semua orang: kuis cepat (**Musik, Emoji, Sains**), permainan kata (**Hangman**), deduksi sosial (**Werewolf, Mata-Mata**), dan bahkan simulasi Balap Kuda yang seru dengan taruhan. Ada permainan untuk setiap suasana hati.</p>
@@ -963,7 +872,7 @@
                             </div>
 
                             <div class="slide">
-                                <div class="feature-card scroll-animate" style="transition-delay: 0.3s;">
+                                <div class="feature-card scroll-animate" data-slide-index="3" style="transition-delay: 0.3s;">
                                     <div class="icon" style="color: var(--accent-green);"><i class="fas fa-robot"></i></div>
                                     <h3 data-lang-id="Integrasi AI Cerdas" data-lang-en="Intelligent AI Integration">Integrasi AI Cerdas 🧠</h3>
                                     <p data-lang-id="Didukung oleh **Gemini dari Google**, reSwan menawarkan kepribadian AI cerdas bernama **'Yuki'** untuk percakapan yang menarik. AI ini juga memberikan lapisan keamanan kuat dengan menganalisis tautan untuk ancaman phishing secara real-time, serta dilengkapi tes kepribadian mendalam (**!jiwaku**) yang unik." data-lang-en="Powered by **Google's Gemini**, reSwan offers a smart AI personality named **'Yuki'** for engaging conversations. The AI also provides a powerful security layer by analyzing links for real-time phishing threats, and features a unique in-depth personality test (**!jiwaku**).">Didukung oleh **Gemini dari Google**, reSwan menawarkan kepribadian AI cerdas bernama **'Yuki'** untuk percakapan yang menarik. AI ini juga memberikan lapisan keamanan kuat dengan menganalisis tautan untuk ancaman phishing secara real-time, serta dilengkapi tes kepribadian mendalam (**!jiwaku**) yang unik.</p>
@@ -971,10 +880,10 @@
                             </div>
                             
                             <div class="slide">
-                                <div class="feature-card scroll-animate" style="transition-delay: 0.4s;">
+                                <div class="feature-card scroll-animate" data-slide-index="4" style="transition-delay: 0.4s;">
                                     <div class="icon" style="color: var(--accent-blue);"><i class="fas fa-tools"></i></div>
                                     <h3 data-lang-id="Utilitas Server yang Kuat" data-lang-en="Powerful Server Utilities">Utilitas Server yang Kuat ⚙️</h3>
-                                    <p data-lang-id="Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap." data-lang-en="Simplify your server management. Create professional announcements/role menus with the advanced **Webhook Message Builder**. Set up temporary voice channels, manage roles with reaction menus, and provide information with custom **FAQ** commands. reSwan is your complete ultimate admin toolkit.">Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap.</p>
+                                    <p data-lang-id="Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap." data-lang-en="Simplify your server management. Create professional announcements/role menus with the advanced **Webhook Message Builder**. Set up temporary voice channels, manage roles with reaction menus, and provide information with custom **FAQ** commands. reSwan is your ultimate admin toolkit.">Sederhanakan manajemen server Anda. Buat pengumuman/menu peran yang profesional dengan **Pembangun Pesan Webhook** canggih. Siapkan channel suara sementara, kelola peran dengan menu reaksi, dan berikan informasi dengan perintah **FAQ** khusus. reSwan adalah toolkit admin utama Anda yang lengkap.</p>
                                 </div>
                             </div>
                         </div>
@@ -1145,7 +1054,7 @@
                                     <tr><td data-label="Perintah"><code>!send_media</code></td><td data-label="Deskripsi"><span data-lang-id="Mengirim media dari pesan yang dibalas ke channel lain." data-lang-en="Sends media from a replied message to another channel.">Mengirim media dari pesan yang dibalas ke channel lain.</span></td><td data-label="Penggunaan"><span data-lang-id="Balas pesan & ketik" data-lang-en="Reply to a message & type">Balas pesan & ketik</span> <code>!send_media [#channel]</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!schedule</code></td><td data-label="Deskripsi"><span data-lang-id="Membuka wizard untuk menjadwalkan pengumuman." data-lang-en="Opens a wizard to schedule an announcement.">Membuka wizard untuk menjadwalkan pengumuman.</span></td><td data-label="Penggunaan"><code>!schedule</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!list_schedules</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar pengumuman terjadwal." data-lang-en="Lists all scheduled announcements.">Menampilkan daftar pengumuman terjadwal.</span></td><td data-label="Penggunaan"><code>!list_schedules</code></td></tr>
-                                    <tr><td data-label="Perintah"><code>!load_config</code></td><td data-label="Deskripsi"><span data-lang-id="Memuat konfigurasi webhook yang tersimpan." data-lang-en="Loads a saved webhook configuration.">Memuat konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!load_config {nama_konfig} {#channel}</code></td></tr>
+                                    <tr><td data-label="Perintah"><code>!load_config</code></td><td data-label="Deskripsi"><span data-lang-id="Memuat konfigurasi webhook yang tersimpan." data-lang-en="Loads a saved webhook configuration.">Memuat konfigurasi konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!load_config {nama_konfig} {#channel}</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!list_configs</code></td><td data-label="Deskripsi"><span data-lang-id="Menampilkan daftar konfigurasi webhook yang tersimpan." data-lang-en="Lists saved webhook configurations.">Menampilkan daftar konfigurasi webhook yang tersimpan.</span></td><td data-label="Penggunaan"><code>!list_configs</code></td></tr>
                                     <tr><td data-label="Perintah"><code>!backup_config</code></td><td data-label="Deskripsi"><span data-lang-id="Mencadangkan konfigurasi dari sebuah pesan webhook yang sudah terkirim." data-lang-en="Backs up the configuration from an already sent webhook message.">Mencadangkan konfigurasi dari sebuah pesan webhook yang sudah terkirim.</span></td><td data-label="Penggunaan"><code>!backup_config {id_pesan}</code></td></tr>
                                 </tbody>
@@ -1187,7 +1096,7 @@
             <div class="social-links">
                 <a href="https://discord.gg/Xxh6ScQBcg" target="_blank" aria-label="Discord Server"><i class="fab fa-discord"></i></a>
                 <a href="https://www.instagram.com/rhnxxhkm/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                </div>
+            </div>
             <p data-lang-id="© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat." data-lang-en="© 2025 reSwan Bot. A graceful solution for a powerful community.">© 2025 reSwan Bot. Solusi anggun untuk komunitas yang kuat.</p>
         </div>
     </footer>
@@ -1203,7 +1112,6 @@
                 document.body.style.overflowY = navLinks.classList.contains('active') ? 'hidden' : 'auto';
             });
 
-            // Tutup nav saat link diklik (di mobile)
             const navItems = document.querySelectorAll('.nav-links a');
             navItems.forEach(item => {
                 item.addEventListener('click', () => {
@@ -1215,7 +1123,7 @@
                 });
             });
 
-            // --- Accordion Logic (MEMPERBAIKI MASALAH MAX-HEIGHT) ---
+            // --- Accordion Logic ---
             const accordionItems = document.querySelectorAll('.accordion-item');
             accordionItems.forEach(item => {
                 const header = item.querySelector('.accordion-header');
@@ -1223,19 +1131,15 @@
                 header.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
                     
-                    // Tutup semua item kecuali yang sedang diklik
                     accordionItems.forEach(otherItem => {
                         if (otherItem !== item) {
                              otherItem.classList.remove('active');
-                             // Atur ulang max-height secara langsung
                              otherItem.querySelector('.accordion-content').style.maxHeight = null;
                         }
                     });
 
-                    // Toggle item yang diklik
                     if (!isActive) {
                         item.classList.add('active');
-                        // Hitung scrollHeight + padding vertikal yang ditambahkan di CSS saat aktif (15px top + 15px bottom)
                         content.style.maxHeight = (content.scrollHeight + 30) + 'px'; 
                     } else {
                         item.classList.remove('active');
@@ -1244,73 +1148,132 @@
                 });
             });
 
-            // --- Features Slider Logic (Scroll Snap & Card Animation + Tombol Navigasi) ---
+            // --- Features Slider Logic (Auto-Slide, Manual Nav, dan Card Animation) ---
             const sliderWrapper = document.querySelector('.slider-wrapper');
-            const slider = document.querySelector('.slider');
             const slides = document.querySelectorAll('.slide');
             const nextButton = document.getElementById('nextSlide');
             const prevButton = document.getElementById('prevSlide');
+            const slideDuration = 5000; // 5 detik untuk auto-slide
+            let slideInterval;
+            const slidePadding = 15; // Harus sama dengan padding di CSS .slider-wrapper
 
-            let currentIndex = 0;
-
+            // Fungsi untuk memperbarui kelas aktif dan animasi card
             const updateCardAnimation = () => {
-                const wrapperCenter = sliderWrapper.scrollLeft + (sliderWrapper.clientWidth / 2);
-                slides.forEach(slide => {
-                    const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
-                    const distance = Math.abs(slideCenter - wrapperCenter);
-                    const threshold = sliderWrapper.clientWidth / 3;
+                if (slides.length === 0) return;
 
-                    if (distance < threshold) {
-                        slide.querySelector('.feature-card').style.transform = 'scale(1)';
-                        slide.querySelector('.feature-card').style.boxShadow = '0 15px 40px rgba(88, 166, 255, 0.3)';
+                // Tentukan pusat pandangan wrapper
+                const scrollLeft = sliderWrapper.scrollLeft;
+                const wrapperCenter = scrollLeft + (sliderWrapper.clientWidth / 2);
+
+                slides.forEach((slide) => {
+                    const card = slide.querySelector('.feature-card');
+                    // Perhitungan pusat slide diperbaiki: offsetLeft + (lebar slide / 2)
+                    // Tidak perlu menambahkan padding lagi karena offsetLeft sudah memperhitungkannya
+                    const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2); 
+                    
+                    // Threshold disesuaikan dengan 1/4 lebar slide untuk mendeteksi slide tengah
+                    const threshold = slide.offsetWidth / 4; 
+
+                    if (Math.abs(slideCenter - wrapperCenter) < threshold) {
+                        card.classList.add('active');
                     } else {
-                        slide.querySelector('.feature-card').style.transform = 'scale(0.95)';
-                        slide.querySelector('.feature-card').style.boxShadow = '0 10px 30px var(--shadow-color)';
+                        card.classList.remove('active');
                     }
                 });
             };
 
+            // Fungsi untuk menggeser ke slide tertentu
             const goToSlide = (index) => {
                 if (slides.length === 0) return;
-                currentIndex = (index + slides.length) % slides.length;
                 
-                // Hitung posisi scroll untuk slide yang dituju
-                const slideWidth = slides[0].offsetWidth;
-                const margin = parseInt(getComputedStyle(slider).gap) || 0;
+                let targetIndex = (index % slides.length);
+                if (targetIndex < 0) {
+                    targetIndex = slides.length - 1;
+                }
+
+                const slideToScroll = slides[targetIndex];
+                const slideWidth = slideToScroll.offsetWidth;
+                const wrapperWidth = sliderWrapper.clientWidth;
+
+                // Scroll Offset: Posisi kiri slide - (Padding Wrapper di sisi kiri)
+                const scrollOffset = slideToScroll.offsetLeft - slidePadding;
                 
-                // Gunakan scrollIntoView untuk hasil yang lebih alami dengan scroll-snap
-                slides[currentIndex].scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest',
-                    inline: 'center'
+                sliderWrapper.scrollTo({
+                    left: scrollOffset,
+                    behavior: 'smooth'
                 });
 
-                // Perbarui animasi kartu setelah sedikit delay
                 setTimeout(updateCardAnimation, 300);
             };
 
+            // Auto-Slide Logic
+            const startAutoSlide = () => {
+                clearInterval(slideInterval);
+                
+                if (window.innerWidth >= 992) return; 
 
-            if (nextButton && prevButton && slides.length > 0) {
-                // Tampilkan kontrol di desktop
-                if (window.innerWidth >= 768) {
-                     document.querySelector('.slider-controls').style.display = 'flex';
-                     // Menghilangkan fungsi scroll-snap di desktop untuk tombol navigasi bekerja lebih baik
-                     sliderWrapper.style.scrollSnapType = 'none';
-                }
+                slideInterval = setInterval(() => {
+                    let activeIndex = Array.from(slides).findIndex(slide => 
+                        slide.querySelector('.feature-card').classList.contains('active')
+                    );
+                    
+                    if (activeIndex === -1 || activeIndex === slides.length - 1) {
+                         activeIndex = -1;
+                    }
 
-                nextButton.addEventListener('click', () => {
-                    goToSlide(currentIndex + 1);
-                });
+                    goToSlide(activeIndex + 1);
+                }, slideDuration);
+                document.querySelector('.swipe-indicator').innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Auto-geser diaktifkan. Geser atau klik tombol!';
+            };
 
-                prevButton.addEventListener('click', () => {
-                    goToSlide(currentIndex - 1);
-                });
-            }
+            const pauseAutoSlide = () => {
+                clearInterval(slideInterval);
+                document.querySelector('.swipe-indicator').innerHTML = '<i class="fas fa-pause-circle"></i> Geser manual diaktifkan.';
+            };
+            
+            const resumeAutoSlide = () => {
+                if (window.innerWidth >= 992) return; // Jangan resume jika desktop
+                startAutoSlide();
+            };
 
-            if (sliderWrapper) {
+            // 4. Inisialisasi dan Event Listeners
+            if (sliderWrapper && slides.length > 0) {
+                goToSlide(0); 
+                
                 sliderWrapper.addEventListener('scroll', updateCardAnimation, { passive: true });
-                // Panggil sekali untuk memastikan slide pertama teranimasi
-                setTimeout(updateCardAnimation, 100);
+                
+                // Event Listener untuk Auto-Slide (Pause/Resume saat interaksi)
+                sliderWrapper.addEventListener('touchstart', pauseAutoSlide);
+                sliderWrapper.addEventListener('touchend', resumeAutoSlide);
+                sliderWrapper.addEventListener('mousedown', pauseAutoSlide);
+                sliderWrapper.addEventListener('mouseup', resumeAutoSlide);
+                sliderWrapper.addEventListener('mouseleave', resumeAutoSlide);
+                sliderWrapper.addEventListener('mouseover', pauseAutoSlide); 
+
+                // Event Listeners untuk Tombol Navigasi
+                if (nextButton && prevButton) {
+                    nextButton.addEventListener('click', () => {
+                        pauseAutoSlide();
+                        let activeIndex = Array.from(slides).findIndex(slide => 
+                            slide.querySelector('.feature-card').classList.contains('active')
+                        );
+                        if (activeIndex === -1) activeIndex = 0;
+                        goToSlide(activeIndex + 1);
+                        setTimeout(resumeAutoSlide, 1000);
+                    });
+
+                    prevButton.addEventListener('click', () => {
+                        pauseAutoSlide();
+                        let activeIndex = Array.from(slides).findIndex(slide => 
+                            slide.querySelector('.feature-card').classList.contains('active')
+                        );
+                        if (activeIndex === -1) activeIndex = 0;
+                        goToSlide(activeIndex - 1);
+                        setTimeout(resumeAutoSlide, 1000);
+                    });
+                }
+                
+                startAutoSlide();
             }
             
             // --- Scroll Fade-in Animation ---
@@ -1328,7 +1291,7 @@
             });
             scrollElements.forEach(el => observer.observe(el));
 
-            // --- Language Switcher (Ditingkatkan untuk menangani innerHTML) ---
+            // --- Language Switcher ---
             const langButtons = document.querySelectorAll('.lang-btn');
             const translatableElements = document.querySelectorAll('[data-lang-id], [data-lang-en]');
             
@@ -1341,7 +1304,6 @@
                 translatableElements.forEach(el => {
                     const text = el.getAttribute(`data-lang-${lang}`);
                     if (text !== null) {
-                        // Gunakan innerHTML untuk mempertahankan tag HTML di dalam string (misalnya <i> atau <strong>)
                         el.innerHTML = text; 
                     }
                 });
@@ -1357,14 +1319,12 @@
                 let current = '';
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    // Sesuaikan offset scroll (misalnya, 100px di bawah header)
                     if (window.pageYOffset >= sectionTop - 100) { 
                         current = section.getAttribute('id');
                     }
                 });
                 navLinksDesktop.forEach(link => {
                     link.classList.remove('active');
-                    // Tambahkan tanda pagar di depan ID untuk perbandingan
                     if (link.getAttribute('href').substring(1) === current) {
                         link.classList.add('active');
                     }
