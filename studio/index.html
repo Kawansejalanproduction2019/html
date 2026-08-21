@@ -36,7 +36,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #020617; color: #F8FAFC; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
+        body { background-color: #000000; color: #F8FAFC; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
         
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .lock-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(2,6,23,0.9); z-index: 9999; backdrop-filter: blur(10px); flex-direction: column; justify-content: center; align-items: center; gap: 20px; }
@@ -52,7 +52,7 @@
 
         .app-layout { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
         
-        .nav-area { display: flex; justify-content: space-around; background: #0F172A; border-top: 1px solid rgba(51,65,85,0.5); padding: 8px 4px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); position: fixed; bottom: 0; width: 100%; z-index: 50; overflow-x: auto; scrollbar-width: none; }
+        .nav-area { display: flex; justify-content: space-around; background: #0A0E1A; border-top: 1px solid rgba(51,65,85,0.5); padding: 8px 4px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); position: fixed; bottom: 0; width: 100%; z-index: 50; overflow-x: auto; scrollbar-width: none; }
         .nav-area::-webkit-scrollbar { display: none; }
         .nav-btn { background: transparent; border: none; color: #64748B; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; font-size: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; min-width: 70px; flex: 1; }
         .nav-btn .icon { font-size: 18px; margin-bottom: 2px; }
@@ -70,15 +70,15 @@
         
         .grid-split { display: grid; grid-template-columns: 1fr; gap: 20px; }
 
-        .card { background: #0F172A; border: 1px solid rgba(51,65,85,0.5); border-radius: 16px; padding: 20px; }
+        .card { background: #0A0E1A; border: 1px solid rgba(51,65,85,0.5); border-radius: 16px; padding: 20px; }
         
         .input-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; }
         .stat-badge { font-family: 'JetBrains Mono', monospace; color: #0D9488; }
         
-        textarea { width: 100%; height: 200px; background: #020617; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; color: #F8FAFC; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 13px; resize: none; outline: none; }
+        textarea { width: 100%; height: 200px; background: #000000; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; color: #F8FAFC; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 13px; resize: none; outline: none; }
         textarea:focus { border-color: #0D9488; }
         
-        input[type="text"], input[type="number"], select { width: 100%; background: #020617; border: 1px solid rgba(51,65,85,0.5); padding: 12px 15px; border-radius: 10px; color: #F8FAFC; font-size: 14px; outline: none; margin-bottom: 15px; }
+        input[type="text"], input[type="number"], select { width: 100%; background: #000000; border: 1px solid rgba(51,65,85,0.5); padding: 12px 15px; border-radius: 10px; color: #F8FAFC; font-size: 14px; outline: none; margin-bottom: 15px; }
         input:focus, select:focus { border-color: #0D9488; }
 
         .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
@@ -91,13 +91,13 @@
         .drop-area span { font-size: 13px; font-weight: 600; color: #94A3B8; }
 
         .bulk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; max-height: 300px; overflow-y: auto; }
-        .bulk-item { background: #020617; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; padding: 10px; text-align: center; }
+        .bulk-item { background: #000000; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; padding: 10px; text-align: center; }
         .bulk-item canvas, .bulk-item img { max-width: 100%; height: auto; background: white; padding: 5px; border-radius: 6px; margin-bottom: 5px; }
         .bulk-item span { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #94A3B8; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 5px; }
         .bulk-dl { background: rgba(20,184,166,0.1); color: #0D9488; border: none; padding: 6px; width: 100%; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
 
         .pdf-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
-        .pdf-item { background: #020617; border: 1px solid rgba(51,65,85,0.5); padding: 10px 15px; border-radius: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .pdf-item { background: #000000; border: 1px solid rgba(51,65,85,0.5); padding: 10px 15px; border-radius: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
         .pdf-item .del-btn { color: #EF4444; cursor: pointer; font-weight: bold; background: transparent; border: none; }
 
         @media (min-width: 900px) {
@@ -114,7 +114,7 @@
     
         /* THEME VARIABLES FOR DARK AND LIGHT MODE */
         :root {
-            --bg-primary: #020617;
+            --bg-primary: #000000;
             --bg-secondary: #0B1120;
             --card-bg: rgba(15, 23, 42, 0.7);
             --card-border: rgba(51, 65, 85, 0.6);
@@ -131,7 +131,7 @@
             --bg-secondary: #FFFFFF;
             --card-bg: rgba(255, 255, 255, 0.9);
             --card-border: rgba(226, 232, 240, 0.9);
-            --text-primary: #0F172A;
+            --text-primary: #0A0E1A;
             --text-secondary: #475569;
             --text-muted: #94A3B8;
             --accent-emerald: #0D9488;
