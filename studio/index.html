@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>RTMBOT Tools - JSON, Image, Barcode, PDF & teks enkripsi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #020617; color: #F8FAFC; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .lock-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(2,6,23,0.9); z-index: 9999; backdrop-filter: blur(10px); flex-direction: column; justify-content: center; align-items: center; gap: 20px; }
+        .lock-spinner { width: 50px; height: 50px; border: 4px solid rgba(59,130,246,0.2); border-top-color: #3B82F6; border-radius: 50%; animation: spin 1s linear infinite; }
+        .lock-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #F8FAFC; text-align: center; }
+        .progress-container { width: 200px; height: 6px; background: #1E293B; border-radius: 4px; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #14B8A6, #3B82F6); transition: width 0.1s ease; }
+
+        .header { background: rgba(15,23,42,0.95); border-bottom: 1px solid rgba(51,65,85,0.5); padding: 15px 20px; display: flex; align-items: center; gap: 10px; z-index: 10; }
+        .brand-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #14B8A6, #3B82F6); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 16px; color: white; }
+        .brand-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; }
+        .sys-badge { margin-left: auto; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #3B82F6; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; }
+
+        .app-layout { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+        
+        .nav-area { display: flex; justify-content: space-around; background: #0F172A; border-top: 1px solid rgba(51,65,85,0.5); padding: 8px 4px; padding-bottom: calc(8px + env(safe-area-inset-bottom)); position: fixed; bottom: 0; width: 100%; z-index: 50; overflow-x: auto; scrollbar-width: none; }
+        .nav-area::-webkit-scrollbar { display: none; }
+        .nav-btn { background: transparent; border: none; color: #64748B; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; font-size: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; min-width: 70px; flex: 1; }
+        .nav-btn .icon { font-size: 18px; margin-bottom: 2px; }
+        .nav-btn.active { color: #3B82F6; }
+        .nav-btn.active .icon { transform: scale(1.1); }
+
+        .main-area { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 180px; }
+        
+        .panel { display: none; animation: fadeIn 0.3s ease; }
+        .panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .panel-header { margin-bottom: 20px; }
+        .panel-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 20px; font-weight: 800; color: #F8FAFC; }
+        
+        .grid-split { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+        .card { background: #0F172A; border: 1px solid rgba(51,65,85,0.5); border-radius: 16px; padding: 20px; }
+        
+        .input-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #94A3B8; text-transform: uppercase; margin-bottom: 8px; }
+        .stat-badge { font-family: 'JetBrains Mono', monospace; color: #3B82F6; }
+        
+        textarea { width: 100%; height: 200px; background: #020617; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; color: #F8FAFC; padding: 15px; font-family: 'JetBrains Mono', monospace; font-size: 13px; resize: none; outline: none; }
+        textarea:focus { border-color: #3B82F6; }
+        
+        input[type="text"], input[type="number"], select { width: 100%; background: #020617; border: 1px solid rgba(51,65,85,0.5); padding: 12px 15px; border-radius: 10px; color: #F8FAFC; font-size: 14px; outline: none; margin-bottom: 15px; }
+        input:focus, select:focus { border-color: #3B82F6; }
+
+        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .btn { flex: 1; min-width: 120px; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 13px; border: none; cursor: pointer; text-align: center; }
+        .btn-blue { background: #3B82F6; color: white; }
+        .btn-teal { background: #14B8A6; color: white; }
+        .btn-red { background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid rgba(239,68,68,0.3); }
+
+        .drop-area { border: 2px dashed rgba(51,65,85,0.6); border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; margin-bottom: 20px; }
+        .drop-area span { font-size: 13px; font-weight: 600; color: #94A3B8; }
+
+        .bulk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; max-height: 300px; overflow-y: auto; }
+        .bulk-item { background: #020617; border: 1px solid rgba(51,65,85,0.5); border-radius: 12px; padding: 10px; text-align: center; }
+        .bulk-item canvas, .bulk-item img { max-width: 100%; height: auto; background: white; padding: 5px; border-radius: 6px; margin-bottom: 5px; }
+        .bulk-item span { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #94A3B8; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 5px; }
+        .bulk-dl { background: rgba(59,130,246,0.1); color: #3B82F6; border: none; padding: 6px; width: 100%; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
+
+        .pdf-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .pdf-item { background: #020617; border: 1px solid rgba(51,65,85,0.5); padding: 10px 15px; border-radius: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .pdf-item .del-btn { color: #EF4444; cursor: pointer; font-weight: bold; background: transparent; border: none; }
+
+        @media (min-width: 900px) {
+            .app-layout { flex-direction: row; }
+            .nav-area { position: relative; width: 260px; flex-direction: column; justify-content: flex-start; border-top: none; border-right: 1px solid rgba(51,65,85,0.5); padding: 20px; gap: 10px; bottom: auto; overflow: visible; }
+            .nav-btn { flex-direction: row; flex: none; text-align: left; padding: 15px 20px; border-radius: 12px; font-size: 14px; }
+            .nav-btn .icon { margin-bottom: 0; margin-right: 12px; font-size: 20px; }
+            .nav-btn.active { background: rgba(59,130,246,0.1); }
+            .main-area { padding: 40px; padding-bottom: 40px; }
+            .grid-split { grid-template-columns: 1fr 1fr; }
+            textarea { height: 450px; }
+            .bulk-grid { grid-template-columns: repeat(4, 1fr); max-height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lock-overlay" id="lockUI">
+        <div class="lock-spinner"></div>
+        <div class="lock-text" id="lockTxt">Memproses Data</div>
+        <div class="progress-container"><div class="progress-bar" id="lockBar"></div></div>
+    </div>
+
+    <div class="header">
+        <div class="brand-icon">⚙️</div>
+        <div class="brand-name">RTMBOT Utility Tools</div>
+        <div class="sys-badge">Local Engine</div>
+    </div>
+
+    <div class="app-layout">
+        <div class="nav-area">
+            <button class="nav-btn active" onclick="switchNav('json', this)">
+                <span class="icon">📖</span> <span>JSON Formatter</span>
+            </button>
+            <button class="nav-btn" onclick="switchNav('img', this)">
+                <span class="icon">📸</span> <span>Image Studio</span>
+            </button>
+            <button class="nav-btn" onclick="switchNav('code', this)">
+                <span class="icon">⚡</span> <span>QR & Barcode</span>
+            </button>
+            <button class="nav-btn" onclick="switchNav('pdf', this)">
+                <span class="icon">📄</span> <span>PDF Studio</span>
+            </button>
+            <button class="nav-btn" onclick="switchNav('crypto', this)">
+                <span class="icon">🔐</span> <span>encrypted text</span>
+            </button>
+        </div>
+
+        <div class="main-area">
+            <div id="p-json" class="panel active">
+                <div class="panel-header"><h2 class="panel-title">JSON Validator & Fixer</h2></div>
+                <div class="grid-split">
+                    <div class="card">
+                        <div class="input-label"><span>Input JSON</span><span class="stat-badge" id="jStatIn">0 Char</span></div>
+                        <textarea id="jIn" oninput="updJStat()" placeholder="Paste JSON mentah..."></textarea>
+                        <div class="btn-row">
+                            <button class="btn btn-blue" onclick="fmtJ(true)">Validasi</button>
+                            <button class="btn btn-teal" onclick="fixJ()">Auto Fix</button>
+                            <button class="btn btn-red" onclick="clrJ()">Clear</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="input-label"><span>Output JSON</span><span class="stat-badge" id="jStatOut">0 Char</span></div>
+                        <textarea id="jOut" readonly placeholder="Hasil validasi..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div id="p-img" class="panel">
+                <div class="panel-header"><h2 class="panel-title">Batch Image Engine</h2></div>
+                <div class="grid-split">
+                    <div class="card">
+                        <div class="drop-area" onclick="document.getElementById('iFile').click()">
+                            <span>Klik untuk unggah gambar (Bisa Banyak Sekaligus)</span>
+                            <input type="file" id="iFile" accept="image/*" multiple style="display:none;" onchange="loadImg(this)">
+                        </div>
+                        <div class="input-label"><span>Target Format Semua File</span></div>
+                        <select id="iFmt"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select>
+                        <div class="input-label"><span>Target Ukuran Maksimal</span></div>
+                        <div style="display:flex; gap:10px;">
+                            <input type="number" id="iSize" value="1" min="0.1" step="0.1">
+                            <select id="iUnit" style="width:100px;"><option value="MB">MB</option><option value="KB">KB</option></select>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-blue" style="width:100%; padding:15px; font-size:15px;" onclick="runImg()">Jalankan Kompresi</button>
+                        </div>
+                        <div class="btn-row" id="dlImgBox" style="display:none; margin-top:15px;">
+                            <button class="btn btn-teal" style="width:100%; padding:15px; font-size:15px; font-weight:800;" onclick="dlImgZip()">⬇️ Download Semua (ZIP)</button>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-red" style="width:100%;" onclick="clrImg()">Bersihkan</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="input-label"><span>Daftar Proses & Preview</span><span class="stat-badge" id="iStatIn">0 File</span></div>
+                        <div class="bulk-grid" id="imgGrid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="p-code" class="panel">
+                <div class="panel-header"><h2 class="panel-title">QR & Barcode Generator</h2></div>
+                <div class="card">
+                    <div class="grid-split">
+                        <div>
+                            <div class="input-label"><span>Tipe Kode</span></div>
+                            <select id="cType">
+                                <option value="QR">QR Code</option>
+                                <option value="CODE128">Barcode 128</option>
+                                <option value="EAN13">Barcode EAN-13</option>
+                            </select>
+                        </div>
+                        <div>
+                            <div class="input-label"><span>Resolusi Skala</span></div>
+                            <input type="number" id="cScale" value="2" min="1" max="5">
+                        </div>
+                    </div>
+                    <div class="input-label"><span>Data Teks (Baris Baru = Kode Baru)</span><span class="stat-badge" id="cStat">0 Baris</span></div>
+                    <textarea id="cIn" style="height:120px;" oninput="updCStat()" placeholder="DATA01&#10;DATA02"></textarea>
+                    <div class="btn-row">
+                        <button class="btn btn-blue" style="padding:15px;" onclick="runC()">Generate Massal</button>
+                        <button class="btn btn-teal" id="cZipBtn" style="display:none; padding:15px; font-weight:800;" onclick="dlZip()">⬇️ Download ZIP</button>
+                        <button class="btn btn-red" style="padding:15px;" onclick="clrC()">Clear</button>
+                    </div>
+                </div>
+                <div class="bulk-grid" id="cGrid"></div>
+            </div>
+
+            <div id="p-pdf" class="panel">
+                <div class="panel-header"><h2 class="panel-title">PDF Merger & Optimizer</h2></div>
+                <div class="grid-split">
+                    <div class="card">
+                        <div class="drop-area" onclick="document.getElementById('pFiles').click()">
+                            <span>Klik untuk unggah PDF (Bisa lebih dari 1)</span>
+                            <input type="file" id="pFiles" accept="application/pdf" multiple style="display:none;" onchange="loadPdf(this)">
+                        </div>
+                        <div class="input-label"><span>Daftar File PDF</span></div>
+                        <div class="pdf-list" id="pdfList"></div>
+                        <div class="btn-row">
+                            <button class="btn btn-blue" style="width:100%; padding:15px;" onclick="runPdf()">Gabung & Optimasi PDF</button>
+                        </div>
+                        <div class="btn-row" id="dlPdfBox" style="display:none; margin-top:15px;">
+                            <button class="btn btn-teal" style="width:100%; padding:15px; font-weight:800;" id="dlPdfBtn">⬇️ Download PDF</button>
+                        </div>
+                        <div class="btn-row">
+                            <button class="btn btn-red" style="width:100%;" onclick="clrPdf()">Bersihkan</button>
+                        </div>
+                    </div>
+                    <div class="card" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+                        <span style="font-size:40px; margin-bottom:15px;">📄</span>
+                        <div class="input-label" style="justify-content:center; margin-bottom:15px;"><span>Status Proses PDF</span></div>
+                        <span style="font-size:13px; color:#94A3B8;" id="pdfStatus">Belum ada file yang diproses.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="p-crypto" class="panel">
+                <div class="panel-header"><h2 class="panel-title">Encryption & Security Tools</h2></div>
+                <div class="grid-split">
+                    <div class="card">
+                        <div class="input-label"><span>Mode Operasi</span></div>
+                        <select id="crMode" onchange="tgCrPass()">
+                            <option value="enc_aes">🔒 Enkripsi (AES - Standar Industri)</option>
+                            <option value="dec_aes">🔓 Dekripsi (AES)</option>
+                            <option value="enc_des">🔒 Enkripsi (TripleDES)</option>
+                            <option value="dec_des">🔓 Dekripsi (TripleDES)</option>
+                            <option value="enc_rab">🔒 Enkripsi (Rabbit)</option>
+                            <option value="dec_rab">🔓 Dekripsi (Rabbit)</option>
+                            <option value="enc_rc4">🔒 Enkripsi (RC4)</option>
+                            <option value="dec_rc4">🔓 Dekripsi (RC4)</option>
+                            <option value="rot13">🔄 ROT13 (Shift Cipher)</option>
+                            <option value="b64e">📦 Enkode Base64</option>
+                            <option value="b64d">📦 Dekode Base64</option>
+                            <option value="sha256">🔑 Generate Hash SHA-256</option>
+                            <option value="md5">🔑 Generate Hash MD5</option>
+                        </select>
+                        <div id="crPassBox">
+                            <div class="input-label"><span>Password / Kunci (Opsional)</span></div>
+                            <input type="text" id="crPass" placeholder="Kosongkan untuk pakai kunci publik web ini...">
+                        </div>
+                        <div class="input-label"><span>Teks Input / Payload</span><span class="stat-badge" id="crStatIn">0 Char</span></div>
+                        <textarea id="crIn" oninput="updCrStat()" placeholder="Masukkan teks atau payload data di sini..."></textarea>
+                        <div class="btn-row">
+                            <button class="btn btn-blue" style="width:100%; padding:15px;" onclick="runCr()">Eksekusi Kriptografi</button>
+                            <button class="btn btn-red" style="width:100%; margin-top:10px;" onclick="clrCr()">Bersihkan</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="input-label"><span>Hasil Output</span></div>
+                        <textarea id="crOut" readonly placeholder="Hasil enkripsi / dekripsi akan muncul di sini..."></textarea>
+                        <div class="btn-row" style="margin-top:15px;">
+                            <button class="btn btn-teal" style="width:100%; padding:15px; font-weight:800;" onclick="copyCr()">📋 Copy Hasil Teks</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let imgFilesArray = [];
+        let imgProcessedArray = [];
+        let pdfFilesArray = [];
+
+        function lock(show, txt="Memproses", pct=0) {
+            document.getElementById("lockUI").style.display = show ? "flex" : "none";
+            document.getElementById("lockTxt").innerText = txt;
+            document.getElementById("lockBar").style.width = pct + "%";
+        }
+
+        function switchNav(id, btn) {
+            if(document.getElementById("lockUI").style.display === "flex") return;
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById("p-" + id).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function updJStat() {
+            const v = document.getElementById("jIn").value;
+            document.getElementById("jStatIn").innerText = v.length + " Char";
+        }
+
+        function updCStat() {
+            const v = document.getElementById("cIn").value;
+            const l = v.trim().length > 0 ? v.trim().split("\n").length : 0;
+            document.getElementById("cStat").innerText = l + " Baris";
+        }
+
+        function clrJ() {
+            document.getElementById("jIn").value = "";
+            document.getElementById("jOut").value = "";
+            updJStat();
+            document.getElementById("jStatOut").innerText = "0 Char";
+        }
+
+        function clrC() {
+            document.getElementById("cIn").value = "";
+            document.getElementById("cGrid").innerHTML = "";
+            document.getElementById("cZipBtn").style.display = "none";
+            updCStat();
+        }
+
+        async function fmtJ(isFmt) {
+            const i = document.getElementById("jIn").value.trim();
+            const o = document.getElementById("jOut");
+            if(!i) return;
+            lock(true, "Validasi JSON", 50);
+            await new Promise(r => setTimeout(r, 300));
+            try {
+                const p = JSON.parse(i);
+                o.value = isFmt ? JSON.stringify(p, null, 4) : JSON.stringify(p);
+                document.getElementById("jStatOut").innerText = o.value.length + " Char";
+                alert("JSON Valid!");
+            } catch(e) {
+                o.value = "Error: " + e.message;
+            }
+            lock(false);
+        }
+
+        async function fixJ() {
+            let txt = document.getElementById("jIn").value.trim();
+            if(!txt) return;
+            
+            lock(true, "Auto Fix Syntax", 50);
+            await new Promise(r => setTimeout(r, 300));
+
+            txt = txt.replace(/[\u2018\u2019\u201C\u201D]/g, '"');
+            txt = txt.replace(/'/g, '"');
+            txt = txt.replace(/,\s*([\]}])/g, '$1');
+            txt = txt.replace(/([{,]\s*)([a-zA-Z0-9_]+)\s*:/g, '$1"$2":');
+
+            let inString = false;
+            let escapeNext = false;
+            let stack = [];
+            
+            for (let i = 0; i < txt.length; i++) {
+                let char = txt[i];
+                if (escapeNext) {
+                    escapeNext = false;
+                    continue;
+                }
+                if (char === '\\') {
+                    escapeNext = true;
+                    continue;
+                }
+                if (char === '"') {
+                    inString = !inString;
+                    continue;
+                }
+                if (!inString) {
+                    if (char === '{') stack.push('}');
+                    else if (char === '[') stack.push(']');
+                    else if (char === '}' || char === ']') {
+                        if (stack.length > 0 && stack[stack.length - 1] === char) {
+                            stack.pop();
+                        }
+                    }
+                }
+            }
+
+            if (stack.length > 0) {
+                while (stack.length > 0) {
+                    txt += "\n" + stack.pop();
+                }
+            }
+
+            document.getElementById("jIn").value = txt;
+            lock(false);
+            fmtJ(true);
+        }
+
+        function loadImg(input) {
+            const files = input.files;
+            if(!files.length) return;
+            for(let i=0; i<files.length; i++) {
+                imgFilesArray.push(files[i]);
+            }
+            document.getElementById("iStatIn").innerText = imgFilesArray.length + " File";
+            renderImgList();
+            document.getElementById("iFile").value = "";
+        }
+
+        function renderImgList() {
+            const grid = document.getElementById("imgGrid");
+            grid.innerHTML = "";
+            imgFilesArray.forEach((f, i) => {
+                const d = document.createElement("div"); d.className = "bulk-item";
+                const im = document.createElement("img");
+                im.src = URL.createObjectURL(f);
+                const sp = document.createElement("span");
+                sp.innerText = f.name + "\n" + (f.size/1024/1024).toFixed(2) + " MB";
+                d.append(im, sp);
+                grid.appendChild(d);
+            });
+        }
+
+        function clrImg() {
+            imgFilesArray = [];
+            imgProcessedArray = [];
+            document.getElementById("iStatIn").innerText = "0 File";
+            document.getElementById("imgGrid").innerHTML = "";
+            document.getElementById("dlImgBox").style.display = "none";
+        }
+
+        async function runImg() {
+            if(!imgFilesArray.length) return alert("Upload foto dulu");
+            const tv = parseFloat(document.getElementById("iSize").value);
+            const tu = document.getElementById("iUnit").value;
+            const fmt = document.getElementById("iFmt").value;
+            let maxB = tv * (tu === "MB" ? 1024*1024 : 1024);
+            
+            imgProcessedArray = [];
+            document.getElementById("imgGrid").innerHTML = "";
+            document.getElementById("dlImgBox").style.display = "none";
+
+            for(let i=0; i<imgFilesArray.length; i++) {
+                let f = imgFilesArray[i];
+                let fn = f.name.split('.')[0];
+                lock(true, `Memproses ${i+1}/${imgFilesArray.length}`, Math.round((i/imgFilesArray.length)*100));
+                await new Promise(r => setTimeout(r, 100));
+
+                let img = new Image();
+                img.src = URL.createObjectURL(f);
+                await new Promise(r => img.onload = r);
+
+                let cvs = document.createElement("canvas");
+                let ctx = cvs.getContext("2d");
+                let w = img.width, h = img.height;
+                cvs.width = w; cvs.height = h;
+                ctx.drawImage(img, 0, 0, w, h);
+
+                let b;
+                if (f.size < maxB) {
+                    let sc = 1.0;
+                    let q = 1.0;
+                    b = await new Promise(r => cvs.toBlob(r, fmt, q));
+                    while(b && b.size < maxB && sc < 3.0) {
+                        sc += 0.2;
+                        cvs.width = w * sc; cvs.height = h * sc;
+                        ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+                        b = await new Promise(r => cvs.toBlob(r, fmt, q));
+                    }
+                } else {
+                    let q = 0.95;
+                    b = await new Promise(r => cvs.toBlob(r, fmt, q));
+                    if(fmt !== "image/png") {
+                        while(b && b.size > maxB && q > 0.1) {
+                            q -= 0.1;
+                            b = await new Promise(r => cvs.toBlob(r, fmt, q));
+                        }
+                    }
+                    let sc = 0.9;
+                    while(b && b.size > maxB && sc > 0.2) {
+                        cvs.width = w * sc; cvs.height = h * sc;
+                        ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+                        b = await new Promise(r => cvs.toBlob(r, fmt, fmt === "image/png" ? undefined : q));
+                        sc -= 0.1;
+                    }
+                }
+
+                if(b) {
+                    imgProcessedArray.push({blob: b, name: fn});
+                    let d = document.createElement("div"); d.className = "bulk-item";
+                    let im = document.createElement("img"); im.src = URL.createObjectURL(b);
+                    let sp = document.createElement("span"); sp.innerText = fn + "\n" + (b.size/1024).toFixed(1) + " KB";
+                    d.append(im, sp);
+                    document.getElementById("imgGrid").appendChild(d);
+                }
+            }
+
+            if(imgProcessedArray.length > 0) {
+                document.getElementById("dlImgBox").style.display = "flex";
+            }
+            lock(false);
+        }
+
+        async function dlImgZip() {
+            if(!imgProcessedArray.length) return;
+            const fmt = document.getElementById("iFmt").value;
+            const ext = fmt.includes("jpeg") ? ".jpg" : fmt.includes("png") ? ".png" : ".webp";
+            
+            lock(true, "Membuat ZIP Foto", 50);
+            await new Promise(r => setTimeout(r, 200));
+
+            const zip = new JSZip();
+            imgProcessedArray.forEach((item, i) => {
+                zip.file("rtm_" + item.name + "_" + (i+1) + ext, item.blob);
+            });
+
+            const b = await zip.generateAsync({type: "blob"});
+            const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "rtm_images.zip"; a.click();
+            lock(false);
+        }
+
+        async function runC() {
+            const v = document.getElementById("cIn").value.trim();
+            const t = document.getElementById("cType").value;
+            const s = parseInt(document.getElementById("cScale").value) || 2;
+            const g = document.getElementById("cGrid");
+            g.innerHTML = "";
+            if(!v) return;
+            
+            const lines = v.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+            if(!lines.length) return;
+
+            lock(true, "Merender Kode", 10);
+            
+            for(let i=0; i<lines.length; i++) {
+                lock(true, `Render ${i+1}/${lines.length}`, Math.round((i/lines.length)*100));
+                await new Promise(r => setTimeout(r, 20));
+                
+                const d = document.createElement("div"); d.className = "bulk-item";
+                const sp = document.createElement("span"); sp.innerText = lines[i];
+                const btn = document.createElement("button"); btn.className = "bulk-dl"; btn.innerText = "Unduh";
+                
+                if(t === "QR") {
+                    const c = document.createElement("canvas");
+                    d.append(c, sp, btn); g.appendChild(d);
+                    await new Promise(r => QRCode.toCanvas(c, lines[i], {width: s*50, margin:1}, () => {
+                        btn.onclick = () => { const a = document.createElement("a"); a.href = c.toDataURL("image/png"); a.download = "qr_"+(i+1)+".png"; a.click(); };
+                        r();
+                    }));
+                } else {
+                    const im = document.createElement("img");
+                    d.append(im, sp, btn); g.appendChild(d);
+                    try {
+                        JsBarcode(im, lines[i], {format: t, width: s, height: 40, displayValue: true, margin: 2});
+                        btn.onclick = () => { const a = document.createElement("a"); a.href = im.src; a.download = "bc_"+(i+1)+".png"; a.click(); };
+                    } catch(e) { sp.innerText = "Error Format"; sp.style.color = "red"; im.style.display = "none"; btn.style.display = "none"; }
+                }
+            }
+            if(g.children.length > 0) document.getElementById("cZipBtn").style.display = "inline-block";
+            lock(false);
+        }
+
+        async function dlZip() {
+            const g = document.getElementById("cGrid");
+            const t = document.getElementById("cType").value;
+            const itm = g.querySelectorAll(".bulk-item");
+            if(!itm.length) return;
+            
+            lock(true, "Membuat ZIP", 50);
+            await new Promise(r => setTimeout(r, 200));
+
+            const zip = new JSZip();
+            let c = 0;
+            itm.forEach((d, i) => {
+                let u = null, fn = "";
+                if(t === "QR") { const cv = d.querySelector("canvas"); if(cv) u = cv.toDataURL("image/png"); fn = "qr_"+(i+1)+".png"; }
+                else { const im = d.querySelector("img"); if(im && im.style.display !== "none") u = im.src; fn = "bc_"+(i+1)+".png"; }
+                if(u) { zip.file(fn, u.split(',')[1], {base64: true}); c++; }
+            });
+
+            if(c > 0) {
+                const b = await zip.generateAsync({type: "blob"});
+                const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "rtm_codes.zip"; a.click();
+            }
+            lock(false);
+        }
+
+        function loadPdf(input) {
+            const files = input.files;
+            if(!files.length) return;
+            for(let i=0; i<files.length; i++) {
+                pdfFilesArray.push(files[i]);
+            }
+            renderPdfList();
+            document.getElementById("pFiles").value = "";
+        }
+
+        function renderPdfList() {
+            const list = document.getElementById("pdfList");
+            list.innerHTML = "";
+            pdfFilesArray.forEach((f, i) => {
+                const d = document.createElement("div"); d.className = "pdf-item";
+                const s = document.createElement("span"); s.innerText = f.name + " (" + (f.size/1024/1024).toFixed(2) + " MB)";
+                const btn = document.createElement("button"); btn.className = "del-btn"; btn.innerText = "X";
+                btn.onclick = () => { pdfFilesArray.splice(i, 1); renderPdfList(); };
+                d.append(s, btn); list.appendChild(d);
+            });
+        }
+
+        function clrPdf() {
+            pdfFilesArray = [];
+            renderPdfList();
+            document.getElementById("dlPdfBox").style.display = "none";
+            document.getElementById("pdfStatus").innerText = "Belum ada file yang diproses.";
+        }
+
+        async function runPdf() {
+            if(!pdfFilesArray.length) return alert("Upload PDF dulu");
+            lock(true, "Memproses PDF", 20);
+            await new Promise(r => setTimeout(r, 200));
+
+            try {
+                const mergedPdf = await PDFLib.PDFDocument.create();
+                for(let i=0; i<pdfFilesArray.length; i++) {
+                    lock(true, `Membaca File ${i+1}/${pdfFilesArray.length}`, 20 + Math.round((i/pdfFilesArray.length)*40));
+                    const arrayBuffer = await pdfFilesArray[i].arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => { mergedPdf.addPage(page); });
+                }
+
+                lock(true, "Optimasi Struktur", 80);
+                const pdfBytes = await mergedPdf.save();
+                
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                document.getElementById("pdfStatus").innerText = "Selesai! Ukuran hasil: " + (blob.size/1024/1024).toFixed(2) + " MB";
+                const btn = document.getElementById("dlPdfBtn");
+                btn.onclick = () => {
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "rtm_optimized.pdf";
+                    a.click();
+                };
+                document.getElementById("dlPdfBox").style.display = "flex";
+
+            } catch(e) {
+                document.getElementById("pdfStatus").innerText = "Error: " + e.message;
+            }
+            lock(false);
+        }
+
+        function tgCrPass() {
+            const m = document.getElementById("crMode").value;
+            const reqPass = m.startsWith("enc_") || m.startsWith("dec_");
+            document.getElementById("crPassBox").style.display = reqPass ? "block" : "none";
+        }
+
+        function updCrStat() {
+            document.getElementById("crStatIn").innerText = document.getElementById("crIn").value.length + " Char";
+        }
+
+        function clrCr() {
+            document.getElementById("crIn").value = "";
+            document.getElementById("crOut").value = "";
+            document.getElementById("crPass").value = "";
+            updCrStat();
+        }
+
+        function copyCr() {
+            const t = document.getElementById("crOut");
+            t.select();
+            document.execCommand("copy");
+            alert("Hasil disalin ke clipboard!");
+        }
+
+        async function runCr() {
+            const m = document.getElementById("crMode").value;
+            let txt = document.getElementById("crIn").value.trim();
+            let psw = document.getElementById("crPass").value;
+            const out = document.getElementById("crOut");
+            
+            if(!txt) return;
+
+            lock(true, "Eksekusi Algoritma", 50);
+            await new Promise(r => setTimeout(r, 300));
+            
+            try {
+                let res = "";
+                const defKey = "RTMBOT_CORE_KEY_2026_SECURE_X";
+                let key = psw ? psw : defKey;
+                
+                let isEnc = m.startsWith("enc_");
+                let isDec = m.startsWith("dec_");
+
+                if (isEnc) {
+                    let algo = m.split("_")[1];
+                    let encObj;
+                    if(algo === "aes") encObj = CryptoJS.AES.encrypt(txt, key);
+                    else if(algo === "des") encObj = CryptoJS.TripleDES.encrypt(txt, key);
+                    else if(algo === "rab") encObj = CryptoJS.Rabbit.encrypt(txt, key);
+                    else if(algo === "rc4") encObj = CryptoJS.RC4.encrypt(txt, key);
+                    
+                    let algoName = algo.toUpperCase();
+                    if(algo === "des") algoName = "TRIPLEDES";
+                    
+                    res = "🔒 ENCRYPTED PAYLOAD (RTMBOT) 🔒\n";
+                    res += "ALGORITMA: " + algoName + "\n";
+                    res += "==================================\n";
+                    res += encObj.toString() + "\n";
+                    res += "==================================\n";
+                    res += "Dekripsi payload ini di: https://rtmbot.biz.id/studio\n";
+                    if(psw) res += "Pastikan Anda memiliki Kunci/Password yang tepat dari pengirim.";
+                    else res += "Payload ini dienkripsi menggunakan Kunci Publik Default.";
+                } else if (isDec) {
+                    let algo = m.split("_")[1];
+                    let cleanTxt = txt;
+                    if(txt.includes("==================================")) {
+                        let parts = txt.split("==================================");
+                        if(parts.length >= 3) {
+                            cleanTxt = parts[1].trim();
+                        }
+                    }
+                    
+                    let decObj;
+                    if(algo === "aes") decObj = CryptoJS.AES.decrypt(cleanTxt, key);
+                    else if(algo === "des") decObj = CryptoJS.TripleDES.decrypt(cleanTxt, key);
+                    else if(algo === "rab") decObj = CryptoJS.Rabbit.decrypt(cleanTxt, key);
+                    else if(algo === "rc4") decObj = CryptoJS.RC4.decrypt(cleanTxt, key);
+                    
+                    let decStr = decObj.toString(CryptoJS.enc.Utf8);
+                    if(!decStr) throw new Error("Password atau Algoritma salah, atau struktur data rusak.");
+                    res = decStr;
+                } else if (m === "rot13") {
+                    res = txt.replace(/[a-zA-Z]/g, function(c) {
+                        return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);
+                    });
+                } else if (m === "b64e") {
+                    res = btoa(unescape(encodeURIComponent(txt)));
+                } else if (m === "b64d") {
+                    res = decodeURIComponent(escape(atob(txt)));
+                } else if (m === "sha256") {
+                    res = CryptoJS.SHA256(txt).toString();
+                } else if (m === "md5") {
+                    res = CryptoJS.MD5(txt).toString();
+                }
+                out.value = res;
+            } catch(e) {
+                out.value = "ERROR: " + e.message;
+            }
+            lock(false);
+        }
+    </script>
+</body>
+</html>

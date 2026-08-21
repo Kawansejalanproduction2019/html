@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="hegC6QGjlcZtAX7SPgJhRO4Cdht479-PehDHq2HpZp4" />
+    <title>RTMBOT - Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: #020617; color: #F8FAFC; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; }
+        
+        .bg-fx { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; overflow: hidden; }
+        .ambient-1 { position: absolute; top: -20%; left: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 50%); border-radius: 50%; filter: blur(80px); animation: drift 20s infinite alternate ease-in-out; }
+        .ambient-2 { position: absolute; bottom: -20%; right: -10%; width: 80vw; height: 80vw; background: radial-gradient(circle, rgba(20,184,166,0.08) 0%, transparent 50%); border-radius: 50%; filter: blur(80px); animation: drift2 25s infinite alternate ease-in-out; }
+        .cursor-glow { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 60%); border-radius: 50%; transform: translate(-50%, -50%); filter: blur(50px); display: none; transition: top 0.1s ease-out, left 0.1s ease-out; }
+        
+        @keyframes drift { 100% { transform: translate(15vw, 15vh); } }
+        @keyframes drift2 { 100% { transform: translate(-15vw, -15vh); } }
+        @keyframes pulse-border { 0% { border-color: rgba(20,184,166,0.4); box-shadow: 0 0 0 0 rgba(20,184,166,0.4); } 70% { border-color: rgba(20,184,166,0.8); box-shadow: 0 0 0 10px rgba(20,184,166,0); } 100% { border-color: rgba(20,184,166,0.4); box-shadow: 0 0 0 0 rgba(20,184,166,0); } }
+
+        .main-wrapper { position: relative; z-index: 1; width: 100%; max-width: 500px; padding: 40px 20px 20px 20px; display: flex; flex-direction: column; gap: 25px; }
+
+        .profile-card { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(51, 65, 85, 0.5); border-radius: 35px; padding: 45px 30px; text-align: center; backdrop-filter: blur(20px); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; overflow: hidden; flex-shrink: 0; }
+        .profile-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #14B8A6, #3B82F6); }
+        .avatar-ring { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 25px; background: conic-gradient(from 0deg, #14B8A6, #3B82F6, #14B8A6); padding: 4px; }
+        .avatar-inner { width: 100%; height: 100%; background: #0B1120; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 40px; }
+        .dynamic-greet { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; color: #14B8A6; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+        .brand-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(to right, #F8FAFC, #94A3B8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-role { font-size: 14px; color: #94A3B8; line-height: 1.5; }
+
+        .links-container { display: flex; flex-direction: column; gap: 25px; width: 100%; }
+        
+        .category-group { display: flex; flex-direction: column; gap: 12px; }
+        .category-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 800; color: #64748B; text-transform: uppercase; letter-spacing: 1.5px; padding-left: 10px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .category-title::after { content: ''; flex: 1; height: 1px; background: rgba(51, 65, 85, 0.5); }
+
+        .link-item { display: flex; align-items: center; background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(51, 65, 85, 0.6); padding: 18px 25px; border-radius: 20px; color: #F8FAFC; text-decoration: none; font-weight: 600; font-size: 15px; backdrop-filter: blur(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .link-item::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent); transform: skewX(-20deg); transition: left 0.6s ease; }
+        .link-item:hover { transform: translateY(-4px) scale(1.02); border-color: #3B82F6; background: rgba(59, 130, 246, 0.1); box-shadow: 0 15px 35px -10px rgba(59, 130, 246, 0.3); }
+        .link-item:hover::after { left: 200%; }
+        
+        .link-item.highlight { background: rgba(20, 184, 166, 0.05); border: 1px solid rgba(20, 184, 166, 0.5); animation: pulse-border 2s infinite; }
+        .link-item.highlight:hover { background: rgba(20, 184, 166, 0.15); border-color: #14B8A6; animation: none; transform: translateY(-4px) scale(1.02); box-shadow: 0 15px 35px -10px rgba(20, 184, 166, 0.4); }
+        .highlight-badge { position: absolute; right: 20px; font-size: 10px; background: linear-gradient(135deg, #14B8A6, #3B82F6); padding: 4px 8px; border-radius: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .icon-box { font-size: 20px; margin-right: 18px; width: 30px; text-align: center; }
+        
+        .footer-mark { text-align: center; font-size: 12px; color: #475569; margin-bottom: 40px; font-weight: 600; z-index: 1; }
+
+        @media (min-width: 900px) {
+            .cursor-glow { display: block; }
+            .main-wrapper { max-width: 1100px; flex-direction: row; align-items: flex-start; padding: 40px; gap: 50px; margin-bottom: 20px; height: 85vh; }
+            
+            .profile-card { flex: 0 0 380px; display: flex; flex-direction: column; justify-content: center; text-align: left; padding: 60px 40px; position: sticky; top: 40px; }
+            .profile-card::before { width: 4px; height: 100%; background: linear-gradient(180deg, #14B8A6, #3B82F6); }
+            .avatar-ring { margin: 0 0 35px 0; width: 130px; height: 130px; }
+            .avatar-inner { font-size: 50px; }
+            .dynamic-greet { font-size: 14px; }
+            .brand-name { font-size: 34px; line-height: 1.2; margin-bottom: 12px; }
+            .brand-role { font-size: 15px; }
+            
+            .links-container { flex: 1; overflow-y: auto; padding-right: 15px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 30px; }
+            .links-container::-webkit-scrollbar { width: 6px; }
+            .links-container::-webkit-scrollbar-track { background: transparent; }
+            .links-container::-webkit-scrollbar-thumb { background: rgba(51,65,85,0.5); border-radius: 10px; }
+            .links-container::-webkit-scrollbar-thumb:hover { background: rgba(51,65,85,0.8); }
+
+            .link-item { padding: 22px 25px; font-size: 15px; border-radius: 24px; }
+            
+            .footer-mark { position: absolute; bottom: 20px; width: 100%; text-align: center; left: 0; margin-bottom: 0; pointer-events: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-fx">
+        <div class="ambient-1"></div>
+        <div class="ambient-2"></div>
+        <div class="cursor-glow" id="cursorGlow"></div>
+    </div>
+
+    <div class="main-wrapper">
+        <div class="profile-card">
+            <div class="avatar-ring">
+                <div class="avatar-inner">🤖</div>
+            </div>
+            <div class="dynamic-greet" id="greetText">Selamat Datang</div>
+            <div class="brand-name">RTMBOT Hub</div>
+            <div class="brand-role">System Administrator & Automation Architecture</div>
+        </div>
+
+        <div class="links-container" id="linksGen">
+            </div>
+    </div>
+    
+    <div class="footer-mark">&copy; 2026 rtmbot.biz.id</div>
+
+    <script>
+        const categorizedLinks = {
+            "🌟 Produk & Layanan Utama": [
+                { icon: "🤖", title: "Chat AI Assistant", url: "chat/", id: "chat", highlight: true, badge: "New" },
+                { icon: "🛠️", title: "Jasa Pembuatan Bot Custom", url: "costum/", id: "costum" },
+                { icon: "💻", title: "Qr generator & foto kompresor", url: "studio/", id: "studio" },
+                { icon: "📖", title: "Al-Quran Digital", url: "quran/", id: "quran" },
+                { icon: "🎭", title: "Portofolio Rahasia", url: "portofolio/", id: "profile" }
+            ],
+            "🌐 Sosial & Komunitas": [
+                { icon: "💬", title: "Hubungi via Discord", url: "https://discord.com/users/1000737066822410311", id: "dc" },
+                { icon: "📸", title: "Official Instagram", url: "https://www.instagram.com/rhnxxhkm", id: "ig" }
+            ],
+            "☕ Dukungan & Apresiasi": [
+                { icon: "💰", title: "Bagi-Bagi!", url: "https://bagibagi.co/Rh7155", id: "bagi" },
+                { icon: "💳", title: "Saweria!", url: "https://saweria.co/RH7155", id: "saweria" },
+                { icon: "⚡", title: "Sociabuzz", url: "https://sociabuzz.com/abogoboga7155/tribe", id: "sosiabuzz" }
+            ]
+        };
+
+        const paramUrl = new URLSearchParams(window.location.search).get('s');
+
+        if (paramUrl) {
+            let allLinks = [];
+            Object.values(categorizedLinks).forEach(arr => allLinks.push(...arr));
+            
+            const trg = allLinks.find(k => k.id === paramUrl.toLowerCase().trim());
+            if (trg) {
+                window.location.href = trg.url;
+            } else {
+                renderUI();
+            }
+        } else {
+            renderUI();
+        }
+
+        function renderUI() {
+            const container = document.getElementById("linksGen");
+            
+            Object.keys(categorizedLinks).forEach(categoryName => {
+                const groupDiv = document.createElement("div");
+                groupDiv.className = "category-group";
+                
+                const titleDiv = document.createElement("div");
+                titleDiv.className = "category-title";
+                titleDiv.innerText = categoryName;
+                groupDiv.appendChild(titleDiv);
+
+                categorizedLinks[categoryName].forEach(item => {
+                    const a = document.createElement("a");
+                    a.className = `link-item ${item.highlight ? 'highlight' : ''}`;
+                    a.href = item.url;
+                    
+                    let innerContent = `<div class="icon-box">${item.icon}</div><div>${item.title}</div>`;
+                    if (item.badge) {
+                        innerContent += `<div class="highlight-badge">${item.badge}</div>`;
+                    }
+                    
+                    a.innerHTML = innerContent;
+                    groupDiv.appendChild(a);
+                });
+
+                container.appendChild(groupDiv);
+            });
+
+            const hour = new Date().getHours();
+            const greetEl = document.getElementById("greetText");
+            if (hour >= 4 && hour < 11) greetEl.innerText = "Selamat Pagi";
+            else if (hour >= 11 && hour < 15) greetEl.innerText = "Selamat Siang";
+            else if (hour >= 15 && hour < 18) greetEl.innerText = "Selamat Sore";
+            else greetEl.innerText = "Selamat Malam";
+        }
+
+        if (window.matchMedia("(min-width: 900px)").matches) {
+            const glow = document.getElementById('cursorGlow');
+            document.addEventListener('mousemove', function(e) {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            });
+        }
+    </script>
+</body>
+</html>

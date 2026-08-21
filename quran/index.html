@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Quran Digital — RTMBOT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        }
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #030712;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .orb-1-wrap {
+            position: absolute;
+            top: -300px;
+            left: -300px;
+            width: 1200px;
+            height: 1200px;
+            animation: orb1X 18s infinite alternate ease-in-out;
+        }
+        .orb-1 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20,184,166,0.2) 0%, transparent 50%);
+            animation: orb1Y 22s infinite alternate ease-in-out;
+        }
+        .orb-2-wrap {
+            position: absolute;
+            bottom: -400px;
+            right: -400px;
+            width: 1400px;
+            height: 1400px;
+            animation: orb2X 20s infinite alternate ease-in-out;
+        }
+        .orb-2 {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 50%);
+            animation: orb2Y 16s infinite alternate ease-in-out;
+        }
+        @keyframes orb1X { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
+        @keyframes orb1Y { 0% { transform: translateY(0); } 100% { transform: translateY(400px); } }
+        @keyframes orb2X { 0% { transform: translateX(0); } 100% { transform: translateX(-400px); } }
+        @keyframes orb2Y { 0% { transform: translateY(0); } 100% { transform: translateY(-300px); } }
+
+        .main-root {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .screen {
+            width: 100%;
+            flex: 1;
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+        .list-layout {
+            padding: 80px 40px 100px 40px;
+        }
+        @media (max-width: 600px) {
+            .list-layout {
+                padding: 40px 20px 100px 20px;
+            }
+        }
+        .list-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 40px;
+        }
+        .back-to-home {
+            color: #14B8A6;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 10px 40px 10px 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .list-title-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .search-box {
+            width: 100%;
+            padding: 25px 30px;
+            margin-bottom: 40px;
+            border-radius: 35px;
+            background-color: rgba(30, 41, 59, 0.3);
+            border: 1px solid #334155;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s;
+        }
+        .search-box::placeholder {
+            color: #64748B;
+        }
+        .search-box:focus {
+            border-color: #14B8A6;
+        }
+        .list-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .surah-item {
+            background-color: rgba(30, 41, 59, 0.3);
+            border: 1px solid #334155;
+            border-radius: 35px;
+            padding: 30px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .surah-item:hover {
+            transform: scale(1.02);
+            border-color: #14B8A6;
+        }
+        .badge {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #14B8A6;
+            color: #0B1120;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+        .text-cont {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .t-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .t-sub {
+            font-size: 13px;
+            color: #94A3B8;
+            padding-top: 5px;
+        }
+        .detail-layout {
+            padding: 0 0 120px 0;
+            background-color: transparent;
+        }
+        .detail-header {
+            display: flex;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        @media (min-width: 600px) {
+            .detail-header {
+                padding: 60px 40px;
+            }
+        }
+        .title-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .detail-surah-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .detail-surah-sub {
+            font-size: 13px;
+            color: #94A3B8;
+        }
+        .play-surah-btn {
+            color: #ffffff;
+            font-size: 20px;
+            padding: 15px 25px;
+            border-radius: 30px;
+            background-color: #14B8A6;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+        .play-surah-btn:hover {
+            transform: scale(1.05);
+        }
+        .ayah-container {
+            display: flex;
+            flex-direction: column;
+            padding: 20px 20px 100px 20px;
+        }
+        @media (min-width: 600px) {
+            .ayah-container {
+                padding: 20px 40px 100px 40px;
+            }
+        }
+        .a-card {
+            background-color: rgba(30, 41, 59, 0.3);
+            border: 1px solid #334155;
+            border-radius: 40px;
+            padding: 30px 25px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+        }
+        .a-card.playing {
+            background-color: rgba(20, 184, 166, 0.15);
+            border: 2px solid #14B8A6;
+        }
+        .a-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .a-no-txt {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #14B8A6;
+            color: #0B1120;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .a-top-btns {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 1;
+            gap: 10px;
+        }
+        .a-btn-tool {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+        .a-btn-tool:hover {
+            transform: scale(1.2);
+        }
+        .a-arab {
+            font-family: 'Amiri', serif;
+            font-size: 34px;
+            color: #ffffff;
+            text-align: right;
+            line-height: 1.8;
+            padding: 40px 0 30px 0;
+            word-wrap: break-word;
+        }
+        .a-lat {
+            font-size: 15px;
+            color: #14B8A6;
+            font-style: italic;
+            padding-bottom: 15px;
+            line-height: 1.4;
+        }
+        .a-ind {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.5;
+        }
+        .j-box {
+            background-color: rgba(11, 17, 32, 0.6);
+            border-radius: 20px;
+            border: 2px solid #14B8A6;
+            padding: 20px;
+            margin-top: 25px;
+            display: none;
+        }
+        .j-txt {
+            color: #CCFBF1;
+            font-size: 13px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        .player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 680px;
+            background-color: rgba(11, 17, 32, 0.9);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+            display: none;
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        .player-play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background-color: #14B8A6;
+            color: #ffffff;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .player-stop-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background-color: #EF4444;
+            color: #ffffff;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .player-control-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .player-title-info {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            padding-bottom: 8px;
+        }
+        .seek-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .text-time {
+            color: #94A3B8;
+            font-size: 12px;
+            width: 38px;
+        }
+        .seek-bar {
+            flex: 1;
+            height: 4px;
+            background: #334155;
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #14B8A6;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .d-root {
+            background-color: #1E293B;
+            border-radius: 40px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        .d-root.center-items {
+            align-items: center;
+            text-align: center;
+        }
+        .d-ico {
+            font-size: 60px;
+            padding-bottom: 15px;
+        }
+        .d-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            padding-bottom: 15px;
+        }
+        .d-sub {
+            color: #94A3B8;
+            font-size: 14px;
+            padding-bottom: 30px;
+        }
+        .d-msg {
+            color: #14B8A6;
+            font-size: 14px;
+            padding-bottom: 30px;
+            line-height: 1.5;
+        }
+        .btn-mode-all {
+            width: 100%;
+            padding: 20px 0;
+            border-radius: 16px;
+            background-color: #14B8A6;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 15px;
+            user-select: none;
+        }
+        .btn-mode-one {
+            width: 100%;
+            padding: 20px 0;
+            border-radius: 16px;
+            background-color: #334155;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .d-ok {
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 15px 40px;
+            background-color: #14B8A6;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+            display: inline-block;
+        }
+        .input-journal {
+            width: 100%;
+            background-color: #0B1120;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 25px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            min-height: 120px;
+            margin-bottom: 30px;
+        }
+        .input-journal:focus {
+            border-color: #14B8A6;
+        }
+        .btn-box {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            gap: 15px;
+        }
+        .d-cancel {
+            color: #94A3B8;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px 25px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .d-save {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 15px 35px;
+            background-color: #14B8A6;
+            border-radius: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .placeholder-text {
+            text-align: center;
+            color: #64748B;
+            padding: 40px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-layer">
+        <div class="orb-1-wrap"><div class="orb-1"></div></div>
+        <div class="orb-2-wrap"><div class="orb-2"></div></div>
+    </div>
+
+    <div class="main-root">
+        <div class="screen active" id="listScreen">
+            <div class="list-layout">
+                <div class="list-header">
+                    <div class="back-to-home" onclick="window.location.href='index.html'">⟨</div>
+                    <div class="list-title-text">Daftar Surat</div>
+                </div>
+                <input type="text" class="search-box" id="searchBox" placeholder="Cari surat... (misal: Yasin, 36)">
+                <div class="list-container" id="surahList">
+                    <div class="placeholder-text">Mengambil data dari server...</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen" id="detailScreen">
+            <div class="detail-layout">
+                <div class="detail-header">
+                    <div class="back-to-home" onclick="closeSurah()">⟨</div>
+                    <div class="title-box">
+                        <div class="detail-surah-title" id="detailSurahTitle">Nama Surat</div>
+                        <div class="detail-surah-sub" id="detailSurahSub">Surat ke-0</div>
+                    </div>
+                    <div class="play-surah-btn" onclick="openPlayModal()">▶</div>
+                </div>
+                <div class="ayah-container" id="ayahList"></div>
+            </div>
+        </div>
+
+        <div class="player-bar" id="playerBar">
+            <div class="player-play-btn" id="playerPlayBtn" onclick="toggleAudio()">▶</div>
+            <div class="player-stop-btn" onclick="stopAudio()">⏹</div>
+            <div class="player-control-box">
+                <div class="player-title-info" id="playerTitleInfo">Pilih surat untuk diputar</div>
+                <div class="seek-box">
+                    <div class="text-time" id="textCurTime">00:00</div>
+                    <input type="range" class="seek-bar" id="seekBar" value="0" min="0" max="100" oninput="seekAudio(this.value)">
+                    <div class="text-time" id="textTotTime">00:00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="playModal">
+        <div class="d-root">
+            <div class="d-title">Mode Murottal</div>
+            <div class="d-sub">Pilih bagaimana audio akan diputar:</div>
+            <div class="btn-mode-all" onclick="startAudioMode(true)">▶ Putar Semua Surat</div>
+            <div class="btn-mode-one" onclick="startAudioMode(false)">🎵 Hanya Surat Ini</div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="journalModal">
+        <div class="d-root">
+            <div class="d-title" id="journalTitle">📝 Jurnal Spiritual</div>
+            <textarea class="input-journal" id="journalInput" placeholder="Tulis renunganmu di sini..."></textarea>
+            <div class="btn-box">
+                <div class="d-cancel" onclick="closeJournal()">Batal</div>
+                <div class="d-save" onclick="saveJournal()">Simpan</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="rewardModal">
+        <div class="d-root center-items">
+            <div class="d-ico">💧</div>
+            <div class="d-title">Alhamdulillah!</div>
+            <div class="d-msg">Kamu sudah membaca selama 3 menit!<br>+1 Token Air & +30 XP</div>
+            <div class="d-ok" onclick="closeReward()">Lanjutkan</div>
+        </div>
+    </div>
+
+    <audio id="audioEngine"></audio>
+
+    <script>
+        const DATA_URL = "https://raw.githubusercontent.com/Kawansejalanproduction2019/my-projek/refs/heads/main/alquran.json";
+
+        let allData = [];
+        let surahIndex = [];
+        let currentAyahs = [];
+        let activeSurahNo = "";
+        let activeSurahName = "";
+        let isPlayAllMode = false;
+        let isUserSeeking = false;
+        let readSessionSeconds = 0;
+        let targetJournalSurah = "";
+        let targetJournalAyah = "";
+        let currentRenderTimeout = null;
+        let globalTargetAudioUrl = null;
+
+        const audio = document.getElementById("audioEngine");
+        const playerBar = document.getElementById("playerBar");
+        const playerPlayBtn = document.getElementById("playerPlayBtn");
+        const playerTitleInfo = document.getElementById("playerTitleInfo");
+        const textCurTime = document.getElementById("textCurTime");
+        const textTotTime = document.getElementById("textTotTime");
+        const seekBar = document.getElementById("seekBar");
+
+        const getField = (obj, keys) => {
+            for (const k of keys) if (obj?.[k] != null) return obj?.[k];
+            const lower = Object.fromEntries(Object.entries(obj || {}).map(([k, v]) => [k.toLowerCase(), v]));
+            for (const k of keys) if (lower?.[k.toLowerCase()] != null) return lower?.[k.toLowerCase()];
+            return undefined;
+        };
+
+        setInterval(() => {
+            if (document.getElementById("detailScreen").classList.contains("active")) {
+                let currentTotal = parseInt(localStorage.getItem("totalTimeSec") || "0");
+                localStorage.setItem("totalTimeSec", currentTotal + 1);
+                readSessionSeconds++;
+                if (readSessionSeconds === 180) {
+                    let curTokens = parseInt(localStorage.getItem("water_tokens") || "0") + 1;
+                    let curXp = parseInt(localStorage.getItem("user_xp") || "0") + 30;
+                    localStorage.setItem("water_tokens", curTokens);
+                    localStorage.setItem("user_xp", curXp);
+                    document.getElementById("rewardModal").classList.add("active");
+                }
+            }
+        }, 1000);
+
+        function closeReward() {
+            document.getElementById("rewardModal").classList.remove("active");
+            readSessionSeconds = 0;
+        }
+
+        async function init() {
+            try {
+                const res = await fetch(DATA_URL, { cache: 'no-store' });
+                if (!res.ok) throw new Error('Network error');
+                const data = await res.json();
+                
+                let targetArray = [];
+                if (Array.isArray(data)) { targetArray = data; }
+                else if (data?.result?.data && Array.isArray(data.result.data)) { targetArray = data.result.data; }
+                else if (data?.result && Array.isArray(data.result)) { targetArray = data.result; }
+                else if (data?.data && Array.isArray(data.data)) { targetArray = data.data; }
+
+                if (targetArray.length === 0) throw new Error('Data array kosong');
+                allData = targetArray;
+
+                let added = new Set();
+                allData.forEach(item => {
+                    let sno = getField(item, ['nosurah', 'surah', 'surah_number', 'surahno']);
+                    let sname = getField(item, ['surahname', 'nama_surah', 'name', 'surah']);
+                    if (sno && !added.has(sno.toString())) {
+                        added.add(sno.toString());
+                        surahIndex.push({
+                            nosurah: sno,
+                            surahname: sname || `Surat ${sno}`
+                        });
+                    }
+                });
+
+                surahIndex.sort((a, b) => parseInt(a.nosurah) - parseInt(b.nosurah));
+                renderIndex(surahIndex);
+            } catch (e) {
+                document.getElementById("surahList").innerHTML = `<div class="placeholder-text" style="color:#EF4444;">Gagal memuat data JSON. Detail: ${e.message}</div>`;
+            }
+        }
+
+        function renderIndex(data) {
+            const list = document.getElementById("surahList");
+            list.innerHTML = "";
+            data.forEach(s => {
+                let d = document.createElement("div");
+                d.className = "surah-item";
+                d.onclick = () => openSurah(s.nosurah, s.surahname);
+                d.innerHTML = `
+                    <div class="badge">${s.nosurah}</div>
+                    <div class="text-cont">
+                        <div class="t-name">${s.surahname}</div>
+                        <div class="t-sub">Surat ke-${s.nosurah}</div>
+                    </div>
+                `;
+                list.appendChild(d);
+            });
+            if (data.length === 0) {
+                list.innerHTML = `<div class="placeholder-text">Surat tidak ditemukan.</div>`;
+            }
+        }
+
+        document.getElementById("searchBox").addEventListener("input", function(e) {
+            let q = e.target.value.toLowerCase().trim();
+            let filtered = surahIndex.filter(function(s) {
+                let name = String(s.surahname || "").toLowerCase();
+                let no = String(s.nosurah || "");
+                return name.indexOf(q) !== -1 || no.indexOf(q) !== -1;
+            });
+            renderIndex(filtered);
+        });
+
+        function openSurah(no, nm) {
+            if (currentRenderTimeout) clearTimeout(currentRenderTimeout);
+            activeSurahNo = no.toString();
+            activeSurahName = nm;
+            readSessionSeconds = 0;
+            
+            currentAyahs = allData.filter(a => {
+                let sNo = getField(a, ['nosurah', 'surah', 'surah_number', 'surahno']);
+                return sNo && sNo.toString() === activeSurahNo;
+            });
+
+            document.getElementById("listScreen").classList.remove("active");
+            document.getElementById("detailScreen").classList.add("active");
+            document.getElementById("detailSurahTitle").innerText = nm;
+            document.getElementById("detailSurahSub").innerText = `Surat ke-${no}`;
+
+            const container = document.getElementById("ayahList");
+            container.innerHTML = `<div class="placeholder-text">Memuat ayat...</div>`;
+            globalTargetAudioUrl = null;
+
+            if (currentAyahs.length === 0) {
+                container.innerHTML = `<div class="placeholder-text">Data ayat kosong.</div>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            let index = 0;
+            const chunkSize = 15;
+
+            function renderChunks() {
+                const chunk = currentAyahs.slice(index, index + chunkSize);
+
+                chunk.forEach(ay => {
+                    let ano = getField(ay, ['ayat', 'noayat', 'verse', 'ayah']) || "";
+                    let arab = (getField(ay, ['arabic', 'arab', 'text']) || "").replace(/\s*[\d\.\-]+\s*$/, "");
+                    let lat = getField(ay, ['latin', 'transliteration']) || "";
+                    let ind = getField(ay, ['terjemahan_id', 'id', 'translation_id', 'translation']) || "";
+                    let aud = getField(ay, ['url', 'audio', 'audio_url']);
+
+                    if (!globalTargetAudioUrl && aud) {
+                        globalTargetAudioUrl = aud;
+                    }
+
+                    let key = `journal_${no}_${ano}`;
+                    let jrn = localStorage.getItem(key) || "";
+                    let sty = jrn ? "display:block;" : "display:none;";
+
+                    let card = document.createElement('div');
+                    card.className = "a-card";
+                    card.id = `a_${ano}`;
+                    card.innerHTML = `
+                        <div class="a-top">
+                            <div class="a-no-txt">${ano}</div>
+                            <div class="a-top-btns">
+                                <div class="a-btn-tool" onclick="openJournal('${no}','${ano}')">📝</div>
+                                <div class="a-btn-tool" onclick="bookmarkAyat('${nm}','${no}','${ano}')">🔖</div>
+                                <div class="a-btn-tool" onclick="shareAyat('${nm}','${no}','${ano}',\`${arab.replace(/"/g,'&quot;')}\`,\`${ind.replace(/"/g,'&quot;')}\`)">📤</div>
+                            </div>
+                        </div>
+                        <div class="a-arab">${arab}</div>
+                        <div class="a-lat">${lat}</div>
+                        <div class="a-ind">${ind}</div>
+                        <div class="j-box" id="jb_${ano}" style="${sty}"><div class="j-txt" id="jt_${ano}">❝ ${jrn} ❞</div></div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                index += chunkSize;
+                if (index < currentAyahs.length) {
+                    currentRenderTimeout = setTimeout(renderChunks, 40);
+                }
+            }
+            renderChunks();
+            window.scrollTo(0, 0);
+        }
+
+        function closeSurah() {
+            if (currentRenderTimeout) clearTimeout(currentRenderTimeout);
+            document.getElementById("detailScreen").classList.remove("active");
+            document.getElementById("listScreen").classList.add("active");
+            readSessionSeconds = 0;
+        }
+
+        function openJournal(s, a) {
+            targetJournalSurah = s;
+            targetJournalAyah = a;
+            document.getElementById("journalTitle").innerText = `📝 Jurnal Ayat ${a}`;
+            document.getElementById("journalInput").value = localStorage.getItem(`journal_${s}_${a}`) || "";
+            document.getElementById("journalModal").classList.add("active");
+        }
+
+        function closeJournal() {
+            document.getElementById("journalModal").classList.remove("active");
+        }
+
+        function saveJournal() {
+            let v = document.getElementById("journalInput").value.trim();
+            let k = `journal_${targetJournalSurah}_${targetJournalAyah}`;
+            let b = document.getElementById(`jb_${targetJournalAyah}`);
+            let t = document.getElementById(`jt_${targetJournalAyah}`);
+            if (v) {
+                localStorage.setItem(k, v);
+                if (t) t.innerText = `❝ ${v} ❞`;
+                if (b) b.style.display = "block";
+            } else {
+                localStorage.removeItem(k);
+                if (b) b.style.display = "none";
+            }
+            closeJournal();
+        }
+
+        function bookmarkAyat(nm, sn, an) {
+            localStorage.setItem("lastSurah", nm);
+            localStorage.setItem("lastSurahNo", sn);
+            localStorage.setItem("lastAyah", an);
+            alert(`Ayat ${an} disimpan ke Bookmark`);
+        }
+
+        function shareAyat(nm, sn, an, arab, ind) {
+            let txt = `Q.S ${nm} [${sn}:${an}]\n\n${arab}\n\n${ind}`;
+            if (navigator.share) {
+                navigator.share({ text: txt });
+            } else {
+                navigator.clipboard.writeText(txt);
+                alert("Ayat disalin!");
+            }
+        }
+
+        function openPlayModal() {
+            document.getElementById("playModal").classList.add("active");
+        }
+
+        function startAudioMode(all) {
+            document.getElementById("playModal").classList.remove("active");
+            isPlayAllMode = all;
+            if (!globalTargetAudioUrl) {
+                alert("Audio tidak tersedia untuk surat ini.");
+                return;
+            }
+            playerBar.style.display = "flex";
+            playerTitleInfo.innerText = `Memuat Murottal...`;
+            audio.src = globalTargetAudioUrl;
+            audio.play();
+            playerPlayBtn.innerText = "⏸";
+        }
+
+        function toggleAudio() {
+            if (audio.src) {
+                if (audio.paused) {
+                    audio.play();
+                    playerPlayBtn.innerText = "⏸";
+                } else {
+                    audio.pause();
+                    playerPlayBtn.innerText = "▶";
+                }
+            }
+        }
+
+        function stopAudio() {
+            audio.pause();
+            audio.currentTime = 0;
+            playerBar.style.display = "none";
+            playerPlayBtn.innerText = "▶";
+            audio.removeAttribute("src");
+            isPlayAllMode = false;
+        }
+
+        audio.addEventListener("canplay", () => {
+            let ext = isPlayAllMode ? " (Semua)" : "";
+            playerTitleInfo.innerText = `Surat ${activeSurahName}${ext}`;
+        });
+
+        audio.addEventListener("timeupdate", () => {
+            if (!isUserSeeking && audio.duration) {
+                let c = audio.currentTime;
+                let d = audio.duration;
+                seekBar.value = (c / d) * 100;
+                textCurTime.innerText = `${Math.floor(c / 60).toString().padStart(2, '0')}:${Math.floor(c % 60).toString().padStart(2, '0')}`;
+                textTotTime.innerText = `${Math.floor(d / 60).toString().padStart(2, '0')}:${Math.floor(d % 60).toString().padStart(2, '0')}`;
+            }
+        });
+
+        audio.addEventListener("ended", () => {
+            if (isPlayAllMode) {
+                let nx = parseInt(activeSurahNo) + 1;
+                let f = surahIndex.find(s => s.nosurah && s.nosurah.toString() === nx.toString());
+                if (f) {
+                    openSurah(f.nosurah, f.surahname);
+                    startAudioMode(true);
+                } else {
+                    stopAudio();
+                }
+            } else {
+                playerPlayBtn.innerText = "▶";
+                seekBar.value = 0;
+                textCurTime.innerText = "00:00";
+            }
+        });
+
+        function seekAudio(v) {
+            isUserSeeking = true;
+            if (audio.duration) {
+                audio.currentTime = (v / 100) * audio.duration;
+            }
+            isUserSeeking = false;
+        }
+
+        init();
+    </script>
+</body>
+</html>
