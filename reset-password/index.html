@@ -37,7 +37,7 @@
             left: -10%;
             width: 70vw;
             height: 70vw;
-            background: radial-gradient(circle, rgba(13, 148, 136, 0.18) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, transparent 60%);
             border-radius: 50%;
             filter: blur(80px);
         }
@@ -57,7 +57,7 @@
             z-index: 1;
             width: 100%;
             max-width: 480px;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.75);
             border: 1px solid rgba(51, 65, 85, 0.6);
             border-radius: 28px;
             padding: 36px 30px;
@@ -108,7 +108,6 @@
             margin-bottom: 20px;
         }
 
-        /* Identity Badge Box */
         .user-badge {
             background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(20, 184, 166, 0.35);
@@ -133,10 +132,6 @@
             flex-shrink: 0;
         }
 
-        .badge-info {
-            overflow: hidden;
-        }
-
         .badge-label {
             font-size: 11px;
             font-weight: 700;
@@ -149,9 +144,6 @@
             font-size: 14px;
             font-weight: 600;
             color: #F8FAFC;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .badge-uid {
@@ -229,8 +221,8 @@
         }
 
         .alert-box {
-            padding: 12px 16px;
-            border-radius: 12px;
+            padding: 14px 16px;
+            border-radius: 14px;
             font-size: 13px;
             line-height: 1.5;
             margin-bottom: 18px;
@@ -294,12 +286,12 @@
         <h1 class="title">Reset Kata Sandi</h1>
         <p class="subtitle" id="formSubtitle">Sistem Pemulihan Akun Terautentikasi Al-Qur'an &amp; RTMBOT</p>
 
-        <!-- Dynamic User Identity Badge (Shown when authenticated via Email Link) -->
+        <!-- Dynamic User Identity Badge -->
         <div id="userBadge" class="user-badge" style="display: none;">
             <div class="badge-icon">👤</div>
             <div class="badge-info">
-                <div class="badge-label">Akun Terautentikasi</div>
-                <div class="badge-email" id="badgeEmail">Memuat akun...</div>
+                <div class="badge-label">Akun Terverifikasi</div>
+                <div class="badge-email" id="badgeEmail">Memuat...</div>
                 <div class="badge-uid" id="badgeUid">UID: ...</div>
             </div>
         </div>
@@ -307,7 +299,7 @@
         <div id="alertBox" class="alert-box"></div>
 
         <form id="resetForm" onsubmit="handleReset(event)">
-            <!-- Manual OTP / Email inputs (Shown if user opened web directly without link) -->
+            <!-- Manual OTP / Email inputs -->
             <div id="manualOtpGroup">
                 <div class="form-group">
                     <label class="form-label">Email Akun Terdaftar</label>
@@ -349,10 +341,40 @@
         let currentUser = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
-            // Check session from link click
+            const hash = window.location.hash;
+            const search = window.location.search;
+            const urlParams = new URLSearchParams(search);
+
+            // Check if there was an error in URL hash (e.g. otp_expired)
+            if (hash.includes('error=')) {
+                const hashParams = new URLSearchParams(hash.substring(1));
+                const errDesc = hashParams.get('error_description') || 'Tautan pemulihan telah kadaluarsa atau tidak valid.';
+                showAlert('⚠️ ' + decodeURIComponent(errDesc.replace(/\+/g, ' ')) + '<br><span style="font-size:12px;opacity:0.85;display:block;margin-top:4px;">Silakan masukkan alamat email dan <b>Kode OTP 6-Digit</b> dari email Anda di bawah ini:</span>', 'error');
+                showManualOtpForm();
+                return;
+            }
+
+            // Check if token_hash is present in query (PKCE flow)
+            const tokenHash = urlParams.get('token_hash');
+            const type = urlParams.get('type');
+            if (tokenHash && type === 'recovery') {
+                try {
+                    const { data, error } = await sb.auth.verifyOtp({
+                        token_hash: tokenHash,
+                        type: 'recovery'
+                    });
+                    if (data && data.user) {
+                        applyAuthenticatedUser(data.user);
+                        return;
+                    }
+                } catch (e) {}
+            }
+
+            // Check session
             const { data: { session } } = await sb.auth.getSession();
             if (session && session.user) {
                 applyAuthenticatedUser(session.user);
+                return;
             }
 
             sb.auth.onAuthStateChange(async (event, session) => {
@@ -361,26 +383,25 @@
                 }
             });
 
-            // If no token in URL
-            if (!window.location.hash.includes('access_token') && !window.location.search.includes('code') && !session) {
-                showAlert('ℹ️ Anda membuka halaman reset secara langsung. Silakan masukkan email terdaftar dan kode OTP 6-digit yang dikirimkan ke email Anda.', 'info');
-                document.getElementById('manualOtpGroup').style.display = 'block';
-                document.getElementById('inputEmail').required = true;
-                document.getElementById('inputOtp').required = true;
-            }
+            // Default fallback if opened directly
+            showManualOtpForm();
         });
+
+        function showManualOtpForm() {
+            document.getElementById('manualOtpGroup').style.display = 'block';
+            document.getElementById('inputEmail').required = true;
+            document.getElementById('inputOtp').required = true;
+        }
 
         function applyAuthenticatedUser(user) {
             if (!user) return;
             currentUser = user;
             isRecoveryMode = true;
 
-            // Hide manual email/OTP inputs because user is already authenticated via email token!
             document.getElementById('manualOtpGroup').style.display = 'none';
             document.getElementById('inputEmail').required = false;
             document.getElementById('inputOtp').required = false;
 
-            // Show User Identity Badge
             const userBadge = document.getElementById('userBadge');
             const badgeEmail = document.getElementById('badgeEmail');
             const badgeUid = document.getElementById('badgeUid');
@@ -437,7 +458,6 @@
                     const email = document.getElementById('inputEmail').value.trim();
                     const token = document.getElementById('inputOtp').value.trim();
 
-                    // Step 1: Verify OTP & Email
                     const { data: verifyData, error: verifyError } = await sb.auth.verifyOtp({
                         email: email,
                         token: token,
@@ -449,7 +469,6 @@
                     }
                 }
 
-                // Step 2: Update User Password
                 const { data, error } = await sb.auth.updateUser({
                     password: password
                 });

@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>
+        // Auto-forward Supabase auth and recovery tokens to reset-password.html
+        if (window.location.hash && (window.location.hash.includes('type=recovery') || window.location.hash.includes('access_token'))) {
+            window.location.replace('/reset-password.html' + window.location.hash);
+        } else if (window.location.search && (window.location.search.includes('type=recovery') || window.location.search.includes('token_hash') || window.location.search.includes('code='))) {
+            window.location.replace('/reset-password.html' + window.location.search);
+        }
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="hegC6QGjlcZtAX7SPgJhRO4Cdht479-PehDHq2HpZp4" />
