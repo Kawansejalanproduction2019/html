@@ -37,7 +37,7 @@
             left: -10%;
             width: 70vw;
             height: 70vw;
-            background: radial-gradient(circle, rgba(13, 148, 136, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(13, 148, 136, 0.18) 0%, transparent 60%);
             border-radius: 50%;
             filter: blur(80px);
         }
@@ -47,7 +47,7 @@
             right: -10%;
             width: 70vw;
             height: 70vw;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
             border-radius: 50%;
             filter: blur(80px);
         }
@@ -56,11 +56,11 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 460px;
-            background: rgba(15, 23, 42, 0.65);
+            max-width: 480px;
+            background: rgba(15, 23, 42, 0.7);
             border: 1px solid rgba(51, 65, 85, 0.6);
             border-radius: 28px;
-            padding: 40px 32px;
+            padding: 36px 30px;
             backdrop-filter: blur(25px);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
@@ -77,24 +77,24 @@
         }
 
         .logo-wrap {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 20px auto;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px auto;
             border-radius: 18px;
             background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(59, 130, 246, 0.2));
             border: 1px solid rgba(20, 184, 166, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            font-size: 26px;
         }
 
         .title {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             background: linear-gradient(to right, #F8FAFC, #94A3B8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -105,11 +105,63 @@
             color: #94A3B8;
             text-align: center;
             line-height: 1.5;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* Identity Badge Box */
+        .user-badge {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(20, 184, 166, 0.35);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: rgba(20, 184, 166, 0.15);
+            color: #14B8A6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .badge-info {
+            overflow: hidden;
+        }
+
+        .badge-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #14B8A6;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .badge-email {
+            font-size: 14px;
+            font-weight: 600;
+            color: #F8FAFC;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .badge-uid {
+            font-size: 11px;
+            color: #64748B;
+            font-family: monospace;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-label {
@@ -120,15 +172,15 @@
             color: #94A3B8;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .form-input {
             width: 100%;
-            height: 48px;
+            height: 46px;
             background: rgba(30, 41, 59, 0.5);
             border: 1px solid rgba(51, 65, 85, 0.8);
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 0 16px;
             color: #F8FAFC;
             font-size: 14px;
@@ -148,11 +200,11 @@
 
         .btn-submit {
             width: 100%;
-            height: 50px;
-            margin-top: 10px;
+            height: 48px;
+            margin-top: 8px;
             background: linear-gradient(135deg, #0D9488, #0F766E);
             border: 1px solid rgba(20, 184, 166, 0.5);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #FFFFFF;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 14px;
@@ -181,7 +233,7 @@
             border-radius: 12px;
             font-size: 13px;
             line-height: 1.5;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: none;
         }
 
@@ -197,10 +249,16 @@
             color: #6EE7B7;
         }
 
+        .alert-info {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93C5FD;
+        }
+
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 24px;
+            margin-top: 20px;
             font-size: 13px;
             color: #64748B;
             text-decoration: none;
@@ -209,34 +267,6 @@
 
         .back-link:hover {
             color: #14B8A6;
-        }
-
-        .tab-mode {
-            display: flex;
-            background: rgba(30, 41, 59, 0.6);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(51, 65, 85, 0.6);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 8px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: #94A3B8;
-            background: transparent;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: #0D9488;
-            color: #FFFFFF;
         }
 
         .spinner {
@@ -262,30 +292,34 @@
     <div class="card-container">
         <div class="logo-wrap">🔐</div>
         <h1 class="title">Reset Kata Sandi</h1>
-        <p class="subtitle" id="formSubtitle">Masukkan kata sandi baru untuk akun Al-Qur'an & RTMBOT Anda</p>
+        <p class="subtitle" id="formSubtitle">Sistem Pemulihan Akun Terautentikasi Al-Qur'an &amp; RTMBOT</p>
+
+        <!-- Dynamic User Identity Badge (Shown when authenticated via Email Link) -->
+        <div id="userBadge" class="user-badge" style="display: none;">
+            <div class="badge-icon">👤</div>
+            <div class="badge-info">
+                <div class="badge-label">Akun Terautentikasi</div>
+                <div class="badge-email" id="badgeEmail">Memuat akun...</div>
+                <div class="badge-uid" id="badgeUid">UID: ...</div>
+            </div>
+        </div>
 
         <div id="alertBox" class="alert-box"></div>
 
-        <!-- MODE SELECTION TABS -->
-        <div class="tab-mode" id="tabContainer" style="display: none;">
-            <button class="tab-btn active" id="tabLinkMode" onclick="switchTab('link')">Tautan Email</button>
-            <button class="tab-btn" id="tabOtpMode" onclick="switchTab('otp')">Kode OTP 6-Digit</button>
-        </div>
-
         <form id="resetForm" onsubmit="handleReset(event)">
-            <!-- OTP Mode extra fields -->
-            <div id="otpFields" style="display: none;">
+            <!-- Manual OTP / Email inputs (Shown if user opened web directly without link) -->
+            <div id="manualOtpGroup">
                 <div class="form-group">
-                    <label class="form-label">Email Terdaftar</label>
-                    <input type="email" id="inputEmail" class="form-input" placeholder="nama@email.com">
+                    <label class="form-label">Email Akun Terdaftar</label>
+                    <input type="email" id="inputEmail" class="form-input" placeholder="Masukkan email akun Anda" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Kode Verifikasi OTP (6 Digit)</label>
-                    <input type="text" id="inputOtp" class="form-input" placeholder="Misal: 489201" maxlength="8">
+                    <label class="form-label">Kode OTP 6-Digit (Dari Email)</label>
+                    <input type="text" id="inputOtp" class="form-input" placeholder="6 Digit Angka" maxlength="8" required style="letter-spacing: 3px; font-weight: 700;">
                 </div>
             </div>
 
-            <!-- Password fields -->
+            <!-- New Password inputs -->
             <div class="form-group">
                 <label class="form-label">Kata Sandi Baru</label>
                 <input type="password" id="inputPassword" class="form-input" placeholder="Minimal 6 karakter" required minlength="6">
@@ -302,7 +336,7 @@
             </button>
         </form>
 
-        <a href="/" class="back-link">← Kembali ke Halaman Utama</a>
+        <a href="/" class="back-link">← Kembali ke Beranda RTMBOT</a>
     </div>
 
     <script>
@@ -311,57 +345,60 @@
         
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let currentMode = 'link';
-        let isSessionAuthenticated = false;
+        let isRecoveryMode = false;
+        let currentUser = null;
 
-        // Check URL Hash or Query params
         window.addEventListener('DOMContentLoaded', async () => {
-            const hash = window.location.hash;
-            const searchParams = new URLSearchParams(window.location.search);
-
-            // Handle Supabase Auth Session
+            // Check session from link click
             const { data: { session } } = await sb.auth.getSession();
-            if (session) {
-                isSessionAuthenticated = true;
+            if (session && session.user) {
+                applyAuthenticatedUser(session.user);
             }
 
-            sb.auth.onAuthStateChange((event, session) => {
-                if (event === 'PASSWORD_RECOVERY' || session) {
-                    isSessionAuthenticated = true;
+            sb.auth.onAuthStateChange(async (event, session) => {
+                if (event === 'PASSWORD_RECOVERY' || (session && session.user)) {
+                    applyAuthenticatedUser(session.user);
                 }
             });
 
-            if (!hash.includes('access_token') && !searchParams.get('code') && !isSessionAuthenticated) {
-                // If opened directly without hash link, show OTP mode tab
-                document.getElementById('tabContainer').style.display = 'flex';
-                switchTab('otp');
+            // If no token in URL
+            if (!window.location.hash.includes('access_token') && !window.location.search.includes('code') && !session) {
+                showAlert('ℹ️ Anda membuka halaman reset secara langsung. Silakan masukkan email terdaftar dan kode OTP 6-digit yang dikirimkan ke email Anda.', 'info');
+                document.getElementById('manualOtpGroup').style.display = 'block';
+                document.getElementById('inputEmail').required = true;
+                document.getElementById('inputOtp').required = true;
             }
         });
 
-        function switchTab(mode) {
-            currentMode = mode;
-            const tabLink = document.getElementById('tabLinkMode');
-            const tabOtp = document.getElementById('tabOtpMode');
-            const otpFields = document.getElementById('otpFields');
+        function applyAuthenticatedUser(user) {
+            if (!user) return;
+            currentUser = user;
+            isRecoveryMode = true;
 
-            if (mode === 'otp') {
-                tabOtp.classList.add('active');
-                tabLink.classList.remove('active');
-                otpFields.style.display = 'block';
-                document.getElementById('inputEmail').required = true;
-                document.getElementById('inputOtp').required = true;
-            } else {
-                tabLink.classList.add('active');
-                tabOtp.classList.remove('active');
-                otpFields.style.display = 'none';
-                document.getElementById('inputEmail').required = false;
-                document.getElementById('inputOtp').required = false;
-            }
+            // Hide manual email/OTP inputs because user is already authenticated via email token!
+            document.getElementById('manualOtpGroup').style.display = 'none';
+            document.getElementById('inputEmail').required = false;
+            document.getElementById('inputOtp').required = false;
+
+            // Show User Identity Badge
+            const userBadge = document.getElementById('userBadge');
+            const badgeEmail = document.getElementById('badgeEmail');
+            const badgeUid = document.getElementById('badgeUid');
+
+            userBadge.style.display = 'flex';
+            badgeEmail.innerText = user.email || 'Akun Pengguna';
+            badgeUid.innerText = 'UID: ' + user.id;
+
+            showAlert('✅ Identitas akun terverifikasi (' + user.email + '). Silakan tentukan kata sandi baru Anda di bawah ini.', 'success');
         }
 
-        function showAlert(msg, isError = true) {
+        function showAlert(msg, type = 'error') {
             const el = document.getElementById('alertBox');
-            el.className = 'alert-box ' + (isError ? 'alert-error' : 'alert-success');
+            let cls = 'alert-error';
+            if (type === 'success') cls = 'alert-success';
+            if (type === 'info') cls = 'alert-info';
+
+            el.className = 'alert-box ' + cls;
             el.innerHTML = msg;
             el.style.display = 'block';
         }
@@ -393,14 +430,14 @@
 
             btn.disabled = true;
             spinner.style.display = 'block';
-            btnText.innerText = 'Memproses...';
+            btnText.innerText = 'Menyimpan Kata Sandi...';
 
             try {
-                if (currentMode === 'otp') {
+                if (!isRecoveryMode) {
                     const email = document.getElementById('inputEmail').value.trim();
                     const token = document.getElementById('inputOtp').value.trim();
 
-                    // Step 1: Verify OTP
+                    // Step 1: Verify OTP & Email
                     const { data: verifyData, error: verifyError } = await sb.auth.verifyOtp({
                         email: email,
                         token: token,
@@ -408,11 +445,11 @@
                     });
 
                     if (verifyError) {
-                        throw new Error(verifyError.message || 'Kode OTP tidak valid atau kadaluarsa.');
+                        throw new Error(verifyError.message || 'Kode OTP tidak valid atau telah kadaluarsa.');
                     }
                 }
 
-                // Step 2: Update Password
+                // Step 2: Update User Password
                 const { data, error } = await sb.auth.updateUser({
                     password: password
                 });
@@ -421,17 +458,11 @@
                     throw error;
                 }
 
-                showAlert('✅ Alhamdulillah! Kata sandi Anda berhasil diperbarui. Silakan buka aplikasi Al-Qur'an dan masuk dengan kata sandi baru Anda.', false);
+                showAlert('🎉 Alhamdulillah! Kata sandi akun Anda berhasil diperbarui. Silakan buka aplikasi Al-Qur'an dan masuk dengan kata sandi baru Anda.', 'success');
                 document.getElementById('resetForm').style.display = 'none';
 
             } catch (err) {
-                let msg = err.message || 'Gagal mengubah kata sandi.';
-                if (msg.includes('Auth session missing')) {
-                    msg = 'Sesi tautan telah kadaluarsa atau tidak valid. Silakan gunakan tab "Kode OTP 6-Digit" dengan kode dari email Anda.';
-                    document.getElementById('tabContainer').style.display = 'flex';
-                    switchTab('otp');
-                }
-                showAlert('⚠️ ' + msg);
+                showAlert('⚠️ ' + (err.message || 'Gagal mengubah kata sandi.'));
             } finally {
                 btn.disabled = false;
                 spinner.style.display = 'none';
