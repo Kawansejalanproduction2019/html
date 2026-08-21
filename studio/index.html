@@ -1,6 +1,29 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('rtm_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('rtm_theme', next);
+            updateThemeIcon();
+        }
+        function updateThemeIcon() {
+            const btn = document.getElementById('themeToggleBtn');
+            if (btn) {
+                const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
+                btn.innerHTML = isDark ? '🌙' : '☀️';
+            }
+        }
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RTMBOT Tools - JSON, Image, Barcode, PDF & teks enkripsi</title>
@@ -88,9 +111,84 @@
             textarea { height: 450px; }
             .bulk-grid { grid-template-columns: repeat(4, 1fr); max-height: 500px; }
         }
-    </style>
+    
+        /* THEME VARIABLES FOR DARK AND LIGHT MODE */
+        :root {
+            --bg-primary: #020617;
+            --bg-secondary: #0B1120;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --card-border: rgba(51, 65, 85, 0.6);
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-muted: #64748B;
+            --accent-emerald: #0D9488;
+            --accent-emerald-light: #14B8A6;
+            --accent-gold: #D97706;
+            --shadow-color: rgba(0, 0, 0, 0.6);
+        }
+        [data-theme="light"] {
+            --bg-primary: #F8FAFC;
+            --bg-secondary: #FFFFFF;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(226, 232, 240, 0.9);
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
+            --accent-emerald: #0D9488;
+            --accent-emerald-light: #0F766E;
+            --accent-gold: #D97706;
+            --shadow-color: rgba(15, 23, 42, 0.08);
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 8px 20px var(--shadow-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+        }
+        .theme-toggle-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            border-color: var(--accent-emerald);
+        }
+        [data-theme="light"] body {
+            background-color: var(--bg-primary) !important;
+            color: var(--text-primary) !important;
+        }
+        [data-theme="light"] .card, 
+        [data-theme="light"] .profile-card,
+        [data-theme="light"] .link-item,
+        [data-theme="light"] .header,
+        [data-theme="light"] .navbar {
+            background: var(--card-bg) !important;
+            border-color: var(--card-border) !important;
+            color: var(--text-primary) !important;
+        }
+        [data-theme="light"] .brand-name,
+        [data-theme="light"] .title,
+        [data-theme="light"] .section-title,
+        [data-theme="light"] .hero-title {
+            color: var(--text-primary) !important;
+            background: none !important;
+            -webkit-text-fill-color: var(--text-primary) !important;
+        }
+
+</style>
 </head>
 <body>
+    <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Ganti Tema">🌙</button>
 
     <div class="lock-overlay" id="lockUI">
         <div class="lock-spinner"></div>
