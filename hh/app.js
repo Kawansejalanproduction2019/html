@@ -5,57 +5,82 @@
    Features: Auto Love Rain, Scroll Reveal, Discord Greetings Wall, Zero Em Dashes
    ========================================================================== */
 
-// --- YOUTUBE AUTOPLAY INTEGRATION ---
+// --- YOUTUBE ON-DEMAND / LAZY AUDIO ENGINE (ZERO NETWORK SPAM AT LAUNCH) ---
 const YOUTUBE_VIDEO_ID = 'YdpiHMVL4C0';
 let ytPlayer = null;
 let isAudioPlaying = false;
-let hasUserInteracted = false;
+let isYtLoading = false;
 
-// Load YouTube IFrame API
-const ytScriptTag = document.createElement('script');
-ytScriptTag.src = 'https://www.youtube.com/iframe_api';
-const firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(ytScriptTag, firstScriptTag);
-
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('ytPlayerContainer', {
-    height: '1',
-    width: '1',
-    videoId: YOUTUBE_VIDEO_ID,
-    playerVars: {
-      autoplay: 1,
-      loop: 1,
-      playlist: YOUTUBE_VIDEO_ID,
-      controls: 0,
-      modestbranding: 1,
-      playsinline: 1,
-      enablejsapi: 1
-    },
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+function loadYouTubePlayer(autoStart = true) {
+  if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+    if (autoStart) {
+      ytPlayer.playVideo();
+      isAudioPlaying = true;
+      updateCassetteVisuals(true);
     }
-  });
-};
+    return;
+  }
+  if (isYtLoading) return;
+  isYtLoading = true;
 
-function onPlayerReady(event) {
-  try {
-    event.target.playVideo();
-  } catch (e) {}
+  const text = document.getElementById('audioBtnText');
+  if (text) text.textContent = 'Memuat Musik... ⏳';
+
+  window.onYouTubeIframeAPIReady = function() {
+    ytPlayer = new YT.Player('ytPlayerContainer', {
+      height: '1',
+      width: '1',
+      videoId: YOUTUBE_VIDEO_ID,
+      playerVars: {
+        autoplay: 1,
+        loop: 1,
+        playlist: YOUTUBE_VIDEO_ID,
+        controls: 0,
+        modestbranding: 1,
+        playsinline: 1,
+        enablejsapi: 1
+      },
+      events: {
+        onReady: function(event) {
+          isYtLoading = false;
+          try {
+            if (autoStart) {
+              event.target.playVideo();
+              isAudioPlaying = true;
+              updateCassetteVisuals(true);
+            }
+          } catch (e) {}
+        },
+        onStateChange: onPlayerStateChange
+      }
+    });
+  };
+
+  const ytScriptTag = document.createElement('script');
+  ytScriptTag.src = 'https://www.youtube.com/iframe_api';
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  if (firstScriptTag && firstScriptTag.parentNode) {
+    firstScriptTag.parentNode.insertBefore(ytScriptTag, firstScriptTag);
+  } else {
+    document.head.appendChild(ytScriptTag);
+  }
 }
 
 function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.PLAYING) {
+  if (typeof YT !== 'undefined' && event.data === YT.PlayerState.PLAYING) {
     isAudioPlaying = true;
     updateCassetteVisuals(true);
-  } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+  } else if (typeof YT !== 'undefined' && (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED)) {
     isAudioPlaying = false;
     updateCassetteVisuals(false);
   }
 }
 
 function toggleAudio() {
-  if (!ytPlayer || typeof ytPlayer.playVideo !== 'function') return;
+  if (!ytPlayer) {
+    loadYouTubePlayer(true);
+    return;
+  }
   if (isAudioPlaying) {
     ytPlayer.pauseVideo();
     isAudioPlaying = false;
@@ -88,14 +113,8 @@ function updateCassetteVisuals(playing) {
   }
 }
 
-// Global user interaction trigger for autoplay fallback & click sparkle
-document.addEventListener('click', function unlockAutoplay(e) {
-  if (!hasUserInteracted) {
-    hasUserInteracted = true;
-    if (ytPlayer && typeof ytPlayer.playVideo === 'function' && !isAudioPlaying) {
-      ytPlayer.playVideo();
-    }
-  }
+// Global user interaction for click sparkle
+document.addEventListener('click', function(e) {
   spawnClickHeart(e);
 }, { passive: true });
 
@@ -591,7 +610,7 @@ const LETTER_TEXT = `Untuk Mas Ilham Endriadi,
 Happy belated birthday yaa Mas Ilham! Maaf kalau ucapan ini baru sempat sampai hari ini, telat sehari dari tanggal 7 kemarin.
 
 Dari Bandung, aku kirim doa yang paling tulus untuk Mas Ilham di Padang:
-Semoga Mas Ilham senantiasa diberi limpahan kesehatan, panjang umur dalam keberkahan, rezeki makin luas melimpah, dan sukses selalu dalam segala urusan maupun saat mengelola komunitas Discord RTM.
+Semoga Mas Ilham senantiasa diberi limpahan kesehatan, panjang umur dalam keberkahan, rezeki makin luas melimpah, dan sukses selalu dalam setiap langkah hidup serta cita-citanya.
 
 Oh iya, jangan lupa yaa... 21 hari lagi gantian aku yang ulang tahun tanggal 28 Oktober! Awas kalau sampai lupa ngucapin balik yaa! Hehe 😄`;
 
@@ -630,6 +649,10 @@ const EXCLUDED_WISH_NAMES = ['Kawan Mabar Discord RTM', 'Kerabat Urang Awak', 'H
 
 function getModerationToken() {
   return sessionStorage.getItem('rtm_mod_token') || localStorage.getItem('rtm_mod_token') || localStorage.getItem('rtm_admin_token') || '';
+}
+
+function getAdminToken() {
+  return getModerationToken();
 }
 
 function updateModerationState() {
@@ -786,7 +809,7 @@ function initGreetingsWall() {
   const container = document.getElementById('wishesBoard');
   if (!container) return;
 
-  // 1. Instant local render from storage or defaults (with automatic purging of removed cards)
+  // 1. Instant local render from storage or defaults (Zero network lag on initial paint)
   let allWishes = DEFAULT_GREETINGS;
   try {
     const saved = localStorage.getItem('rtm_ilham_wishes');
@@ -803,20 +826,22 @@ function initGreetingsWall() {
   }
   renderWishes(allWishes);
 
-  // 2. Asynchronous server synchronization (cross-device persistence)
-  fetch(WISHES_API_URL)
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.status === 'success' && Array.isArray(data.wishes) && data.wishes.length > 0) {
-        const filtered = data.wishes.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
-        const finalWishes = filtered.length > 0 ? filtered : DEFAULT_GREETINGS;
-        renderWishes(finalWishes);
-        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(finalWishes));
-      }
-    })
-    .catch(err => {
-      console.log('Server wishes sync fallback to local cache:', err);
-    });
+  // 2. Gentle deferred server sync so initial page load stays 100% lightweight & fast
+  setTimeout(() => {
+    fetch(WISHES_API_URL)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.status === 'success' && Array.isArray(data.wishes) && data.wishes.length > 0) {
+          const filtered = data.wishes.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
+          const finalWishes = filtered.length > 0 ? filtered : DEFAULT_GREETINGS;
+          renderWishes(finalWishes);
+          localStorage.setItem('rtm_ilham_wishes', JSON.stringify(finalWishes));
+        }
+      })
+      .catch(err => {
+        console.log('Server wishes sync fallback to local cache:', err);
+      });
+  }, 750);
 }
 
 function renderWishes(list) {
@@ -824,7 +849,7 @@ function renderWishes(list) {
   if (!container) return;
   container.innerHTML = '';
 
-  const isAdmin = !!getAdminToken();
+  const isAdmin = !!getModerationToken();
 
   list.forEach(item => {
     const note = document.createElement('article');
@@ -861,14 +886,15 @@ function renderWishes(list) {
 }
 
 function submitNewWish(event) {
-  event.preventDefault();
+  if (event) event.preventDefault();
   const nameInput = document.getElementById('newWishName');
   const roleInput = document.getElementById('newWishRole');
   const msgInput = document.getElementById('newWishMsg');
+  const submitBtn = event && event.target ? event.target.querySelector('button[type="submit"]') : null;
 
-  const name = nameInput.value.trim();
-  const role = roleInput.value.trim() || 'Sahabat';
-  const msg = msgInput.value.trim();
+  const name = nameInput ? nameInput.value.trim() : '';
+  const role = roleInput ? roleInput.value.trim() || 'Sahabat' : 'Sahabat';
+  const msg = msgInput ? msgInput.value.trim() : '';
 
   if (!name || !msg) return;
 
@@ -881,21 +907,33 @@ function submitNewWish(event) {
     time: 'Baru saja'
   };
 
-  // Immediate optimistic local update
-  const saved = localStorage.getItem('rtm_ilham_wishes');
-  const currentList = saved ? JSON.parse(saved) : [...DEFAULT_GREETINGS];
-  currentList.push(newEntry);
-  localStorage.setItem('rtm_ilham_wishes', JSON.stringify(currentList));
-  renderWishes(currentList);
+  // Immediate optimistic local update (No code / PIN needed for visitors)
+  try {
+    const saved = localStorage.getItem('rtm_ilham_wishes');
+    const currentList = saved ? JSON.parse(saved) : [...DEFAULT_GREETINGS];
+    currentList.push(newEntry);
+    localStorage.setItem('rtm_ilham_wishes', JSON.stringify(currentList));
+    renderWishes(currentList);
+  } catch (e) {}
 
-  nameInput.value = '';
-  roleInput.value = '';
-  msgInput.value = '';
+  if (nameInput) nameInput.value = '';
+  if (roleInput) roleInput.value = '';
+  if (msgInput) msgInput.value = '';
 
   playCelebrationChimes();
   fireConfetti();
 
-  // Secure server-side persistence
+  if (submitBtn) {
+    const origHtml = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>✅ Terkirim ke Papan Kenangan!</span>';
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origHtml;
+    }, 2800);
+  }
+
+  // Secure server-side persistence (saves to PostgreSQL / Supabase)
   fetch(WISHES_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -908,21 +946,21 @@ function submitNewWish(event) {
   })
   .then(res => res.json())
   .then(resData => {
-    if (resData && resData.status === 'success') {
-      // Re-fetch to ensure canonical order across all devices
-      fetch(WISHES_API_URL)
-        .then(r => r.json())
-        .then(syncData => {
-          if (syncData && Array.isArray(syncData.wishes)) {
-            renderWishes(syncData.wishes);
-            localStorage.setItem('rtm_ilham_wishes', JSON.stringify(syncData.wishes));
-          }
-        })
-        .catch(() => {});
+    if (resData && resData.status === 'success' && resData.wish) {
+      try {
+        const saved = localStorage.getItem('rtm_ilham_wishes');
+        const list = saved ? JSON.parse(saved) : [...DEFAULT_GREETINGS];
+        const exists = list.some(w => w.name === resData.wish.name && w.message === resData.wish.message);
+        if (!exists) {
+          list.push(resData.wish);
+          localStorage.setItem('rtm_ilham_wishes', JSON.stringify(list));
+          renderWishes(list);
+        }
+      } catch (e) {}
     }
   })
   .catch(err => {
-    console.log('Server persistence notice:', err);
+    console.log('Server persistence fallback:', err);
   });
 }
 
