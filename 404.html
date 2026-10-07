@@ -1,240 +1,96 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404: Halaman Tidak Ditemukan - RTMBOT</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="rtm-design-system.css">
 
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('rtm_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        })();
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('rtm_theme', next);
-            updateThemeIcon();
-        }
-        function updateThemeIcon() {
-            const btn = document.getElementById('themeToggleBtn');
-            if (btn) {
-                const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
-                btn.innerHTML = isDark ? '🌙' : '☀️';
-            }
-        }
-        window.addEventListener('DOMContentLoaded', updateThemeIcon);
-    </script>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('rtm_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Halaman Tidak Ditemukan — RTMBOT</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <script>
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-            location.replace(`https:${location.href.substring(location.protocol.length)}`);
-        }
-    </script>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #F8FAFC;
-            min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 20px;
-        }
-        .bg-fx {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
-        .ambient-1 {
-            position: absolute;
-            top: -20%;
-            left: -10%;
-            width: 70vw;
-            height: 70vw;
-            background: radial-gradient(circle, rgba(239,68,68,0.12) 0%, transparent 60%);
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-        .ambient-2 {
-            position: absolute;
-            bottom: -20%;
-            right: -10%;
-            width: 70vw;
-            height: 70vw;
-            background: radial-gradient(circle, rgba(13,148,136,0.15) 0%, transparent 60%);
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-        
-        .card {
-            position: relative;
-            z-index: 1;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(51, 65, 85, 0.6);
-            border-radius: 32px;
-            padding: 50px 36px;
-            text-align: center;
-            backdrop-filter: blur(25px);
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
-            max-width: 460px;
-            width: 100%;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #EF4444, #0D9488, #D97706);
-        }
-        
-        .error-code {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 76px;
-            font-weight: 800;
-            line-height: 1;
-            background: linear-gradient(135deg, #EF4444, #F8FAFC);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-        .error-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #F8FAFC;
-        }
-        .error-desc {
-            font-size: 14px;
-            color: #94A3B8;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        
-        .btn-home {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, #0D9488, #0F766E);
-            border: 1px solid rgba(20, 184, 166, 0.5);
-            color: #FFFFFF;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: 14px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.4);
-        }
-        .btn-home:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #14B8A6, #0D9488);
-            box-shadow: 0 15px 30px -5px rgba(13, 148, 136, 0.5);
-        }
-    
-        /* THEME VARIABLES FOR DARK AND LIGHT MODE */
-        :root {
-            --bg-primary: #000000;
-            --bg-secondary: #0B1120;
-            --card-bg: rgba(15, 23, 42, 0.7);
-            --card-border: rgba(51, 65, 85, 0.6);
-            --text-primary: #F8FAFC;
-            --text-secondary: #94A3B8;
-            --text-muted: #64748B;
-            --accent-emerald: #0D9488;
-            --accent-emerald-light: #14B8A6;
-            --accent-gold: #D97706;
-            --shadow-color: rgba(0, 0, 0, 0.6);
-        }
-        [data-theme="light"] {
-            --bg-primary: #F8FAFC;
-            --bg-secondary: #FFFFFF;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: rgba(226, 232, 240, 0.9);
-            --text-primary: #0F172A;
-            --text-secondary: #475569;
-            --text-muted: #94A3B8;
-            --accent-emerald: #0D9488;
-            --accent-emerald-light: #0F766E;
-            --accent-gold: #D97706;
-            --shadow-color: rgba(15, 23, 42, 0.08);
-        }
-        .theme-toggle-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            box-shadow: 0 8px 20px var(--shadow-color);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            color: var(--text-primary);
-        }
-        .theme-toggle-btn:hover {
-            transform: scale(1.1) rotate(15deg);
-            border-color: var(--accent-emerald);
-        }
-        [data-theme="light"] body {
-            background-color: var(--bg-primary) !important;
-            color: var(--text-primary) !important;
-        }
-        [data-theme="light"] .card, 
-        [data-theme="light"] .profile-card,
-        [data-theme="light"] .link-item,
-        [data-theme="light"] .header,
-        [data-theme="light"] .navbar {
-            background: var(--card-bg) !important;
-            border-color: var(--card-border) !important;
-            color: var(--text-primary) !important;
-        }
-        [data-theme="light"] .brand-name,
-        [data-theme="light"] .title,
-        [data-theme="light"] .section-title,
-        [data-theme="light"] .hero-title {
-            color: var(--text-primary) !important;
-            background: none !important;
-            -webkit-text-fill-color: var(--text-primary) !important;
-        }
+  <style>
+    .notfound-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      text-align: center;
+    }
 
-</style>
+    .notfound-card {
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: var(--rtm-shadow-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      font-weight: 800;
+      color: var(--rtm-primary-light);
+      line-height: 1;
+    }
+
+    .error-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+    }
+
+    .error-desc {
+      font-size: 0.95rem;
+      color: var(--rtm-text-secondary);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
-    <button id="themeToggleBtn" class="theme-toggle-btn" onclick="toggleTheme()" title="Ganti Tema">🌙</button>
-    <div class="bg-fx">
-        <div class="ambient-1"></div>
-        <div class="ambient-2"></div>
+
+  <main class="notfound-container">
+    <div class="notfound-card">
+      <div class="error-code">404</div>
+      <h1 class="error-title">Halaman Tidak Ditemukan</h1>
+      <p class="error-desc">
+        Tautan yang Anda tuju mungkin telah dipindahkan, berganti nama, atau sudah tidak tersedia di ekosistem RTMBOT.
+      </p>
+      <div class="action-row">
+        <a href="/" class="rtm-btn-link rtm-btn-primary">Kembali ke Beranda Hub</a>
+        <a href="/quran/" class="rtm-btn-link">Buka Al-Quran</a>
+      </div>
     </div>
-    <div class="card">
-        <div class="error-code">404</div>
-        <div class="error-title">Halaman Tidak Ditemukan</div>
-        <div class="error-desc">Tautan yang Anda tuju mungkin sudah dipindahkan, dihapus, atau alamat URL salah dimasukkan.</div>
-        <a href="/" class="btn-home">← Kembali ke Beranda RTMBOT</a>
-    </div>
+  </main>
+
+  <footer class="rtm-footer" style="position: absolute; bottom: 0; width: 100%;">
+    <p>&copy; 2026 RTMBOT Solutions.</p>
+  </footer>
+
 </body>
 </html>

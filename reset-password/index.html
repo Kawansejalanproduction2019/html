@@ -1,467 +1,368 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atur Ulang Kata Sandi — RTMBOT &amp; Al-Qur'an</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        (function() {
-            const saved = localStorage.getItem('rtm_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-            document.documentElement.setAttribute('data-theme', saved);
-        })();
-    </script>
-    <style>
-        :root {
-            --bg-body: #000000;
-            --bg-card: rgba(10, 15, 26, 0.9);
-            --border-card: rgba(30, 41, 59, 0.8);
-            --input-bg: rgba(18, 26, 42, 0.7);
-            --input-border: rgba(51, 65, 85, 0.8);
-            --text-title: #FFFFFF;
-            --text-body: #94A3B8;
-            --text-muted: #64748B;
-            --accent-emerald: #0D9488;
-            --accent-emerald-light: #14B8A6;
-            --accent-gold: #D97706;
-            --shadow-card: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atur Ulang Kata Sandi: RTMBOT &amp; Al-Quran</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../rtm-design-system.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        [data-theme="light"] {
-            --bg-body: #FFFFFF;
-            --bg-card: #FFFFFF;
-            --border-card: #E2E8F0;
-            --input-bg: #F8FAFC;
-            --input-border: #CBD5E1;
-            --text-title: #0F172A;
-            --text-body: #475569;
-            --text-muted: #94A3B8;
-            --accent-emerald: #0D9488;
-            --accent-emerald-light: #0F766E;
-            --accent-gold: #D97706;
-            --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
-        }
+  <script>
+    (function() {
+      const saved = localStorage.getItem('rtm_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s, color 0.3s; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-title);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+    }
 
-        .ambient-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .orb-1 {
-            position: absolute;
-            top: -20%; left: -10%; width: 65vw; height: 65vw;
-            background: radial-gradient(circle, rgba(13, 148, 136, 0.15) 0%, transparent 65%);
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-        .orb-2 {
-            position: absolute;
-            bottom: -20%; right: -10%; width: 65vw; height: 65vw;
-            background: radial-gradient(circle, rgba(217, 119, 6, 0.1) 0%, transparent 65%);
-            border-radius: 50%;
-            filter: blur(80px);
-        }
+    .auth-card {
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-lg);
+      padding: 38px 28px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: var(--rtm-shadow-md);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-        .theme-switcher {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(15px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            box-shadow: var(--shadow-card);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .theme-switcher:hover {
-            transform: scale(1.1) rotate(15deg);
-            border-color: var(--accent-emerald);
-        }
+    .auth-header {
+      text-align: center;
+    }
 
-        .card {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 460px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 28px;
-            padding: 38px 30px;
-            backdrop-filter: blur(25px);
-            box-shadow: var(--shadow-card);
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            border-radius: 28px 28px 0 0;
-            background: linear-gradient(90deg, #0D9488, #D97706, #14B8A6);
-        }
+    .auth-brand-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--rtm-primary-light);
+      background: rgba(13, 148, 136, 0.12);
+      border: 1px solid rgba(20, 184, 166, 0.25);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
 
-        .logo-box {
-            width: 58px;
-            height: 58px;
-            margin: 0 auto 16px auto;
-            border-radius: 18px;
-            background: linear-gradient(135deg, rgba(13, 148, 136, 0.2), rgba(217, 119, 6, 0.2));
-            border: 1px solid rgba(13, 148, 136, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
+    .auth-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
 
-        .title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 6px;
-            color: var(--text-title);
-        }
-        .subtitle {
-            font-size: 13px;
-            color: var(--text-body);
-            text-align: center;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
+    .auth-sub {
+      font-size: 0.88rem;
+      color: var(--rtm-text-secondary);
+      line-height: 1.5;
+    }
 
-        .user-badge {
-            background: var(--input-bg);
-            border: 1px solid rgba(13, 148, 136, 0.4);
-            border-radius: 16px;
-            padding: 14px 16px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .badge-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(13, 148, 136, 0.15);
-            color: var(--accent-emerald);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-        .badge-label {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--accent-emerald);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        .badge-email {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-title);
-        }
-        .badge-uid {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-family: monospace;
-        }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
 
-        .form-group { margin-bottom: 16px; }
-        .form-label {
-            display: block;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-body);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 6px;
-        }
-        .form-input {
-            width: 100%;
-            height: 46px;
-            background: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 12px;
-            padding: 0 16px;
-            color: var(--text-title);
-            font-size: 14px;
-            outline: none;
-        }
-        .form-input:focus {
-            border-color: var(--accent-emerald);
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
-        }
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--rtm-text-main);
+    }
 
-        .btn-submit {
-            width: 100%;
-            height: 48px;
-            margin-top: 8px;
-            background: linear-gradient(135deg, #0D9488, #0F766E);
-            border: 1px solid rgba(20, 184, 166, 0.5);
-            border-radius: 12px;
-            color: #FFFFFF;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-submit:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.4);
-        }
-        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--rtm-surface-elevated);
+      border: 1px solid var(--rtm-border);
+      color: var(--rtm-text-main);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
 
-        .alert-box {
-            padding: 14px 16px;
-            border-radius: 14px;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 18px;
-            display: none;
-        }
-        .alert-error { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #FCA5A5; }
-        .alert-success { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #6EE7B7; }
-        .alert-info { background: rgba(13, 148, 136, 0.15); border: 1px solid rgba(13, 148, 136, 0.4); color: #5EEAD4; }
+    .form-input:focus {
+      border-color: var(--rtm-primary-light);
+    }
 
-        .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: var(--text-muted);
-            text-decoration: none;
-        }
-        .back-link:hover { color: var(--accent-emerald); }
+    .btn-submit {
+      width: 100%;
+      min-height: var(--tap-target-min);
+      background: var(--rtm-primary);
+      color: #FFFFFF;
+      border: 1px solid var(--rtm-primary-hover);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+    }
 
-        .spinner {
-            width: 18px; height: 18px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #FFFFFF;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
+    .btn-submit:hover {
+      background: var(--rtm-primary-hover);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .alert-box {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .alert-error {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #F87171;
+    }
+
+    .alert-success {
+      background: rgba(13, 148, 136, 0.12);
+      border: 1px solid rgba(20, 184, 166, 0.3);
+      color: var(--rtm-primary-light);
+    }
+
+    .alert-info {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60A5FA;
+    }
+
+    .user-badge {
+      display: none;
+      flex-direction: column;
+      background: var(--rtm-surface-elevated);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.8rem;
+    }
+
+    .badge-email {
+      font-weight: 700;
+      color: var(--rtm-text-main);
+    }
+
+    .badge-uid {
+      color: var(--rtm-text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #FFFFFF;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .back-home-link {
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--rtm-text-secondary);
+      text-decoration: none;
+    }
+
+    .back-home-link:hover {
+      color: var(--rtm-primary-light);
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
 
-    <button id="themeToggleBtn" class="theme-switcher" onclick="toggleTheme()" title="Ganti Tema">🌙</button>
+  <main class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-brand-badge">Keamanan Akun</span>
+        <h1 class="auth-title">Atur Ulang Kata Sandi</h1>
+        <p class="auth-sub">Masukkan kata sandi baru untuk akun aplikasi Al-Quran &amp; RTMBOT Anda.</p>
+      </div>
 
-    <div class="ambient-glow">
-        <div class="orb-1"></div>
-        <div class="orb-2"></div>
-    </div>
+      <div id="userBadge" class="user-badge">
+        <span id="badgeEmail" class="badge-email"></span>
+        <span id="badgeUid" class="badge-uid"></span>
+      </div>
 
-    <div class="card">
-        <div class="logo-box">🔐</div>
-        <h1 class="title">Reset Kata Sandi</h1>
-        <p class="subtitle">Sistem Pemulihan Akun Terverifikasi Al-Qur'an &amp; RTMBOT</p>
+      <div id="alertBox" class="alert-box"></div>
 
-        <div id="userBadge" class="user-badge" style="display: none;">
-            <div class="badge-icon">👤</div>
-            <div>
-                <div class="badge-label">Akun Terverifikasi</div>
-                <div class="badge-email" id="badgeEmail">Memuat...</div>
-                <div class="badge-uid" id="badgeUid">UID: ...</div>
-            </div>
+      <form id="resetForm" onsubmit="handleReset(event)">
+        <div class="form-group">
+          <label for="inputPassword" class="form-label">Kata Sandi Baru</label>
+          <input type="password" id="inputPassword" class="form-input" placeholder="Minimal 6 karakter" required minlength="6">
         </div>
 
-        <div id="alertBox" class="alert-box"></div>
+        <div class="form-group">
+          <label for="inputConfirmPassword" class="form-label">Konfirmasi Kata Sandi</label>
+          <input type="password" id="inputConfirmPassword" class="form-input" placeholder="Ulangi kata sandi baru" required minlength="6">
+        </div>
 
-        <form id="resetForm" onsubmit="handleReset(event)">
-            <div class="form-group">
-                <label class="form-label">Kata Sandi Baru</label>
-                <input type="password" id="inputPassword" class="form-input" placeholder="Minimal 6 karakter" required minlength="6">
-            </div>
+        <button type="submit" id="btnSubmit" class="btn-submit">
+          <span class="spinner" id="btnSpinner"></span>
+          <span id="btnText">Simpan Kata Sandi Baru</span>
+        </button>
+      </form>
 
-            <div class="form-group">
-                <label class="form-label">Konfirmasi Kata Sandi Baru</label>
-                <input type="password" id="inputConfirmPassword" class="form-input" placeholder="Ulangi kata sandi baru" required minlength="6">
-            </div>
-
-            <button type="submit" id="btnSubmit" class="btn-submit">
-                <span class="spinner" id="btnSpinner"></span>
-                <span id="btnText">Simpan Kata Sandi Baru</span>
-            </button>
-        </form>
-
-        <a href="/" class="back-link">← Kembali ke Beranda RTMBOT</a>
+      <a href="../index.html" class="back-home-link">Kembali ke Beranda Hub</a>
     </div>
+  </main>
 
-    <script>
-        const SUPABASE_URL = 'https://pmkiziyyzkeumflrhhpb.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBta2l6aXl5emtldW1mbHJoaHBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODQ3MjQsImV4cCI6MjA5MjM2MDcyNH0.o_aaf4AwUPS01_7dPnLecNLFiYoJe478oCjNgBTsK4U';
+  <script>
+    const SUPABASE_URL = 'https://pmkiziyyzkeumflrhhpb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBta2l6aXl5emtldW1mbHJoaHBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODQ3MjQsImV4cCI6MjA5MjM2MDcyNH0.o_aaf4AwUPS01_7dPnLecNLFiYoJe478oCjNgBTsK4U';
+    
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      const search = window.location.search;
+      const hash = window.location.hash;
+      const urlParams = new URLSearchParams(search);
+
+      const tokenHash = urlParams.get('token_hash');
+      const type = urlParams.get('type') || 'recovery';
+
+      if (tokenHash) {
+        try {
+          const { data, error } = await sb.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: type
+          });
+          if (!error && data && data.user) {
+            applyAuthenticatedUser(data.user);
+            return;
+          }
+        } catch (e) {}
+      }
+
+      if (hash.includes('access_token')) {
+        const hashParams = new URLSearchParams(hash.substring(1));
+        const accessToken = hashParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token') || '';
         
-        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        try {
+          const { data, error } = await sb.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          if (!error && data && data.user) {
+            applyAuthenticatedUser(data.user);
+            return;
+          }
+        } catch (e) {}
+      }
 
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme') || 'dark';
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('rtm_theme', next);
-            updateThemeIcon();
-        }
+      const { data: { session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        applyAuthenticatedUser(session.user);
+        return;
+      }
 
-        function updateThemeIcon() {
-            const btn = document.getElementById('themeToggleBtn');
-            if (btn) {
-                const isDark = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark';
-                btn.innerHTML = isDark ? '🌙' : '☀️';
-            }
-        }
+      showAlert('Silakan masukkan kata sandi baru Anda di formulir.', 'info');
+    });
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            updateThemeIcon();
+    function applyAuthenticatedUser(user) {
+      if (!user) return;
+      const userBadge = document.getElementById('userBadge');
+      const badgeEmail = document.getElementById('badgeEmail');
+      const badgeUid = document.getElementById('badgeUid');
 
-            const search = window.location.search;
-            const hash = window.location.hash;
-            const urlParams = new URLSearchParams(search);
+      userBadge.style.display = 'flex';
+      badgeEmail.textContent = user.email || 'Akun Pengguna';
+      badgeUid.textContent = 'UID: ' + user.id;
 
-            const tokenHash = urlParams.get('token_hash');
-            const type = urlParams.get('type') || 'recovery';
+      showAlert('Akun terverifikasi (' + user.email + '). Silakan masukkan kata sandi baru.', 'success');
+    }
 
-            if (tokenHash) {
-                try {
-                    const { data, error } = await sb.auth.verifyOtp({
-                        token_hash: tokenHash,
-                        type: type
-                    });
-                    if (!error && data && data.user) {
-                        applyAuthenticatedUser(data.user);
-                        return;
-                    }
-                } catch (e) {}
-            }
+    function showAlert(msg, type = 'error') {
+      const el = document.getElementById('alertBox');
+      let cls = 'alert-error';
+      if (type === 'success') cls = 'alert-success';
+      if (type === 'info') cls = 'alert-info';
+      el.className = 'alert-box ' + cls;
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
 
-            if (hash.includes('access_token')) {
-                const hashParams = new URLSearchParams(hash.substring(1));
-                const accessToken = hashParams.get('access_token');
-                const refreshToken = hashParams.get('refresh_token') || '';
-                
-                try {
-                    const { data, error } = await sb.auth.setSession({
-                        access_token: accessToken,
-                        refresh_token: refreshToken
-                    });
-                    if (!error && data && data.user) {
-                        applyAuthenticatedUser(data.user);
-                        return;
-                    }
-                } catch (e) {}
-            }
+    async function handleReset(e) {
+      e.preventDefault();
+      document.getElementById('alertBox').style.display = 'none';
 
-            const { data: { session } } = await sb.auth.getSession();
-            if (session && session.user) {
-                applyAuthenticatedUser(session.user);
-                return;
-            }
+      const password = document.getElementById('inputPassword').value.trim();
+      const confirmPass = document.getElementById('inputConfirmPassword').value.trim();
 
-            showAlert('Silakan masukkan kata sandi baru Anda di bawah ini.', 'info');
+      if (password !== confirmPass) {
+        showAlert('Konfirmasi kata sandi tidak cocok!');
+        return;
+      }
+      if (password.length < 6) {
+        showAlert('Kata sandi minimal 6 karakter!');
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmit');
+      const spinner = document.getElementById('btnSpinner');
+      const btnText = document.getElementById('btnText');
+
+      btn.disabled = true;
+      spinner.style.display = 'inline-block';
+      btnText.textContent = 'Menyimpan Kata Sandi...';
+
+      try {
+        const { data, error } = await sb.auth.updateUser({
+          password: password
         });
 
-        function applyAuthenticatedUser(user) {
-            if (!user) return;
-            const userBadge = document.getElementById('userBadge');
-            const badgeEmail = document.getElementById('badgeEmail');
-            const badgeUid = document.getElementById('badgeUid');
+        if (error) throw error;
 
-            userBadge.style.display = 'flex';
-            badgeEmail.innerText = user.email || 'Akun Pengguna';
-            badgeUid.innerText = 'UID: ' + user.id;
+        // Invalidate session to avoid token re-use
+        await sb.auth.signOut();
+        window.history.replaceState({}, document.title, window.location.pathname);
 
-            showAlert('✅ Akun terverifikasi (' + user.email + '). Silakan masukkan kata sandi baru.', 'success');
-        }
+        showAlert('Alhamdulillah, kata sandi akun Anda berhasil diperbarui. Silakan kembali ke aplikasi dan masuk dengan kata sandi baru Anda.', 'success');
+        document.getElementById('resetForm').style.display = 'none';
+        document.getElementById('userBadge').style.display = 'none';
 
-        function showAlert(msg, type = 'error') {
-            const el = document.getElementById('alertBox');
-            let cls = 'alert-error';
-            if (type === 'success') cls = 'alert-success';
-            if (type === 'info') cls = 'alert-info';
-            el.className = 'alert-box ' + cls;
-            el.innerHTML = msg;
-            el.style.display = 'block';
-        }
-
-        async function handleReset(e) {
-            e.preventDefault();
-            document.getElementById('alertBox').style.display = 'none';
-
-            const password = document.getElementById('inputPassword').value.trim();
-            const confirmPass = document.getElementById('inputConfirmPassword').value.trim();
-
-            if (password !== confirmPass) {
-                showAlert('Konfirmasi kata sandi tidak cocok!');
-                return;
-            }
-            if (password.length < 6) {
-                showAlert('Kata sandi minimal 6 karakter!');
-                return;
-            }
-
-            const btn = document.getElementById('btnSubmit');
-            const spinner = document.getElementById('btnSpinner');
-            const btnText = document.getElementById('btnText');
-
-            btn.disabled = true;
-            spinner.style.display = 'block';
-            btnText.innerText = 'Menyimpan Kata Sandi...';
-
-            try {
-                const { data, error } = await sb.auth.updateUser({
-                    password: password
-                });
-
-                if (error) throw error;
-
-                // IMMEDIATELY INVALIDATE SESSION & CLEAN URL TO PREVENT REUSE!
-                await sb.auth.signOut();
-                window.history.replaceState({}, document.title, window.location.pathname);
-
-                showAlert('🎉 Alhamdulillah! Kata sandi akun Anda berhasil diubah. Tautan ini telah otomatis dinonaktifkan demi keamanan. Silakan buka aplikasi Al-Qur'an dan masuk dengan kata sandi baru Anda.', 'success');
-                document.getElementById('resetForm').style.display = 'none';
-                document.getElementById('userBadge').style.display = 'none';
-
-            } catch (err) {
-                showAlert('⚠️ ' + (err.message || 'Gagal mengubah kata sandi. Pastikan tautan belum kadaluarsa.'));
-            } finally {
-                btn.disabled = false;
-                spinner.style.display = 'none';
-                btnText.innerText = 'Simpan Kata Sandi Baru';
-            }
-        }
-    </script>
+      } catch (err) {
+        showAlert('Galat: ' + (err.message || 'Gagal mengubah kata sandi. Pastikan tautan belum kadaluarsa.'));
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        btnText.textContent = 'Simpan Kata Sandi Baru';
+      }
+    }
+  </script>
 </body>
 </html>

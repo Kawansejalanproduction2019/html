@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spesial Oktober: Catatan Kasih Padang &amp; Bandung | Ilham (7 Okt) &amp; Haruru (28 Okt)</title>
+
+  <!-- Typography: Warm Editorial Serif, Friendly Handwriting, Clean Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scrollProgressTrack">
+    <div id="scrollProgressBar"></div>
+  </div>
+
+  <!-- Automatic Ambient Background Love Rain Canvas -->
+  <canvas id="rainCanvas"></canvas>
+
+  <!-- Fullscreen Celebration Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Hidden YouTube Autoplay Container (YdpiHMVL4C0) -->
+  <div id="ytPlayerContainer" style="position: absolute; width: 1px; height: 1px; left: -9999px; top: -9999px;"></div>
+
+  <!-- Floating Scroll To Top Button -->
+  <button id="scrollTopBtn" class="btn-scroll-top" onclick="scrollToTop()" title="Kembali ke atas">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <div class="scrapbook-container">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-nav reveal-on-scroll">
+      <a href="../index.html" class="nav-brand">
+        <span>RTMBOT</span>
+        <span class="brand-heart">&hearts;</span>
+        <span>Spesial Bulan Oktober</span>
+      </a>
+
+      <div class="nav-actions">
+        <a href="#greetingsWall" class="btn-nav">
+          <span>💌 Papan Ucapan</span>
+        </a>
+        <a href="../index.html" class="btn-nav btn-nav-primary">
+          <span>Ke Beranda Hub</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Section: Dual October Birthdays & LDR Connection -->
+    <section class="hero-scrapbook reveal-on-scroll">
+      <div class="washi-top-center"></div>
+      
+      <div class="hero-badge">
+        <span>Oktober Istimewa &bull; Ilham (7 Okt) &amp; Haruru (28 Okt)</span>
+      </div>
+
+      <h1 class="hero-title">
+        Selamat Ulang Tahun, <span>Ilham Endriadi</span>!
+      </h1>
+
+      <p class="hero-sub">
+        Dari Haruru di Kota Kembang Bandung, untuk pria terhebat di Ranah Minang Padang. (Maaf yaa kalau ucapan ini telat sehari dari tanggal 7 kemarin &hearts;)
+      </p>
+
+      <!-- LDR Distance Radar -->
+      <div class="distance-radar">
+        <div class="radar-cities">
+          <div class="city-card city-padang">
+            <span class="city-tag">Ranah Minang</span>
+            <span class="city-name">Padang, Sumbar</span>
+            <span class="city-person">Ilham Endriadi (Kemarin, 7 Oktober)</span>
+          </div>
+
+          <div class="city-card city-bandung">
+            <span class="city-tag">Kota Kembang</span>
+            <span class="city-name">Bandung, Jabar</span>
+            <span class="city-person">Haruru (Nanti, 28 Oktober)</span>
+          </div>
+        </div>
+
+        <div class="distance-track">
+          <div class="distance-progress"></div>
+          <div class="flying-plane" title="Pesawat Kasih Padang - Bandung">✈️</div>
+        </div>
+
+        <div class="distance-caption">
+          <span>Jarak Fisik: &plusmn; 1.340 KM</span>
+          <span>&bull;</span>
+          <span>Dua Hati yang Bertaut di Bulan Oktober (7 Okt &amp; 28 Okt)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cassette Player Section: Autoplay Soundtrack (YdpiHMVL4C0) -->
+    <section class="cassette-section reveal-on-scroll">
+      <div class="cassette-player">
+        <div class="cassette-label">
+          <span class="cassette-song-title">Soundtrack Kasih: Ghea Indrawari</span>
+          <span style="font-size: 0.75rem; color: #78350F; font-weight: 700;">SIDE A &bull; STEREO</span>
+        </div>
+
+        <div class="cassette-tape-view">
+          <div class="spool spinning" id="spoolLeft"></div>
+          <div style="color: #A8A29E; font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 2px;">AUTOPLAY</div>
+          <div class="spool spinning" id="spoolRight"></div>
+        </div>
+
+        <div class="cassette-controls">
+          <button type="button" class="btn-audio" id="audioToggleBtn" onclick="toggleAudio()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span id="audioBtnText">Jeda Musik</span>
+          </button>
+        </div>
+      </div>
+      <p class="audio-hint">Ketuk tombol jika pemutar musik belum berputar otomatis di browser Anda.</p>
+    </section>
+
+    <!-- Birthday Cake & Interactive Candle Blowing (Belated Theme with Apology) -->
+    <section class="cake-section reveal-on-scroll">
+      <div class="section-tag">Kue Kejutan &bull; Belated Birthday</div>
+      <h2 class="section-title">Tiup Lilin Harapan Ilham</h2>
+      <p class="section-desc">
+        Maafkan yaa kalau tiup lilinnya baru sempat dirayakan sekarang (telat sehari dari tanggal 7 kemarin). Tapi doa tulus Haruru untuk Ilham tak pernah berkurang sedetik pun! Pikirkan permohonan terbesarmu, lalu ketuk lilin di bawah untuk meniup apinya.
+      </p>
+
+      <div class="cake-illustration">
+        <div class="candle-wrapper" id="candleWrapper" onclick="blowCandle()" title="Ketuk untuk meniup lilin!">
+          <div class="candle-flame" id="candleFlame"></div>
+          <div class="candle-smoke" id="candleSmoke"></div>
+          <div class="candle-stick"></div>
+        </div>
+        <div class="cake-tier-top"></div>
+        <div class="cake-tier-bottom"></div>
+      </div>
+
+      <button type="button" class="btn-blow" id="btnBlow" onclick="blowCandle()">
+        <span>Tiup Lilin Harapan Ilham 🎂</span>
+      </button>
+
+      <div class="wish-unlocked-card" id="wishCard">
+        <h4>Permohonan Terkabul!</h4>
+        <p style="font-family: var(--font-hand); font-size: 1.45rem; color: var(--ink-primary); line-height: 1.4;">
+          Selamat ulang tahun ke-sekian untuk Ilham Endriadi tersayang! Maaf banget yaa kalau kejutan dan kuenya telat sehari dari tanggal 7 kemarin... Tapi cintaku dan doa baikku buat Ilham selalu mengalir tanpa henti di setiap sujud. Semoga panjang umur, sehat lahir batin, dimudahkan rezeki, dan makin sayang sama Haruru! Aamiin!
+        </p>
+      </div>
+    </section>
+
+    <!-- Kotak Kado Kejutan / Mystery Gift Gacha Interaktif -->
+    <section class="gacha-section reveal-on-scroll">
+      <div class="section-header">
+        <div class="section-tag">Kotak Kado Misteri</div>
+        <h2 class="section-title">Buka Kotak Kado Kejutan untuk Ilham!</h2>
+        <p class="section-desc">Ketuk kotak kado pita di bawah ini atau tekan tombol untuk membuka kado kejutan yang ada di dalamnya.</p>
+      </div>
+
+      <div class="gift-gacha-stage">
+        <div class="mystery-gift-box" id="mysteryGiftBox" onclick="pullGacha()" title="Ketuk untuk membuka kotak kado!">
+          <div class="gift-lid">
+            <div class="gift-ribbon-bow"></div>
+            <div class="gift-ribbon-v"></div>
+          </div>
+          <div class="gift-body">
+            <div class="gift-ribbon-v"></div>
+          </div>
+        </div>
+
+        <span class="gift-hint-bubble">Ketuk kotak kado pita untuk membuka kejutan!</span>
+
+        <div class="gift-reveal-card" id="giftRevealCard">
+          <div class="gacha-roller-name" id="gachaName">Isi Kado Terbuka!</div>
+          <div class="gacha-percent-badge percent-low" id="gachaBadge">Status: Hadiah Dibuka</div>
+          <div class="gacha-status-text" id="gachaStatus"></div>
+        </div>
+
+        <div class="gacha-controls">
+          <button type="button" class="btn-gacha" id="btnGacha" onclick="pullGacha()">
+            <span>🎁 Buka Kotak Kado Kejutan!</span>
+          </button>
+          <a id="btnGachaWa" class="btn-gacha-whatsapp" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
+            <span>Kirim Hasil ke WA Haruru</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Polaroid Photo Gallery: Bandung & Padang Romance -->
+    <section class="polaroid-section reveal-on-scroll">
+      <div class="section-header">
+        <div class="section-tag">Album Kenangan LDR</div>
+        <h2 class="section-title">Napas Padang &amp; Sudut Bandung</h2>
+        <p class="section-desc">Ketuk kartu foto untuk membalik (3D Flip) dan membaca catatan rahasia di baliknya.</p>
+      </div>
+
+      <div class="polaroid-grid">
+        
+        <!-- Polaroid 1: Padang Sunset -->
+        <article class="polaroid-card tilt-left">
+          <div class="tape"></div>
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="polaroid-img-wrapper">
+                <img class="polaroid-img" src="images/padang-sunset.jpg" alt="Senja Pantai Padang">
+              </div>
+              <div class="polaroid-caption">Senja Pantai Padang &hearts;</div>
+            </div>
+            <div class="polaroid-back">
+              <div class="polaroid-back-text">
+                "Di tepi pantai Padang ini, debur ombak selalu menyampaikan bisikan rindu untuk gadis Bandung tersayang."
+              </div>
+              <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Polaroid 2: Bandung Braga Night -->
+        <article class="polaroid-card tilt-right">
+          <div class="tape"></div>
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="polaroid-img-wrapper">
+                <img class="polaroid-img" src="images/bandung-braga.jpg" alt="Malam Braga Bandung">
+              </div>
+              <div class="polaroid-caption">Malam Syahdu di Braga &hearts;</div>
+            </div>
+            <div class="polaroid-back">
+              <div class="polaroid-back-text">
+                "Di bawah lampu temaram jalan Braga, Haruru selalu menyimpan doa hangat untuk pria tangguh di Padang."
+              </div>
+              <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Polaroid 3: Jam Gadang Twilight -->
+        <article class="polaroid-card tilt-mild-left">
+          <div class="tape"></div>
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="polaroid-img-wrapper">
+                <img class="polaroid-img" src="images/jam-gadang.jpg" alt="Jam Gadang Bukittinggi">
+              </div>
+              <div class="polaroid-caption">Detik Waktu Jam Gadang &hearts;</div>
+            </div>
+            <div class="polaroid-back">
+              <div class="polaroid-back-text">
+                "Setiap detik yang berdentang di Jam Gadang kuhitung dengan sabar, menunggu hari kita bersua."
+              </div>
+              <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Polaroid 4: Under The Same Stars -->
+        <article class="polaroid-card tilt-mild-right">
+          <div class="tape"></div>
+          <div class="polaroid-inner">
+            <div class="polaroid-front">
+              <div class="polaroid-img-wrapper">
+                <img class="polaroid-img" src="images/couple-stars.jpg" alt="Bawah Langit yang Sama">
+              </div>
+              <div class="polaroid-caption">Bawah Langit yang Sama &hearts;</div>
+            </div>
+            <div class="polaroid-back">
+              <div class="polaroid-back-text">
+                "Bintang di langit Padang dan Bandung adalah rasi yang sama: mengikat dua hati yang lahir di bulan Oktober."
+              </div>
+              <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Community Discord RTM & Friends Greetings Wall -->
+    <section class="greetings-wall-section reveal-on-scroll" id="greetingsWall">
+      <div class="section-header">
+        <div class="section-tag">Papan Doa &amp; Komunitas</div>
+        <h2 class="section-title">Ucapan Hangat dari Sahabat &amp; Server Discord RTM</h2>
+        <p class="section-desc">Doa tulus dari Haruru, segenap keluarga server Discord RTM, kerabat Ranah Minang, dan kawan-kawan semua.</p>
+      </div>
+
+      <div class="wishes-board" id="wishesBoard"></div>
+
+      <!-- Add New Greeting Form -->
+      <form class="add-wish-box" onsubmit="submitNewWish(event)">
+        <h3 class="add-wish-title">Tuliskan Doa &amp; Ucapanmu untuk Ilham</h3>
+        <div class="wish-form-row">
+          <input type="text" id="newWishName" class="wish-input" placeholder="Nama Anda (contoh: Kawan Discord / Sahabat)" required>
+          <input type="text" id="newWishRole" class="wish-input" placeholder="Asal / Hubungan (contoh: Member Server Discord RTM)">
+        </div>
+        <textarea id="newWishMsg" class="wish-textarea" placeholder="Tuliskan ucapan dan doa terbaikmu untuk Ilham Endriadi..." required></textarea>
+        <button type="submit" class="btn-send-wish">
+          <span>Kirim Ucapan ke Papan Kenangan</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Interactive Scratch Voucher Card -->
+    <section class="scratch-section reveal-on-scroll">
+      <div class="section-header">
+        <div class="section-tag">Kado Rahasia</div>
+        <h2 class="section-title">Kartu Gosok Hadiah untuk Ilham</h2>
+        <p class="section-desc">Gunakan jarimu atau kursor mouse untuk menggosok lapisan emas di bawah ini.</p>
+      </div>
+
+      <div class="scratch-card-box">
+        <div class="scratch-prize-layer">
+          <span class="prize-badge">Voucher Eksklusif Ulang Tahun</span>
+          <h3 class="prize-title">VOUCHER KULINER &amp; PELUKAN HANGAT</h3>
+          <div class="prize-code">KODE: ILHAM-HARURU-OKTOBER</div>
+          <p class="prize-note">Berlaku seumur hidup, tanpa tanggal kadaluarsa, khusus dihadiahkan oleh Haruru.</p>
+        </div>
+        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+      </div>
+
+      <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka voucher!</span>
+    </section>
+
+    <!-- Wax-Seal Envelope & Typewriter Love Letter -->
+    <section class="letter-section reveal-on-scroll">
+      <div class="section-header">
+        <div class="section-tag">Pesan Tulus</div>
+        <h2 class="section-title">Surat Segel Lilin dari Haruru</h2>
+        <p class="section-desc">Buka amplop vintage bersegel lilin merah ini untuk membaca pesan rahasia.</p>
+      </div>
+
+      <div class="envelope-wrapper" id="envelopeWrapper" onclick="openWaxLetter()" title="Ketuk untuk membuka segel lilin">
+        <div class="wax-seal-btn">I &amp; H</div>
+        <div class="envelope-hint">Ketuk Segel Lilin untuk Membuka Surat</div>
+      </div>
+
+      <div class="letter-sheet" id="letterSheet">
+        <div class="letter-header">Untuk Ilham Endriadi tersayang,</div>
+        <div class="letter-content" id="letterContent"></div>
+        <div class="letter-footer">
+          Dengan segenap rasa sayang,<br>
+          Haruru (Bandung)
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="scrapbook-footer reveal-on-scroll">
+      <div class="footer-links">
+        <a href="../index.html">RTMBOT Hub</a>
+        <span>&bull;</span>
+        <a href="../chat/">Chat AI Assistant</a>
+        <span>&bull;</span>
+        <a href="../quran/">Al-Quran Digital</a>
+      </div>
+      <p>Didedikasikan spesial untuk hari ulang tahun Ilham Endriadi (7 Oktober) &amp; Haruru (28 Oktober) &bull; Padang &amp; Bandung 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
