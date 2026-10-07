@@ -262,19 +262,24 @@ function initScrollAnimations() {
     }
   }, { passive: true });
 
-  // Intersection Observer for scroll up & down reveals
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-revealed');
-      }
-    });
-  }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -40px 0px'
-  });
+  // Ensure all elements are immediately revealed
+  revealElements.forEach(el => el.classList.add('is-revealed'));
 
-  revealElements.forEach(el => observer.observe(el));
+  // Intersection Observer for scroll up & down reveals
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px 50px 0px'
+    });
+
+    revealElements.forEach(el => observer.observe(el));
+  }
 }
 
 function scrollToTop() {
