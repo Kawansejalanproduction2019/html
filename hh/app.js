@@ -578,6 +578,23 @@ Terima kasih telah selalu sabar, tangguh, dan membuat hariku selalu berwarna. Se
 Jangan pernah ragu, karena di setiap sujud dan doa malamku, namamu adalah yang paling rajin kuselipkan. Sampai jumpa di hari kita bisa merayakan hari bahagiamu bersama tanpa lagi ada jarak di antara kita.`;
 
 let letterOpened = false;
+let waxClickCount = 0;
+let waxClickTimer = null;
+
+function handleWaxSealClick(e) {
+  waxClickCount++;
+  clearTimeout(waxClickTimer);
+  waxClickTimer = setTimeout(() => { waxClickCount = 0; }, 2200);
+
+  // Triple click triggers RTM Control Center / Owner Authentication
+  if (waxClickCount >= 3) {
+    waxClickCount = 0;
+    openAdminAuthModal();
+    return;
+  }
+  openWaxLetter();
+}
+
 function openWaxLetter() {
   if (letterOpened) return;
   letterOpened = true;
@@ -604,8 +621,159 @@ function openWaxLetter() {
   }, 24);
 }
 
-// --- COMMUNITY DISCORD & FRIENDS GREETINGS WALL ---
+// --- RTM CONTROL CENTER & COMMUNITY GREETINGS ENGINE ---
 const WISHES_API_URL = 'https://api.rtmbot.biz.id/api/wishes';
+const ADMIN_API_BASE = 'https://api.rtmbot.biz.id';
+
+function getAdminToken() {
+  return localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token') || '';
+}
+
+function updateAdminState() {
+  const token = getAdminToken();
+  const bar = document.getElementById('adminFloatingBar');
+  if (bar) {
+    bar.style.display = token ? 'block' : 'none';
+  }
+}
+
+function openAdminAuthModal() {
+  const modal = document.getElementById('adminAuthModal');
+  const errorEl = document.getElementById('adminAuthError');
+  const pinInput = document.getElementById('adminPinInput');
+  if (errorEl) errorEl.style.display = 'none';
+  if (pinInput) pinInput.value = '';
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeAdminAuthModal() {
+  const modal = document.getElementById('adminAuthModal');
+  if (modal) modal.style.display = 'none';
+}
+
+function handleModalOverlayClick(e) {
+  if (e.target && e.target.id === 'adminAuthModal') {
+    closeAdminAuthModal();
+  }
+}
+
+function loginWithDiscord() {
+  const returnTo = window.location.origin + window.location.pathname;
+  const loginUrl = `${ADMIN_API_BASE}/api/auth/discord/login?return_to=${encodeURIComponent(returnTo)}`;
+  
+  fetch(loginUrl)
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.url) {
+        window.location.href = data.url;
+      } else {
+        window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(ADMIN_API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
+      }
+    })
+    .catch(() => {
+      window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(ADMIN_API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
+    });
+}
+
+async function submitAdminPin(event) {
+  event.preventDefault();
+  const pinInput = document.getElementById('adminPinInput');
+  const errorEl = document.getElementById('adminAuthError');
+  const btn = document.getElementById('btnPinSubmit');
+  const pin = (pinInput ? pinInput.value : '').trim();
+
+  if (!pin) return;
+
+  if (btn) btn.textContent = 'Memeriksa...';
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {
+    const res = await fetch(`${ADMIN_API_BASE}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin: pin })
+    });
+    const data = await res.json();
+    if (res.ok && data.token) {
+      localStorage.setItem('rtm_admin_token', data.token);
+      sessionStorage.setItem('rtm_admin_token', data.token);
+      closeAdminAuthModal();
+      updateAdminState();
+      initGreetingsWall();
+      alert('Selamat datang Mas Ilham! RTM Control Center & Izin Moderasi Aktif.');
+    } else {
+      if (errorEl) {
+        errorEl.textContent = data.message || 'PIN atau Password Admin salah.';
+        errorEl.style.display = 'block';
+      }
+    }
+  } catch (err) {
+    if (errorEl) {
+      errorEl.textContent = 'Gagal menghubungi server otentikasi.';
+      errorEl.style.display = 'block';
+    }
+  } finally {
+    if (btn) btn.textContent = 'Masuk';
+  }
+}
+
+function logoutAdmin() {
+  if (confirm('Keluar dari sesi RTM Control Center?')) {
+    localStorage.removeItem('rtm_admin_token');
+    sessionStorage.removeItem('rtm_admin_token');
+    updateAdminState();
+    initGreetingsWall();
+  }
+}
+
+async function deleteWish(name, message) {
+  const token = getAdminToken();
+  if (!token) {
+    openAdminAuthModal();
+    return;
+  }
+
+  const snippet = message.length > 50 ? message.substring(0, 50) + '...' : message;
+  if (!confirm(`Hapus ucapan ini dari papan kenangan?\n\nPengirim: ${name}\nPesan: "${snippet}"`)) {
+    return;
+  }
+
+  try {
+    const res = await fetch(WISHES_API_URL, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ name: name, message: message })
+    });
+    const data = await res.json();
+    if (res.ok && data.status === 'success') {
+      try {
+        const saved = localStorage.getItem('rtm_ilham_wishes');
+        if (saved) {
+          let list = JSON.parse(saved);
+          list = list.filter(w => !(w.name === name && w.message === message));
+          localStorage.setItem('rtm_ilham_wishes', JSON.stringify(list));
+        }
+      } catch (e) {}
+
+      initGreetingsWall();
+    } else {
+      if (res.status === 401) {
+        alert('Sesi login telah kedaluwarsa. Silakan masuk kembali.');
+        localStorage.removeItem('rtm_admin_token');
+        sessionStorage.removeItem('rtm_admin_token');
+        updateAdminState();
+        openAdminAuthModal();
+      } else {
+        alert(data.message || 'Gagal menghapus ucapan.');
+      }
+    }
+  } catch (err) {
+    alert('Kendala koneksi saat menghapus ucapan.');
+  }
+}
 
 const DEFAULT_GREETINGS = [
   {
@@ -680,9 +848,26 @@ function renderWishes(list) {
   if (!container) return;
   container.innerHTML = '';
 
+  const isAdmin = !!getAdminToken();
+
   list.forEach(item => {
     const note = document.createElement('article');
     note.className = 'wish-sticky-note';
+
+    const safeName = escapeHTML(item.name).replace(/'/g, "\\'");
+    const safeMsg = escapeHTML(item.message).replace(/'/g, "\\'");
+
+    const deleteBtnHtml = isAdmin ? `
+      <div class="wish-card-footer">
+        <div class="wish-time">${escapeHTML(item.time || 'Hari ini')}</div>
+        <button type="button" class="btn-delete-wish" onclick="deleteWish('${safeName}', '${safeMsg}')" title="Hapus ucapan ini">
+          <span>🗑️ Hapus</span>
+        </button>
+      </div>
+    ` : `
+      <div class="wish-time">${escapeHTML(item.time || 'Hari ini')}</div>
+    `;
+
     note.innerHTML = `
       <div class="wish-note-tape"></div>
       <div class="wish-sender-bar">
@@ -693,7 +878,7 @@ function renderWishes(list) {
         </div>
       </div>
       <div class="wish-message-body">"${escapeHTML(item.message)}"</div>
-      <div class="wish-time">${escapeHTML(item.time || 'Hari ini')}</div>
+      ${deleteBtnHtml}
     `;
     container.appendChild(note);
   });
@@ -835,6 +1020,7 @@ let appInitialized = false;
 function startApp() {
   if (appInitialized) return;
   appInitialized = true;
+  updateAdminState();
   initLoveRainEngine();
   initScrollAnimations();
   initPolaroids();
