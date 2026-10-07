@@ -10,65 +10,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <base href="/hh/">
-  <link rel="stylesheet" href="/hh/style.css?v=20261008_v8">
+  <link rel="stylesheet" href="/hh/style.css?v=20261008_v12">
 
   <style>
-    /* Dynamic Scroll Reveal Transitions & Interactive Scroll-Driven Motion */
+    /* Continuous Bidirectional Scroll Reveal Transitions */
     .reveal-on-scroll {
       opacity: 0;
-      transform: translateY(36px) scale(0.98);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(32px) scale(0.98);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
+    .reveal-on-scroll[data-scroll-dir="up"] {
+      transform: translateY(-28px) scale(0.98);
+    }
     .reveal-on-scroll.is-revealed {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
     }
     .hero-scrapbook {
       opacity: 1 !important;
       transform: none !important;
-    }
-
-    /* Gimmick Sinetron Disclaimer Banner */
-    .gimmick-disclaimer-card {
-      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
-      border: 2px dashed #F59E0B;
-      border-radius: 16px;
-      padding: 22px 24px;
-      margin-bottom: 28px;
-      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.1);
-      position: relative;
-    }
-    .gimmick-disclaimer-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #92400E;
-      margin-bottom: 8px;
-      font-family: var(--font-display, sans-serif);
-    }
-    .gimmick-disclaimer-body {
-      font-size: 0.92rem;
-      line-height: 1.6;
-      color: #78350F;
-    }
-    .gimmick-disclaimer-body strong {
-      color: #92400E;
-    }
-
-    /* Section Sinetron Wrapper */
-    .sinetron-wrapper {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(229, 219, 205, 0.8);
-      border-radius: 24px;
-      padding: 32px 24px;
-      box-shadow: 0 8px 30px rgba(44, 33, 23, 0.04);
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
     }
 
     #rainCanvas {
@@ -189,24 +150,28 @@
 
   <div class="scrapbook-container">
     
-    <!-- Top Navigation Bar -->
-    <header class="top-nav reveal-on-scroll">
+    <!-- Top Navigation Bar (Responsive & Non-Wrapping) -->
+    <header class="top-nav">
       <div class="nav-brand">
         <span class="brand-heart">&hearts;</span>
-        <span>Milad Mas Ilham Endriadi (7 Oktober)</span>
+        <span class="brand-text-full">Milad Mas Ilham Endriadi</span>
+        <span class="brand-text-short">Milad Ilham</span>
       </div>
 
-      <div class="nav-actions">
-        <a href="#cakeSection" class="btn-nav">
-          <span>🎂 Tiup Lilin</span>
+      <nav class="nav-actions">
+        <a href="#cakeSection" class="btn-nav" title="Tiup Lilin">
+          <span class="nav-icon">🎂</span>
+          <span class="nav-text">Lilin</span>
         </a>
-        <a href="#greetingsWall" class="btn-nav">
-          <span>💌 Papan Doa</span>
+        <a href="#greetingsWall" class="btn-nav" title="Papan Doa">
+          <span class="nav-icon">💌</span>
+          <span class="nav-text">Doa</span>
         </a>
-        <a href="#ldrSection" class="btn-nav">
-          <span>🌸 Padang &amp; Bandung</span>
+        <a href="#ldrSection" class="btn-nav" title="Padang & Bandung">
+          <span class="nav-icon">🌸</span>
+          <span class="nav-text">Haruru</span>
         </a>
-      </div>
+      </nav>
     </header>
 
     <!-- Hero Section: FOKUS UTAMA HBD MAS ILHAM DARI KAWAN-KAWAN DISCORD RTM -->
@@ -492,9 +457,9 @@
       <!-- Interactive Scratch Treat Card: Mas Ilham Wajib Nraktir + Link Saweria/BagiBagi -->
       <section class="scratch-section reveal-on-scroll">
         <div class="section-header">
-          <div class="section-tag">Kado Rahasia</div>
-          <h2 class="section-title">Kartu Gosok Pajak Ulang Tahun 🍕</h2>
-          <p class="section-desc">Gosok minimal 50% permukaan kartu di bawah ini untuk membuka pesan spesial!</p>
+          <div class="section-tag">Kupon Traktiran</div>
+          <h2 class="section-title">Gosok Kupon Kejutan Milad! 🍕</h2>
+          <p class="section-desc">Gosok minimal 50% permukaan kupon berhadiah ini dengan kursor atau jari untuk membuka voucher traktiran & apresiasi!</p>
         </div>
 
         <div class="scratch-card-box">
@@ -509,12 +474,15 @@
               <a href="https://bagibagi.co/Rh7155" target="_blank" rel="noopener noreferrer" class="btn-treat-link btn-bagibagi">
                 💰 Bagi-Bagi Dukungan
               </a>
+              <a href="https://sociabuzz.com/abogoboga7155/tribe" target="_blank" rel="noopener noreferrer" class="btn-treat-link btn-sociabuzz">
+                ⚡ Sociabuzz Apresiasi
+              </a>
             </div>
           </div>
           <canvas class="scratch-canvas" id="scratchCanvas" width="440" height="220"></canvas>
         </div>
 
-        <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka kartu!</span>
+        <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka kupon!</span>
       </section>
 
       <!-- Wax-Seal Envelope & Typewriter Letter dari Haruru -->
@@ -568,6 +536,6 @@
     </div>
   </div>
 
-  <script src="/hh/app.js?v=20261008_v9" data-cfasync="false"></script>
+  <script src="/hh/app.js?v=20261008_v12" data-cfasync="false"></script>
 </body>
 </html>

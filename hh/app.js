@@ -243,54 +243,79 @@ function initLoveRainEngine() {
   renderRain();
 }
 
-// --- SCROLL ANIMATIONS & SCROLL PROGRESS ---
+// --- CONTINUOUS BIDIRECTIONAL SCROLL ANIMATION & PROGRESS (TANPA BATAS) ---
 function initScrollAnimations() {
   const progressBar = document.getElementById('scrollProgressBar');
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  const flyingPlane = document.getElementById('flyingPlane');
+  const ldrTrack = document.querySelector('.distance-track');
 
-  // Track scroll position
-  window.addEventListener('scroll', () => {
+  let lastScrollY = window.scrollY;
+  let scrollDirection = 'down';
+  let ticking = false;
+
+  function onScrollFrame() {
+    const currentScrollY = window.scrollY;
+    if (Math.abs(currentScrollY - lastScrollY) > 2) {
+      scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+      lastScrollY = currentScrollY;
+    }
+
+    // 1. Reading progress bar
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+    const progress = totalHeight > 0 ? (currentScrollY / totalHeight) * 100 : 0;
     if (progressBar) progressBar.style.width = progress + '%';
 
-    // Show/hide scroll top button
+    // 2. Scroll-to-top button
     if (scrollTopBtn) {
-      if (window.scrollY > 280) scrollTopBtn.classList.add('visible');
+      if (currentScrollY > 260) scrollTopBtn.classList.add('visible');
       else scrollTopBtn.classList.remove('visible');
+    }
+
+    // 3. Parallax flight of the plane across LDR track
+    if (flyingPlane && ldrTrack) {
+      const trackRect = ldrTrack.getBoundingClientRect();
+      if (trackRect.top < window.innerHeight && trackRect.bottom > 0) {
+        const factor = Math.max(0, Math.min(1, (window.innerHeight - trackRect.top) / (window.innerHeight + trackRect.height)));
+        const trackWidth = Math.max(0, ldrTrack.clientWidth - 40);
+        flyingPlane.style.transform = `translateX(${factor * trackWidth}px)`;
+      }
+    }
+
+    // 4. Continuous bidirectional reveal without limits
+    const vh = window.innerHeight;
+    revealElements.forEach(el => {
+      if (el.classList.contains('hero-scrapbook')) {
+        el.classList.add('is-revealed');
+        return;
+      }
+
+      const rect = el.getBoundingClientRect();
+      const inView = rect.top < vh * 0.90 && rect.bottom > vh * 0.08;
+
+      if (inView) {
+        if (!el.classList.contains('is-revealed')) {
+          el.setAttribute('data-scroll-dir', scrollDirection);
+          el.classList.add('is-revealed');
+        }
+      } else {
+        el.classList.remove('is-revealed');
+      }
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(onScrollFrame);
+      ticking = true;
     }
   }, { passive: true });
 
-  // Intersection Observer for smooth fluid entrance
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-        }
-      });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -30px 0px'
-    });
-
-    revealElements.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        el.classList.add('is-revealed');
-      } else {
-        observer.observe(el);
-      }
-    });
-  } else {
-    revealElements.forEach(el => el.classList.add('is-revealed'));
-  }
-
-  // Safety net: ensure everything is visible after 3s
-  setTimeout(() => {
-    revealElements.forEach(el => el.classList.add('is-revealed'));
-  }, 3000);
+  // Initial trigger
+  requestAnimationFrame(onScrollFrame);
 }
 
 function scrollToTop() {
@@ -389,15 +414,24 @@ function pullGacha() {
       revealCard.style.display = 'block';
     }
 
-    // Hadiah Spesial: Traktiran Milad Mas Ilham & Link Apresiasi
-    nameEl.textContent = '🍕 Tagihan Traktiran Milad Mas Ilham!';
+    // Hadiah Spesial: Haruru (Gadis Bandung & Ultah 28 Oktober)
+    const grandPrize = GACHA_CANDIDATES[GACHA_CANDIDATES.length - 1];
+    nameEl.textContent = '🌸 ' + grandPrize.name;
     badgeEl.className = 'gacha-percent-badge percent-grand';
-    badgeEl.textContent = 'Status: Wajib Ditagih Squad RTM! 😎';
-    statusEl.innerHTML = 'Selamat! Mas Ilham resmi terpilih sebagai sponsor makan-makan & kopi tongkrongan Discord RTM! <br><br>Mau kirim hadiah / apresiasi balik buat Mas Ilham?<div class="treat-actions"><a href="https://saweria.co/RH7155" target="_blank" class="btn-treat-link btn-saweria">💳 Saweria</a><a href="https://bagibagi.co/Rh7155" target="_blank" class="btn-treat-link btn-bagibagi">💰 Bagi-Bagi</a><a href="https://sociabuzz.com/abogoboga7155/tribe" target="_blank" class="btn-treat-link btn-sociabuzz">⚡ Sociabuzz</a></div>';
+    badgeEl.textContent = '💖 Kecocokan: ' + grandPrize.percent + '% (SSR Grand Jackpot!)';
+    statusEl.innerHTML = '<strong>' + grandPrize.status + '</strong><br><br><span style="color:#d97706;font-weight:600;">✨ Hadiah Spesial Terbuka: Haruru dari Bandung siap kirim ucapan termanis untuk Mas Ilham! ✨</span>';
     playCelebrationChimes();
     fireConfetti();
 
-    waBtn.style.display = 'none';
+    if (waBtn) {
+      const waMsg = encodeURIComponent(
+        'Halo Haruru! 🌸✨ Aku baru buka Kotak Kado Kejutan di web milad Mas Ilham (7 Oktober), dan ternyata dapet kado spesial Haruru (Kecocokan 99.99%)! Wilujeng milad buat Mas Ilham & selamat menyambut ultah Haruru 28 Oktober nanti! 🎂🎉'
+      );
+      waBtn.href = `https://wa.me/?text=${waMsg}`;
+      waBtn.style.display = 'inline-flex';
+      const waSpan = waBtn.querySelector('span');
+      if (waSpan) waSpan.textContent = '💌 Kirim Pesan Manis ke Haruru via WhatsApp';
+    }
   }, 1600);
 }
 
