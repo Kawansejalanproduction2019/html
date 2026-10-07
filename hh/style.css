@@ -104,6 +104,17 @@ body {
   z-index: 1;
 }
 
+/* FULLSCREEN CELEBRATION CONFETTI CANVAS */
+#confettiCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9998;
+}
+
 /* Scrapbook Container */
 .scrapbook-container {
   max-width: 1040px;

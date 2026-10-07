@@ -378,14 +378,8 @@ function pullGacha() {
       revealCard.style.display = 'block';
     }
 
-    // Pick result: on 2nd spin onwards, guarantee Haruru (or 50% chance)
-    let selected;
-    if (gachaSpinCount >= 2 || Math.random() < 0.5) {
-      selected = GACHA_CANDIDATES[GACHA_CANDIDATES.length - 1]; // HARURU SSR
-    } else {
-      const normalPool = GACHA_CANDIDATES.slice(0, GACHA_CANDIDATES.length - 1);
-      selected = normalPool[Math.floor(Math.random() * normalPool.length)];
-    }
+    // Wajib 100% Mendapatkan Haruru (SSR Grand Jackpot Takdir Sejati)
+    const selected = GACHA_CANDIDATES[GACHA_CANDIDATES.length - 1]; // HARURU SSR 99.99%
 
     nameEl.textContent = selected.name;
 
@@ -453,85 +447,111 @@ function initScratchCard() {
   const canvas = document.getElementById('scratchCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
+  if (!ctx) return;
 
-  // Fill canvas with gold metallic gradient
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width > 0 ? Math.round(rect.width) : (canvas.offsetWidth || 440);
+  const h = rect.height > 0 ? Math.round(rect.height) : (canvas.offsetHeight || 220);
+  canvas.width = w;
+  canvas.height = h;
+
+  // Fill canvas with premium gold metallic gradient
+  ctx.globalCompositeOperation = 'source-over';
   const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
   grad.addColorStop(0, '#D97706');
-  grad.addColorStop(0.5, '#FBBF24');
+  grad.addColorStop(0.35, '#FBBF24');
+  grad.addColorStop(0.7, '#F59E0B');
   grad.addColorStop(1, '#B45309');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // Decorative border
+  ctx.strokeStyle = '#78350F';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(8, 8, canvas.width - 16, canvas.height - 16);
+
   ctx.fillStyle = '#78350F';
-  ctx.font = 'bold 15px Inter, sans-serif';
+  ctx.font = 'bold 15px "Plus Jakarta Sans", Inter, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('Gosok di sini untuk membuka Voucher Ilham', canvas.width / 2, canvas.height / 2);
+  ctx.fillText('✨ GOSOK DENGAN JARI / MOUSE ✨', canvas.width / 2, canvas.height / 2 - 8);
+  ctx.font = '13px "Plus Jakarta Sans", Inter, sans-serif';
+  ctx.fillText('Untuk Membuka Hadiah Rahasia Ilham', canvas.width / 2, canvas.height / 2 + 16);
 
   let isDrawing = false;
   let isRevealed = false;
 
+  function getCoords(clientX, clientY) {
+    const r = canvas.getBoundingClientRect();
+    const scaleX = r.width > 0 ? (canvas.width / r.width) : 1;
+    const scaleY = r.height > 0 ? (canvas.height / r.height) : 1;
+    return {
+      x: (clientX - r.left) * scaleX,
+      y: (clientY - r.top) * scaleY
+    };
+  }
+
   function scratch(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.arc(x, y, 24, 0, Math.PI * 2);
     ctx.fill();
 
     if (!isRevealed) checkScratchPercentage();
   }
 
   function checkScratchPercentage() {
-    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let transparentCount = 0;
-    const step = 24;
-    for (let i = 3; i < imgData.data.length; i += step * 4) {
-      if (imgData.data[i] === 0) transparentCount++;
-    }
-    const totalSamples = imgData.data.length / (step * 4);
-    const percent = (transparentCount / totalSamples) * 100;
+    try {
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let transparentCount = 0;
+      const step = 24;
+      for (let i = 3; i < imgData.data.length; i += step * 4) {
+        if (imgData.data[i] === 0) transparentCount++;
+      }
+      const totalSamples = imgData.data.length / (step * 4);
+      const percent = (transparentCount / totalSamples) * 100;
 
-    const statusEl = document.getElementById('scratchStatus');
-    if (statusEl && !isRevealed) {
-      statusEl.textContent = 'Tergosok: ' + Math.round(percent) + '%';
-    }
+      const statusEl = document.getElementById('scratchStatus');
+      if (statusEl && !isRevealed) {
+        statusEl.textContent = 'Tergosok: ' + Math.min(100, Math.round(percent)) + '%';
+      }
 
-    if (percent > 45 && !isRevealed) {
-      isRevealed = true;
-      canvas.style.transition = 'opacity 0.6s ease';
-      canvas.style.opacity = '0';
-      setTimeout(() => { canvas.style.display = 'none'; }, 600);
-      if (statusEl) statusEl.textContent = 'Selamat! Voucher Hadiah Berhasil Terbuka!';
-      playCelebrationChimes();
-      fireConfetti();
-    }
+      if (percent > 45 && !isRevealed) {
+        isRevealed = true;
+        canvas.style.transition = 'opacity 0.6s ease';
+        canvas.style.opacity = '0';
+        setTimeout(() => { canvas.style.display = 'none'; }, 600);
+        if (statusEl) statusEl.textContent = 'Selamat! Voucher Hadiah Berhasil Terbuka!';
+        playCelebrationChimes();
+        fireConfetti();
+      }
+    } catch (err) {}
   }
 
   canvas.addEventListener('mousedown', (e) => {
     isDrawing = true;
-    const r = canvas.getBoundingClientRect();
-    scratch(e.clientX - r.left, e.clientY - r.top);
+    const pt = getCoords(e.clientX, e.clientY);
+    scratch(pt.x, pt.y);
   });
   window.addEventListener('mouseup', () => { isDrawing = false; });
   canvas.addEventListener('mousemove', (e) => {
     if (!isDrawing) return;
-    const r = canvas.getBoundingClientRect();
-    scratch(e.clientX - r.left, e.clientY - r.top);
+    const pt = getCoords(e.clientX, e.clientY);
+    scratch(pt.x, pt.y);
   });
 
-  // Touch for mobile
+  // Touch support for mobile
   canvas.addEventListener('touchstart', (e) => {
     isDrawing = true;
-    const r = canvas.getBoundingClientRect();
     const t = e.touches[0];
-    scratch(t.clientX - r.left, t.clientY - r.top);
+    const pt = getCoords(t.clientX, t.clientY);
+    scratch(pt.x, pt.y);
   }, { passive: true });
   canvas.addEventListener('touchend', () => { isDrawing = false; });
   canvas.addEventListener('touchmove', (e) => {
     if (!isDrawing) return;
-    const r = canvas.getBoundingClientRect();
     const t = e.touches[0];
-    scratch(t.clientX - r.left, t.clientY - r.top);
+    const pt = getCoords(t.clientX, t.clientY);
+    scratch(pt.x, pt.y);
   }, { passive: true });
 }
 
@@ -613,8 +633,18 @@ function initGreetingsWall() {
   const container = document.getElementById('wishesBoard');
   if (!container) return;
 
-  const saved = localStorage.getItem('rtm_ilham_wishes');
-  const allWishes = saved ? JSON.parse(saved) : DEFAULT_GREETINGS;
+  let allWishes = DEFAULT_GREETINGS;
+  try {
+    const saved = localStorage.getItem('rtm_ilham_wishes');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        allWishes = parsed;
+      }
+    }
+  } catch (e) {
+    allWishes = DEFAULT_GREETINGS;
+  }
 
   renderWishes(allWishes);
 }
@@ -743,11 +773,22 @@ function fireConfetti() {
   render();
 }
 
-// --- INITIALIZE ON DOM READY ---
-window.addEventListener('DOMContentLoaded', () => {
+// --- INITIALIZE ON DOM READY & CLOUDFLARE ROCKET LOADER RESILIENT ---
+let appInitialized = false;
+function startApp() {
+  if (appInitialized) return;
+  appInitialized = true;
   initLoveRainEngine();
   initScrollAnimations();
   initPolaroids();
   initScratchCard();
   initGreetingsWall();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}
+window.addEventListener('load', startApp);
+setTimeout(startApp, 300);

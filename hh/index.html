@@ -9,13 +9,88 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <base href="/hh/">
-  <link rel="stylesheet" href="/hh/style.css?v=20261008_final">
+  <link rel="stylesheet" href="/hh/style.css?v=20261008_v3">
   <style>
     /* Critical anti-cache: Ensure scrapbook content is 100% visible immediately regardless of Cloudflare/browser cache */
     .reveal-on-scroll {
       opacity: 1 !important;
       transform: none !important;
       visibility: visible !important;
+    }
+    #rainCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+    }
+    #confettiCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9998;
+    }
+    .scratch-card-box {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 220px;
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 0 auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+      border: 2px solid #D97706;
+      background: #FEF3C7;
+    }
+    .scratch-prize-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      user-select: none;
+    }
+    .scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      touch-action: none;
+      z-index: 2;
+    }
+    .scratch-canvas:active {
+      cursor: grabbing;
+    }
+    .wishes-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+    .wish-sticky-note {
+      background: #FFFDF8;
+      border: 1px solid #EFE4D6;
+      border-radius: 12px;
+      padding: 20px 18px;
+      box-shadow: 0 4px 12px rgba(44, 33, 23, 0.05);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
   </style>
 </head>
@@ -329,7 +404,7 @@
           <div class="prize-code">KODE: ILHAM-HARURU-OKTOBER</div>
           <p class="prize-note">Berlaku seumur hidup, tanpa tanggal kadaluarsa, khusus dihadiahkan oleh Haruru.</p>
         </div>
-        <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        <canvas class="scratch-canvas" id="scratchCanvas" width="440" height="220"></canvas>
       </div>
 
       <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka voucher!</span>
@@ -372,7 +447,7 @@
 
   </div>
 
-  <script src="/hh/app.js?v=20261008_final"></script>
+  <script src="/hh/app.js?v=20261008_v3" data-cfasync="false"></script>
   <script>
     (function() {
       function forceReveal() {
