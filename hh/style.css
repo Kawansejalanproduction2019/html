@@ -1962,3 +1962,200 @@ body {
   border-color: #DC2626;
   transform: scale(1.04);
 }
+
+/* Board Moderation Toggle Button */
+.btn-moderation-toggle {
+  background: #FFFDF8;
+  color: var(--ink-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  min-height: 36px;
+}
+
+.btn-moderation-toggle:hover {
+  background: #F7F3EB;
+  color: var(--ink-primary);
+  border-color: var(--border-strong);
+}
+
+.btn-moderation-toggle.active {
+  background: #FEF3C7;
+  color: #92400E;
+  border-color: #F59E0B;
+}
+
+/* Board Moderation PIN Modal (Compact & Zero Leak) */
+.board-mod-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 12, 10, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.board-mod-modal-card {
+  background: #FFFDF8;
+  border: 1px solid #E5DBD0;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 380px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: fadeInModal 0.2s ease;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.board-mod-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.board-mod-modal-header h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  margin: 0;
+}
+
+.btn-mod-close {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.board-mod-desc {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.board-mod-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #FFFFFF;
+  color: var(--ink-primary);
+  box-sizing: border-box;
+}
+
+.board-mod-input:focus {
+  outline: none;
+  border-color: #D97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+.board-mod-error {
+  font-size: 0.78rem;
+  color: #DC2626;
+  background: #FEE2E2;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+
+.board-mod-btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-mod-cancel {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+}
+
+.btn-mod-submit {
+  background: #292524;
+  color: #FFFDF8;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-mod-submit:hover {
+  background: #000000;
+}
+
+/* Treat & Donation Buttons in Scratch/Gift */
+.treat-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.btn-treat-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+  min-height: 36px;
+}
+
+.btn-treat-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-saweria {
+  background: #FF6B00;
+  color: #FFFFFF !important;
+}
+
+.btn-bagibagi {
+  background: #10B981;
+  color: #FFFFFF !important;
+}
+
+.btn-sociabuzz {
+  background: #3B82F6;
+  color: #FFFFFF !important;
+}
+

@@ -197,14 +197,14 @@
       </div>
 
       <div class="nav-actions">
+        <a href="#cakeSection" class="btn-nav">
+          <span>🎂 Tiup Lilin</span>
+        </a>
         <a href="#greetingsWall" class="btn-nav">
-          <span>💌 Papan Ucapan</span>
+          <span>💌 Papan Doa</span>
         </a>
-        <a href="#sinetronSection" class="btn-nav">
-          <span>🎬 Sinetron Perjodohan</span>
-        </a>
-        <a href="/admin/" class="btn-nav btn-nav-panel" target="_blank" title="Buka RTM Web Control Panel">
-          <span>⚙️ RTM Panel</span>
+        <a href="#ldrSection" class="btn-nav">
+          <span>🌸 Padang &amp; Bandung</span>
         </a>
       </div>
     </header>
@@ -284,19 +284,26 @@
       </button>
 
       <div class="wish-unlocked-card" id="wishCard">
-        <h4>Permohonan Terkabul! ✨</h4>
+        <h4>Lilin Telah Ditiup! 🕯️✨</h4>
         <p style="font-family: var(--font-hand); font-size: 1.45rem; color: var(--ink-primary); line-height: 1.4;">
-          Barakallahu fii umrik Mas Ilham Endriadi! Semoga senantiasa diberikan nikmat kesehatan, panjang umur dalam keberkahan, pintu rezeki makin melimpah ruah tanpa batas, karier makin melesat, dan segala cita-citanya dikabulkan oleh Allah SWT. Teruslah menjadi founder dan teladan terbaik bagi segenap keluarga Discord RTM! Aamiin ya Rabbal 'Alamin!
+          Barakallahu fii umrik Mas Ilham Endriadi! Doa tulus dari segenap kawan-kawan server Discord RTM: semoga Mas Ilham senantiasa diberi kesehatan, umur yang berkah, dimudahkan segala ikhtiar dan pekerjaannya, serta rezeki makin melimpah ruah!
         </p>
       </div>
     </section>
 
     <!-- Community Discord RTM & Friends Greetings Wall: FOKUS UTAMA KAWAN DISCORD RTM -->
     <section class="greetings-wall-section reveal-on-scroll" id="greetingsWall">
-      <div class="section-header">
-        <div class="section-tag">Papan Doa Komunitas</div>
-        <h2 class="section-title">Ucapan Hangat dari Sahabat &amp; Server Discord RTM</h2>
-        <p class="section-desc">Kumpulan doa tulus dari segenap keluarga server Discord RTM, squad mabar, kerabat Ranah Minang, dan rekan-rekan semua.</p>
+      <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <div class="section-tag">Papan Doa Komunitas</div>
+          <h2 class="section-title">Ucapan Hangat dari Sahabat &amp; Server Discord RTM</h2>
+          <p class="section-desc">Kumpulan doa tulus dari segenap keluarga server Discord RTM, squad mabar, dan rekan-rekan.</p>
+        </div>
+        <div id="boardModerationTrigger">
+          <button type="button" class="btn-moderation-toggle" id="modToggleBtn" onclick="toggleModerationMode()" title="Kelola ucapan yang kurang pantas">
+            <span id="modToggleIcon">🔒</span> <span id="modToggleText">Moderasi Papan</span>
+          </button>
+        </div>
       </div>
 
       <div class="wishes-board" id="wishesBoard"></div>
@@ -316,26 +323,15 @@
     </section>
 
     <!-- ==========================================================================
-         BAGIAN SELINGAN: SINETRON PERJODOHAN MAS ILHAM & HARURU (GIMMICK BERCANDAAN)
+         SEKSI JARAK & CERITA: PADANG & BANDUNG (MAS ILHAM & HARURU)
          ========================================================================== -->
-    <div class="sinetron-wrapper reveal-on-scroll" id="sinetronSection">
+    <div class="ldr-connection-wrapper reveal-on-scroll" id="ldrSection">
       
       <!-- Section Header -->
       <div class="section-header" style="text-align: center;">
-        <div class="section-tag" style="background: #FDE68A; color: #92400E; border: 1px solid #F59E0B;">🎬 Selingan Sinetron RTM</div>
-        <h2 class="section-title">Proyek Perjodohan: Mas Ilham (Padang) &amp; Haruru (Bandung)</h2>
-        <p class="section-desc">Kisah fiksi komedi perjodohan ala sinetron buatan warga server Discord RTM.</p>
-      </div>
-
-      <!-- DISCLAIMER GIMMICK BERCANDAAN RESMI -->
-      <div class="gimmick-disclaimer-card">
-        <div class="gimmick-disclaimer-header">
-          <span>⚠️</span>
-          <span>CATATAN &amp; DISCLAIMER GIMMICK BERCANDAAN KOMUNITAS:</span>
-        </div>
-        <div class="gimmick-disclaimer-body">
-          Semua kisah perjodohan Padang &amp; Bandung, radar jarak 1.340 KM, album polaroid, kado misteri, dan surat segel lilin di bawah ini adalah <strong>MURNI GIMMICK &amp; BERCANDAAN</strong> ala sinetron buatan kawan-kawan server Discord RTM semata! Ingat yaa, ini baru tahap dicomblangin/dijodoh-jodohin warga server, <strong>BUKAN udah pacaran beneran</strong>. Segala nama tempat dan cerita hanyalah bumbu hiburan pelengkap milad Mas Ilham. Selamat menikmati drama sinetronnya! 😄
-        </div>
+        <div class="section-tag">Jarak &amp; Cerita Oktober</div>
+        <h2 class="section-title">Padang &amp; Bandung: Dua Cerita di Bulan Oktober 🌸</h2>
+        <p class="section-desc">Mas Ilham (7 Oktober di Padang) &bull; Haruru (28 Oktober di Bandung). Candaan hangat persahabatan antar kawan seberang pulau di Discord RTM.</p>
       </div>
 
       <!-- LDR Distance Radar: Padang - Bandung -->
@@ -344,34 +340,34 @@
           <div class="city-card city-padang">
             <span class="city-tag">Ranah Minang</span>
             <span class="city-name">Padang, Sumbar</span>
-            <span class="city-person">Mas Ilham (Kemarin, 7 Oktober)</span>
+            <span class="city-person">Mas Ilham (7 Oktober)</span>
           </div>
 
           <div class="city-card city-bandung">
             <span class="city-tag">Kota Kembang</span>
             <span class="city-name">Bandung, Jabar</span>
-            <span class="city-person">Haruru (Nanti, 28 Oktober)</span>
+            <span class="city-person">Haruru (28 Oktober)</span>
           </div>
         </div>
 
         <div class="distance-track">
           <div class="distance-progress"></div>
-          <div class="flying-plane" id="flyingPlane" title="Pesawat Sinetron Padang - Bandung">✈️</div>
+          <div class="flying-plane" id="flyingPlane" title="Pesawat Padang - Bandung">✈️</div>
         </div>
 
         <div class="distance-caption">
-          <span>Jarak Sinetron: &plusmn; 1.340 KM</span>
+          <span>Jarak Garis Lurus: &plusmn; 1.340 KM</span>
           <span>&bull;</span>
-          <span>Dua Karakter yang Dijodohkan Warga RTM di Bulan Oktober</span>
+          <span>Dua Sahabat yang Merayakan Ulang Tahun di Bulan Oktober</span>
         </div>
       </div>
 
-      <!-- Kotak Kado Kejutan / Mystery Gift Gacha Interaktif -->
+      <!-- Kotak Kado Kejutan / Mystery Gift Interaktif -->
       <section class="gacha-section reveal-on-scroll">
         <div class="section-header">
-          <div class="section-tag">Kotak Kado Misteri</div>
-          <h2 class="section-title">Buka Kotak Kado Kejutan Sinetron!</h2>
-          <p class="section-desc">Ketuk kotak kado pita di bawah ini atau tekan tombol untuk membuka kado gimmick yang ada di dalamnya.</p>
+          <div class="section-tag">Kotak Kado</div>
+          <h2 class="section-title">Buka Kotak Kado Kejutan! 🎁</h2>
+          <p class="section-desc">Ketuk kotak kado pita di bawah ini untuk membuka kado kejutan yang ada di dalamnya.</p>
         </div>
 
         <div class="gift-gacha-stage">
@@ -398,18 +394,18 @@
               <span>🎁 Buka Kotak Kado Kejutan!</span>
             </button>
             <a id="btnGachaWa" class="btn-gacha-whatsapp" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
-              <span>Kirim Hasil ke WA Haruru</span>
+              <span>Kirim Hasil ke WA</span>
             </a>
           </div>
         </div>
       </section>
 
-      <!-- Polaroid Photo Gallery: Gimmick Sinetron Bandung & Padang -->
+      <!-- Polaroid Photo Gallery: Kenangan Padang & Bandung -->
       <section class="polaroid-section reveal-on-scroll">
         <div class="section-header">
-          <div class="section-tag">Album Sinetron RTM</div>
-          <h2 class="section-title">Napas Padang &amp; Sudut Bandung</h2>
-          <p class="section-desc">Ketuk kartu foto untuk membalik (3D Flip) dan membaca catatan di baliknya.</p>
+          <div class="section-tag">Galeri Foto</div>
+          <h2 class="section-title">Sudut Padang &amp; Suasana Bandung 📸</h2>
+          <p class="section-desc">Ketuk kartu foto untuk membalik (3D Flip) dan membaca catatan kenangan di baliknya.</p>
         </div>
 
         <div class="polaroid-grid">
@@ -426,7 +422,7 @@
               </div>
               <div class="polaroid-back">
                 <div class="polaroid-back-text">
-                  "Lokasi syuting Episode 1: Di tepi pantai Padang tempat Mas Ilham nongkrong bareng squad RTM."
+                  "Di tepi pantai Padang, tempat Mas Ilham biasa melepas penat dan berdiskusi bareng kawan-kawan."
                 </div>
                 <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
               </div>
@@ -445,7 +441,7 @@
               </div>
               <div class="polaroid-back">
                 <div class="polaroid-back-text">
-                  "Lokasi syuting Episode 2: Jalan Braga Bandung tempat Haruru ngopi sambil scroll Discord RTM."
+                  "Jalan Braga Bandung di malam hari, sudut kota tempat Haruru menikmati kopi hangat."
                 </div>
                 <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
               </div>
@@ -464,7 +460,7 @@
               </div>
               <div class="polaroid-back">
                 <div class="polaroid-back-text">
-                  "Dentang Jam Gadang menandai bertambahnya usia Mas Ilham dalam cerita sinetron komedi ini."
+                  "Dentang Jam Gadang menandai bertambahnya usia Mas Ilham dengan doa keselamatan."
                 </div>
                 <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
               </div>
@@ -483,7 +479,7 @@
               </div>
               <div class="polaroid-back">
                 <div class="polaroid-back-text">
-                  "Dua karakter fiksi yang lahir di bulan yang sama: Ilham (7 Okt) &amp; Haruru (28 Okt)."
+                  "Di bawah langit yang sama, saling mendoakan yang terbaik di bulan Oktober penuh berkah."
                 </div>
                 <div class="polaroid-back-sub">Ketuk lagi untuk membalik</div>
               </div>
@@ -493,33 +489,40 @@
         </div>
       </section>
 
-      <!-- Interactive Scratch Voucher Card -->
+      <!-- Interactive Scratch Treat Card: Mas Ilham Wajib Nraktir + Link Saweria/BagiBagi -->
       <section class="scratch-section reveal-on-scroll">
         <div class="section-header">
           <div class="section-tag">Kado Rahasia</div>
-          <h2 class="section-title">Kartu Gosok Hadiah Sinetron</h2>
-          <p class="section-desc">Gunakan jarimu atau kursor mouse untuk menggosok lapisan voucher komedi di bawah ini.</p>
+          <h2 class="section-title">Kartu Gosok Pajak Ulang Tahun 🍕</h2>
+          <p class="section-desc">Gosok minimal 50% permukaan kartu di bawah ini untuk membuka pesan spesial!</p>
         </div>
 
         <div class="scratch-card-box">
           <div class="scratch-prize-layer">
-            <span class="prize-badge">Voucher Eksklusif Sinetron RTM</span>
-            <h3 class="prize-title">VOUCHER TRAKTIRAN SEBLAK &amp; TEH TALUA</h3>
-            <div class="prize-code">KODE: RTM-SINETRON-OKTOBER</div>
-            <p class="prize-note">Berlaku seumur hidup, khusus jika warga Discord RTM berhasil mempertemukan Mas Ilham &amp; Haruru! 😄</p>
+            <span class="prize-badge">🎉 Tagihan Traktir Milad</span>
+            <h3 class="prize-title">EITS! YANG MILAD WAJIB NRACTIR! 🍕😎</h3>
+            <p class="prize-note">Giliran squad Discord RTM yang ditraktir Mas Ilham! Atau mau kirim kado balik / apresiasi?</p>
+            <div class="treat-actions">
+              <a href="https://saweria.co/RH7155" target="_blank" rel="noopener noreferrer" class="btn-treat-link btn-saweria">
+                💳 Saweria Apresiasi
+              </a>
+              <a href="https://bagibagi.co/Rh7155" target="_blank" rel="noopener noreferrer" class="btn-treat-link btn-bagibagi">
+                💰 Bagi-Bagi Dukungan
+              </a>
+            </div>
           </div>
           <canvas class="scratch-canvas" id="scratchCanvas" width="440" height="220"></canvas>
         </div>
 
-        <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka voucher!</span>
+        <span class="scratch-status" id="scratchStatus">Gosok minimal 50% untuk membuka kartu!</span>
       </section>
 
-      <!-- Wax-Seal Envelope & Typewriter Love Letter: SATU-SATUNYA UCAPAN HARURU -->
+      <!-- Wax-Seal Envelope & Typewriter Letter dari Haruru -->
       <section class="letter-section reveal-on-scroll">
         <div class="section-header">
-          <div class="section-tag">Pesan Sinetron</div>
-          <h2 class="section-title">Surat Segel Lilin dari Haruru</h2>
-          <p class="section-desc">Buka amplop vintage bersegel lilin ini untuk membaca ucapan selamat ulang tahun dari Haruru.</p>
+          <div class="section-tag">Pesan dari Bandung</div>
+          <h2 class="section-title">Surat Segel Lilin dari Haruru 🌸</h2>
+          <p class="section-desc">Buka amplop vintage bersegel lilin ini untuk membaca pesan hangat dari Haruru.</p>
         </div>
 
         <div class="envelope-wrapper" id="envelopeWrapper" onclick="openWaxLetter()" title="Ketuk untuk membuka amplop">
@@ -546,24 +549,25 @@
 
   </div>
 
-  <!-- Floating Admin Active Bar (Hanya tampil jika Mas Ilham telah login di /admin/) -->
-  <div id="adminFloatingBar" class="admin-floating-bar" style="display: none;">
-    <div class="admin-bar-content">
-      <div class="admin-bar-info">
-        <span class="admin-badge-icon">🤖</span>
-        <span class="admin-badge-text"><strong>RTM Control Center</strong> &bull; Mode Pemilik Aktif</span>
+  <!-- Modal Moderasi PIN Sederhana & Aman (Khusus Pemilik) -->
+  <div id="boardModModal" class="board-mod-modal" style="display: none;">
+    <div class="board-mod-modal-card">
+      <div class="board-mod-modal-header">
+        <h4>🔒 Moderasi Papan Ucapan</h4>
+        <button type="button" class="btn-mod-close" onclick="closeModerationModal()" title="Tutup">&times;</button>
       </div>
-      <div class="admin-bar-actions">
-        <a href="/admin/" class="btn-admin-panel" target="_blank" title="Buka Web Control Panel RTMBOT">
-          ⚙️ Panel Bot &amp; Web
-        </a>
-        <button type="button" class="btn-admin-logout" onclick="logoutAdmin()" title="Keluar dari sesi pemilik">
-          Keluar
-        </button>
-      </div>
+      <p class="board-mod-desc">Masukkan PIN rahasia pemilik untuk mengelola atau menghapus ucapan yang kurang pantas:</p>
+      <form id="boardModForm" onsubmit="submitModerationPin(event)">
+        <input type="password" id="boardModPinInput" class="board-mod-input" placeholder="Masukkan PIN..." autocomplete="off" required>
+        <div id="boardModError" class="board-mod-error" style="display: none;"></div>
+        <div class="board-mod-btn-row">
+          <button type="button" class="btn-mod-cancel" onclick="closeModerationModal()">Batal</button>
+          <button type="submit" class="btn-mod-submit" id="btnModSubmit">Buka Akses</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <script src="/hh/app.js?v=20261008_v8" data-cfasync="false"></script>
+  <script src="/hh/app.js?v=20261008_v9" data-cfasync="false"></script>
 </body>
 </html>

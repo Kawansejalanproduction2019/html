@@ -389,30 +389,15 @@ function pullGacha() {
       revealCard.style.display = 'block';
     }
 
-    // Wajib 100% Mendapatkan Haruru (SSR Grand Jackpot Takdir Sejati)
-    const selected = GACHA_CANDIDATES[GACHA_CANDIDATES.length - 1]; // HARURU SSR 99.99%
+    // Hadiah Spesial: Traktiran Milad Mas Ilham & Link Apresiasi
+    nameEl.textContent = '🍕 Tagihan Traktiran Milad Mas Ilham!';
+    badgeEl.className = 'gacha-percent-badge percent-grand';
+    badgeEl.textContent = 'Status: Wajib Ditagih Squad RTM! 😎';
+    statusEl.innerHTML = 'Selamat! Mas Ilham resmi terpilih sebagai sponsor makan-makan & kopi tongkrongan Discord RTM! <br><br>Mau kirim hadiah / apresiasi balik buat Mas Ilham?<div class="treat-actions"><a href="https://saweria.co/RH7155" target="_blank" class="btn-treat-link btn-saweria">💳 Saweria</a><a href="https://bagibagi.co/Rh7155" target="_blank" class="btn-treat-link btn-bagibagi">💰 Bagi-Bagi</a><a href="https://sociabuzz.com/abogoboga7155/tribe" target="_blank" class="btn-treat-link btn-sociabuzz">⚡ Sociabuzz</a></div>';
+    playCelebrationChimes();
+    fireConfetti();
 
-    nameEl.textContent = selected.name;
-
-    if (selected.tier === 'grand') {
-      badgeEl.className = 'gacha-percent-badge percent-grand';
-      badgeEl.textContent = 'Kecocokan ' + selected.percent + '% (Takdir Sejati)';
-      statusEl.textContent = selected.status;
-      playCelebrationChimes();
-      fireConfetti();
-
-      // Enable WhatsApp sharing with Haruru
-      waBtn.style.display = 'inline-flex';
-      const msg = encodeURIComponent(
-        'Halo Haruru! Aku baru aja narik Gacha Jodoh di website ultahku, dan hasilnya kamu keluar sebagai Grand Jackpot 99.99% Takdir Sejati Padang-Bandung! Ilham (7 Okt) & Haruru (28 Okt) jodoh bulan Oktober ❤️'
-      );
-      waBtn.href = 'https://api.whatsapp.com/send?text=' + msg;
-    } else {
-      badgeEl.className = 'gacha-percent-badge percent-low';
-      badgeEl.textContent = 'Kecocokan ' + selected.percent + '%';
-      statusEl.textContent = selected.status;
-      waBtn.style.display = 'none';
-    }
+    waBtn.style.display = 'none';
   }, 1600);
 }
 
@@ -433,7 +418,7 @@ function blowCandle() {
   flame.classList.add('blown-out');
   smoke.style.display = 'block';
   blowBtn.disabled = true;
-  blowBtn.textContent = 'Lilin Telah Padam! Doa Terkabul 🎂';
+  blowBtn.textContent = 'Lilin Telah Padam! Semoga Berkah Selalu 🎂';
 
   setTimeout(() => {
     playCelebrationChimes();
@@ -569,11 +554,10 @@ function initScratchCard() {
 // --- SURAT WAX SEAL TYPEWRITER ---
 const LETTER_TEXT = `Untuk Mas Ilham Endriadi,
 
-Happy belated birthday yaa Mas Ilham! Maaf banget kalau ucapan ini telat sehari dari tanggal 7 kemarin...
+Happy belated birthday yaa Mas Ilham! Maaf kalau ucapan ini baru sempat sampai hari ini, telat sehari dari tanggal 7 kemarin.
 
-Kata anak-anak Discord RTM kita lagi dijodoh-jodohin yaa di server? Haha ada-ada aja kelakuan warga server bikin skenario sinetron Padang-Bandung begini! Tapi terlepas dari semua gimmick perjodohan kawan-kawan RTM, dari Kota Kembang Bandung aku tetap kirim doa tulus untuk Mas Ilham:
-
-Semoga Mas Ilham selalu diberi kesehatan, panjang umur dalam keberkahan, rezeki melimpah ruah, dan sukses selalu memimpin komunitas Discord RTM.
+Dari Bandung, aku kirim doa yang paling tulus untuk Mas Ilham di Padang:
+Semoga Mas Ilham senantiasa diberi limpahan kesehatan, panjang umur dalam keberkahan, rezeki makin luas melimpah, dan sukses selalu dalam segala urusan maupun saat mengelola komunitas Discord RTM.
 
 Oh iya, jangan lupa yaa... 21 hari lagi gantian aku yang ulang tahun tanggal 28 Oktober! Awas kalau sampai lupa ngucapin balik yaa! Hehe 😄`;
 
@@ -605,36 +589,117 @@ function openWaxLetter() {
   }, 24);
 }
 
-// --- RTM CONTROL CENTER & COMMUNITY GREETINGS ENGINE ---
+// --- RTM COMMUNITY GREETINGS & SECURE PIN MODERATION ---
 const WISHES_API_URL = 'https://api.rtmbot.biz.id/api/wishes';
 const ADMIN_API_BASE = 'https://api.rtmbot.biz.id';
 const EXCLUDED_WISH_NAMES = ['Kawan Mabar Discord RTM', 'Kerabat Urang Awak', 'Haruru'];
 
-function getAdminToken() {
-  return localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token') || '';
+function getModerationToken() {
+  return sessionStorage.getItem('rtm_mod_token') || localStorage.getItem('rtm_mod_token') || localStorage.getItem('rtm_admin_token') || '';
 }
 
-function updateAdminState() {
-  const token = getAdminToken();
-  const bar = document.getElementById('adminFloatingBar');
-  if (bar) {
-    bar.style.display = token ? 'block' : 'none';
+function updateModerationState() {
+  const token = getModerationToken();
+  const toggleBtn = document.getElementById('modToggleBtn');
+  const icon = document.getElementById('modToggleIcon');
+  const text = document.getElementById('modToggleText');
+  if (toggleBtn && icon && text) {
+    if (token) {
+      toggleBtn.classList.add('active');
+      icon.textContent = '🔓';
+      text.textContent = 'Mode Moderasi Aktif';
+    } else {
+      toggleBtn.classList.remove('active');
+      icon.textContent = '🔒';
+      text.textContent = 'Moderasi Papan';
+    }
   }
 }
 
-function logoutAdmin() {
-  if (confirm('Keluar dari sesi pemilik?')) {
-    localStorage.removeItem('rtm_admin_token');
-    sessionStorage.removeItem('rtm_admin_token');
-    updateAdminState();
-    initGreetingsWall();
+function toggleModerationMode() {
+  const token = getModerationToken();
+  if (token) {
+    if (confirm('Keluar dari mode moderasi papan ucapan?')) {
+      sessionStorage.removeItem('rtm_mod_token');
+      localStorage.removeItem('rtm_mod_token');
+      localStorage.removeItem('rtm_admin_token');
+      updateModerationState();
+      initGreetingsWall();
+    }
+  } else {
+    openModerationModal();
+  }
+}
+
+function openModerationModal() {
+  const modal = document.getElementById('boardModModal');
+  const input = document.getElementById('boardModPinInput');
+  const err = document.getElementById('boardModError');
+  if (modal) {
+    modal.style.display = 'flex';
+    if (err) err.style.display = 'none';
+    if (input) {
+      input.value = '';
+      setTimeout(() => input.focus(), 100);
+    }
+  }
+}
+
+function closeModerationModal() {
+  const modal = document.getElementById('boardModModal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function submitModerationPin(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById('boardModPinInput');
+  const errEl = document.getElementById('boardModError');
+  const submitBtn = document.getElementById('btnModSubmit');
+  const pin = input ? input.value.trim() : '';
+
+  if (!pin) return;
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Memverifikasi...';
+  }
+  if (errEl) errEl.style.display = 'none';
+
+  try {
+    const res = await fetch(`${ADMIN_API_BASE}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pin: pin })
+    });
+    const data = await res.json();
+    if (res.ok && data.token) {
+      sessionStorage.setItem('rtm_mod_token', data.token);
+      closeModerationModal();
+      updateModerationState();
+      initGreetingsWall();
+    } else {
+      if (errEl) {
+        errEl.textContent = data.message || 'PIN tidak valid.';
+        errEl.style.display = 'block';
+      }
+    }
+  } catch (err) {
+    if (errEl) {
+      errEl.textContent = 'Kendala koneksi ke server.';
+      errEl.style.display = 'block';
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Buka Akses';
+    }
   }
 }
 
 async function deleteWish(name, message) {
-  const token = getAdminToken();
+  const token = getModerationToken();
   if (!token) {
-    alert('Hanya pemilik yang dapat menghapus ucapan. Silakan login di Web Panel.');
+    openModerationModal();
     return;
   }
 
@@ -897,7 +962,7 @@ let appInitialized = false;
 function startApp() {
   if (appInitialized) return;
   appInitialized = true;
-  updateAdminState();
+  updateModerationState();
   initLoveRainEngine();
   initScrollAnimations();
   initPolaroids();
