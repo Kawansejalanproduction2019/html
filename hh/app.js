@@ -726,11 +726,12 @@ async function submitModerationPin(e) {
     const res = await fetch(`${ADMIN_API_BASE}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin: pin })
+      body: JSON.stringify({ pin: pin, password: pin })
     });
     const data = await res.json();
     if (res.ok && data.token) {
       sessionStorage.setItem('rtm_mod_token', data.token);
+      localStorage.setItem('rtm_mod_token', data.token);
       closeModerationModal();
       updateModerationState();
       initGreetingsWall();
