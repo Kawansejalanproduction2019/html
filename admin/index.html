@@ -631,6 +631,9 @@
           </svg>
           <span>Masuk dengan Discord</span>
         </button>
+        <div style="font-size: 0.72rem; color: var(--text-faint); line-height: 1.4;">
+          *Catatan: OAuth memerlukan Redirect URI <code>https://api.rtmbot.biz.id/api/auth/discord/callback</code> &amp; secret di Vercel. Jika belum, gunakan PIN cepat di bawah.
+        </div>
       </div>
 
       <div class="auth-divider">ATAU</div>
@@ -638,7 +641,8 @@
       <!-- PIN / Password Admin -->
       <form class="auth-box-card" onsubmit="submitAdminPin(event)">
         <div style="font-size: 0.85rem; font-weight: 600; color: #E4E4E7;">Masuk Cepat dengan PIN Admin</div>
-        <input type="password" id="adminPinField" class="pin-input" placeholder="Masukkan PIN / Sandi Admin" required>
+        <div style="font-size: 0.74rem; color: #FBBF24;">🔑 PIN Admin Default: <strong>rtmbotadmin123</strong></div>
+        <input type="password" id="adminPinField" class="pin-input" placeholder="Masukkan PIN (Default: rtmbotadmin123)" value="rtmbotadmin123" required>
         <button type="submit" class="btn-pin-login" id="btnPinSubmit">Verifikasi &amp; Masuk</button>
         <div id="authErrorMsg" style="display: none; color: var(--accent-rose); font-size: 0.8rem;"></div>
       </form>

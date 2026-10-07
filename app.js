@@ -576,36 +576,12 @@ function openWaxLetter() {
 // --- COMMUNITY DISCORD & FRIENDS GREETINGS WALL ---
 const DEFAULT_GREETINGS = [
   {
-    name: 'Haruru',
-    role: 'Gadis Bandung (Ultah 28 Okt)',
-    avatar: '🌸',
-    roleClass: 'role-bandung',
-    message: 'Happy belated birthday Ilhamku sayang! Maafkan yaa aku telat sehari ngucapinnya dari tanggal 7 kemarin... Tapi cintaku dan doaku gak pernah terlambat sedetik pun buat kamu. Semoga sehat selalu, rezeki berkah melimpah, dan jangan lupa 21 hari lagi gantian aku yang ultah tanggal 28 Oktober yaa! Hehe ❤️',
-    time: 'Kemarin, 7 Oktober'
-  },
-  {
     name: 'Segenap Keluarga Discord RTM',
     role: 'Komunitas & Admin Discord RTM',
     avatar: '🤖',
     roleClass: 'role-discord',
-    message: 'Barakallahu fii umrik Bang Ilham Endriadi! Maaf kami dari segenap keluarga Discord RTM baru sempat ngucapin hari ini, telat sehari dari tanggal 7 kemarin. Doa tulus dari kami semua: semoga Bang Ilham selalu diberikan kesehatan, panjang umur dalam keberkahan, pintu rezekinya makin luas membentang tanpa batas, dimudahkan segala urusan dan pekerjaan, serta sukses selalu dalam setiap langkah hidupnya! Salam hangat dan respek dari seluruh member Discord RTM.',
+    message: 'Barakallahu fii umrik Mas Ilham Endriadi! Maaf kami dari segenap keluarga Discord RTM baru sempat ngucapin hari ini, telat sehari dari tanggal 7 kemarin. Doa tulus dari kami semua: semoga Mas Ilham selalu diberikan kesehatan, panjang umur dalam keberkahan, pintu rezekinya makin luas membentang tanpa batas, dimudahkan segala urusan dan pekerjaan, serta sukses selalu dalam setiap langkah hidupnya! Salam hangat dan respek dari seluruh member Discord RTM.',
     time: 'Kemarin'
-  },
-  {
-    name: 'Kerabat Urang Awak',
-    role: 'Komunitas Ranah Minang',
-    avatar: '🏛️',
-    roleClass: 'role-minang',
-    message: 'Salamaik ulang tahun sanak Ilham! Kok jauah di mato dakek di hati. Maaf talambek sahari maucapkan. Semoga sehat salalu, dimudahkan sagalo urusan, rezeki makin malimpah jo makin luas, sarato taruih manjadi kabanggaan kaluarga!',
-    time: '7 Oktober'
-  },
-  {
-    name: 'Kawan Mabar Discord RTM',
-    role: 'Squad Mabar Discord RTM',
-    avatar: '🎮',
-    roleClass: 'role-discord',
-    message: 'Happy belated birthday Bang Ilham! Doa terbaik buat Abang: rezeki makin luas, karier makin melesat, dan sehat selalu. Sukses terus buat Bang Ilham!',
-    time: '7 Oktober'
   }
 ];
 

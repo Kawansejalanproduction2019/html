@@ -567,33 +567,17 @@ function initScratchCard() {
 }
 
 // --- SURAT WAX SEAL TYPEWRITER ---
-const LETTER_TEXT = `Untuk Ilham Endriadi, pria terhebat asal Padang yang kemarin bertambah usia pada 7 Oktober.
+const LETTER_TEXT = `Untuk Mas Ilham Endriadi,
 
-Pertama-tama, dari lubuk hati terdalam, maafkan aku yaa Ilhamku sayang kalau kejutan dan surat kecil ini datangnya telat sehari dari tanggal 7 kemarin... Tapi sungguh, doa tulus dan rasa sayangku kepadamu tak pernah sedetik pun terlambat.
+Happy belated birthday yaa Mas Ilham! Maaf banget kalau ucapan ini telat sehari dari tanggal 7 kemarin...
 
-Tahukah kamu betapa indahnya takdir kita? Dua insan yang sama-sama lahir di bulan Oktober: kamu kemarin tanggal 7 Oktober, dan aku tanggal 28 Oktober. Dua puluh satu hari yang memisahkan hari lahir kita, namun mengikat hati kita dalam satu bulan penuh cinta.
+Kata anak-anak Discord RTM kita lagi dijodoh-jodohin yaa di server? Haha ada-ada aja kelakuan warga server bikin skenario sinetron Padang-Bandung begini! Tapi terlepas dari semua gimmick perjodohan kawan-kawan RTM, dari Kota Kembang Bandung aku tetap kirim doa tulus untuk Mas Ilham:
 
-Terima kasih telah selalu sabar, tangguh, dan membuat hariku selalu berwarna. Semoga di usiamu yang baru ini, setiap langkahmu dimudahkan, rezekimu dilimpahkan, dan impian besarmu terwujud satu per satu.
+Semoga Mas Ilham selalu diberi kesehatan, panjang umur dalam keberkahan, rezeki melimpah ruah, dan sukses selalu memimpin komunitas Discord RTM.
 
-Jangan pernah ragu, karena di setiap sujud dan doa malamku, namamu adalah yang paling rajin kuselipkan. Sampai jumpa di hari kita bisa merayakan hari bahagiamu bersama tanpa lagi ada jarak di antara kita.`;
+Oh iya, jangan lupa yaa... 21 hari lagi gantian aku yang ulang tahun tanggal 28 Oktober! Awas kalau sampai lupa ngucapin balik yaa! Hehe 😄`;
 
 let letterOpened = false;
-let waxClickCount = 0;
-let waxClickTimer = null;
-
-function handleWaxSealClick(e) {
-  waxClickCount++;
-  clearTimeout(waxClickTimer);
-  waxClickTimer = setTimeout(() => { waxClickCount = 0; }, 2200);
-
-  // Triple click triggers RTM Control Center / Owner Authentication
-  if (waxClickCount >= 3) {
-    waxClickCount = 0;
-    openAdminAuthModal();
-    return;
-  }
-  openWaxLetter();
-}
 
 function openWaxLetter() {
   if (letterOpened) return;
@@ -624,6 +608,7 @@ function openWaxLetter() {
 // --- RTM CONTROL CENTER & COMMUNITY GREETINGS ENGINE ---
 const WISHES_API_URL = 'https://api.rtmbot.biz.id/api/wishes';
 const ADMIN_API_BASE = 'https://api.rtmbot.biz.id';
+const EXCLUDED_WISH_NAMES = ['Kawan Mabar Discord RTM', 'Kerabat Urang Awak', 'Haruru'];
 
 function getAdminToken() {
   return localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token') || '';
@@ -637,88 +622,8 @@ function updateAdminState() {
   }
 }
 
-function openAdminAuthModal() {
-  const modal = document.getElementById('adminAuthModal');
-  const errorEl = document.getElementById('adminAuthError');
-  const pinInput = document.getElementById('adminPinInput');
-  if (errorEl) errorEl.style.display = 'none';
-  if (pinInput) pinInput.value = '';
-  if (modal) modal.style.display = 'flex';
-}
-
-function closeAdminAuthModal() {
-  const modal = document.getElementById('adminAuthModal');
-  if (modal) modal.style.display = 'none';
-}
-
-function handleModalOverlayClick(e) {
-  if (e.target && e.target.id === 'adminAuthModal') {
-    closeAdminAuthModal();
-  }
-}
-
-function loginWithDiscord() {
-  const returnTo = window.location.origin + window.location.pathname;
-  const loginUrl = `${ADMIN_API_BASE}/api/auth/discord/login?return_to=${encodeURIComponent(returnTo)}`;
-  
-  fetch(loginUrl)
-    .then(r => r.json())
-    .then(data => {
-      if (data && data.url) {
-        window.location.href = data.url;
-      } else {
-        window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(ADMIN_API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
-      }
-    })
-    .catch(() => {
-      window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(ADMIN_API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
-    });
-}
-
-async function submitAdminPin(event) {
-  event.preventDefault();
-  const pinInput = document.getElementById('adminPinInput');
-  const errorEl = document.getElementById('adminAuthError');
-  const btn = document.getElementById('btnPinSubmit');
-  const pin = (pinInput ? pinInput.value : '').trim();
-
-  if (!pin) return;
-
-  if (btn) btn.textContent = 'Memeriksa...';
-  if (errorEl) errorEl.style.display = 'none';
-
-  try {
-    const res = await fetch(`${ADMIN_API_BASE}/api/admin/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pin: pin })
-    });
-    const data = await res.json();
-    if (res.ok && data.token) {
-      localStorage.setItem('rtm_admin_token', data.token);
-      sessionStorage.setItem('rtm_admin_token', data.token);
-      closeAdminAuthModal();
-      updateAdminState();
-      initGreetingsWall();
-      alert('Selamat datang Mas Ilham! RTM Control Center & Izin Moderasi Aktif.');
-    } else {
-      if (errorEl) {
-        errorEl.textContent = data.message || 'PIN atau Password Admin salah.';
-        errorEl.style.display = 'block';
-      }
-    }
-  } catch (err) {
-    if (errorEl) {
-      errorEl.textContent = 'Gagal menghubungi server otentikasi.';
-      errorEl.style.display = 'block';
-    }
-  } finally {
-    if (btn) btn.textContent = 'Masuk';
-  }
-}
-
 function logoutAdmin() {
-  if (confirm('Keluar dari sesi RTM Control Center?')) {
+  if (confirm('Keluar dari sesi pemilik?')) {
     localStorage.removeItem('rtm_admin_token');
     sessionStorage.removeItem('rtm_admin_token');
     updateAdminState();
@@ -729,7 +634,7 @@ function logoutAdmin() {
 async function deleteWish(name, message) {
   const token = getAdminToken();
   if (!token) {
-    openAdminAuthModal();
+    alert('Hanya pemilik yang dapat menghapus ucapan. Silakan login di Web Panel.');
     return;
   }
 
@@ -760,15 +665,7 @@ async function deleteWish(name, message) {
 
       initGreetingsWall();
     } else {
-      if (res.status === 401) {
-        alert('Sesi login telah kedaluwarsa. Silakan masuk kembali.');
-        localStorage.removeItem('rtm_admin_token');
-        sessionStorage.removeItem('rtm_admin_token');
-        updateAdminState();
-        openAdminAuthModal();
-      } else {
-        alert(data.message || 'Gagal menghapus ucapan.');
-      }
+      alert(data.message || 'Gagal menghapus ucapan.');
     }
   } catch (err) {
     alert('Kendala koneksi saat menghapus ucapan.');
@@ -777,36 +674,12 @@ async function deleteWish(name, message) {
 
 const DEFAULT_GREETINGS = [
   {
-    name: 'Haruru',
-    role: 'Gadis Bandung (Ultah 28 Okt)',
-    avatar: '🌸',
-    roleClass: 'role-bandung',
-    message: 'Happy belated birthday Ilhamku sayang! Maafkan yaa aku telat sehari ngucapinnya dari tanggal 7 kemarin... Tapi cintaku dan doaku gak pernah terlambat sedetik pun buat kamu. Semoga sehat selalu, rezeki berkah melimpah, dan jangan lupa 21 hari lagi gantian aku yang ultah tanggal 28 Oktober yaa! Hehe ❤️',
-    time: 'Kemarin, 7 Oktober'
-  },
-  {
     name: 'Segenap Keluarga Discord RTM',
     role: 'Komunitas & Admin Discord RTM',
     avatar: '🤖',
     roleClass: 'role-discord',
     message: 'Barakallahu fii umrik Mas Ilham Endriadi! Maaf kami dari segenap keluarga Discord RTM baru sempat ngucapin hari ini, telat sehari dari tanggal 7 kemarin. Doa tulus dari kami semua: semoga Mas Ilham selalu diberikan kesehatan, panjang umur dalam keberkahan, pintu rezekinya makin luas membentang tanpa batas, dimudahkan segala urusan dan pekerjaan, serta sukses selalu dalam setiap langkah hidupnya! Salam hangat dan respek dari seluruh member Discord RTM.',
     time: 'Kemarin'
-  },
-  {
-    name: 'Kerabat Urang Awak',
-    role: 'Komunitas Ranah Minang',
-    avatar: '🏛️',
-    roleClass: 'role-minang',
-    message: 'Salamaik ulang tahun sanak Ilham! Kok jauah di mato dakek di hati. Maaf talambek sahari maucapkan. Semoga sehat salalu, dimudahkan sagalo urusan, rezeki makin malimpah jo makin luas, sarato taruih manjadi kabanggaan kaluarga!',
-    time: '7 Oktober'
-  },
-  {
-    name: 'Kawan Mabar Discord RTM',
-    role: 'Squad Mabar Discord RTM',
-    avatar: '🎮',
-    roleClass: 'role-discord',
-    message: 'Happy belated birthday Mas Ilham! Doa terbaik buat Mas Ilham: rezeki makin luas, karier makin melesat, dan sehat selalu. Sukses terus buat Mas Ilham!',
-    time: '7 Oktober'
   }
 ];
 
@@ -814,14 +687,16 @@ function initGreetingsWall() {
   const container = document.getElementById('wishesBoard');
   if (!container) return;
 
-  // 1. Instant local render from storage or defaults
+  // 1. Instant local render from storage or defaults (with automatic purging of removed cards)
   let allWishes = DEFAULT_GREETINGS;
   try {
     const saved = localStorage.getItem('rtm_ilham_wishes');
     if (saved) {
-      const parsed = JSON.parse(saved);
+      let parsed = JSON.parse(saved);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        allWishes = parsed;
+        parsed = parsed.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
+        allWishes = parsed.length > 0 ? parsed : DEFAULT_GREETINGS;
+        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(allWishes));
       }
     }
   } catch (e) {
@@ -834,8 +709,10 @@ function initGreetingsWall() {
     .then(res => res.json())
     .then(data => {
       if (data && data.status === 'success' && Array.isArray(data.wishes) && data.wishes.length > 0) {
-        renderWishes(data.wishes);
-        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(data.wishes));
+        const filtered = data.wishes.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
+        const finalWishes = filtered.length > 0 ? filtered : DEFAULT_GREETINGS;
+        renderWishes(finalWishes);
+        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(finalWishes));
       }
     })
     .catch(err => {
