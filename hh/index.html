@@ -9,8 +9,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <base href="/hh/">
-  <link rel="stylesheet" href="/hh/style.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/hh/style.css?v=20261008_final">
+  <style>
+    /* Critical anti-cache: Ensure scrapbook content is 100% visible immediately regardless of Cloudflare/browser cache */
+    .reveal-on-scroll {
+      opacity: 1 !important;
+      transform: none !important;
+      visibility: visible !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -365,6 +372,24 @@
 
   </div>
 
-  <script src="/hh/app.js"></script>
+  <script src="/hh/app.js?v=20261008_final"></script>
+  <script>
+    (function() {
+      function forceReveal() {
+        document.querySelectorAll('.reveal-on-scroll').forEach(function(el) {
+          el.classList.add('is-revealed');
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', forceReveal);
+      } else {
+        forceReveal();
+      }
+      window.addEventListener('load', forceReveal);
+      setTimeout(forceReveal, 300);
+    })();
+  </script>
 </body>
 </html>
