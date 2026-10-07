@@ -252,20 +252,17 @@ function initScrollAnimations() {
   // Track scroll position
   window.addEventListener('scroll', () => {
     const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (window.scrollY / totalHeight) * 100;
+    const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
     if (progressBar) progressBar.style.width = progress + '%';
 
     // Show/hide scroll top button
     if (scrollTopBtn) {
-      if (window.scrollY > 320) scrollTopBtn.classList.add('visible');
+      if (window.scrollY > 280) scrollTopBtn.classList.add('visible');
       else scrollTopBtn.classList.remove('visible');
     }
   }, { passive: true });
 
-  // Ensure all elements are immediately revealed
-  revealElements.forEach(el => el.classList.add('is-revealed'));
-
-  // Intersection Observer for scroll up & down reveals
+  // Intersection Observer for smooth fluid entrance
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -274,12 +271,26 @@ function initScrollAnimations() {
         }
       });
     }, {
-      threshold: 0.05,
-      rootMargin: '0px 0px 50px 0px'
+      threshold: 0.1,
+      rootMargin: '0px 0px -30px 0px'
     });
 
-    revealElements.forEach(el => observer.observe(el));
+    revealElements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('is-revealed');
+      } else {
+        observer.observe(el);
+      }
+    });
+  } else {
+    revealElements.forEach(el => el.classList.add('is-revealed'));
   }
+
+  // Safety net: ensure everything is visible after 3s
+  setTimeout(() => {
+    revealElements.forEach(el => el.classList.add('is-revealed'));
+  }, 3000);
 }
 
 function scrollToTop() {
@@ -594,6 +605,8 @@ function openWaxLetter() {
 }
 
 // --- COMMUNITY DISCORD & FRIENDS GREETINGS WALL ---
+const WISHES_API_URL = 'https://api.rtmbot.biz.id/api/wishes';
+
 const DEFAULT_GREETINGS = [
   {
     name: 'Haruru',
@@ -608,7 +621,7 @@ const DEFAULT_GREETINGS = [
     role: 'Komunitas & Admin Discord RTM',
     avatar: '🤖',
     roleClass: 'role-discord',
-    message: 'Barakallahu fii umrik Bang Ilham Endriadi! Maaf kami dari segenap keluarga Discord RTM baru sempat ngucapin hari ini, telat sehari dari tanggal 7 kemarin. Doa tulus dari kami semua: semoga Bang Ilham selalu diberikan kesehatan, panjang umur dalam keberkahan, pintu rezekinya makin luas membentang tanpa batas, dimudahkan segala urusan dan pekerjaan, serta sukses selalu dalam setiap langkah hidupnya! Salam hangat dan respek dari seluruh member Discord RTM.',
+    message: 'Barakallahu fii umrik Mas Ilham Endriadi! Maaf kami dari segenap keluarga Discord RTM baru sempat ngucapin hari ini, telat sehari dari tanggal 7 kemarin. Doa tulus dari kami semua: semoga Mas Ilham selalu diberikan kesehatan, panjang umur dalam keberkahan, pintu rezekinya makin luas membentang tanpa batas, dimudahkan segala urusan dan pekerjaan, serta sukses selalu dalam setiap langkah hidupnya! Salam hangat dan respek dari seluruh member Discord RTM.',
     time: 'Kemarin'
   },
   {
@@ -624,7 +637,7 @@ const DEFAULT_GREETINGS = [
     role: 'Squad Mabar Discord RTM',
     avatar: '🎮',
     roleClass: 'role-discord',
-    message: 'Happy belated birthday Bang Ilham! Doa terbaik buat Abang: rezeki makin luas, karier makin melesat, dan sehat selalu. Sukses terus buat Bang Ilham!',
+    message: 'Happy belated birthday Mas Ilham! Doa terbaik buat Mas Ilham: rezeki makin luas, karier makin melesat, dan sehat selalu. Sukses terus buat Mas Ilham!',
     time: '7 Oktober'
   }
 ];
@@ -633,6 +646,7 @@ function initGreetingsWall() {
   const container = document.getElementById('wishesBoard');
   if (!container) return;
 
+  // 1. Instant local render from storage or defaults
   let allWishes = DEFAULT_GREETINGS;
   try {
     const saved = localStorage.getItem('rtm_ilham_wishes');
@@ -645,8 +659,20 @@ function initGreetingsWall() {
   } catch (e) {
     allWishes = DEFAULT_GREETINGS;
   }
-
   renderWishes(allWishes);
+
+  // 2. Asynchronous server synchronization (cross-device persistence)
+  fetch(WISHES_API_URL)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.status === 'success' && Array.isArray(data.wishes) && data.wishes.length > 0) {
+        renderWishes(data.wishes);
+        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(data.wishes));
+      }
+    })
+    .catch(err => {
+      console.log('Server wishes sync fallback to local cache:', err);
+    });
 }
 
 function renderWishes(list) {
@@ -680,7 +706,7 @@ function submitNewWish(event) {
   const msgInput = document.getElementById('newWishMsg');
 
   const name = nameInput.value.trim();
-  const role = roleInput.value.trim() || 'Sahabat Discord';
+  const role = roleInput.value.trim() || 'Sahabat';
   const msg = msgInput.value.trim();
 
   if (!name || !msg) return;
@@ -694,18 +720,49 @@ function submitNewWish(event) {
     time: 'Baru saja'
   };
 
+  // Immediate optimistic local update
   const saved = localStorage.getItem('rtm_ilham_wishes');
   const currentList = saved ? JSON.parse(saved) : [...DEFAULT_GREETINGS];
   currentList.push(newEntry);
   localStorage.setItem('rtm_ilham_wishes', JSON.stringify(currentList));
-
   renderWishes(currentList);
+
   nameInput.value = '';
   roleInput.value = '';
   msgInput.value = '';
 
   playCelebrationChimes();
   fireConfetti();
+
+  // Secure server-side persistence
+  fetch(WISHES_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: name,
+      role: role,
+      message: msg,
+      avatar: '💌'
+    })
+  })
+  .then(res => res.json())
+  .then(resData => {
+    if (resData && resData.status === 'success') {
+      // Re-fetch to ensure canonical order across all devices
+      fetch(WISHES_API_URL)
+        .then(r => r.json())
+        .then(syncData => {
+          if (syncData && Array.isArray(syncData.wishes)) {
+            renderWishes(syncData.wishes);
+            localStorage.setItem('rtm_ilham_wishes', JSON.stringify(syncData.wishes));
+          }
+        })
+        .catch(() => {});
+    }
+  })
+  .catch(err => {
+    console.log('Server persistence notice:', err);
+  });
 }
 
 function escapeHTML(str) {

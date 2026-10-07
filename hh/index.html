@@ -11,11 +11,20 @@
   <base href="/hh/">
   <link rel="stylesheet" href="/hh/style.css?v=20261008_v3">
   <style>
-    /* Critical anti-cache: Ensure scrapbook content is 100% visible immediately regardless of Cloudflare/browser cache */
+    /* Dynamic Scroll Reveal Transitions */
     .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .hero-scrapbook {
       opacity: 1 !important;
       transform: none !important;
-      visibility: visible !important;
     }
     #rainCanvas {
       position: fixed;
@@ -121,18 +130,14 @@
     
     <!-- Top Navigation Bar -->
     <header class="top-nav reveal-on-scroll">
-      <a href="../index.html" class="nav-brand">
-        <span>RTMBOT</span>
+      <div class="nav-brand">
         <span class="brand-heart">&hearts;</span>
-        <span>Spesial Bulan Oktober</span>
-      </a>
+        <span>Spesial Bulan Oktober: Ilham &amp; Haruru</span>
+      </div>
 
       <div class="nav-actions">
         <a href="#greetingsWall" class="btn-nav">
           <span>💌 Papan Ucapan</span>
-        </a>
-        <a href="../index.html" class="btn-nav btn-nav-primary">
-          <span>Ke Beranda Hub</span>
         </a>
       </div>
     </header>
@@ -435,36 +440,11 @@
 
     <!-- Footer -->
     <footer class="scrapbook-footer reveal-on-scroll">
-      <div class="footer-links">
-        <a href="../index.html">RTMBOT Hub</a>
-        <span>&bull;</span>
-        <a href="../chat/">Chat AI Assistant</a>
-        <span>&bull;</span>
-        <a href="../quran/">Al-Quran Digital</a>
-      </div>
       <p>Didedikasikan spesial untuk hari ulang tahun Ilham Endriadi (7 Oktober) &amp; Haruru (28 Oktober) &bull; Padang &amp; Bandung 2026</p>
     </footer>
 
   </div>
 
-  <script src="/hh/app.js?v=20261008_v3" data-cfasync="false"></script>
-  <script>
-    (function() {
-      function forceReveal() {
-        document.querySelectorAll('.reveal-on-scroll').forEach(function(el) {
-          el.classList.add('is-revealed');
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        });
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', forceReveal);
-      } else {
-        forceReveal();
-      }
-      window.addEventListener('load', forceReveal);
-      setTimeout(forceReveal, 300);
-    })();
-  </script>
+  <script src="/hh/app.js?v=20261008_v4" data-cfasync="false"></script>
 </body>
 </html>
