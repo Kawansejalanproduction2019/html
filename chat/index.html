@@ -700,14 +700,14 @@
         }
 
         // --- TERMINAL LOG RENDERING ---
-        function addTerminalLog(text, role = 'bot', imgData = null) {
+        function addTerminalLog(text, role = 'bot', imgData = null, customTime = null) {
             const container = document.getElementById('terminalArea');
             if (!container) return;
 
             const entry = document.createElement('div');
             entry.className = `terminal-entry ${role}`;
 
-            const timeStr = getTimeString();
+            const timeStr = customTime || getTimeString();
             let safeText = typeof text === 'string' ? text : String(text || '');
 
             // Auto-decrypt safety net: If any encrypted envelope is passed, decrypt immediately
@@ -782,20 +782,13 @@
 
             const userText = messageText || 'Berikan pendapatmu mengenai gambar ini.';
             const sendImg = currentBase64;
+            const sendTime = getTimeString();
 
             input.value = '';
             clearAttachment();
 
             // Display in terminal stream
-            addTerminalLog(userText, 'user', sendImg);
-
-            // Record user message to persistent history immediately
-            chatHistory.push({
-                role: 'user',
-                parts: [{ text: userText }],
-                img: sendImg || null
-            });
-            saveChatHistory();
+            addTerminalLog(userText, 'user', sendImg, sendTime);
 
             // Show typing indicator
             if (typing) typing.style.display = 'flex';
@@ -804,15 +797,30 @@
             try {
                 const reply = await triggerAPI(userText, sendImg);
                 if (reply && reply.trim()) {
-                    addTerminalLog(reply, 'bot');
+                    const replyTime = getTimeString();
+                    addTerminalLog(reply, 'bot', null, replyTime);
+                    chatHistory.push({
+                        role: 'user',
+                        parts: [{ text: userText }],
+                        img: sendImg || null,
+                        time: sendTime
+                    });
                     chatHistory.push({
                         role: 'model',
-                        parts: [{ text: reply }]
+                        parts: [{ text: reply }],
+                        time: replyTime
                     });
                     saveChatHistory();
                 }
             } catch (err) {
                 addTerminalLog('Terjadi kendala jaringan saat menghubungi server cluster.', 'system');
+                chatHistory.push({
+                    role: 'user',
+                    parts: [{ text: userText }],
+                    img: sendImg || null,
+                    time: sendTime
+                });
+                saveChatHistory();
             } finally {
                 if (typing) typing.style.display = 'none';
                 btn.disabled = false;
@@ -831,9 +839,34 @@
                 payloadMessage = multiLayerEncrypt(payloadMessage, sessionId, imgData);
             }
 
+            // Only send valid previous user & model conversation turns to Gemini API
+            const validHistory = [];
+            if (Array.isArray(chatHistory)) {
+                chatHistory.forEach(item => {
+                    const r = item.role === 'model' ? 'model' : (item.role === 'user' ? 'user' : null);
+                    if (!r) return;
+                    let txt = '';
+                    if (item.parts && Array.isArray(item.parts) && item.parts[0] && item.parts[0].text) {
+                        txt = item.parts[0].text;
+                    } else if (typeof item.parts === 'string') {
+                        txt = item.parts;
+                    }
+                    if (txt && typeof txt === 'string' && txt.trim()) {
+                        if (validHistory.length > 0 && validHistory[validHistory.length - 1].role === r) {
+                            validHistory[validHistory.length - 1].parts[0].text += '\n' + txt.trim();
+                        } else {
+                            validHistory.push({ role: r, parts: [{ text: txt.trim() }] });
+                        }
+                    }
+                });
+            }
+            while (validHistory.length > 0 && validHistory[validHistory.length - 1].role === 'user') {
+                validHistory.pop();
+            }
+
             const bodyPayload = {
                 message: payloadMessage,
-                history: chatHistory,
+                history: validHistory.slice(-16),
                 session_id: sessionId
             };
             if (imgData) bodyPayload.image = imgData;
@@ -895,11 +928,13 @@
                             lastAdminMsgId = m.id;
                             localStorage.setItem('rtmbot_last_admin_msg_id', lastAdminMsgId.toString());
                             const decryptedObj = multiLayerDecrypt(m.message, sessionId);
-                            addTerminalLog(decryptedObj.text, 'bot', decryptedObj.img);
+                            const replyTime = getTimeString();
+                            addTerminalLog(decryptedObj.text, 'bot', decryptedObj.img, replyTime);
                             chatHistory.push({
                                 role: 'model',
                                 parts: [{ text: decryptedObj.text }],
-                                img: decryptedObj.img || null
+                                img: decryptedObj.img || null,
+                                time: replyTime
                             });
                             saveChatHistory();
                         }
@@ -928,8 +963,9 @@
                 pollingInterval = null;
             }
             if (notice) {
-                addTerminalLog(notice, 'system');
-                chatHistory.push({ role: 'system', parts: [{ text: notice }] });
+                const noticeTime = getTimeString();
+                addTerminalLog(notice, 'system', null, noticeTime);
+                chatHistory.push({ role: 'system', parts: [{ text: notice }], time: noticeTime });
                 saveChatHistory();
             }
         }
@@ -989,6 +1025,23 @@
         // --- RESTORE HISTORY ON LOAD ---
         function restoreHistory() {
             if (historyRestored) return;
+
+            // Always ensure latest chatHistory is read from localStorage
+            try {
+                const saved = localStorage.getItem('rtmbot_chat_history');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        chatHistory = parsed;
+                    }
+                }
+            } catch (e) {
+                console.warn('Gagal membaca cache riwayat chat:', e);
+            }
+
+            const container = document.getElementById('terminalArea');
+            if (!container) return;
+
             historyRestored = true;
 
             if (Array.isArray(chatHistory) && chatHistory.length > 0) {
@@ -1018,7 +1071,7 @@
                     }
 
                     if (text || img) {
-                        addTerminalLog(text, role, img);
+                        addTerminalLog(text, role, img, item.time || null);
                     }
                 });
             }
@@ -1031,12 +1084,12 @@
             }
         }
 
-        // Run immediately and also on DOMContentLoaded as safety
-        if (document.readyState === 'loading') {
-            window.addEventListener('DOMContentLoaded', restoreHistory);
-        } else {
-            restoreHistory();
-        }
+        // Execute immediately since #terminalArea is already parsed in DOM above
+        restoreHistory();
+
+        // Also add standard DOMContentLoaded and load event listeners as backup
+        document.addEventListener('DOMContentLoaded', restoreHistory);
+        window.addEventListener('load', restoreHistory);
     </script>
 </body>
 </html>
