@@ -877,6 +877,316 @@
       border-bottom: 1px solid var(--border-subtle);
       padding-bottom: 8px;
     }
+
+    /* Webhook Studio Grid */
+    .webhook-studio-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .webhook-studio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Discord Message Live Mockup */
+    .discord-mockup-wrapper {
+      background: #313338;
+      border: 1px solid #3F4147;
+      border-radius: 12px;
+      padding: 18px;
+      font-family: var(--font-body);
+      color: #DBDEE1;
+      position: sticky;
+      top: 80px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .discord-mockup-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .discord-bot-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #5865F2;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .discord-bot-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #F2F3F5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .discord-bot-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: #5865F2;
+      color: #FFFFFF;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.4px;
+      line-height: 1.2;
+    }
+    .discord-msg-time {
+      font-size: 0.72rem;
+      color: #949BA4;
+      margin-left: 4px;
+    }
+    .discord-msg-text {
+      font-size: 0.92rem;
+      color: #DBDEE1;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 10px;
+    }
+    .discord-embed-card {
+      background: #2B2D31;
+      border-left: 4px solid var(--accent-amber);
+      border-radius: 4px;
+      padding: 14px 16px;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .discord-embed-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #F2F3F5;
+    }
+    .discord-embed-author-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .discord-embed-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #00A8FC;
+      text-decoration: none;
+      word-break: break-word;
+    }
+    .discord-embed-title:hover {
+      text-decoration: underline;
+    }
+    .discord-embed-desc {
+      font-size: 0.86rem;
+      color: #DBDEE1;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .discord-embed-fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .discord-embed-field-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #F2F3F5;
+      margin-bottom: 2px;
+    }
+    .discord-embed-field-val {
+      font-size: 0.82rem;
+      color: #DBDEE1;
+      word-break: break-word;
+    }
+    .discord-embed-image {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-top: 6px;
+      max-height: 260px;
+      object-fit: cover;
+    }
+    .discord-embed-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: #949BA4;
+      margin-top: 6px;
+    }
+    .discord-embed-footer-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+    }
+
+    /* Web Console Terminal */
+    .terminal-container {
+      background: #09090B;
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .terminal-header {
+      background: #141417;
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .terminal-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .terminal-window-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .window-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #27272A;
+    }
+    .terminal-output-feed {
+      padding: 16px;
+      min-height: 380px;
+      max-height: 520px;
+      overflow-y: auto;
+      background: #09090B;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .terminal-log-entry {
+      border-left: 2px solid var(--border-subtle);
+      padding-left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .terminal-log-entry.status-ok {
+      border-color: var(--accent-emerald);
+    }
+    .terminal-log-entry.status-pending {
+      border-color: var(--accent-amber);
+    }
+    .terminal-log-entry.status-failed {
+      border-color: var(--accent-rose);
+    }
+    .terminal-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: var(--text-faint);
+    }
+    .terminal-cmd-bubble {
+      color: #FAFAFA;
+      font-weight: 600;
+    }
+    .terminal-res-block {
+      background: #121215;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #A1A1AA;
+    }
+    .terminal-input-bar {
+      padding: 14px 18px;
+      background: #141417;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .terminal-prompt-sym {
+      color: var(--accent-amber);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .terminal-input-field {
+      flex: 1;
+      background: #09090B;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 9px 14px;
+      color: #FAFAFA;
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .terminal-input-field:focus {
+      border-color: var(--accent-amber);
+    }
+    .quick-cmd-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .quick-cmd-pill {
+      background: #18181B;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.76rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quick-cmd-pill:hover {
+      border-color: var(--accent-amber);
+      color: var(--text-main);
+      background: #222226;
+    }
+
+    /* Tag Chips for Whitelist */
+    .tag-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tag-chip-item {
+      background: #1E1E24;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+    }
+    .tag-chip-del {
+      background: transparent;
+      border: none;
+      color: var(--accent-rose);
+      cursor: pointer;
+      font-size: 0.9rem;
+      line-height: 1;
+    }
   </style>
 </head>
 <body>
@@ -952,7 +1262,7 @@
         <div class="stat-card">
           <span class="stat-label">Sesi Live Chat Pengunjung</span>
           <div class="stat-value" id="statSessionsCount">0</div>
-          <span class="stat-badge" style="color: var(--accent-amber);"><span class="status-dot" style="background: var(--accent-amber); box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);"></span> Human Handoff Ready</span>
+          <span class="stat-badge" id="statSessionsBadge" style="color: var(--accent-emerald);"><span class="status-dot"></span> AI Otomatis Aktif (Aman)</span>
         </div>
         <div class="stat-card">
           <span class="stat-label">Status Bot Discord</span>
@@ -961,21 +1271,36 @@
         </div>
         <div class="stat-card">
           <span class="stat-label">Koneksi Server API</span>
-          <div class="stat-value" style="font-size: 1.5rem; color: #6EE7B7;" id="statApiStatus">Checking...</div>
+          <div class="stat-value" style="font-size: 1.5rem; color: #6EE7B7;" id="statApiStatus">Memeriksa...</div>
           <span class="stat-badge" id="statApiLatency"><span class="status-dot"></span> https://api.rtmbot.biz.id</span>
         </div>
       </div>
 
       <!-- Navigation Tabs -->
-      <div class="tabs-bar">
+      <div class="tabs-bar" style="overflow-x: auto; padding-bottom: 4px;">
         <button type="button" class="tab-btn active" onclick="switchTab('wishesTab', this)">
-          <span>💌 Moderasi Papan Ucapan</span>
-        </button>
-        <button type="button" class="tab-btn" onclick="switchTab('botTab', this)">
-          <span>⚙️ Konfigurasi Server Discord</span>
+          <span>💌 Papan Ucapan</span>
         </button>
         <button type="button" class="tab-btn" onclick="switchTab('chatTab', this)">
-          <span>💬 AI Live Chat &amp; Handoff</span>
+          <span>💬 Live Chat CS</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('webhookTab', this)">
+          <span>📢 Webhook Studio</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('botTab', this)">
+          <span>🛡️ Sentinel &amp; AutoMod</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('notifTab', this)">
+          <span>📡 Media Feeds</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('aiTab', this)">
+          <span>🧠 AI Persona &amp; Cyber</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('voiceTab', this)">
+          <span>🎮 Voice &amp; Kas</span>
+        </button>
+        <button type="button" class="tab-btn" onclick="switchTab('consoleTab', this)">
+          <span>💻 Web Console &amp; Runner</span>
         </button>
       </div>
 
@@ -993,7 +1318,154 @@
         </div>
       </div>
 
-      <!-- TAB 2: Discord Server & Bot Configuration Manager -->
+      <!-- TAB: Webhook Studio & Broadcast -->
+      <div id="webhookTab" class="tab-pane">
+        <div class="webhook-studio-grid">
+          <!-- Left: Controls -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">📢 Webhook Dispatcher &amp; Embed Builder</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;">
+              Kirim pengumuman, broadcast, atau pesan kaya ke Discord via Webhook dengan pratinjau real-time.
+            </p>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Target Webhook URL</label>
+              <input type="url" id="whUrlInput" class="form-input-custom" placeholder="https://discord.com/api/webhooks/..." oninput="updateEmbedPreview()">
+              <div class="form-help-custom">Gunakan URL webhook channel Discord atau pilih preset tersimpan di bawah.</div>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+              <button type="button" class="quick-cmd-pill" onclick="setWebhookPreset('main')">👑 Webhook Utama Guild</button>
+              <button type="button" class="quick-cmd-pill" onclick="setWebhookPreset('log')">📋 Log Webhook Default</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Bot Username Override</label>
+                <input type="text" id="whUsernameInput" class="form-input-custom" placeholder="RTM Broadcast" oninput="updateEmbedPreview()">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Avatar URL Override</label>
+                <input type="url" id="whAvatarInput" class="form-input-custom" placeholder="https://cdn.discordapp.com/..." oninput="updateEmbedPreview()">
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Teks Pesan Biasa (Content)</label>
+              <textarea id="whContentInput" class="form-textarea-custom" rows="2" placeholder="@everyone Halo komunitas RTM! Ada pengumuman baru nih." oninput="updateEmbedPreview()"></textarea>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-subtle); margin: 16px 0;">
+
+            <div style="font-size: 0.86rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">🎨 Kustomisasi Rich Embed</div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Judul Embed</label>
+                <input type="text" id="whEmbedTitleInput" class="form-input-custom" placeholder="Judul Pengumuman" oninput="updateEmbedPreview()">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Warna Stripe (Hex)</label>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <input type="color" id="whEmbedColorPicker" value="#F59E0B" style="width: 38px; height: 38px; border: none; border-radius: 6px; cursor: pointer; background: transparent;" onchange="onEmbedColorPickerChange(this.value)">
+                  <input type="text" id="whEmbedColorInput" class="form-input-custom" value="#F59E0B" style="max-width: 90px;" oninput="onEmbedColorTextChange(this.value)">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Deskripsi Embed (Mendukung Markdown)</label>
+              <textarea id="whEmbedDescInput" class="form-textarea-custom" rows="3" placeholder="Tuliskan isi pengumuman di sini. Gunakan **tebal**, *miring*, atau [tautan](https://rtmbot.biz.id)." oninput="updateEmbedPreview()"></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Nama Pengirim (Author)</label>
+                <input type="text" id="whEmbedAuthorInput" class="form-input-custom" placeholder="Tim Moderator RTM" oninput="updateEmbedPreview()">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">URL Gambar Author</label>
+                <input type="url" id="whEmbedAuthorIconInput" class="form-input-custom" placeholder="https://..." oninput="updateEmbedPreview()">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Thumbnail URL (Kanan Atas)</label>
+                <input type="url" id="whEmbedThumbInput" class="form-input-custom" placeholder="https://..." oninput="updateEmbedPreview()">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Banner Media / Image URL</label>
+                <input type="url" id="whEmbedImageInput" class="form-input-custom" placeholder="https://..." oninput="updateEmbedPreview()">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Footer Text</label>
+                <input type="text" id="whEmbedFooterInput" class="form-input-custom" placeholder="RTM Control Center • Komunitas Discord" oninput="updateEmbedPreview()">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Sematkan Timestamp</label>
+                <label class="toggle-item-custom" style="padding: 7px 10px;">
+                  <input type="checkbox" id="whEmbedTimestampCheck" checked onchange="updateEmbedPreview()">
+                  <span style="font-size: 0.78rem;">Sertakan Waktu</span>
+                </label>
+              </div>
+            </div>
+
+            <div style="margin-top: 18px; display: flex; gap: 10px;">
+              <button type="button" class="btn-save-primary" id="btnSendWebhook" style="flex: 1;" onclick="sendWebhookFromStudio()">
+                <span>🚀 Kirim Webhook ke Discord</span>
+              </button>
+              <button type="button" class="btn-action-nav" onclick="resetWebhookForm()">
+                <span>Bersihkan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Live Discord Mockup -->
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">
+              👁️ Pratinjau Tampilan di Discord
+            </div>
+            <div class="discord-mockup-wrapper">
+              <div class="discord-mockup-head">
+                <img id="prevBotAvatar" class="discord-bot-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar">
+                <div>
+                  <div class="discord-bot-name">
+                    <span id="prevBotName">RTM Broadcast</span>
+                    <span class="discord-bot-badge">APP</span>
+                    <span class="discord-msg-time" id="prevMsgTime">Hari ini pukul 14:00</span>
+                  </div>
+                  <div class="discord-msg-text" id="prevMsgContent">Halo komunitas RTM! Ada pengumuman baru nih.</div>
+                  
+                  <!-- Embed Box -->
+                  <div class="discord-embed-card" id="prevEmbedCard">
+                    <div class="discord-embed-author" id="prevEmbedAuthorRow" style="display: none;">
+                      <img id="prevEmbedAuthorIcon" class="discord-embed-author-icon" src="" alt="" style="display: none;">
+                      <span id="prevEmbedAuthorText">Author Name</span>
+                    </div>
+
+                    <a href="#" class="discord-embed-title" id="prevEmbedTitle">Judul Pengumuman</a>
+                    <div class="discord-embed-desc" id="prevEmbedDesc">Tuliskan isi pengumuman di sini. Pratinjau ini akan ter-update secara otomatis sesuai yang kamu ketik!</div>
+
+                    <img id="prevEmbedImage" class="discord-embed-image" src="" alt="Banner" style="display: none;">
+
+                    <div class="discord-embed-footer" id="prevEmbedFooterRow">
+                      <span id="prevEmbedFooterText">RTM Control Center • Komunitas Discord</span>
+                      <span id="prevEmbedTimestamp">• Hari ini</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Sentinel Moderation & Server Settings -->
       <div id="botTab" class="tab-pane">
         <!-- Top Toolbar for Guild Selection -->
         <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 18px 22px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
@@ -1027,93 +1499,142 @@
           
           <!-- Card 1: Channel Utama & Sambutan -->
           <div class="bot-card">
-            <h3 class="bot-card-title">📢 Kanal Sistem &amp; Sambutan Member</h3>
+            <h3 class="bot-card-title">📢 Sambutan Member &amp; Kanal Utama</h3>
             
             <div class="form-group-custom">
               <label class="form-label-custom">Welcome Channel ID</label>
               <input type="text" id="cfgWelcomeChannel" class="form-input-custom" placeholder="Contoh: 1379762287149187162">
-              <div class="form-help-custom">Kanal teks tempat bot mengirim pesan sambutan saat ada member baru masuk.</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Judul Embed Sambutan</label>
+                <input type="text" id="cfgWelcomeEmbedTitle" class="form-input-custom" placeholder="Selamat Datang!">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Nama Pengirim</label>
+                <input type="text" id="cfgWelcomeSenderName" class="form-input-custom" placeholder="ADMIN RTM">
+              </div>
             </div>
 
             <div class="form-group-custom">
               <label class="form-label-custom">Pesan Sambutan (Welcome Message)</label>
               <textarea id="cfgWelcomeMessage" class="form-textarea-custom" rows="3" placeholder="Selamat bersenang-senang dan mari ciptakan pengalaman Discord yang tak terlupakan bersama!"></textarea>
-              <div class="form-help-custom">Pesan otomatis yang akan dikirim bot ke member yang baru bergabung.</div>
             </div>
 
             <div class="form-group-custom">
-              <label class="form-label-custom">Log / Audit Channel ID</label>
-              <input type="text" id="cfgLogChannel" class="form-input-custom" placeholder="ID kanal audit log moderasi...">
-              <div class="form-help-custom">Kanal khusus tempat bot mencatat log moderasi, kick, ban, dan warning.</div>
+              <label class="form-label-custom">Banner URL Sambutan</label>
+              <input type="url" id="cfgWelcomeBannerUrl" class="form-input-custom" placeholder="https://... (GIF/PNG)">
             </div>
 
             <div class="form-group-custom">
-              <label class="form-label-custom">Auto Role ID</label>
-              <input type="text" id="cfgAutoRole" class="form-input-custom" placeholder="ID Role otomatis member baru...">
-              <div class="form-help-custom">Role yang langsung diberikan ke member saat pertama kali bergabung.</div>
+              <label class="form-label-custom">Pesan Sampai Jumpa (Goodbye Message)</label>
+              <textarea id="cfgGoodbyeMessage" class="form-textarea-custom" rows="2" placeholder="Sampai jumpa, {user}! Terima kasih atas waktu dan kontribusimu di komunitas kami."></textarea>
             </div>
           </div>
 
-          <!-- Card 2: Automod & Modul Cogs -->
+          <!-- Card 2: Server Boost Celebration & Log Moderasi -->
           <div class="bot-card">
-            <h3 class="bot-card-title">🛡️ Automod &amp; Fitur Bot</h3>
+            <h3 class="bot-card-title">💎 Server Boost &amp; Keamanan Audit</h3>
             
-            <div style="margin-bottom: 16px;">
-              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Proteksi Otomatis (Automod)</div>
-              <div class="toggle-list-custom">
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgAutoModAntiSpam" checked>
-                  <span>Anti-Spam Rapid &amp; Duplicate Protection</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgAutoModFilterLinks" checked>
-                  <span>Filter Link Eksternal &amp; Phishing (suspicious_links.json)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgAutoModFilterBadwords" checked>
-                  <span>Filter Kata Kasar &amp; Konten Terlarang (filters.json)</span>
-                </label>
+            <div class="form-group-custom">
+              <label class="form-label-custom">Server Boost Channel ID</label>
+              <input type="text" id="cfgBoostChannel" class="form-input-custom" placeholder="ID kanal perayaan boost...">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Judul Embed Boost</label>
+                <input type="text" id="cfgBoostEmbedTitle" class="form-input-custom" placeholder="TERIMA KASIH SERVER BOOSTER!">
+              </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Nama Pengirim Boost</label>
+                <input type="text" id="cfgBoostSenderName" class="form-input-custom" placeholder="Tim Server">
               </div>
             </div>
 
-            <div style="margin-top: 20px;">
-              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Modul / Cogs Aktif Bot</div>
-              <div class="toggle-list-custom">
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModModeration" checked>
-                  <span>🛡️ Sentinel Moderation (cogs/moderation.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModGemini" checked>
-                  <span>🧠 Gemini AI Engine (cogs/gemini.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModFinance" checked>
-                  <span>💰 Finance &amp; Economy (cogs/finance.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModTempVoice" checked>
-                  <span>🔊 Temp Voice Channels (cogs/temp_voice.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModLeveling" checked>
-                  <span>⭐ Leveling &amp; XP System (cogs/leveling.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModParty" checked>
-                  <span>🎮 Party Games (cogs/party_games.py)</span>
-                </label>
-                <label class="toggle-item-custom">
-                  <input type="checkbox" id="cfgModWebhook" checked>
-                  <span>📢 Webhooks &amp; Notifikasi (cogs/webhook.py)</span>
-                </label>
+            <div class="form-group-custom">
+              <label class="form-label-custom">Pesan Server Boost</label>
+              <textarea id="cfgBoostMessage" class="form-textarea-custom" rows="2" placeholder="Terima kasih banyak, {user}, telah menjadi Server Booster kami di {guild_name}! ❤️"></textarea>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group-custom">
+                <label class="form-label-custom">Log / Audit Channel ID</label>
+                <input type="text" id="cfgLogChannel" class="form-input-custom" placeholder="ID kanal audit log...">
               </div>
+              <div class="form-group-custom">
+                <label class="form-label-custom">Auto Role ID</label>
+                <input type="text" id="cfgAutoRole" class="form-input-custom" placeholder="ID Role member baru...">
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Kanal Jebakan Anti-Spam (Honey-pot / Trap Channels)</label>
+              <input type="text" id="cfgTriggerChannels" class="form-input-custom" placeholder="Pisahkan dengan koma jika lebih dari 1 ID...">
+              <div class="form-help-custom">Member atau bot liar yang memposting di kanal ini akan langsung di-timeout lintas server.</div>
+            </div>
+          </div>
+
+          <!-- Card 3: Automod & Modul Cogs -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🛡️ Automod &amp; Proteksi</h3>
+            
+            <div class="toggle-list-custom">
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgAutoModAntiSpam" checked>
+                <span>Anti-Spam Rapid &amp; Duplicate Protection</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgAutoModFilterLinks" checked>
+                <span>Filter Link Phishing &amp; Tautan Berbahaya (suspicious_links.json)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgAutoModFilterBadwords" checked>
+                <span>Filter Kata Kasar &amp; Konten Terlarang (filters.json)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Card 4: Modul Cogs Aktif -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🧩 Modul &amp; Cogs Aktif Bot</h3>
+            
+            <div class="toggle-list-custom">
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModModeration" checked>
+                <span>🛡️ Sentinel Moderation (cogs/moderation.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModGemini" checked>
+                <span>🧠 Gemini AI Engine (cogs/gemini.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModFinance" checked>
+                <span>💰 Finance &amp; Economy (cogs/finance.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModTempVoice" checked>
+                <span>🔊 Dynamic Voice (cogs/temp_voice.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModLeveling" checked>
+                <span>⭐ Leveling &amp; XP System (cogs/leveling.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModParty" checked>
+                <span>🎮 Party Games (cogs/party_games.py)</span>
+              </label>
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cfgModWebhook" checked>
+                <span>📢 Webhooks &amp; Notifikasi (cogs/webhook.py)</span>
+              </label>
             </div>
           </div>
 
         </div>
 
-        <!-- Card 3: Aturan Kanal Spesifik (Channel Moderation Rules) Full Width -->
+        <!-- Card 5: Aturan Kanal Spesifik (Channel Moderation Rules) Full Width -->
         <div class="bot-card" style="margin-top: 20px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
             <div>
@@ -1134,6 +1655,225 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- TAB: Media Feeds & Content Radar -->
+      <div id="notifTab" class="tab-pane">
+        <div class="bot-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 class="bot-card-title">📡 Content Radar: YouTube, TikTok &amp; IG Feeds</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                Kelola rute penyiaran video baru &amp; siaran langsung (sinkron dengan MongoDB <code>reSwan.notif_config</code>).
+              </p>
+            </div>
+            <button type="button" class="btn-save-primary" onclick="saveNotifConfig()">
+              <span>💾 Simpan Rute Notifikasi</span>
+            </button>
+          </div>
+
+          <div id="notifPathsContainer" style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="color: var(--text-muted); font-size: 0.88rem; padding: 16px;">Memuat konfigurasi rute notifikasi dari database...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: AI Persona & Cyber Defense -->
+      <div id="aiTab" class="tab-pane">
+        <div class="bot-details-grid">
+          
+          <!-- Card 1: Bot Activity & Presence -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🤖 Rich Presence &amp; Status Bot</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+              Ubah status aktivitas bot yang terlihat di daftar member Discord.
+            </p>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Tipe Aktivitas</label>
+              <select id="aiPresenceType" class="form-select-styled" style="width: 100%;">
+                <option value="watching">Watching (Menonton)</option>
+                <option value="playing">Playing (Memainkan)</option>
+                <option value="listening">Listening (Mendengarkan)</option>
+                <option value="competing">Competing (Bertanding)</option>
+              </select>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Nama Aktivitas / Teks Status</label>
+              <input type="text" id="aiPresenceName" class="form-input-custom" placeholder="🤡 Memantau kondisi para Badut">
+            </div>
+
+            <button type="button" class="btn-save-primary" style="margin-top: 10px;" onclick="saveBotActivity()">
+              <span>💾 Perbarui Status Bot</span>
+            </button>
+          </div>
+
+          <!-- Card 2: Cyber Defense Switch -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🛡️ Cyber Defense &amp; Image Hash Filter</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+              Sistem pendeteksi scam, token grabber, dan phising berbasis pHash dan AI security.
+            </p>
+
+            <div class="toggle-list-custom" style="margin-bottom: 16px;">
+              <label class="toggle-item-custom">
+                <input type="checkbox" id="cyberActiveToggle">
+                <span style="font-weight: 700;">Proteksi Keamanan Siber AI (is_active)</span>
+              </label>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Channel Khusus Laporan Blokir Gambar</label>
+              <input type="text" id="cyberImageBlockChannel" class="form-input-custom" placeholder="ID kanal laporan...">
+            </div>
+
+            <button type="button" class="btn-save-primary" style="margin-top: 10px;" onclick="saveCyberConfig()">
+              <span>💾 Simpan Status Proteksi</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Full Width: AI Persona Prompt & Whitelist -->
+        <div class="bot-card" style="margin-top: 20px;">
+          <h3 class="bot-card-title">🧠 Kepribadian &amp; Prompt Aturan Raka AI</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+            Aturan dan gaya bicara yang dipelajari bot Raka saat merespons percakapan di server (<code>cyber_learned.json</code>).
+          </p>
+
+          <div class="form-group-custom">
+            <label class="form-label-custom">Instruksi Persona &amp; Karakter (System Prompt)</label>
+            <textarea id="aiLearnedPrompt" class="form-textarea-custom" rows="4" placeholder="Moderasi harus humanis, ekspresif, tidak kaku seperti AI..."></textarea>
+          </div>
+
+          <button type="button" class="btn-save-primary" onclick="saveCyberLearned()">
+            <span>💾 Simpan Instruksi Persona</span>
+          </button>
+        </div>
+
+        <!-- Whitelist Kata Aman AI -->
+        <div class="bot-card" style="margin-top: 20px;">
+          <h3 class="bot-card-title">✅ Whitelist Kata &amp; Tautan Aman AI</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+            Daftar kata atau tautan yang diabaikan oleh filter keamanan bot.
+          </p>
+
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="newAiWhitelistInput" class="search-input" placeholder="Masukkan kata atau URL aman...">
+            <button type="button" class="btn-action-nav" style="border-color: var(--accent-emerald); color: var(--accent-emerald);" onclick="addAiWhitelistWord()">
+              <span>➕ Tambah Whitelist</span>
+            </button>
+          </div>
+
+          <div id="aiWhitelistChipsContainer" class="tag-chips-wrap">
+            <div style="color: var(--text-muted); font-size: 0.82rem;">Memuat daftar kata aman...</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB: Voice & Kas -->
+      <div id="voiceTab" class="tab-pane">
+        <div class="bot-details-grid">
+          
+          <!-- Dynamic Voice Status -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🔊 Dynamic Voice Channel &amp; Rekor</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+              Statistik dan durasi terlama di kamar suara (sinkron dengan <code>rtmbot.config_data</code>).
+            </p>
+
+            <div id="voiceRecordsContainer" style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="color: var(--text-muted); font-size: 0.85rem;">Memuat rekor voice...</div>
+            </div>
+          </div>
+
+          <!-- Kas Server Overview -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">💰 Kas Server &amp; Keuangan Member</h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">
+              Rekapitulasi keuangan dari <code>rtmbot.user_finance</code> dan saldo koin RSWN.
+            </p>
+
+            <div id="financeSummaryContainer" style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="color: var(--text-muted); font-size: 0.85rem;">Memuat data keuangan...</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB: Bot Command Runner & Live Web Console -->
+      <div id="consoleTab" class="tab-pane">
+        <!-- Quick Action Command Pills -->
+        <div style="margin-bottom: 14px;">
+          <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px;">
+            ⚡ Quick Command Presets (Klik untuk Menjalankan):
+          </div>
+          <div class="quick-cmd-pills">
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!help')">!help</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!modpanel')">!modpanel</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!clear 20')">!clear 20</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!warn @member melanggar aturan')">!warn</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!kick @member spamming')">!kick</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!ban @member')">!ban</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!lock')">!lock</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!unlock')">!unlock</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!announce')">!announce</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/rank')">/rank</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/leaderboard')">/leaderboard</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/dompet')">/dompet</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/tarot')">/tarot</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/tulis MasterLu Halo dari Web Console')">/tulis</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('/cyber_toggle')">/cyber_toggle</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!balapan')">!balapan</button>
+            <button type="button" class="quick-cmd-pill" onclick="fillConsoleCmd('!resmoji')">!resmoji</button>
+          </div>
+        </div>
+
+        <!-- Terminal Window Container -->
+        <div class="terminal-container">
+          <div class="terminal-header">
+            <div class="terminal-title">
+              <div class="terminal-window-dots">
+                <span class="window-dot" style="background: #F43F5E;"></span>
+                <span class="window-dot" style="background: #F59E0B;"></span>
+                <span class="window-dot" style="background: #10B981;"></span>
+              </div>
+              <span style="margin-left: 6px;">RTM Bot Remote Engine Terminal</span>
+              <span class="stat-badge" style="font-size: 0.68rem; padding: 1px 7px;">LIVE IPC</span>
+            </div>
+
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <label for="consoleGuildSelect" style="font-size: 0.78rem; color: var(--text-muted);">Target Server:</label>
+              <select id="consoleGuildSelect" class="form-select-styled" style="font-size: 0.78rem; padding: 4px 8px;">
+                <option value="1039509114008649778">👑 Server Utama RTM</option>
+                <option value="765138959625486357">🛡️ Kawan Sejalan</option>
+              </select>
+              <input type="text" id="consoleChannelInput" class="search-input" style="max-width: 170px; min-height: 30px; font-size: 0.78rem; padding: 4px 8px;" placeholder="Optional Channel ID...">
+              <button type="button" class="btn-action-nav" style="padding: 4px 8px; font-size: 0.75rem;" onclick="loadCommandLogs()">
+                <span>🔄 Segarkan Log</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Feed Output -->
+          <div class="terminal-output-feed" id="terminalFeed">
+            <div style="color: var(--text-faint); font-style: italic;">
+              Siap menerima perintah. Ketikkan perintah bot apa saja di bawah (diawali ! atau /) lalu tekan Enter.
+            </div>
+          </div>
+
+          <!-- Terminal Input Bar -->
+          <div class="terminal-input-bar">
+            <span class="terminal-prompt-sym">$</span>
+            <input type="text" id="terminalCmdInput" class="terminal-input-field" placeholder="Ketik perintah bot di sini... (contoh: !help, !clear 10, !warn @user)" onkeydown="if(event.key==='Enter') executeTerminalCommand()">
+            <button type="button" class="btn-save-primary" id="btnRunConsoleCmd" onclick="executeTerminalCommand()">
+              <span>⚡ Jalankan</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- TAB 3: AI Live Chat Support -->
@@ -1436,6 +2176,8 @@
       }
     }
 
+    let consolePollTimer = null;
+
     function switchTab(tabId, el) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -1443,11 +2185,27 @@
       const target = document.getElementById(tabId);
       if (target) target.classList.add('active');
 
+      if (tabId === 'consoleTab') {
+        loadCommandLogs();
+        if (!consolePollTimer) {
+          consolePollTimer = setInterval(loadCommandLogs, 3000);
+        }
+      } else {
+        if (consolePollTimer) {
+          clearInterval(consolePollTimer);
+          consolePollTimer = null;
+        }
+      }
+
       if (tabId === 'chatTab') {
         loadChatSessions();
       } else if (tabId === 'botTab') {
         loadGuildsList();
         loadGuildConfig(currentGuildId);
+      } else if (tabId === 'webhookTab') {
+        updateEmbedPreview();
+      } else if (tabId === 'notifTab' || tabId === 'aiTab' || tabId === 'voiceTab') {
+        loadFullBotConfig();
       }
     }
 
@@ -1457,7 +2215,9 @@
       loadChatSessions();
       loadGuildsList();
       loadGuildConfig(currentGuildId);
+      loadFullBotConfig();
     }
+
 
     // --- DISCORD SERVER & BOT CONFIGURATION (MONGODB & SUPABASE) ---
     let currentGuildId = '1039509114008649778';
@@ -1556,14 +2316,40 @@
 
     function populateGuildConfigFields(cfg) {
       const wCh = document.getElementById('cfgWelcomeChannel');
+      const wTitle = document.getElementById('cfgWelcomeEmbedTitle');
+      const wSender = document.getElementById('cfgWelcomeSenderName');
       const wMsg = document.getElementById('cfgWelcomeMessage');
+      const wBanner = document.getElementById('cfgWelcomeBannerUrl');
+      const gMsg = document.getElementById('cfgGoodbyeMessage');
+
+      const bCh = document.getElementById('cfgBoostChannel');
+      const bTitle = document.getElementById('cfgBoostEmbedTitle');
+      const bSender = document.getElementById('cfgBoostSenderName');
+      const bMsg = document.getElementById('cfgBoostMessage');
+
       const lCh = document.getElementById('cfgLogChannel');
       const aRol = document.getElementById('cfgAutoRole');
+      const tCh = document.getElementById('cfgTriggerChannels');
 
       if (wCh) wCh.value = cfg.welcome_channel_id || '';
+      if (wTitle) wTitle.value = cfg.welcome_embed_title || '';
+      if (wSender) wSender.value = cfg.welcome_sender_name || '';
       if (wMsg) wMsg.value = cfg.welcome_message || '';
+      if (wBanner) wBanner.value = cfg.welcome_banner_url || '';
+      if (gMsg) gMsg.value = cfg.goodbye_message || '';
+
+      if (bCh) bCh.value = cfg.boost_channel_id || '';
+      if (bTitle) bTitle.value = cfg.boost_embed_title || '';
+      if (bSender) bSender.value = cfg.boost_sender_name || '';
+      if (bMsg) bMsg.value = cfg.boost_message || '';
+
       if (lCh) lCh.value = cfg.log_channel_id || '';
       if (aRol) aRol.value = cfg.auto_role_id || '';
+
+      if (tCh) {
+        const tc = cfg.trigger_channels || [];
+        tCh.value = Array.isArray(tc) ? tc.join(', ') : (tc || '');
+      }
 
       // Automod
       const automod = cfg.automod || {};
@@ -1695,9 +2481,22 @@
       // Gather form inputs
       currentGuildConfig.guild_id = currentGuildId;
       currentGuildConfig.welcome_channel_id = document.getElementById('cfgWelcomeChannel').value.trim();
+      currentGuildConfig.welcome_embed_title = document.getElementById('cfgWelcomeEmbedTitle').value.trim();
+      currentGuildConfig.welcome_sender_name = document.getElementById('cfgWelcomeSenderName').value.trim();
       currentGuildConfig.welcome_message = document.getElementById('cfgWelcomeMessage').value.trim();
+      currentGuildConfig.welcome_banner_url = document.getElementById('cfgWelcomeBannerUrl').value.trim();
+      currentGuildConfig.goodbye_message = document.getElementById('cfgGoodbyeMessage').value.trim();
+
+      currentGuildConfig.boost_channel_id = document.getElementById('cfgBoostChannel').value.trim();
+      currentGuildConfig.boost_embed_title = document.getElementById('cfgBoostEmbedTitle').value.trim();
+      currentGuildConfig.boost_sender_name = document.getElementById('cfgBoostSenderName').value.trim();
+      currentGuildConfig.boost_message = document.getElementById('cfgBoostMessage').value.trim();
+
       currentGuildConfig.log_channel_id = document.getElementById('cfgLogChannel').value.trim();
       currentGuildConfig.auto_role_id = document.getElementById('cfgAutoRole').value.trim();
+
+      const tcStr = document.getElementById('cfgTriggerChannels').value.trim();
+      currentGuildConfig.trigger_channels = tcStr ? tcStr.split(',').map(s => s.trim()).filter(Boolean) : [];
 
       currentGuildConfig.automod = {
         anti_spam: document.getElementById('cfgAutoModAntiSpam').checked,
@@ -1742,6 +2541,675 @@
       }
     }
 
+    // --- WEBHOOK STUDIO & EMBED BUILDER ---
+    function onEmbedColorPickerChange(val) {
+      const textInput = document.getElementById('whEmbedColorInput');
+      if (textInput) textInput.value = val.toUpperCase();
+      updateEmbedPreview();
+    }
+
+    function onEmbedColorTextChange(val) {
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        const picker = document.getElementById('whEmbedColorPicker');
+        if (picker) picker.value = val;
+      }
+      updateEmbedPreview();
+    }
+
+    function setWebhookPreset(type) {
+      const urlInput = document.getElementById('whUrlInput');
+      if (type === 'main') {
+        const whList = currentGuildConfig && currentGuildConfig.announcement_webhooks;
+        if (Array.isArray(whList) && whList.length > 0) {
+          urlInput.value = whList[0];
+        } else {
+          urlInput.value = 'https://discord.com/api/webhooks/1344686259469156402/pLhZ9f...';
+        }
+      } else if (type === 'log') {
+        urlInput.value = 'https://discord.com/api/webhooks/1344686259469156402/pLhZ9f...';
+      }
+      updateEmbedPreview();
+    }
+
+    function resetWebhookForm() {
+      document.getElementById('whUrlInput').value = '';
+      document.getElementById('whUsernameInput').value = '';
+      document.getElementById('whAvatarInput').value = '';
+      document.getElementById('whContentInput').value = '';
+      document.getElementById('whEmbedTitleInput').value = '';
+      document.getElementById('whEmbedColorPicker').value = '#F59E0B';
+      document.getElementById('whEmbedColorInput').value = '#F59E0B';
+      document.getElementById('whEmbedDescInput').value = '';
+      document.getElementById('whEmbedAuthorInput').value = '';
+      document.getElementById('whEmbedAuthorIconInput').value = '';
+      document.getElementById('whEmbedThumbInput').value = '';
+      document.getElementById('whEmbedImageInput').value = '';
+      document.getElementById('whEmbedFooterInput').value = '';
+      document.getElementById('whEmbedTimestampCheck').checked = true;
+      updateEmbedPreview();
+    }
+
+    function updateEmbedPreview() {
+      const username = document.getElementById('whUsernameInput')?.value.trim() || 'RTM Broadcast';
+      const avatarUrl = document.getElementById('whAvatarInput')?.value.trim() || 'https://cdn.discordapp.com/embed/avatars/0.png';
+      const content = document.getElementById('whContentInput')?.value.trim() || 'Halo komunitas RTM! Ada pengumuman baru nih.';
+      const embedTitle = document.getElementById('whEmbedTitleInput')?.value.trim() || 'Judul Pengumuman';
+      const embedColor = document.getElementById('whEmbedColorInput')?.value.trim() || '#F59E0B';
+      const embedDesc = document.getElementById('whEmbedDescInput')?.value.trim() || 'Tuliskan isi pengumuman di sini. Pratinjau ini akan ter-update secara otomatis sesuai yang kamu ketik!';
+      const authorName = document.getElementById('whEmbedAuthorInput')?.value.trim();
+      const authorIcon = document.getElementById('whEmbedAuthorIconInput')?.value.trim();
+      const imageUrl = document.getElementById('whEmbedImageInput')?.value.trim();
+      const footerText = document.getElementById('whEmbedFooterInput')?.value.trim() || 'RTM Control Center • Komunitas Discord';
+      const showTimestamp = document.getElementById('whEmbedTimestampCheck')?.checked;
+
+      const pName = document.getElementById('prevBotName');
+      const pAvatar = document.getElementById('prevBotAvatar');
+      const pContent = document.getElementById('prevMsgContent');
+      const pCard = document.getElementById('prevEmbedCard');
+      const pTitle = document.getElementById('prevEmbedTitle');
+      const pDesc = document.getElementById('prevEmbedDesc');
+      const pAuthorRow = document.getElementById('prevEmbedAuthorRow');
+      const pAuthorText = document.getElementById('prevEmbedAuthorText');
+      const pAuthorIcon = document.getElementById('prevEmbedAuthorIcon');
+      const pImage = document.getElementById('prevEmbedImage');
+      const pFooterRow = document.getElementById('prevEmbedFooterRow');
+      const pFooterText = document.getElementById('prevEmbedFooterText');
+      const pTimestamp = document.getElementById('prevEmbedTimestamp');
+
+      if (pName) pName.textContent = username;
+      if (pAvatar) pAvatar.src = avatarUrl;
+      if (pContent) pContent.textContent = content;
+
+      if (pCard) pCard.style.borderLeftColor = embedColor;
+      if (pTitle) pTitle.textContent = embedTitle;
+      if (pDesc) pDesc.textContent = embedDesc;
+
+      if (pAuthorRow) {
+        if (authorName) {
+          pAuthorRow.style.display = 'flex';
+          pAuthorText.textContent = authorName;
+          if (authorIcon) {
+            pAuthorIcon.style.display = 'inline-block';
+            pAuthorIcon.src = authorIcon;
+          } else {
+            pAuthorIcon.style.display = 'none';
+          }
+        } else {
+          pAuthorRow.style.display = 'none';
+        }
+      }
+
+      if (pImage) {
+        if (imageUrl) {
+          pImage.style.display = 'block';
+          pImage.src = imageUrl;
+        } else {
+          pImage.style.display = 'none';
+        }
+      }
+
+      if (pFooterText) pFooterText.textContent = footerText;
+      if (pTimestamp) pTimestamp.style.display = showTimestamp ? 'inline' : 'none';
+    }
+
+    async function sendWebhookFromStudio() {
+      const token = getToken();
+      if (!token) {
+        alert('Sesi login telah kedaluwarsa. Silakan refresh halaman.');
+        return;
+      }
+
+      const whUrl = document.getElementById('whUrlInput')?.value.trim();
+      if (!whUrl || !whUrl.startsWith('http')) {
+        alert('Masukkan target Discord Webhook URL yang valid.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSendWebhook');
+      btn.disabled = true;
+      btn.innerHTML = '<span>Mengirim ke Discord...</span>';
+
+      const username = document.getElementById('whUsernameInput')?.value.trim() || undefined;
+      const avatarUrl = document.getElementById('whAvatarInput')?.value.trim() || undefined;
+      const content = document.getElementById('whContentInput')?.value.trim() || '';
+
+      const embedTitle = document.getElementById('whEmbedTitleInput')?.value.trim();
+      const colorHex = document.getElementById('whEmbedColorInput')?.value.trim() || '#F59E0B';
+      const embedDesc = document.getElementById('whEmbedDescInput')?.value.trim();
+      const authorName = document.getElementById('whEmbedAuthorInput')?.value.trim();
+      const authorIcon = document.getElementById('whEmbedAuthorIconInput')?.value.trim();
+      const thumbUrl = document.getElementById('whEmbedThumbInput')?.value.trim();
+      const imageUrl = document.getElementById('whEmbedImageInput')?.value.trim();
+      const footerText = document.getElementById('whEmbedFooterInput')?.value.trim();
+      const showTimestamp = document.getElementById('whEmbedTimestampCheck')?.checked;
+
+      const embeds = [];
+      if (embedTitle || embedDesc || imageUrl || thumbUrl) {
+        let colorInt = 16097035; // Default #F59E0B
+        try {
+          colorInt = parseInt(colorHex.replace('#', ''), 16);
+        } catch (_) {}
+
+        const embedObj = {
+          title: embedTitle || undefined,
+          description: embedDesc || undefined,
+          color: colorInt,
+        };
+
+        if (authorName) {
+          embedObj.author = {
+            name: authorName,
+            icon_url: authorIcon || undefined
+          };
+        }
+        if (thumbUrl) {
+          embedObj.thumbnail = { url: thumbUrl };
+        }
+        if (imageUrl) {
+          embedObj.image = { url: imageUrl };
+        }
+        if (footerText) {
+          embedObj.footer = { text: footerText };
+        }
+        if (showTimestamp) {
+          embedObj.timestamp = new Date().toISOString();
+        }
+        embeds.push(embedObj);
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/send-webhook`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            webhook_url: whUrl,
+            content: content || (embeds.length ? undefined : 'Pesan dari RTM Dashboard'),
+            username: username,
+            avatar_url: avatarUrl,
+            embeds: embeds
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          alert('✅ Pesan berhasil dikirimkan ke Discord via Webhook!');
+        } else {
+          alert(`⚠️ Gagal mengirim webhook: ${data.message || 'Status ' + res.status}`);
+        }
+      } catch (e) {
+        alert('Kendala koneksi saat menghubungi endpoint webhook.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🚀 Kirim Webhook ke Discord</span>';
+      }
+    }
+
+    // --- FULL BOT CONFIG (reSwan & rtmbot) ---
+    let fullBotConfigState = null;
+
+    async function loadFullBotConfig() {
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-config/full`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          fullBotConfigState = data;
+          
+          // Populate Bot Activity
+          if (data.bot_activity) {
+            const actType = document.getElementById('aiPresenceType');
+            const actName = document.getElementById('aiPresenceName');
+            if (actType && data.bot_activity.type) actType.value = data.bot_activity.type;
+            if (actName && data.bot_activity.name) actName.value = data.bot_activity.name;
+          }
+
+          // Populate Cyber Config
+          if (data.cyber_config) {
+            const cyActive = document.getElementById('cyberActiveToggle');
+            const cyChan = document.getElementById('cyberImageBlockChannel');
+            if (cyActive) cyActive.checked = (data.cyber_config.is_active !== false);
+            if (cyChan) cyChan.value = data.cyber_config.image_block_channel_id || '';
+            renderAiWhitelistTags(data.cyber_config.whitelist_kata || []);
+          }
+
+          // Populate Cyber Learned / AI Persona
+          if (data.cyber_learned) {
+            const aiPrompt = document.getElementById('aiLearnedPrompt');
+            if (aiPrompt) {
+              const rules = data.cyber_learned.learned_rules || data.cyber_learned.rules || data.cyber_learned.raw || '';
+              aiPrompt.value = typeof rules === 'object' ? JSON.stringify(rules, null, 2) : String(rules);
+            }
+          }
+
+          // Populate Notification Paths
+          if (data.notif_config) {
+            renderNotifPathsList(data.notif_config.notification_paths || []);
+          }
+
+          // Populate Voice Records
+          if (data.voice_records) {
+            renderVoiceRecordsList(data.voice_records);
+          }
+
+          // Populate Finance Summary
+          if (data.finance_summary) {
+            renderFinanceSummary(data.finance_summary);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading full bot config:', err);
+      }
+    }
+
+    function renderAiWhitelistTags(words) {
+      const container = document.getElementById('aiWhitelistChipsContainer');
+      if (!container) return;
+      if (!Array.isArray(words) || words.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.82rem;">Belum ada kata dalam whitelist.</div>';
+        return;
+      }
+      container.innerHTML = '';
+      words.forEach((word, idx) => {
+        const chip = document.createElement('div');
+        chip.className = 'tag-chip';
+        chip.innerHTML = `
+          <span>${escapeHtml(word)}</span>
+          <button type="button" class="tag-chip-del" onclick="deleteAiWhitelistWord(${idx})">&times;</button>
+        `;
+        container.appendChild(chip);
+      });
+    }
+
+    async function addAiWhitelistWord() {
+      const input = document.getElementById('newAiWhitelistInput');
+      const val = input.value.trim();
+      if (!val) return;
+      if (!fullBotConfigState) fullBotConfigState = {};
+      if (!fullBotConfigState.cyber_config) fullBotConfigState.cyber_config = {};
+      if (!Array.isArray(fullBotConfigState.cyber_config.whitelist_kata)) {
+        fullBotConfigState.cyber_config.whitelist_kata = [];
+      }
+      if (!fullBotConfigState.cyber_config.whitelist_kata.includes(val)) {
+        fullBotConfigState.cyber_config.whitelist_kata.push(val);
+        renderAiWhitelistTags(fullBotConfigState.cyber_config.whitelist_kata);
+        input.value = '';
+        await saveCyberConfig();
+      }
+    }
+
+    async function deleteAiWhitelistWord(idx) {
+      if (!fullBotConfigState || !fullBotConfigState.cyber_config || !Array.isArray(fullBotConfigState.cyber_config.whitelist_kata)) return;
+      fullBotConfigState.cyber_config.whitelist_kata.splice(idx, 1);
+      renderAiWhitelistTags(fullBotConfigState.cyber_config.whitelist_kata);
+      await saveCyberConfig();
+    }
+
+    async function saveBotActivity() {
+      const token = getToken();
+      if (!token) return alert('Silakan login kembali.');
+      const type = document.getElementById('aiPresenceType')?.value || 'watching';
+      const name = document.getElementById('aiPresenceName')?.value.trim() || '';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-config/save-section`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            section: 'bot_activity',
+            data: { type: type, name: name }
+          })
+        });
+        const resp = await res.json();
+        if (res.ok && resp.status === 'success') {
+          alert('✅ Status Rich Presence bot berhasil diperbarui!');
+        } else {
+          alert('⚠️ Gagal menyimpan status bot: ' + (resp.message || 'Error'));
+        }
+      } catch (e) {
+        alert('Kendala koneksi jaringan.');
+      }
+    }
+
+    async function saveCyberConfig() {
+      const token = getToken();
+      if (!token) return alert('Silakan login kembali.');
+      const isActive = document.getElementById('cyberActiveToggle')?.checked;
+      const blockChannel = document.getElementById('cyberImageBlockChannel')?.value.trim();
+      const whitelist = (fullBotConfigState && fullBotConfigState.cyber_config && fullBotConfigState.cyber_config.whitelist_kata) || [];
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-config/save-section`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            section: 'cyber_config',
+            data: {
+              is_active: isActive,
+              image_block_channel_id: blockChannel,
+              whitelist_kata: whitelist
+            }
+          })
+        });
+        const resp = await res.json();
+        if (res.ok && resp.status === 'success') {
+          // Saved successfully
+        }
+      } catch (e) {
+        console.error('Save cyber config error:', e);
+      }
+    }
+
+    async function saveCyberLearned() {
+      const token = getToken();
+      if (!token) return alert('Silakan login kembali.');
+      const rawText = document.getElementById('aiLearnedPrompt')?.value.trim() || '';
+      let parsed = rawText;
+      try {
+        if (rawText.startsWith('{') || rawText.startsWith('[')) {
+          parsed = JSON.parse(rawText);
+        }
+      } catch (_) {}
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-config/save-section`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            section: 'cyber_learned',
+            data: { learned_rules: parsed }
+          })
+        });
+        const resp = await res.json();
+        if (res.ok && resp.status === 'success') {
+          alert('✅ Instruksi Kepribadian & Prompt AI berhasil disimpan!');
+        } else {
+          alert('⚠️ Gagal menyimpan instruksi: ' + (resp.message || 'Error'));
+        }
+      } catch (e) {
+        alert('Kendala koneksi jaringan.');
+      }
+    }
+
+    function renderNotifPathsList(paths) {
+      const container = document.getElementById('notifPathsContainer');
+      if (!container) return;
+      if (!Array.isArray(paths) || paths.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 14px;">Tidak ada jalur notifikasi terdaftar di MongoDB reSwan.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      paths.forEach((p, idx) => {
+        const item = document.createElement('div');
+        item.style.cssText = 'background: var(--bg-card-hover); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px;';
+        item.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-weight: 700; font-size: 0.88rem; color: #FAFAFA;">
+              📡 Jalur Notifikasi #${idx + 1}: <span style="color: var(--accent-amber);">${escapeHtml(p.platform || p.name || 'Feed')}</span>
+            </div>
+            <button type="button" class="btn-delete-card" style="padding: 2px 8px; font-size: 0.72rem;" onclick="deleteNotifPath(${idx})">Hapus</button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.82rem;">
+            <div>
+              <span style="color: var(--text-muted);">Source / Creator ID:</span>
+              <input type="text" class="form-input-custom" style="padding: 6px 8px; font-size: 0.82rem; margin-top: 4px;" value="${escapeHtml(p.source_id || p.creator_id || '')}" onchange="updateNotifPathField(${idx}, 'source_id', this.value)">
+            </div>
+            <div>
+              <span style="color: var(--text-muted);">Target Channel ID Discord:</span>
+              <input type="text" class="form-input-custom" style="padding: 6px 8px; font-size: 0.82rem; margin-top: 4px;" value="${escapeHtml(p.target_channel_id || p.channel_id || '')}" onchange="updateNotifPathField(${idx}, 'target_channel_id', this.value)">
+            </div>
+          </div>
+          <div style="margin-top: 8px; font-size: 0.82rem;">
+            <span style="color: var(--text-muted);">Custom Announcement Message:</span>
+            <input type="text" class="form-input-custom" style="padding: 6px 8px; font-size: 0.82rem; margin-top: 4px;" value="${escapeHtml(p.message || p.template || '')}" onchange="updateNotifPathField(${idx}, 'message', this.value)">
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function updateNotifPathField(idx, field, val) {
+      if (fullBotConfigState && fullBotConfigState.notif_config && Array.isArray(fullBotConfigState.notif_config.notification_paths)) {
+        fullBotConfigState.notif_config.notification_paths[idx][field] = val;
+      }
+    }
+
+    function deleteNotifPath(idx) {
+      if (!confirm('Hapus rute notifikasi ini?')) return;
+      if (fullBotConfigState && fullBotConfigState.notif_config && Array.isArray(fullBotConfigState.notif_config.notification_paths)) {
+        fullBotConfigState.notif_config.notification_paths.splice(idx, 1);
+        renderNotifPathsList(fullBotConfigState.notif_config.notification_paths);
+        saveNotifConfig();
+      }
+    }
+
+    async function saveNotifConfig() {
+      const token = getToken();
+      if (!token) return alert('Silakan login kembali.');
+      const paths = (fullBotConfigState && fullBotConfigState.notif_config && fullBotConfigState.notif_config.notification_paths) || [];
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-config/save-section`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            section: 'notif_config',
+            data: { notification_paths: paths }
+          })
+        });
+        const resp = await res.json();
+        if (res.ok && resp.status === 'success') {
+          alert('✅ Rute notifikasi berhasil disimpan ke MongoDB!');
+        } else {
+          alert('⚠️ Gagal menyimpan rute notifikasi: ' + (resp.message || 'Error'));
+        }
+      } catch (e) {
+        alert('Kendala koneksi jaringan.');
+      }
+    }
+
+    function renderVoiceRecordsList(records) {
+      const container = document.getElementById('voiceRecordsContainer');
+      if (!container) return;
+      if (!records || typeof records !== 'object' || Object.keys(records).length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem;">Tidak ada rekaman rekor suara yang tersimpan.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      const card = document.createElement('div');
+      card.style.cssText = 'background: var(--bg-card-hover); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; font-size: 0.82rem;';
+      card.innerHTML = `
+        <div style="font-weight: 700; color: #FAFAFA; margin-bottom: 6px;">🎙️ Rekor Sesi Voice Aktif</div>
+        <pre style="font-family: var(--font-mono); color: var(--accent-amber); margin: 0; font-size: 0.78rem; overflow-x: auto;">${escapeHtml(JSON.stringify(records, null, 2))}</pre>
+      `;
+      container.appendChild(card);
+    }
+
+    function renderFinanceSummary(finance) {
+      const container = document.getElementById('financeSummaryContainer');
+      if (!container) return;
+      if (!finance) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem;">Data kas server tidak tersedia.</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      const card = document.createElement('div');
+      card.style.cssText = 'background: var(--bg-card-hover); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; font-size: 0.82rem;';
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-weight: 700; color: #FAFAFA;">🪙 Saldo Kas Komunitas:</span>
+          <span style="font-family: var(--font-mono); color: var(--accent-emerald); font-weight: 700; font-size: 0.95rem;">${escapeHtml(String(finance.kas_total || finance.total || 'Tersambung'))}</span>
+        </div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">Database: rtmbot.user_finance (Cluster0)</div>
+      `;
+      container.appendChild(card);
+    }
+
+    // --- REMOTE WEB CONSOLE & BOT COMMAND RUNNER ---
+    let consolePollTimer = null;
+
+    function fillConsoleCmd(cmd) {
+      const input = document.getElementById('terminalCmdInput');
+      if (input) {
+        input.value = cmd;
+        input.focus();
+      }
+    }
+
+    async function executeTerminalCommand() {
+      const token = getToken();
+      if (!token) {
+        alert('Sesi kedaluwarsa. Silakan login kembali.');
+        return;
+      }
+
+      const input = document.getElementById('terminalCmdInput');
+      const cmd = input?.value.trim();
+      if (!cmd) return;
+
+      const guildId = document.getElementById('consoleGuildSelect')?.value || currentGuildId;
+      const channelId = document.getElementById('consoleChannelInput')?.value.trim() || undefined;
+
+      // Append command to feed immediately
+      appendConsoleFeed('in', `$ ${cmd} (Guild: ${guildId}${channelId ? ', Ch: ' + channelId : ''})`);
+      input.value = '';
+
+      const btn = document.getElementById('btnRunConsoleCmd');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-command/dispatch`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            command: cmd,
+            guild_id: guildId,
+            channel_id: channelId
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          appendConsoleFeed('system', `[QUEUED] Perintah #${data.command_id} telah dimasukkan ke antrean MongoDB IPC.`);
+          loadCommandLogs();
+        } else {
+          appendConsoleFeed('err', `[ERROR] Gagal mengirim perintah: ${data.message || 'Unknown error'}`);
+        }
+      } catch (e) {
+        appendConsoleFeed('err', `[NETWORK] Kendala jaringan saat dispatch command.`);
+      } finally {
+        btn.disabled = false;
+        input.focus();
+      }
+    }
+
+    function appendConsoleFeed(type, text) {
+      const feed = document.getElementById('terminalFeed');
+      if (!feed) return;
+
+      const entry = document.createElement('div');
+      entry.className = 'terminal-line-entry';
+      const time = new Date().toLocaleTimeString();
+
+      if (type === 'in') {
+        entry.innerHTML = `<span style="color: var(--accent-amber); font-weight: 700;">[${time}] &gt;</span> <span style="color: #FAFAFA;">${escapeHtml(text)}</span>`;
+      } else if (type === 'out') {
+        entry.innerHTML = `<span style="color: var(--accent-emerald); font-weight: 700;">[${time}] &lt;</span> <span style="color: #E2E8F0;">${escapeHtml(text)}</span>`;
+      } else if (type === 'err') {
+        entry.innerHTML = `<span style="color: var(--accent-rose); font-weight: 700;">[${time}] !</span> <span style="color: #FDA4AF;">${escapeHtml(text)}</span>`;
+      } else {
+        entry.innerHTML = `<span style="color: var(--text-muted); font-weight: 700;">[${time}] #</span> <span style="color: var(--text-muted);">${escapeHtml(text)}</span>`;
+      }
+
+      feed.appendChild(entry);
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    async function loadCommandLogs() {
+      const token = getToken();
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/bot-command/logs`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.logs) && data.logs.length > 0) {
+            renderConsoleLogs(data.logs);
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching command logs:', e);
+      }
+    }
+
+    function renderConsoleLogs(logs) {
+      const feed = document.getElementById('terminalFeed');
+      if (!feed) return;
+
+      feed.innerHTML = '';
+      logs.forEach(log => {
+        const entry = document.createElement('div');
+        entry.className = 'terminal-line-entry';
+        const time = log.created_at ? new Date(log.created_at).toLocaleTimeString() : '--:--';
+        const st = log.status || 'pending';
+        let stColor = 'var(--accent-amber)';
+        if (st === 'completed') stColor = 'var(--accent-emerald)';
+        if (st === 'failed') stColor = 'var(--accent-rose)';
+
+        const outText = log.output ? `\n${log.output}` : (st === 'pending' ? ' [Sedang dieksekusi bot...]' : '');
+        const errText = log.error ? `\n[Error Trace]: ${log.error}` : '';
+
+        entry.innerHTML = `
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 2px;">
+            <span style="color: var(--text-muted);">[${time}]</span>
+            <span style="color: ${stColor}; font-weight: 700; text-transform: uppercase;">[${st}]</span>
+            <span style="color: #FAFAFA; font-weight: 600;">$ ${escapeHtml(log.command || '')}</span>
+            <span style="color: var(--text-faint); font-size: 0.72rem;">(Guild: ${escapeHtml(log.guild_id || '-')})</span>
+          </div>
+          ${outText ? `<pre style="font-family: var(--font-mono); color: #E2E8F0; margin: 2px 0 6px 14px; white-space: pre-wrap; font-size: 0.78rem;">${escapeHtml(outText)}</pre>` : ''}
+          ${errText ? `<pre style="font-family: var(--font-mono); color: #FDA4AF; margin: 2px 0 6px 14px; white-space: pre-wrap; font-size: 0.78rem;">${escapeHtml(errText)}</pre>` : ''}
+        `;
+        feed.appendChild(entry);
+      });
+      feed.scrollTop = feed.scrollHeight;
+    }
+
     async function checkApiHealth() {
       const statusEl = document.getElementById('statApiStatus');
       const start = performance.now();
@@ -1750,12 +3218,21 @@
         const duration = Math.round(performance.now() - start);
         if (res.ok) {
           const data = await res.json();
-          if (statusEl) statusEl.textContent = 'Online (' + duration + 'ms)';
+          if (statusEl) {
+            statusEl.textContent = 'Terproteksi (' + duration + 'ms)';
+            statusEl.style.color = '#34D399';
+          }
         } else {
-          if (statusEl) statusEl.textContent = 'Degraded';
+          if (statusEl) {
+            statusEl.textContent = 'Degraded';
+            statusEl.style.color = 'var(--accent-amber)';
+          }
         }
       } catch (e) {
-        if (statusEl) statusEl.textContent = 'Offline';
+        if (statusEl) {
+          statusEl.textContent = 'Offline';
+          statusEl.style.color = 'var(--accent-rose)';
+        }
       }
     }
 
@@ -1873,6 +3350,16 @@
         const sessions = await res.json();
         if (Array.isArray(sessions)) {
           if (countEl) countEl.textContent = sessions.length;
+          const badge = document.getElementById('statSessionsBadge');
+          if (badge) {
+            if (sessions.length > 0) {
+              badge.innerHTML = `<span class="status-dot" style="background: var(--accent-emerald); box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);"></span> ${sessions.length} Sesi Terhubung`;
+              badge.style.color = 'var(--accent-emerald)';
+            } else {
+              badge.innerHTML = `<span class="status-dot"></span> AI Otomatis Aktif (Aman)`;
+              badge.style.color = 'var(--accent-emerald)';
+            }
+          }
           if (sessions.length === 0) {
             container.innerHTML = '<div class="session-empty">Tidak ada sesi pengunjung yang memerlukan bantuan saat ini. AI aktif melayani secara otomatis.</div>';
             if (!currentSessionId) {
@@ -1894,8 +3381,8 @@
                   <span class="session-user-tag">${escapeHtml(shortId)}</span>
                   <span class="session-time-text">${updated}</span>
                 </div>
-                <div style="font-size: 0.74rem; color: var(--accent-amber); display: flex; align-items: center; gap: 4px;">
-                  <span>Sesi Pengunjung</span> &bull; <span>Menunggu Admin</span>
+                <div style="font-size: 0.74rem; color: var(--accent-emerald); display: flex; align-items: center; gap: 4px;">
+                  <span>Sesi Pengunjung</span> &bull; <span>Siap Dijawab</span>
                 </div>
               `;
               container.appendChild(item);
