@@ -204,62 +204,6 @@
       background: #4752C4;
     }
 
-    .auth-divider {
-      text-align: center;
-      margin: 14px 0;
-      position: relative;
-      color: var(--text-faint);
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 42%;
-      height: 1px;
-      background: var(--border-subtle);
-    }
-
-    .auth-divider::before { left: 0; }
-    .auth-divider::after { right: 0; }
-
-    .pin-input {
-      width: 100%;
-      min-height: 44px;
-      background: var(--bg-main);
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 10px 14px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      outline: none;
-      transition: border 0.15s ease;
-    }
-
-    .pin-input:focus {
-      border-color: var(--accent-amber);
-    }
-
-    .btn-pin-login {
-      background: var(--accent-amber);
-      color: #000000;
-      border: none;
-      border-radius: 8px;
-      min-height: 44px;
-      font-weight: 700;
-      font-size: 0.92rem;
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-
-    .btn-pin-login:hover {
-      background: #D97706;
-    }
-
     /* Stats Banner */
     .stats-grid {
       display: grid;
@@ -817,6 +761,122 @@
       color: var(--accent-amber);
       font-weight: 700;
     }
+
+    /* Server Config Panel Styles */
+    .form-select-styled {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 14px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .form-select-styled:focus {
+      border-color: var(--accent-emerald);
+    }
+    .btn-save-primary {
+      background: #238636;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 18px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+    .btn-save-primary:hover {
+      background: #2EA043;
+    }
+    .form-group-custom {
+      margin-bottom: 14px;
+    }
+    .form-label-custom {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #E4E4E7;
+      margin-bottom: 6px;
+    }
+    .form-input-custom {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+      font-family: var(--font-mono);
+    }
+    .form-input-custom:focus {
+      border-color: var(--accent-emerald);
+    }
+    .form-textarea-custom {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 9px 12px;
+      color: var(--text-main);
+      font-size: 0.88rem;
+      outline: none;
+      font-family: var(--font-body);
+      resize: vertical;
+    }
+    .form-textarea-custom:focus {
+      border-color: var(--accent-emerald);
+    }
+    .form-help-custom {
+      font-size: 0.73rem;
+      color: var(--text-faint);
+      margin-top: 4px;
+    }
+    .toggle-list-custom {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toggle-item-custom {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 0.84rem;
+      cursor: pointer;
+      color: var(--text-main);
+    }
+    .toggle-item-custom input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #238636;
+      cursor: pointer;
+    }
+    .channel-rule-card-item {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .channel-rule-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -856,7 +916,7 @@
     <!-- Auth Screen (Shown when unauthenticated) -->
     <div id="authGate" class="auth-gate">
       <h2 class="auth-title">Otentikasi Pengelola</h2>
-      <p class="auth-desc">Masuk sebagai Owner, Administrator, atau Moderator Server Discord RTM untuk mengelola sistem dan live chat:</p>
+      <p class="auth-desc">Portal ini khusus untuk Owner, Administrator, dan Moderator Server Discord RTM:</p>
 
       <!-- Alert if non-mod discord logged in -->
       <div id="nonModAlert" style="display: none; background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 0.82rem; color: #FDA4AF;">
@@ -874,20 +934,9 @@
           <span>Masuk dengan Akun Discord</span>
         </button>
         <div style="font-size: 0.72rem; color: var(--text-faint); line-height: 1.4;">
-          *Sistem otomatis memeriksa izin moderator/admin server Anda di Discord.
+          *Sistem otomatis memverifikasi status Administrator / Moderator server Discord Anda.
         </div>
       </div>
-
-      <div class="auth-divider">ATAU</div>
-
-      <!-- PIN / Password Admin -->
-      <form class="auth-box-card" onsubmit="submitAdminPin(event)">
-        <div style="font-size: 0.88rem; font-weight: 600; color: #E4E4E7;">Masuk dengan PIN Administrator</div>
-        <div style="font-size: 0.74rem; color: var(--text-muted);">Akses darurat menggunakan PIN master sistem</div>
-        <input type="password" id="adminPinField" class="pin-input" placeholder="Masukkan PIN Administrator..." autocomplete="off" required>
-        <button type="submit" class="btn-pin-login" id="btnPinSubmit">Verifikasi &amp; Masuk</button>
-        <div id="authErrorMsg" style="display: none; color: var(--accent-rose); font-size: 0.8rem;"></div>
-      </form>
     </div>
 
     <!-- Dashboard Content (Shown when authenticated) -->
@@ -923,7 +972,7 @@
           <span>💌 Moderasi Papan Ucapan</span>
         </button>
         <button type="button" class="tab-btn" onclick="switchTab('botTab', this)">
-          <span>🤖 RTM Discord Bot Architecture</span>
+          <span>⚙️ Konfigurasi Server Discord</span>
         </button>
         <button type="button" class="tab-btn" onclick="switchTab('chatTab', this)">
           <span>💬 AI Live Chat &amp; Handoff</span>
@@ -944,79 +993,147 @@
         </div>
       </div>
 
-      <!-- TAB 2: Bot Architecture -->
+      <!-- TAB 2: Discord Server & Bot Configuration Manager -->
       <div id="botTab" class="tab-pane">
-        <div class="bot-details-grid">
-          
-          <div class="bot-card">
-            <h3 class="bot-card-title">🤖 Identitas Bot &amp; Konfigurasi Server</h3>
-            <table class="spec-table">
-              <tr>
-                <td>Nama Bot</td>
-                <td>RTMBOT (Kawan Sejalan)</td>
-              </tr>
-              <tr>
-                <td>Application / Client ID</td>
-                <td>1382001133970653246</td>
-              </tr>
-              <tr>
-                <td>Discord Bot Owner ID</td>
-                <td>1000737066822410311 (Mas Ilham)</td>
-              </tr>
-              <tr>
-                <td>Default Command Prefix</td>
-                <td>/ (Slash) &amp; !</td>
-              </tr>
-              <tr>
-                <td>AI Engine</td>
-                <td>Google Gemini 2.5 (Pro &amp; Flash)</td>
-              </tr>
-              <tr>
-                <td>Database Backend</td>
-                <td>Supabase PostgreSQL &amp; Local Cache</td>
-              </tr>
-              <tr>
-                <td>Local Core Path</td>
-                <td>C:\Users\Administrator\Downloads\rtmbot</td>
-              </tr>
-            </table>
+        <!-- Top Toolbar for Guild Selection -->
+        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 18px 22px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+            <label for="guildSelect" style="font-weight: 700; font-size: 0.92rem; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+              <span>🌐 Pilih Server Discord:</span>
+            </label>
+            <select id="guildSelect" class="form-select-styled" onchange="onGuildSelectChange()">
+              <option value="1039509114008649778">👑 Server Utama RTM (1039509114008649778)</option>
+              <option value="765138959625486357">🛡️ Server Kawan Sejalan (765138959625486357)</option>
+              <option value="custom">+ Input Guild ID Kustom...</option>
+            </select>
+            <input type="text" id="customGuildIdInput" class="search-input" style="display: none; max-width: 200px;" placeholder="ID Guild Discord..." onchange="onCustomGuildIdApply()">
+            <span id="guildConfigSourceBadge" class="stat-badge" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 4px 10px; border-radius: 999px;">
+              <span class="status-dot"></span> <span id="guildConfigStatusText">Memuat server...</span>
+            </span>
           </div>
 
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button type="button" class="btn-action-nav" onclick="reloadCurrentGuildConfig()">
+              <span>🔄 Refresh</span>
+            </button>
+            <button type="button" class="btn-save-primary" id="btnSaveGuildConfig" onclick="saveCurrentGuildConfig()">
+              <span>💾 Simpan Konfigurasi Server</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2-Column Grid for Server Settings -->
+        <div class="bot-details-grid">
+          
+          <!-- Card 1: Channel Utama & Sambutan -->
           <div class="bot-card">
-            <h3 class="bot-card-title">🧩 Modul &amp; Cogs Aktif</h3>
-            <div class="cog-list">
-              <div class="cog-item">
-                <span class="cog-name">🛡️ Moderation (cogs/moderation.py)</span>
-                <span class="cog-status">Aktif</span>
+            <h3 class="bot-card-title">📢 Kanal Sistem &amp; Sambutan Member</h3>
+            
+            <div class="form-group-custom">
+              <label class="form-label-custom">Welcome Channel ID</label>
+              <input type="text" id="cfgWelcomeChannel" class="form-input-custom" placeholder="Contoh: 1379762287149187162">
+              <div class="form-help-custom">Kanal teks tempat bot mengirim pesan sambutan saat ada member baru masuk.</div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Pesan Sambutan (Welcome Message)</label>
+              <textarea id="cfgWelcomeMessage" class="form-textarea-custom" rows="3" placeholder="Selamat bersenang-senang dan mari ciptakan pengalaman Discord yang tak terlupakan bersama!"></textarea>
+              <div class="form-help-custom">Pesan otomatis yang akan dikirim bot ke member yang baru bergabung.</div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Log / Audit Channel ID</label>
+              <input type="text" id="cfgLogChannel" class="form-input-custom" placeholder="ID kanal audit log moderasi...">
+              <div class="form-help-custom">Kanal khusus tempat bot mencatat log moderasi, kick, ban, dan warning.</div>
+            </div>
+
+            <div class="form-group-custom">
+              <label class="form-label-custom">Auto Role ID</label>
+              <input type="text" id="cfgAutoRole" class="form-input-custom" placeholder="ID Role otomatis member baru...">
+              <div class="form-help-custom">Role yang langsung diberikan ke member saat pertama kali bergabung.</div>
+            </div>
+          </div>
+
+          <!-- Card 2: Automod & Modul Cogs -->
+          <div class="bot-card">
+            <h3 class="bot-card-title">🛡️ Automod &amp; Fitur Bot</h3>
+            
+            <div style="margin-bottom: 16px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Proteksi Otomatis (Automod)</div>
+              <div class="toggle-list-custom">
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgAutoModAntiSpam" checked>
+                  <span>Anti-Spam Rapid &amp; Duplicate Protection</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgAutoModFilterLinks" checked>
+                  <span>Filter Link Eksternal &amp; Phishing (suspicious_links.json)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgAutoModFilterBadwords" checked>
+                  <span>Filter Kata Kasar &amp; Konten Terlarang (filters.json)</span>
+                </label>
               </div>
-              <div class="cog-item">
-                <span class="cog-name">🧠 Gemini AI Engine (cogs/gemini.py)</span>
-                <span class="cog-status">Aktif</span>
-              </div>
-              <div class="cog-item">
-                <span class="cog-name">💰 Finance &amp; Economy (cogs/finance.py)</span>
-                <span class="cog-status">Aktif</span>
-              </div>
-              <div class="cog-item">
-                <span class="cog-name">🎮 Party Games (cogs/party_games.py)</span>
-                <span class="cog-status">Aktif</span>
-              </div>
-              <div class="cog-item">
-                <span class="cog-name">🔊 Temp Voice Channels (cogs/temp_voice.py)</span>
-                <span class="cog-status">Aktif</span>
-              </div>
-              <div class="cog-item">
-                <span class="cog-name">⭐ Leveling &amp; XP System (cogs/leveling.py)</span>
-                <span class="cog-status">Aktif</span>
-              </div>
-              <div class="cog-item">
-                <span class="cog-name">📢 Webhooks &amp; Notifikasi (cogs/webhook.py)</span>
-                <span class="cog-status">Aktif</span>
+            </div>
+
+            <div style="margin-top: 20px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px;">Modul / Cogs Aktif Bot</div>
+              <div class="toggle-list-custom">
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModModeration" checked>
+                  <span>🛡️ Sentinel Moderation (cogs/moderation.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModGemini" checked>
+                  <span>🧠 Gemini AI Engine (cogs/gemini.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModFinance" checked>
+                  <span>💰 Finance &amp; Economy (cogs/finance.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModTempVoice" checked>
+                  <span>🔊 Temp Voice Channels (cogs/temp_voice.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModLeveling" checked>
+                  <span>⭐ Leveling &amp; XP System (cogs/leveling.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModParty" checked>
+                  <span>🎮 Party Games (cogs/party_games.py)</span>
+                </label>
+                <label class="toggle-item-custom">
+                  <input type="checkbox" id="cfgModWebhook" checked>
+                  <span>📢 Webhooks &amp; Notifikasi (cogs/webhook.py)</span>
+                </label>
               </div>
             </div>
           </div>
 
         </div>
+
+        <!-- Card 3: Aturan Kanal Spesifik (Channel Moderation Rules) Full Width -->
+        <div class="bot-card" style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+            <div>
+              <h3 class="bot-card-title" style="margin-bottom: 4px;">⚖️ Aturan Khusus Kanal (Channel Moderation Rules)</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Terapkan aturan per kanal (sinkron dengan MongoDB &amp; settings.json bot):</p>
+            </div>
+            
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="newChannelRuleIdInput" class="search-input" style="max-width: 220px;" placeholder="Masukkan Channel ID...">
+              <button type="button" class="btn-action-nav" style="border-color: var(--accent-emerald); color: var(--accent-emerald);" onclick="addNewChannelRule()">
+                <span>➕ Tambah Kanal</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="channelRulesContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px;">
+            <div style="color: var(--text-muted); font-size: 0.85rem; padding: 14px;">Memuat aturan kanal dari database...</div>
+          </div>
+        </div>
+
       </div>
 
       <!-- TAB 3: AI Live Chat Support -->
@@ -1223,40 +1340,6 @@
         });
     }
 
-    async function submitAdminPin(e) {
-      e.preventDefault();
-      const pin = document.getElementById('adminPinField').value.trim();
-      const err = document.getElementById('authErrorMsg');
-      const btn = document.getElementById('btnPinSubmit');
-
-      if (!pin) return;
-      btn.textContent = 'Memeriksa...';
-      err.style.display = 'none';
-
-      try {
-        const res = await fetch(`${API_BASE}/api/admin/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pin: pin })
-        });
-        const data = await res.json();
-        if (res.ok && data.token) {
-          localStorage.removeItem('rtm_discord_user');
-          localStorage.setItem('rtm_admin_token', data.token);
-          sessionStorage.setItem('rtm_admin_token', data.token);
-          checkAuth();
-        } else {
-          err.textContent = data.message || 'PIN Admin tidak sesuai.';
-          err.style.display = 'block';
-        }
-      } catch (e) {
-        err.textContent = 'Gagal menghubungi server.';
-        err.style.display = 'block';
-      } finally {
-        btn.textContent = 'Verifikasi & Masuk';
-      }
-    }
-
     function logoutAdmin() {
       if (confirm('Keluar dari RTM Control Center?')) {
         localStorage.removeItem('rtm_admin_token');
@@ -1277,6 +1360,9 @@
 
       if (tabId === 'chatTab') {
         loadChatSessions();
+      } else if (tabId === 'botTab') {
+        loadGuildsList();
+        loadGuildConfig(currentGuildId);
       }
     }
 
@@ -1284,6 +1370,291 @@
       checkApiHealth();
       loadWishes();
       loadChatSessions();
+      loadGuildsList();
+      loadGuildConfig(currentGuildId);
+    }
+
+    // --- DISCORD SERVER & BOT CONFIGURATION (MONGODB & SUPABASE) ---
+    let currentGuildId = '1039509114008649778';
+    let currentGuildConfig = {
+      guild_id: '1039509114008649778',
+      welcome_channel_id: '',
+      welcome_message: '',
+      log_channel_id: '',
+      auto_role_id: '',
+      channel_rules: {},
+      automod: { anti_spam: true, filter_links: true, filter_badwords: true },
+      modules: { moderation: true, gemini_ai: true, finance: true, temp_voice: true, leveling: true, party_games: true, webhook: true }
+    };
+
+    async function loadGuildsList() {
+      try {
+        const res = await fetch(`${API_BASE}/api/bot/guilds`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data.guilds)) {
+            const selectEl = document.getElementById('guildSelect');
+            if (!selectEl) return;
+            const currentVal = selectEl.value;
+            selectEl.innerHTML = '';
+            data.guilds.forEach(g => {
+              const opt = document.createElement('option');
+              opt.value = g.id;
+              opt.textContent = `${g.icon || '🌐'} ${g.name} (${g.id})`;
+              selectEl.appendChild(opt);
+            });
+            const customOpt = document.createElement('option');
+            customOpt.value = 'custom';
+            customOpt.textContent = '+ Input Guild ID Kustom...';
+            selectEl.appendChild(customOpt);
+
+            if (currentVal && currentVal !== 'custom') {
+              selectEl.value = currentVal;
+            } else {
+              selectEl.value = currentGuildId;
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Error fetching guilds list:', e);
+      }
+    }
+
+    function onGuildSelectChange() {
+      const selectEl = document.getElementById('guildSelect');
+      const customInput = document.getElementById('customGuildIdInput');
+      if (selectEl.value === 'custom') {
+        customInput.style.display = 'inline-block';
+        customInput.focus();
+      } else {
+        customInput.style.display = 'none';
+        currentGuildId = selectEl.value;
+        loadGuildConfig(currentGuildId);
+      }
+    }
+
+    function onCustomGuildIdApply() {
+      const customInput = document.getElementById('customGuildIdInput');
+      const val = customInput.value.trim();
+      if (val) {
+        currentGuildId = val;
+        loadGuildConfig(currentGuildId);
+      }
+    }
+
+    function reloadCurrentGuildConfig() {
+      loadGuildConfig(currentGuildId);
+    }
+
+    async function loadGuildConfig(guildId) {
+      const statusText = document.getElementById('guildConfigStatusText');
+      if (statusText) statusText.textContent = `Memuat #${guildId}...`;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/bot/guild/${guildId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.config) {
+            currentGuildConfig = data.config;
+            const src = data.source === 'mongodb' ? 'MongoDB reSwan' : (data.source === 'supabase' ? 'Supabase' : 'Default/Cache');
+            if (statusText) statusText.textContent = `Online (${src})`;
+            populateGuildConfigFields(currentGuildConfig);
+            return;
+          }
+        }
+      } catch (e) {
+        console.error('Error loading guild config:', e);
+      }
+      if (statusText) statusText.textContent = 'Mode Default / Cache';
+      populateGuildConfigFields(currentGuildConfig);
+    }
+
+    function populateGuildConfigFields(cfg) {
+      const wCh = document.getElementById('cfgWelcomeChannel');
+      const wMsg = document.getElementById('cfgWelcomeMessage');
+      const lCh = document.getElementById('cfgLogChannel');
+      const aRol = document.getElementById('cfgAutoRole');
+
+      if (wCh) wCh.value = cfg.welcome_channel_id || '';
+      if (wMsg) wMsg.value = cfg.welcome_message || '';
+      if (lCh) lCh.value = cfg.log_channel_id || '';
+      if (aRol) aRol.value = cfg.auto_role_id || '';
+
+      // Automod
+      const automod = cfg.automod || {};
+      const elSpam = document.getElementById('cfgAutoModAntiSpam');
+      const elLinks = document.getElementById('cfgAutoModFilterLinks');
+      const elWords = document.getElementById('cfgAutoModFilterBadwords');
+      if (elSpam) elSpam.checked = (automod.anti_spam !== false);
+      if (elLinks) elLinks.checked = (automod.filter_links !== false);
+      if (elWords) elWords.checked = (automod.filter_badwords !== false);
+
+      // Cogs / Modules
+      const mods = cfg.modules || {};
+      const mMod = document.getElementById('cfgModModeration');
+      const mGem = document.getElementById('cfgModGemini');
+      const mFin = document.getElementById('cfgModFinance');
+      const mVoice = document.getElementById('cfgModTempVoice');
+      const mLvl = document.getElementById('cfgModLeveling');
+      const mParty = document.getElementById('cfgModParty');
+      const mHook = document.getElementById('cfgModWebhook');
+
+      if (mMod) mMod.checked = (mods.moderation !== false);
+      if (mGem) mGem.checked = (mods.gemini_ai !== false);
+      if (mFin) mFin.checked = (mods.finance !== false);
+      if (mVoice) mVoice.checked = (mods.temp_voice !== false);
+      if (mLvl) mLvl.checked = (mods.leveling !== false);
+      if (mParty) mParty.checked = (mods.party_games !== false);
+      if (mHook) mHook.checked = (mods.webhook !== false);
+
+      // Channel Rules
+      renderChannelRulesList(cfg.channel_rules || {});
+    }
+
+    function renderChannelRulesList(rules) {
+      const container = document.getElementById('channelRulesContainer');
+      if (!container) return;
+
+      const channelIds = Object.keys(rules);
+      if (channelIds.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; padding: 14px;">Belum ada aturan khusus kanal pada server ini. Silakan masukkan Channel ID di atas dan klik "+ Tambah Kanal".</div>';
+        return;
+      }
+
+      container.innerHTML = '';
+      channelIds.forEach(cid => {
+        const r = rules[cid] || {};
+        const card = document.createElement('div');
+        card.className = 'channel-rule-card-item';
+        card.innerHTML = `
+          <div class="channel-rule-head">
+            <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; color: #FAFAFA;"># ${escapeHtml(cid)}</span>
+            <button type="button" class="btn-delete-card" style="padding: 3px 8px; font-size: 0.7rem;" onclick="deleteChannelRule('${escapeHtml(cid)}')">Hapus</button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.78rem;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" ${r.disallow_bots ? 'checked' : ''} onchange="updateChannelRuleField('${escapeHtml(cid)}', 'disallow_bots', this.checked)">
+              <span>Blokir Bot</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" ${r.disallow_media ? 'checked' : ''} onchange="updateChannelRuleField('${escapeHtml(cid)}', 'disallow_media', this.checked)">
+              <span>Larang Media</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" ${r.disallow_prefix ? 'checked' : ''} onchange="updateChannelRuleField('${escapeHtml(cid)}', 'disallow_prefix', this.checked)">
+              <span>Larang Prefix</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" ${r.disallow_url ? 'checked' : ''} onchange="updateChannelRuleField('${escapeHtml(cid)}', 'disallow_url', this.checked)">
+              <span>Larang URL</span>
+            </label>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; margin-top: 4px;">
+            <span style="color: var(--text-muted);">Auto-delete:</span>
+            <input type="number" min="0" max="3600" value="${r.auto_delete_seconds || 0}" style="width: 70px; background: var(--bg-main); border: 1px solid var(--border-subtle); color: #fff; padding: 4px 6px; border-radius: 6px; font-size: 0.78rem;" onchange="updateChannelRuleField('${escapeHtml(cid)}', 'auto_delete_seconds', parseInt(this.value)||0)">
+            <span style="color: var(--text-faint);">detik</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function updateChannelRuleField(cid, field, val) {
+      if (!currentGuildConfig.channel_rules) currentGuildConfig.channel_rules = {};
+      if (!currentGuildConfig.channel_rules[cid]) currentGuildConfig.channel_rules[cid] = {};
+      currentGuildConfig.channel_rules[cid][field] = val;
+    }
+
+    function addNewChannelRule() {
+      const input = document.getElementById('newChannelRuleIdInput');
+      const cid = input.value.trim();
+      if (!cid) {
+        alert('Masukkan Channel ID terlebih dahulu.');
+        return;
+      }
+      if (!currentGuildConfig.channel_rules) currentGuildConfig.channel_rules = {};
+      if (currentGuildConfig.channel_rules[cid]) {
+        alert('Aturan untuk Channel ID ini sudah ada.');
+        return;
+      }
+      currentGuildConfig.channel_rules[cid] = {
+        disallow_bots: false,
+        disallow_media: false,
+        disallow_prefix: false,
+        disallow_url: false,
+        auto_delete_seconds: 0
+      };
+      input.value = '';
+      renderChannelRulesList(currentGuildConfig.channel_rules);
+    }
+
+    function deleteChannelRule(cid) {
+      if (!confirm(`Hapus aturan untuk kanal #${cid}?`)) return;
+      if (currentGuildConfig.channel_rules && currentGuildConfig.channel_rules[cid]) {
+        delete currentGuildConfig.channel_rules[cid];
+        renderChannelRulesList(currentGuildConfig.channel_rules);
+      }
+    }
+
+    async function saveCurrentGuildConfig() {
+      const token = getToken();
+      if (!token) {
+        alert('Sesi kedaluwarsa. Silakan login kembali dengan Discord.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveGuildConfig');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+
+      // Gather form inputs
+      currentGuildConfig.guild_id = currentGuildId;
+      currentGuildConfig.welcome_channel_id = document.getElementById('cfgWelcomeChannel').value.trim();
+      currentGuildConfig.welcome_message = document.getElementById('cfgWelcomeMessage').value.trim();
+      currentGuildConfig.log_channel_id = document.getElementById('cfgLogChannel').value.trim();
+      currentGuildConfig.auto_role_id = document.getElementById('cfgAutoRole').value.trim();
+
+      currentGuildConfig.automod = {
+        anti_spam: document.getElementById('cfgAutoModAntiSpam').checked,
+        filter_links: document.getElementById('cfgAutoModFilterLinks').checked,
+        filter_badwords: document.getElementById('cfgAutoModFilterBadwords').checked
+      };
+
+      currentGuildConfig.modules = {
+        moderation: document.getElementById('cfgModModeration').checked,
+        gemini_ai: document.getElementById('cfgModGemini').checked,
+        finance: document.getElementById('cfgModFinance').checked,
+        temp_voice: document.getElementById('cfgModTempVoice').checked,
+        leveling: document.getElementById('cfgModLeveling').checked,
+        party_games: document.getElementById('cfgModParty').checked,
+        webhook: document.getElementById('cfgModWebhook').checked
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/bot/guild/${currentGuildId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            token: token,
+            config: currentGuildConfig
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          alert(`✅ ${data.message || 'Konfigurasi server berhasil disimpan ke database!'}`);
+          loadGuildConfig(currentGuildId);
+        } else {
+          alert(`⚠️ Gagal menyimpan konfigurasi: ${data.message || 'Periksa izin Anda'}`);
+        }
+      } catch (e) {
+        alert('Kendala koneksi jaringan saat menyimpan konfigurasi.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>💾 Simpan Konfigurasi Server</span>';
+      }
     }
 
     async function checkApiHealth() {
