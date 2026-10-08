@@ -727,12 +727,43 @@
     const API_BASE = 'https://api.rtmbot.biz.id';
 
     function initUserSession() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token');
+      const urlUser = urlParams.get('user');
+      const loginError = urlParams.get('login_error');
+
+      if (loginError === 'owner_only') {
+        alert('Akses Dibatasi: Dashboard saat ini dikunci khusus untuk Owner bot.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      if (urlToken) {
+        localStorage.setItem('rtm_admin_token', urlToken);
+        sessionStorage.setItem('rtm_admin_token', urlToken);
+        if (urlUser) {
+          try {
+            localStorage.setItem('rtm_discord_user', decodeURIComponent(urlUser));
+          } catch (e) {
+            localStorage.setItem('rtm_discord_user', urlUser);
+          }
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
       const userRaw = localStorage.getItem('rtm_discord_user');
       const profileArea = document.getElementById('userProfileArea');
-      if (userRaw && profileArea) {
+      if (userRaw) {
         try {
           const user = JSON.parse(userRaw);
-          if (user && user.username) {
+          if (user && user.is_owner !== true && user.is_admin !== true) {
+            alert('Akses Dibatasi: Akun Anda bukan Owner bot. Akses dashboard ditolak.');
+            localStorage.removeItem('rtm_discord_user');
+            localStorage.removeItem('rtm_admin_token');
+            sessionStorage.removeItem('rtm_admin_token');
+            location.reload();
+            return;
+          }
+          if (user && user.username && profileArea) {
             profileArea.innerHTML = `
               <div class="user-pill">
                 <img src="${user.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png'}" class="user-avatar-img" alt="${user.username}">

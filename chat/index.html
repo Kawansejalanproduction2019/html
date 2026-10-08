@@ -179,6 +179,27 @@
             color: #000000;
         }
 
+        .btn-term-admin {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #FBBF24;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-term-admin:hover {
+            background: #F59E0B;
+            color: #000000;
+        }
+
         /* Terminal Canvas Stream */
         .terminal-canvas {
             flex: 1;
@@ -460,6 +481,7 @@
             </div>
 
             <div class="header-actions">
+                <a href="/admin/" class="btn-term-admin" id="btnAdminAccess" title="Masuk ke Panel Pengelola Admin">⚡ Admin</a>
                 <button type="button" class="btn-stop-handoff" id="stopAdminBtn" onclick="endHandoff('Sesi admin diakhiri.')">Akhiri CS</button>
                 <button type="button" class="btn-term-clear" id="clearBtn" onclick="clearConsole()">Clear</button>
             </div>
@@ -490,7 +512,7 @@
 
             <div class="terminal-input-wrap">
                 <span class="terminal-prompt-prefix">&gt;</span>
-                <input type="text" id="commandInput" class="cmd-text-input" placeholder="Ketik perintah (contoh: /ping, /help) atau sapa bot..." autocomplete="off">
+                <input type="text" id="commandInput" class="cmd-text-input" placeholder="Tuliskan pesan kamu..." autocomplete="off">
                 
                 <button type="button" class="input-icon-btn" onclick="document.getElementById('fileInput').click()" title="Lampirkan Gambar">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -654,6 +676,17 @@
             const messageText = input.value.trim();
 
             if (!messageText && !currentBase64) return;
+
+            // Direct admin command
+            if (messageText.toLowerCase() === '/admin' || messageText.toLowerCase() === 'admin') {
+                input.value = '';
+                addTerminalLog(messageText, 'user');
+                addTerminalLog('Membuka portal kendali pengelola admin...', 'system');
+                setTimeout(() => {
+                    window.location.href = '/admin/';
+                }, 500);
+                return;
+            }
 
             const userText = messageText || 'Berikan pendapatmu mengenai gambar ini.';
             const sendImg = currentBase64;
@@ -838,19 +871,40 @@
         }
 
         // --- RESTORE HISTORY ON LOAD ---
-        window.addEventListener('DOMContentLoaded', () => {
+        function restoreHistory() {
             const saved = localStorage.getItem('rtmbot_chat_history');
             if (saved) {
                 try {
-                    chatHistory = JSON.parse(saved);
-                    chatHistory.forEach(item => {
-                        const role = item.role === 'user' ? 'user' : 'bot';
-                        const text = item.parts && item.parts[0] ? item.parts[0].text : '';
-                        if (text) addTerminalLog(text, role);
-                    });
-                } catch (e) {}
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        chatHistory = parsed;
+                        parsed.forEach(item => {
+                            const role = (item.role === 'user' || item.sender === 'user') ? 'user' : 'bot';
+                            let text = '';
+                            if (item.parts && item.parts[0] && item.parts[0].text) {
+                                text = item.parts[0].text;
+                            } else if (typeof item.parts === 'string') {
+                                text = item.parts;
+                            } else if (item.text) {
+                                text = item.text;
+                            } else if (item.message) {
+                                text = item.message;
+                            }
+                            if (text) addTerminalLog(text, role);
+                        });
+                    }
+                } catch (e) {
+                    console.error('History parse error:', e);
+                }
             }
-        });
+        }
+
+        // Run immediately and also on DOMContentLoaded as safety
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', restoreHistory);
+        } else {
+            restoreHistory();
+        }
     </script>
 </body>
 </html>

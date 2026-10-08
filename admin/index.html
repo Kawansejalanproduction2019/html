@@ -1233,12 +1233,32 @@
     }
 
     function checkAuth() {
-      // Check for token in URL query (returned from Discord OAuth)
+      // Check for token and user in URL query (returned from Discord OAuth across subdomains)
       const urlParams = new URLSearchParams(window.location.search);
       const urlToken = urlParams.get('token');
+      const urlUser = urlParams.get('user');
+      const loginError = urlParams.get('login_error');
+
+      if (loginError === 'owner_only') {
+        const nonModAlert = document.getElementById('nonModAlert');
+        const nonModAlertText = document.getElementById('nonModAlertText');
+        if (nonModAlert && nonModAlertText) {
+          nonModAlertText.textContent = 'Akses ditolak: Panel admin dan dashboard saat ini dikunci khusus untuk Owner bot.';
+          nonModAlert.style.display = 'block';
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
       if (urlToken) {
         localStorage.setItem('rtm_admin_token', urlToken);
         sessionStorage.setItem('rtm_admin_token', urlToken);
+        if (urlUser) {
+          try {
+            localStorage.setItem('rtm_discord_user', decodeURIComponent(urlUser));
+          } catch (e) {
+            localStorage.setItem('rtm_discord_user', urlUser);
+          }
+        }
         window.history.replaceState({}, document.title, window.location.pathname);
       }
 
@@ -1252,10 +1272,10 @@
       const nonModAlert = document.getElementById('nonModAlert');
       const nonModAlertText = document.getElementById('nonModAlertText');
 
-      // Check if user logged in via Discord but is NOT a moderator/admin
-      if (discordUser && discordUser.is_admin === false) {
+      // Check if user is NOT Owner
+      if (discordUser && discordUser.is_owner !== true && discordUser.is_admin !== true) {
         if (nonModAlert) {
-          if (nonModAlertText) nonModAlertText.textContent = `Akun Discord @${discordUser.username} bukan merupakan Moderator atau Administrator server Discord RTM. Akses ditolak.`;
+          if (nonModAlertText) nonModAlertText.textContent = `Akun Discord @${discordUser.username} bukan merupakan Owner bot RTM. Akses panel admin dikunci khusus untuk Owner.`;
           nonModAlert.style.display = 'block';
         }
         localStorage.removeItem('rtm_admin_token');
