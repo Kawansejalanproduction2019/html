@@ -1022,58 +1022,54 @@
             });
         }
 
-        // --- RESTORE HISTORY ON LOAD ---
+        // --- RESTORE HISTORY ON LOAD (Aligned with rtmbot html old) ---
+        let isHistoryRendered = false;
         function restoreHistory() {
-            if (historyRestored) return;
+            if (isHistoryRendered) return;
 
-            // Always ensure latest chatHistory is read from localStorage
+            const container = document.getElementById('terminalArea');
+            if (!container) return;
+
             try {
                 const saved = localStorage.getItem('rtmbot_chat_history');
                 if (saved) {
                     const parsed = JSON.parse(saved);
                     if (Array.isArray(parsed) && parsed.length > 0) {
                         chatHistory = parsed;
+                        isHistoryRendered = true;
+                        chatHistory.forEach(item => {
+                            let role = 'bot';
+                            if (item.role === 'user' || item.sender === 'user') role = 'user';
+                            else if (item.role === 'system' || item.sender === 'system') role = 'system';
+
+                            let text = '';
+                            if (item.parts && Array.isArray(item.parts) && item.parts[0] && item.parts[0].text) {
+                                text = item.parts[0].text;
+                            } else if (typeof item.parts === 'string') {
+                                text = item.parts;
+                            } else if (item.text) {
+                                text = item.text;
+                            } else if (item.message) {
+                                text = item.message;
+                            }
+
+                            let img = item.img || (item.parts && item.parts[0] && item.parts[0].inlineData && item.parts[0].inlineData.data) || null;
+
+                            // Automatically decrypt stored ciphertexts (handles both E2E2 and E2E)
+                            if (text && (text.startsWith('E2E:') || text.startsWith('E2E2:'))) {
+                                const dec = multiLayerDecrypt(text, sessionId);
+                                text = dec.text;
+                                if (!img && dec.img) img = dec.img;
+                            }
+
+                            if (text || img) {
+                                addTerminalLog(text, role, img, item.time || null);
+                            }
+                        });
                     }
                 }
             } catch (e) {
-                console.warn('Gagal membaca cache riwayat chat:', e);
-            }
-
-            const container = document.getElementById('terminalArea');
-            if (!container) return;
-
-            historyRestored = true;
-
-            if (Array.isArray(chatHistory) && chatHistory.length > 0) {
-                chatHistory.forEach(item => {
-                    let role = 'bot';
-                    if (item.role === 'user' || item.sender === 'user') role = 'user';
-                    else if (item.role === 'system' || item.sender === 'system') role = 'system';
-
-                    let text = '';
-                    if (item.parts && Array.isArray(item.parts) && item.parts[0] && item.parts[0].text) {
-                        text = item.parts[0].text;
-                    } else if (typeof item.parts === 'string') {
-                        text = item.parts;
-                    } else if (item.text) {
-                        text = item.text;
-                    } else if (item.message) {
-                        text = item.message;
-                    }
-
-                    let img = item.img || (item.parts && item.parts[0] && item.parts[0].inlineData && item.parts[0].inlineData.data) || null;
-
-                    // Automatically decrypt stored ciphertexts (handles both E2E2 and E2E)
-                    if (text && (text.startsWith('E2E:') || text.startsWith('E2E2:'))) {
-                        const dec = multiLayerDecrypt(text, sessionId);
-                        text = dec.text;
-                        if (!img && dec.img) img = dec.img;
-                    }
-
-                    if (text || img) {
-                        addTerminalLog(text, role, img, item.time || null);
-                    }
-                });
+                console.warn('Gagal memuat cache riwayat chat:', e);
             }
 
             // Resume handoff state if active
@@ -1084,12 +1080,11 @@
             }
         }
 
-        // Execute immediately since #terminalArea is already parsed in DOM above
-        restoreHistory();
-
-        // Also add standard DOMContentLoaded and load event listeners as backup
+        // Exact pattern from rtmbot html old (Cloudflare Rocket Loader compatible)
+        window.onload = restoreHistory;
         document.addEventListener('DOMContentLoaded', restoreHistory);
         window.addEventListener('load', restoreHistory);
+        restoreHistory();
     </script>
 </body>
 </html>
