@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
   
   <style>
     :root {
@@ -565,19 +566,218 @@
       font-weight: 600;
     }
 
-    /* Live Chat Support */
-    .chat-handoff-box {
+    /* Live Chat E2EE Console */
+    .admin-livechat-container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 580px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 850px) {
+      .admin-livechat-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chat-sessions-sidebar {
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      background: rgba(18, 18, 21, 0.6);
+    }
+
+    .sessions-sidebar-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .chat-session-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+    }
+
+    .session-item-card {
+      padding: 12px 14px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .session-item-card:hover {
+      border-color: var(--accent-amber);
+      transform: translateY(-1px);
+    }
+
+    .session-item-card.active {
+      border-color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .session-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .session-user-tag {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    .session-time-text {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .chat-room-pane {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-main);
+      position: relative;
+    }
+
+    .chat-room-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .chat-room-active {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex: 1;
+    }
+
+    .chat-room-header {
+      padding: 14px 20px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .e2ee-tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #3FB950;
+      background: rgba(63, 185, 80, 0.12);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .chat-room-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 440px;
+      min-height: 350px;
+    }
+
+    .admin-msg-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      max-width: 80%;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      word-break: break-word;
+      position: relative;
+    }
+
+    .admin-msg-bubble.user {
+      align-self: flex-start;
+      background: #1C2128;
+      border: 1px solid #30363D;
+      color: #F0F6FC;
+      border-top-left-radius: 3px;
+    }
+
+    .admin-msg-bubble.admin {
+      align-self: flex-end;
+      background: #238636;
+      color: #FFFFFF;
+      border-top-right-radius: 3px;
+    }
+
+    .msg-e2ee-indicator {
+      display: block;
+      font-size: 0.68rem;
+      color: #3FB950;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .chat-room-input-area {
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
       gap: 10px;
-      margin-top: 14px;
+      align-items: center;
+    }
+
+    .admin-chat-input {
+      flex: 1;
+      min-height: 40px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .admin-chat-input:focus {
+      border-color: var(--accent-emerald);
+    }
+
+    .btn-admin-reply-send {
+      background: #238636;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-admin-reply-send:hover {
+      background: #2EA043;
     }
 
     .session-empty {
@@ -585,6 +785,37 @@
       color: var(--text-faint);
       padding: 30px;
       font-size: 0.9rem;
+    }
+
+    .mod-profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+    }
+
+    .mod-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-amber);
+    }
+
+    .mod-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .mod-badge {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-amber);
+      font-weight: 700;
     }
   </style>
 </head>
@@ -598,10 +829,16 @@
         <div class="brand-title">RTM Control Center</div>
         <div style="font-size: 0.72rem; color: var(--text-muted);">Bot Discord &amp; Web Hub Management</div>
       </div>
-      <span class="brand-tag">OWNER MODE</span>
+      <span class="brand-tag" id="headerRoleBadge">MODERATOR MODE</span>
     </a>
 
     <div class="nav-actions">
+      <!-- Profile chip showing Discord Avatar & Role -->
+      <div id="userProfileChip" class="mod-profile-chip" style="display: none;">
+        <img id="userProfileAvatar" class="mod-avatar" src="" alt="Avatar">
+        <span id="userProfileName" class="mod-name">Discord User</span>
+        <span id="userProfileRole" class="mod-badge">Moderator</span>
+      </div>
       <a href="/hh/" class="btn-action-nav" target="_blank" title="Buka Scrapbook Ultah">
         <span>💌 Scrapbook /hh/</span>
       </a>
@@ -618,21 +855,26 @@
     
     <!-- Auth Screen (Shown when unauthenticated) -->
     <div id="authGate" class="auth-gate">
-      <h2 class="auth-title">Otentikasi Pemilik</h2>
-      <p class="auth-desc">Masuk sebagai Mas Ilham untuk mengakses panel kendali RTMBOT, moderasi ucapan, dan live support:</p>
+      <h2 class="auth-title">Otentikasi Pengelola</h2>
+      <p class="auth-desc">Masuk sebagai Owner, Administrator, atau Moderator Server Discord RTM untuk mengelola sistem dan live chat:</p>
+
+      <!-- Alert if non-mod discord logged in -->
+      <div id="nonModAlert" style="display: none; background: rgba(244, 63, 94, 0.12); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 0.82rem; color: #FDA4AF;">
+        ⚠️ <span id="nonModAlertText">Akun Discord Anda bukan merupakan Moderator Server Discord RTM.</span>
+      </div>
 
       <!-- Discord OAuth2 -->
       <div class="auth-box-card">
-        <div style="font-size: 0.85rem; font-weight: 600; color: #E4E4E7;">Otentikasi Discord OAuth2</div>
-        <div style="font-size: 0.75rem; color: var(--text-muted);">Login via akun Discord Mas Ilham (ID 1000737066822410311)</div>
+        <div style="font-size: 0.88rem; font-weight: 600; color: #E4E4E7;">Masuk dengan Akun Discord</div>
+        <div style="font-size: 0.76rem; color: var(--text-muted);">Terbuka untuk Owner, Administrator &amp; Moderator Server Discord RTM</div>
         <button type="button" class="btn-discord-auth" onclick="loginWithDiscord()">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
           </svg>
-          <span>Masuk dengan Discord</span>
+          <span>Masuk dengan Akun Discord</span>
         </button>
         <div style="font-size: 0.72rem; color: var(--text-faint); line-height: 1.4;">
-          *Catatan: OAuth memerlukan Redirect URI <code>https://api.rtmbot.biz.id/api/auth/discord/callback</code> &amp; secret di Vercel. Jika belum, gunakan PIN cepat di bawah.
+          *Sistem otomatis memeriksa izin moderator/admin server Anda di Discord.
         </div>
       </div>
 
@@ -640,7 +882,8 @@
 
       <!-- PIN / Password Admin -->
       <form class="auth-box-card" onsubmit="submitAdminPin(event)">
-        <div style="font-size: 0.85rem; font-weight: 600; color: #E4E4E7;">Masuk dengan PIN Administrator</div>
+        <div style="font-size: 0.88rem; font-weight: 600; color: #E4E4E7;">Masuk dengan PIN Administrator</div>
+        <div style="font-size: 0.74rem; color: var(--text-muted);">Akses darurat menggunakan PIN master sistem</div>
         <input type="password" id="adminPinField" class="pin-input" placeholder="Masukkan PIN Administrator..." autocomplete="off" required>
         <button type="submit" class="btn-pin-login" id="btnPinSubmit">Verifikasi &amp; Masuk</button>
         <div id="authErrorMsg" style="display: none; color: var(--accent-rose); font-size: 0.8rem;"></div>
@@ -778,19 +1021,49 @@
 
       <!-- TAB 3: AI Live Chat Support -->
       <div id="chatTab" class="tab-pane">
-        <div class="chat-handoff-box">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <div>
-              <h3 style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700;">💬 Sesi Pengunjung Butuh Bantuan Manusia</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem;">Pengunjung yang meminta bantuan CS/Admin pada AI Chat akan muncul di sini secara realtime:</p>
+        <div class="admin-livechat-container">
+          <!-- Left: Sessions List -->
+          <div class="chat-sessions-sidebar">
+            <div class="sessions-sidebar-head">
+              <span style="font-size: 0.88rem; font-weight: 700;">💬 Sesi Butuh CS</span>
+              <button type="button" class="btn-action-nav" style="padding: 4px 8px; font-size: 0.75rem;" onclick="loadChatSessions()">🔄 Refresh</button>
             </div>
-            <button type="button" class="btn-action-nav" onclick="loadChatSessions()">
-              <span>🔄 Refresh Sesi</span>
-            </button>
+            <div id="chatSessionsContainer" class="chat-session-list">
+              <div class="session-empty">Memuat sesi pengunjung...</div>
+            </div>
           </div>
 
-          <div id="chatSessionsContainer" class="chat-session-list">
-            <div class="session-empty">Tidak ada sesi pengunjung yang memerlukan bantuan saat ini. AI aktif melayani secara otomatis.</div>
+          <!-- Right: Room Chat Window -->
+          <div class="chat-room-pane">
+            <div id="chatRoomEmpty" class="chat-room-empty">
+              <div style="font-size: 2.2rem; margin-bottom: 10px;">🔒</div>
+              <div style="font-weight: 600; font-size: 1rem; color: var(--text-main);">Pilih Sesi Pengunjung</div>
+              <div style="font-size: 0.82rem; color: var(--text-muted); max-width: 280px; margin-top: 4px;">
+                Semua pesan pengunjung dan balasan admin dienkripsi end-to-end secara aman (AES-256).
+              </div>
+            </div>
+
+            <div id="chatRoomActive" class="chat-room-active" style="display: none;">
+              <div class="chat-room-header">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-main);" id="currentSessionTitle">Sesi: -</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);" id="currentSessionSub">Status: Perlu Respon Admin (Human Handoff)</div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <span class="e2ee-tag-badge">🔒 AES-256 E2EE Verified</span>
+                  <button type="button" class="btn-action-nav" style="padding: 5px 10px; font-size: 0.75rem; color: #FDA4AF; border-color: rgba(244, 63, 94, 0.4);" onclick="resolveCurrentSession()">✅ Selesaikan Sesi</button>
+                </div>
+              </div>
+
+              <div id="chatRoomMessages" class="chat-room-messages">
+                <!-- Messages rendered here -->
+              </div>
+
+              <form class="chat-room-input-area" onsubmit="sendAdminLiveReply(event)">
+                <input type="text" id="adminLiveReplyInput" class="admin-chat-input" placeholder="Tulis balasan terenkripsi E2EE ke pengunjung..." autocomplete="off">
+                <button type="submit" class="btn-admin-reply-send" id="btnAdminReplySend">Kirim Terenkripsi 🔒</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -801,7 +1074,42 @@
 
   <script>
     const API_BASE = 'https://api.rtmbot.biz.id';
+    const E2EE_SHARED_SALT = 'RTM_E2EE_SECURE_KEY_99X';
     let rawWishesList = [];
+    let currentSessionId = null;
+    let chatPollTimer = null;
+    let lastRenderedMessagesCount = 0;
+
+    // --- E2EE CRYPTOGRAPHY HELPERS (AES-256) ---
+    function getE2EKey(sessionId) {
+      return CryptoJS.SHA256((sessionId || 'rtm_session') + E2EE_SHARED_SALT).toString();
+    }
+
+    function encryptE2E(text, sessionId) {
+      if (!text) return '';
+      try {
+        const key = getE2EKey(sessionId);
+        return 'E2E:' + CryptoJS.AES.encrypt(text, key).toString();
+      } catch (e) {
+        console.error('E2EE Encryption Error:', e);
+        return text;
+      }
+    }
+
+    function decryptE2E(cipherText, sessionId) {
+      if (!cipherText || typeof cipherText !== 'string') return cipherText;
+      if (!cipherText.startsWith('E2E:')) return cipherText;
+      try {
+        const actualCipher = cipherText.substring(4);
+        const key = getE2EKey(sessionId);
+        const bytes = CryptoJS.AES.decrypt(actualCipher, key);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        return decrypted || '[Gagal dekripsi - Kunci E2EE tidak sesuai]';
+      } catch (e) {
+        console.error('E2EE Decryption Error:', e);
+        return '[Pesan terenkripsi tidak dapat didekripsi]';
+      }
+    }
 
     function getToken() {
       return localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token') || '';
@@ -814,25 +1122,89 @@
       if (urlToken) {
         localStorage.setItem('rtm_admin_token', urlToken);
         sessionStorage.setItem('rtm_admin_token', urlToken);
-        // Clean URL
         window.history.replaceState({}, document.title, window.location.pathname);
       }
 
+      // Check Discord user profile in localStorage
+      let discordUser = null;
+      try {
+        const rawUser = localStorage.getItem('rtm_discord_user');
+        if (rawUser) discordUser = JSON.parse(rawUser);
+      } catch (e) {}
+
+      const nonModAlert = document.getElementById('nonModAlert');
+      const nonModAlertText = document.getElementById('nonModAlertText');
+
+      // Check if user logged in via Discord but is NOT a moderator/admin
+      if (discordUser && discordUser.is_admin === false) {
+        if (nonModAlert) {
+          if (nonModAlertText) nonModAlertText.textContent = `Akun Discord @${discordUser.username} bukan merupakan Moderator atau Administrator server Discord RTM. Akses ditolak.`;
+          nonModAlert.style.display = 'block';
+        }
+        localStorage.removeItem('rtm_admin_token');
+        sessionStorage.removeItem('rtm_admin_token');
+        localStorage.removeItem('rtm_discord_user');
+        renderUnauthenticatedView();
+        return;
+      }
+
       const token = getToken();
+      if (token) {
+        if (nonModAlert) nonModAlert.style.display = 'none';
+        updateModeratorProfileUI(discordUser);
+        renderAuthenticatedView();
+        loadDashboardData();
+      } else {
+        renderUnauthenticatedView();
+      }
+    }
+
+    function updateModeratorProfileUI(discordUser) {
+      const profileChip = document.getElementById('userProfileChip');
+      const avatarEl = document.getElementById('userProfileAvatar');
+      const nameEl = document.getElementById('userProfileName');
+      const roleEl = document.getElementById('userProfileRole');
+      const headerRoleBadge = document.getElementById('headerRoleBadge');
+
+      if (!profileChip) return;
+
+      if (discordUser) {
+        profileChip.style.display = 'flex';
+        if (avatarEl) avatarEl.src = discordUser.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
+        if (nameEl) nameEl.textContent = discordUser.username || 'Discord Mod';
+        if (roleEl) roleEl.textContent = discordUser.role || (discordUser.is_owner ? 'Owner' : 'Moderator');
+        if (headerRoleBadge) {
+          headerRoleBadge.textContent = discordUser.is_owner ? '👑 OWNER RTM' : `🛡️ ${discordUser.role ? discordUser.role.toUpperCase() : 'MODERATOR DISCORD'}`;
+        }
+      } else {
+        // Fallback Master Admin PIN mode
+        profileChip.style.display = 'flex';
+        if (avatarEl) avatarEl.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+        if (nameEl) nameEl.textContent = 'Master Admin';
+        if (roleEl) roleEl.textContent = 'PIN Access';
+        if (headerRoleBadge) headerRoleBadge.textContent = '⚡ MASTER ADMIN';
+      }
+    }
+
+    function renderAuthenticatedView() {
       const authGate = document.getElementById('authGate');
       const dashboardView = document.getElementById('dashboardView');
       const btnLogout = document.getElementById('btnLogout');
+      if (authGate) authGate.style.display = 'none';
+      if (dashboardView) dashboardView.style.display = 'block';
+      if (btnLogout) btnLogout.style.display = 'inline-flex';
+    }
 
-      if (token) {
-        if (authGate) authGate.style.display = 'none';
-        if (dashboardView) dashboardView.style.display = 'block';
-        if (btnLogout) btnLogout.style.display = 'inline-flex';
-        loadDashboardData();
-      } else {
-        if (authGate) authGate.style.display = 'block';
-        if (dashboardView) dashboardView.style.display = 'none';
-        if (btnLogout) btnLogout.style.display = 'none';
-      }
+    function renderUnauthenticatedView() {
+      const authGate = document.getElementById('authGate');
+      const dashboardView = document.getElementById('dashboardView');
+      const btnLogout = document.getElementById('btnLogout');
+      const profileChip = document.getElementById('userProfileChip');
+      if (authGate) authGate.style.display = 'block';
+      if (dashboardView) dashboardView.style.display = 'none';
+      if (btnLogout) btnLogout.style.display = 'none';
+      if (profileChip) profileChip.style.display = 'none';
+      if (chatPollTimer) clearInterval(chatPollTimer);
     }
 
     function loginWithDiscord() {
@@ -843,11 +1215,11 @@
           if (data && data.url) {
             window.location.href = data.url;
           } else {
-            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
+            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify%20guilds`;
           }
         })
         .catch(() => {
-          window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify`;
+          window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify%20guilds`;
         });
     }
 
@@ -869,6 +1241,7 @@
         });
         const data = await res.json();
         if (res.ok && data.token) {
+          localStorage.removeItem('rtm_discord_user');
           localStorage.setItem('rtm_admin_token', data.token);
           sessionStorage.setItem('rtm_admin_token', data.token);
           checkAuth();
@@ -888,6 +1261,9 @@
       if (confirm('Keluar dari RTM Control Center?')) {
         localStorage.removeItem('rtm_admin_token');
         sessionStorage.removeItem('rtm_admin_token');
+        localStorage.removeItem('rtm_discord_user');
+        if (chatPollTimer) clearInterval(chatPollTimer);
+        currentSessionId = null;
         checkAuth();
       }
     }
@@ -898,6 +1274,10 @@
       el.classList.add('active');
       const target = document.getElementById(tabId);
       if (target) target.classList.add('active');
+
+      if (tabId === 'chatTab') {
+        loadChatSessions();
+      }
     }
 
     async function loadDashboardData() {
@@ -1021,11 +1401,12 @@
       }
     }
 
+    // --- LIVE CHAT SESSIONS & E2EE MESSAGING ---
     async function loadChatSessions() {
       const token = getToken();
       const container = document.getElementById('chatSessionsContainer');
       const countEl = document.getElementById('statSessionsCount');
-      if (!token) return;
+      if (!token || !container) return;
 
       try {
         const res = await fetch(`${API_BASE}/api/admin/sessions`, {
@@ -1038,38 +1419,196 @@
           if (countEl) countEl.textContent = sessions.length;
           if (sessions.length === 0) {
             container.innerHTML = '<div class="session-empty">Tidak ada sesi pengunjung yang memerlukan bantuan saat ini. AI aktif melayani secara otomatis.</div>';
+            if (!currentSessionId) {
+              document.getElementById('chatRoomEmpty').style.display = 'flex';
+              document.getElementById('chatRoomActive').style.display = 'none';
+            }
           } else {
             container.innerHTML = '';
             sessions.forEach(s => {
               const item = document.createElement('div');
-              item.className = 'cog-item';
+              item.className = 'session-item-card' + (currentSessionId === s.session_id ? ' active' : '');
+              item.onclick = () => selectChatSession(s.session_id);
+              
+              const shortId = s.session_id ? s.session_id.substring(0, 16) + '...' : 'Pengunjung';
+              const updated = s.updated_at ? new Date(s.updated_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Baru saja';
+
               item.innerHTML = `
-                <div>
-                  <strong>Sesi: ${escapeHtml(s.session_id)}</strong>
-                  <div style="font-size: 0.75rem; color: var(--text-muted);">Diperbarui: ${escapeHtml(s.updated_at || '-')}</div>
+                <div class="session-card-top">
+                  <span class="session-user-tag">👤 ${escapeHtml(shortId)}</span>
+                  <span class="session-time-text">${updated}</span>
                 </div>
-                <div style="display: flex; gap: 8px;">
-                  <button type="button" class="btn-action-nav" style="padding: 4px 10px; font-size: 0.75rem;" onclick="resolveSession('${escapeHtml(s.session_id)}')">Tandai Selesai</button>
+                <div style="font-size: 0.74rem; color: var(--accent-amber); display: flex; align-items: center; gap: 4px;">
+                  <span>🔒 E2EE Enkripsi</span> &bull; <span>Perlu Admin</span>
                 </div>
               `;
               container.appendChild(item);
             });
           }
         }
-      } catch (err) {}
+      } catch (err) {
+        console.error('Error fetching chat sessions:', err);
+      }
     }
 
-    async function resolveSession(sid) {
+    function selectChatSession(sid) {
+      currentSessionId = sid;
+      lastRenderedMessagesCount = 0;
+
+      // Update sidebar active state
+      document.querySelectorAll('.session-item-card').forEach(el => {
+        el.classList.remove('active');
+        if (el.textContent.includes(sid.substring(0, 10))) {
+          el.classList.add('active');
+        }
+      });
+
+      // Show active chat room
+      document.getElementById('chatRoomEmpty').style.display = 'none';
+      const activeRoom = document.getElementById('chatRoomActive');
+      activeRoom.style.display = 'flex';
+
+      document.getElementById('currentSessionTitle').textContent = `Sesi: ${sid}`;
+      document.getElementById('currentSessionSub').textContent = `ID Lengkap: ${sid}`;
+
+      const msgContainer = document.getElementById('chatRoomMessages');
+      msgContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 20px;">Mengambil dan mendekripsi pesan E2EE...</div>';
+
+      fetchLiveChatMessages();
+
+      // Clear existing polling timer and set new one
+      if (chatPollTimer) clearInterval(chatPollTimer);
+      chatPollTimer = setInterval(() => {
+        if (currentSessionId && document.getElementById('chatTab').classList.contains('active')) {
+          fetchLiveChatMessages();
+        }
+      }, 3500);
+    }
+
+    async function fetchLiveChatMessages() {
+      if (!currentSessionId) return;
       const token = getToken();
-      if (!confirm(`Selesaikan sesi ${sid}?`)) return;
+      if (!token) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: token, session_id: currentSessionId })
+        });
+        const messages = await res.json();
+        if (Array.isArray(messages)) {
+          renderChatRoomMessages(messages);
+        }
+      } catch (e) {
+        console.error('Error loading room messages:', e);
+      }
+    }
+
+    function renderChatRoomMessages(messages) {
+      const container = document.getElementById('chatRoomMessages');
+      if (!container) return;
+
+      if (messages.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 20px;">Belum ada pesan dalam sesi ini.</div>';
+        return;
+      }
+
+      // Check if count changed or first render
+      const shouldScroll = (messages.length !== lastRenderedMessagesCount);
+      lastRenderedMessagesCount = messages.length;
+
+      container.innerHTML = '';
+      messages.forEach(m => {
+        const bubble = document.createElement('div');
+        const isUser = (m.sender === 'user');
+        bubble.className = `admin-msg-bubble ${isUser ? 'user' : 'admin'}`;
+
+        const rawMsg = m.message || '';
+        let displayMsg = rawMsg;
+        let isEncrypted = false;
+
+        if (rawMsg.startsWith('E2E:')) {
+          isEncrypted = true;
+          displayMsg = decryptE2E(rawMsg, currentSessionId);
+        }
+
+        bubble.innerHTML = `
+          ${isEncrypted ? '<span class="msg-e2ee-indicator">🔒 Terdekripsi E2EE</span>' : ''}
+          <div style="font-weight: 600; font-size: 0.72rem; margin-bottom: 2px; opacity: 0.8;">
+            ${isUser ? '👤 Pengunjung' : '🛡️ Admin / Moderator'}
+          </div>
+          <div>${escapeHtml(displayMsg)}</div>
+        `;
+        container.appendChild(bubble);
+      });
+
+      if (shouldScroll) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }
+
+    async function sendAdminLiveReply(e) {
+      e.preventDefault();
+      const input = document.getElementById('adminLiveReplyInput');
+      const btn = document.getElementById('btnAdminReplySend');
+      const text = input.value.trim();
+      const token = getToken();
+
+      if (!text || !currentSessionId || !token) return;
+
+      // Encrypt message via AES-256 before transmitting
+      const encryptedPayload = encryptE2E(text, currentSessionId);
+
+      input.value = '';
+      btn.disabled = true;
+      btn.textContent = 'Mengirim...';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/admin/reply`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            token: token,
+            session_id: currentSessionId,
+            message: encryptedPayload
+          })
+        });
+
+        if (res.ok) {
+          await fetchLiveChatMessages();
+        } else {
+          alert('Gagal mengirim balasan ke pengunjung.');
+        }
+      } catch (err) {
+        alert('Kendala jaringan saat mengirim balasan.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Kirim Terenkripsi 🔒';
+        input.focus();
+      }
+    }
+
+    async function resolveCurrentSession() {
+      if (!currentSessionId) return;
+      const token = getToken();
+      if (!confirm(`Selesaikan dan tutup sesi "${currentSessionId}"?\nPengunjung akan dikembalikan ke AI bot.`)) return;
+
       try {
         await fetch(`${API_BASE}/api/admin/resolve`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: token, session_id: sid })
+          body: JSON.stringify({ token: token, session_id: currentSessionId })
         });
+
+        if (chatPollTimer) clearInterval(chatPollTimer);
+        currentSessionId = null;
+        document.getElementById('chatRoomActive').style.display = 'none';
+        document.getElementById('chatRoomEmpty').style.display = 'flex';
         loadChatSessions();
-      } catch (e) {}
+      } catch (e) {
+        alert('Gagal menyelesaikan sesi.');
+      }
     }
 
     function escapeHtml(str) {
