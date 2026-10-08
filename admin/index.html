@@ -1932,13 +1932,13 @@
 
       fetchLiveChatMessages();
 
-      // Clear existing polling timer and set new one
+      // Clear existing polling timer and set new one (fast 1000ms for instant responses)
       if (chatPollTimer) clearInterval(chatPollTimer);
       chatPollTimer = setInterval(() => {
         if (currentSessionId && document.getElementById('chatTab').classList.contains('active')) {
           fetchLiveChatMessages();
         }
-      }, 3500);
+      }, 1000);
     }
 
     async function fetchLiveChatMessages() {

@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>RTMbot | Developer Console</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -480,7 +483,6 @@
             </div>
 
             <div class="header-actions">
-                <a href="/admin/" class="btn-term-admin" id="btnAdminAccess" title="Masuk ke Panel Pengelola Admin">⚡ Admin</a>
                 <button type="button" class="btn-stop-handoff" id="stopAdminBtn" onclick="endHandoff('Sesi admin diakhiri.')">Akhiri CS</button>
                 <button type="button" class="btn-term-clear" id="clearBtn" onclick="clearConsole()">Clear</button>
             </div>
@@ -706,7 +708,14 @@
             entry.className = `terminal-entry ${role}`;
 
             const timeStr = getTimeString();
-            const safeText = typeof text === 'string' ? text : String(text || '');
+            let safeText = typeof text === 'string' ? text : String(text || '');
+
+            // Auto-decrypt safety net: If any encrypted envelope is passed, decrypt immediately
+            if (safeText.startsWith('E2E:') || safeText.startsWith('E2E2:')) {
+                const dec = multiLayerDecrypt(safeText, sessionId);
+                safeText = dec.text;
+                if (!imgData && dec.img) imgData = dec.img;
+            }
 
             if (role === 'user') {
                 let imgHtml = imgData ? `<img src="data:image/jpeg;base64,${imgData}" class="attached-media-preview" alt="Lampiran">` : '';
@@ -759,14 +768,15 @@
 
             if (!messageText && !currentBase64) return;
 
-            // Direct admin command
-            if (messageText.toLowerCase() === '/admin' || messageText.toLowerCase() === 'admin') {
+            // Direct admin commands in terminal console
+            const lowerCmd = messageText.toLowerCase().trim();
+            if (lowerCmd === '/admin' || lowerCmd === 'admin' || lowerCmd === '/login' || lowerCmd === 'login' || lowerCmd === 'login admin' || lowerCmd === '/panel') {
                 input.value = '';
                 addTerminalLog(messageText, 'user');
-                addTerminalLog('Membuka portal kendali pengelola admin...', 'system');
+                addTerminalLog('Mengarahkan ke portal kendali pengelola admin...', 'system');
                 setTimeout(() => {
                     window.location.href = '/admin/';
-                }, 500);
+                }, 400);
                 return;
             }
 
@@ -858,47 +868,50 @@
                 return data.reply;
             }
 
+            if (isHandoffActive) {
+                checkAdminRepliesNow();
+            }
+
             return data.reply;
         }
 
         // --- POLLING HUMAN HANDOFF REPLIES ---
-        function startPollingUser() {
-            if (pollingInterval) clearInterval(pollingInterval);
-            pollingInterval = setInterval(async () => {
-                if (!isHandoffActive) {
-                    clearInterval(pollingInterval);
-                    pollingInterval = null;
+        async function checkAdminRepliesNow() {
+            if (!isHandoffActive) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/get-admin-reply`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId, last_id: lastAdminMsgId })
+                });
+                const data = await res.json();
+                if (data.status === 'resolved') {
+                    endHandoff('Sesi obrolan dengan admin telah berakhir. RTMbot siap melayani kembali!');
                     return;
                 }
-                try {
-                    const res = await fetch(`${API_BASE}/api/get-admin-reply`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ session_id: sessionId, last_id: lastAdminMsgId })
+                if (Array.isArray(data.messages) && data.messages.length > 0) {
+                    data.messages.forEach(m => {
+                        if (m.id > lastAdminMsgId) {
+                            lastAdminMsgId = m.id;
+                            localStorage.setItem('rtmbot_last_admin_msg_id', lastAdminMsgId.toString());
+                            const decryptedObj = multiLayerDecrypt(m.message, sessionId);
+                            addTerminalLog(decryptedObj.text, 'bot', decryptedObj.img);
+                            chatHistory.push({
+                                role: 'model',
+                                parts: [{ text: decryptedObj.text }],
+                                img: decryptedObj.img || null
+                            });
+                            saveChatHistory();
+                        }
                     });
-                    const data = await res.json();
-                    if (data.status === 'resolved') {
-                        endHandoff('Sesi obrolan dengan admin telah berakhir. RTMbot siap melayani kembali!');
-                        return;
-                    }
-                    if (Array.isArray(data.messages) && data.messages.length > 0) {
-                        data.messages.forEach(m => {
-                            if (m.id > lastAdminMsgId) {
-                                lastAdminMsgId = m.id;
-                                localStorage.setItem('rtmbot_last_admin_msg_id', lastAdminMsgId.toString());
-                                const decryptedObj = multiLayerDecrypt(m.message, sessionId);
-                                addTerminalLog(decryptedObj.text, 'bot', decryptedObj.img);
-                                chatHistory.push({
-                                    role: 'model',
-                                    parts: [{ text: decryptedObj.text }],
-                                    img: decryptedObj.img || null
-                                });
-                                saveChatHistory();
-                            }
-                        });
-                    }
-                } catch (e) {}
-            }, 1800);
+                }
+            } catch (e) {}
+        }
+
+        function startPollingUser() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            checkAdminRepliesNow();
+            pollingInterval = setInterval(checkAdminRepliesNow, 750);
         }
 
         function endHandoff(notice) {
@@ -995,7 +1008,14 @@
                         text = item.message;
                     }
 
-                    const img = item.img || (item.parts && item.parts[0] && item.parts[0].inlineData && item.parts[0].inlineData.data) || null;
+                    let img = item.img || (item.parts && item.parts[0] && item.parts[0].inlineData && item.parts[0].inlineData.data) || null;
+
+                    // Automatically decrypt stored ciphertexts (handles both E2E2 and E2E)
+                    if (text && (text.startsWith('E2E:') || text.startsWith('E2E2:'))) {
+                        const dec = multiLayerDecrypt(text, sessionId);
+                        text = dec.text;
+                        if (!img && dec.img) img = dec.img;
+                    }
 
                     if (text || img) {
                         addTerminalLog(text, role, img);
