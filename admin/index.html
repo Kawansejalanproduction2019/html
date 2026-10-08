@@ -1153,10 +1153,10 @@
           <!-- Right: Room Chat Window -->
           <div class="chat-room-pane">
             <div id="chatRoomEmpty" class="chat-room-empty">
-              <div style="font-size: 2.2rem; margin-bottom: 10px;">🔒</div>
+              <div style="font-size: 2.2rem; margin-bottom: 10px;">💬</div>
               <div style="font-weight: 600; font-size: 1rem; color: var(--text-main);">Pilih Sesi Pengunjung</div>
-              <div style="font-size: 0.82rem; color: var(--text-muted); max-width: 280px; margin-top: 4px;">
-                Semua pesan pengunjung dan balasan admin dienkripsi end-to-end secara aman (AES-256).
+              <div style="font-size: 0.82rem; color: var(--text-muted); max-width: 300px; margin-top: 4px;">
+                Pilih sesi pengunjung dari daftar di sebelah kiri untuk melihat percakapan dan memberikan respon.
               </div>
             </div>
 
@@ -1167,8 +1167,8 @@
                   <div style="font-size: 0.72rem; color: var(--text-muted);" id="currentSessionSub">Status: Perlu Respon Admin (Human Handoff)</div>
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center;">
-                  <span class="e2ee-tag-badge">🔒 AES-256 E2EE Verified</span>
-                  <button type="button" class="btn-action-nav" style="padding: 5px 10px; font-size: 0.75rem; color: #FDA4AF; border-color: rgba(244, 63, 94, 0.4);" onclick="resolveCurrentSession()">✅ Selesaikan Sesi</button>
+                  <span class="stat-badge"><span class="status-dot"></span> Sesi Live Aktif</span>
+                  <button type="button" class="btn-action-nav" style="padding: 5px 10px; font-size: 0.75rem; color: #FDA4AF; border-color: rgba(244, 63, 94, 0.4);" onclick="resolveCurrentSession()">Selesaikan Sesi</button>
                 </div>
               </div>
 
@@ -1176,9 +1176,22 @@
                 <!-- Messages rendered here -->
               </div>
 
+              <!-- Admin Temp Image Preview Bar -->
+              <div id="adminImgPreviewBar" style="display: none; padding: 6px 16px; background: var(--bg-main); border-top: 1px solid var(--border-subtle); align-items: center; gap: 10px;">
+                <img id="adminImgPreviewThumb" src="" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border-subtle);" alt="Preview">
+                <span style="font-size: 0.78rem; color: var(--text-muted);">Gambar siap dikirim</span>
+                <button type="button" class="btn-action-nav" style="padding: 2px 8px; font-size: 0.7rem; color: #FDA4AF;" onclick="clearAdminAttachment()">Batal</button>
+              </div>
+
               <form class="chat-room-input-area" onsubmit="sendAdminLiveReply(event)">
-                <input type="text" id="adminLiveReplyInput" class="admin-chat-input" placeholder="Tulis balasan terenkripsi E2EE ke pengunjung..." autocomplete="off">
-                <button type="submit" class="btn-admin-reply-send" id="btnAdminReplySend">Kirim Terenkripsi 🔒</button>
+                <input type="file" id="adminFileInput" accept="image/*" style="display: none;" onchange="handleAdminFileSelected(event)">
+                <button type="button" class="btn-action-nav" style="padding: 8px 12px;" onclick="document.getElementById('adminFileInput').click()" title="Lampirkan Gambar">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                  </svg>
+                </button>
+                <input type="text" id="adminLiveReplyInput" class="admin-chat-input" placeholder="Ketikkan pesan Anda di sini..." autocomplete="off">
+                <button type="submit" class="btn-admin-reply-send" id="btnAdminReplySend">Kirim</button>
               </form>
             </div>
           </div>
@@ -1192,39 +1205,91 @@
   <script>
     const API_BASE = 'https://api.rtmbot.biz.id';
     const E2EE_SHARED_SALT = 'RTM_E2EE_SECURE_KEY_99X';
+    const MASTER_NET_SALT = 'RTM_CORE_LAYER2_SEC_88X';
     let rawWishesList = [];
     let currentSessionId = null;
     let chatPollTimer = null;
     let lastRenderedMessagesCount = 0;
+    let adminCurrentBase64 = null;
 
-    // --- E2EE CRYPTOGRAPHY HELPERS (AES-256) ---
-    function getE2EKey(sessionId) {
-      return CryptoJS.SHA256((sessionId || 'rtm_session') + E2EE_SHARED_SALT).toString();
+    // --- MULTI-LAYER ENVELOPE ENCRYPTION HELPERS ---
+    function deriveSessionKey(sid) {
+      return CryptoJS.SHA256((sid || 'rtm_session') + E2EE_SHARED_SALT).toString();
     }
 
-    function encryptE2E(text, sessionId) {
-      if (!text) return '';
+    function deriveOuterKey(sid) {
+      return CryptoJS.SHA256(deriveSessionKey(sid) + MASTER_NET_SALT).toString();
+    }
+
+    function multiLayerEncrypt(plainText, sid, imgBase64 = null) {
+      if (!plainText && !imgBase64) return '';
       try {
-        const key = getE2EKey(sessionId);
-        return 'E2E:' + CryptoJS.AES.encrypt(text, key).toString();
+        const payloadObj = {
+          t: typeof plainText === 'string' ? plainText : String(plainText || ''),
+          ts: Date.now(),
+          n: Math.random().toString(36).substring(2, 9)
+        };
+        if (imgBase64) payloadObj.img = imgBase64;
+
+        const innerKey = deriveSessionKey(sid);
+        const innerJson = JSON.stringify(payloadObj);
+        const layer1Cipher = CryptoJS.AES.encrypt(innerJson, innerKey).toString();
+
+        const outerKey = deriveOuterKey(sid);
+        const hmacSig = CryptoJS.HmacSHA256(layer1Cipher, outerKey).toString();
+        const envelopeObj = { c: layer1Cipher, s: hmacSig };
+        const outerJson = JSON.stringify(envelopeObj);
+        const finalCipher = CryptoJS.AES.encrypt(outerJson, outerKey).toString();
+        return 'E2E2:' + finalCipher;
       } catch (e) {
-        console.error('E2EE Encryption Error:', e);
-        return text;
+        console.error('MultiLayer Encrypt Error:', e);
+        return plainText;
       }
     }
 
-    function decryptE2E(cipherText, sessionId) {
-      if (!cipherText || typeof cipherText !== 'string') return cipherText;
-      if (!cipherText.startsWith('E2E:')) return cipherText;
+    function multiLayerDecrypt(cipherText, sid) {
+      if (!cipherText || typeof cipherText !== 'string') return { text: cipherText, img: null };
+      if (cipherText.startsWith('E2E:')) {
+        try {
+          const raw = cipherText.substring(4);
+          const key = deriveSessionKey(sid);
+          const bytes = CryptoJS.AES.decrypt(raw, key);
+          const dec = bytes.toString(CryptoJS.enc.Utf8);
+          return { text: dec || cipherText, img: null };
+        } catch (e) {
+          return { text: cipherText, img: null };
+        }
+      }
+      if (!cipherText.startsWith('E2E2:')) {
+        return { text: cipherText, img: null };
+      }
+
       try {
-        const actualCipher = cipherText.substring(4);
-        const key = getE2EKey(sessionId);
-        const bytes = CryptoJS.AES.decrypt(actualCipher, key);
-        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
-        return decrypted || '[Gagal dekripsi - Kunci E2EE tidak sesuai]';
+        const outerCipher = cipherText.substring(5);
+        const outerKey = deriveOuterKey(sid);
+        const outerBytes = CryptoJS.AES.decrypt(outerCipher, outerKey);
+        const outerJson = outerBytes.toString(CryptoJS.enc.Utf8);
+        if (!outerJson) return { text: '[Pesan aman tidak dapat didekripsi]', img: null };
+
+        const envelopeObj = JSON.parse(outerJson);
+        const expectedSig = CryptoJS.HmacSHA256(envelopeObj.c, outerKey).toString();
+        if (envelopeObj.s !== expectedSig) {
+          return { text: '[Integritas pesan tidak valid]', img: null };
+        }
+
+        const innerKey = deriveSessionKey(sid);
+        const innerBytes = CryptoJS.AES.decrypt(envelopeObj.c, innerKey);
+        const innerJson = innerBytes.toString(CryptoJS.enc.Utf8);
+        if (!innerJson) return { text: '[Gagal dekripsi pesan]', img: null };
+
+        const payloadObj = JSON.parse(innerJson);
+        return {
+          text: payloadObj.t || '',
+          img: payloadObj.img || null
+        };
       } catch (e) {
-        console.error('E2EE Decryption Error:', e);
-        return '[Pesan terenkripsi tidak dapat didekripsi]';
+        console.error('MultiLayer Decrypt Error:', e);
+        return { text: '[Pesan aman terenkripsi]', img: null };
       }
     }
 
@@ -1826,11 +1891,11 @@
 
               item.innerHTML = `
                 <div class="session-card-top">
-                  <span class="session-user-tag">👤 ${escapeHtml(shortId)}</span>
+                  <span class="session-user-tag">${escapeHtml(shortId)}</span>
                   <span class="session-time-text">${updated}</span>
                 </div>
                 <div style="font-size: 0.74rem; color: var(--accent-amber); display: flex; align-items: center; gap: 4px;">
-                  <span>🔒 E2EE Enkripsi</span> &bull; <span>Perlu Admin</span>
+                  <span>Sesi Pengunjung</span> &bull; <span>Menunggu Admin</span>
                 </div>
               `;
               container.appendChild(item);
@@ -1916,20 +1981,23 @@
         bubble.className = `admin-msg-bubble ${isUser ? 'user' : 'admin'}`;
 
         const rawMsg = m.message || '';
-        let displayMsg = rawMsg;
-        let isEncrypted = false;
+        let decryptedObj = { text: rawMsg, img: null };
 
-        if (rawMsg.startsWith('E2E:')) {
-          isEncrypted = true;
-          displayMsg = decryptE2E(rawMsg, currentSessionId);
+        if (rawMsg.startsWith('E2E:') || rawMsg.startsWith('E2E2:')) {
+          decryptedObj = multiLayerDecrypt(rawMsg, currentSessionId);
+        }
+
+        let imgHtml = '';
+        if (decryptedObj.img) {
+          imgHtml = `<img src="data:image/jpeg;base64,${decryptedObj.img}" style="max-width: 220px; border-radius: 8px; margin-top: 8px; display: block; border: 1px solid var(--border-subtle);" alt="Lampiran">`;
         }
 
         bubble.innerHTML = `
-          ${isEncrypted ? '<span class="msg-e2ee-indicator">🔒 Terdekripsi E2EE</span>' : ''}
           <div style="font-weight: 600; font-size: 0.72rem; margin-bottom: 2px; opacity: 0.8;">
-            ${isUser ? '👤 Pengunjung' : '🛡️ Admin / Moderator'}
+            ${isUser ? 'Pengunjung' : 'Admin'}
           </div>
-          <div>${escapeHtml(displayMsg)}</div>
+          <div>${escapeHtml(decryptedObj.text)}</div>
+          ${imgHtml}
         `;
         container.appendChild(bubble);
       });
@@ -1939,6 +2007,26 @@
       }
     }
 
+    function handleAdminFileSelected(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const res = ev.target.result;
+        document.getElementById('adminImgPreviewThumb').src = res;
+        document.getElementById('adminImgPreviewBar').style.display = 'flex';
+        adminCurrentBase64 = res.split(',')[1];
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearAdminAttachment() {
+      adminCurrentBase64 = null;
+      document.getElementById('adminImgPreviewBar').style.display = 'none';
+      document.getElementById('adminFileInput').value = '';
+    }
+
     async function sendAdminLiveReply(e) {
       e.preventDefault();
       const input = document.getElementById('adminLiveReplyInput');
@@ -1946,12 +2034,16 @@
       const text = input.value.trim();
       const token = getToken();
 
-      if (!text || !currentSessionId || !token) return;
+      if ((!text && !adminCurrentBase64) || !currentSessionId || !token) return;
 
-      // Encrypt message via AES-256 before transmitting
-      const encryptedPayload = encryptE2E(text, currentSessionId);
+      const payloadText = text || 'Gambar terlampir.';
+      const payloadImg = adminCurrentBase64;
+
+      // Encrypt message via Multi-layer Envelope before transmitting
+      const encryptedPayload = multiLayerEncrypt(payloadText, currentSessionId, payloadImg);
 
       input.value = '';
+      clearAdminAttachment();
       btn.disabled = true;
       btn.textContent = 'Mengirim...';
 
@@ -1975,7 +2067,7 @@
         alert('Kendala jaringan saat mengirim balasan.');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Kirim Terenkripsi 🔒';
+        btn.textContent = 'Kirim';
         input.focus();
       }
     }
