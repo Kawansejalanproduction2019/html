@@ -852,6 +852,10 @@
                         txt = item.parts;
                     }
                     if (txt && typeof txt === 'string' && txt.trim()) {
+                        const low = txt.toLowerCase();
+                        if (low.includes('sesi obrolan') || low.includes('system@cluster') || low.includes('siap melayani kembali') || low.includes('terminal dibersihkan')) {
+                            return;
+                        }
                         if (validHistory.length > 0 && validHistory[validHistory.length - 1].role === r) {
                             validHistory[validHistory.length - 1].parts[0].text += '\n' + txt.trim();
                         } else {
@@ -889,7 +893,7 @@
 
             if (data.model === 'bot-resume') {
                 endHandoff(data.reply);
-                return data.reply;
+                return 'Siap! Kita lanjut ngobrol santai ya. Mau bahas apa nih?';
             }
 
             if (data.model === 'System-Handoff' || data.model === 'System-Handoff-Silent') {
@@ -965,8 +969,7 @@
             if (notice) {
                 const noticeTime = getTimeString();
                 addTerminalLog(notice, 'system', null, noticeTime);
-                chatHistory.push({ role: 'system', parts: [{ text: notice }], time: noticeTime });
-                saveChatHistory();
+                // System notice is logged in terminal stream but NOT stored in chatHistory for AI
             }
         }
 

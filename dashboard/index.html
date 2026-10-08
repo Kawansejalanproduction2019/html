@@ -1502,10 +1502,24 @@
     const API_BASE = 'https://api.rtmbot.biz.id';
 
     // Global State
-    let currentGuildId = '1039509114008649778';
-    let currentGuildName = 'Server Utama RTM (Official)';
+    let currentGuildId = '';
+    let currentGuildName = 'Pilih Server';
     let userGuildsList = [];
     let activeGuildConfig = {};
+
+    function parseJwt(token) {
+      try {
+        const base64Url = token.split('.')[1];
+        if (!base64Url) return null;
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return null;
+      }
+    }
 
     // 1. Session Init
     function initUserSession() {
@@ -1514,13 +1528,15 @@
       const urlUser = urlParams.get('user');
 
       if (urlToken) {
-        localStorage.setItem('rtm_admin_token', urlToken);
-        sessionStorage.setItem('rtm_admin_token', urlToken);
+        try {
+          localStorage.setItem('rtm_admin_token', urlToken);
+          sessionStorage.setItem('rtm_admin_token', urlToken);
+        } catch(e) {}
         if (urlUser) {
           try {
             localStorage.setItem('rtm_discord_user', decodeURIComponent(urlUser));
           } catch(e) {
-            localStorage.setItem('rtm_discord_user', urlUser);
+            try { localStorage.setItem('rtm_discord_user', urlUser); } catch(_) {}
           }
         }
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -1534,25 +1550,47 @@
         try { userData = JSON.parse(userRaw); } catch(e) {}
       }
 
+      if (!userData && token) {
+        const decoded = parseJwt(token);
+        if (decoded && decoded.username) {
+          userData = {
+            id: decoded.discord_id || '',
+            username: decoded.username || 'Pengguna Discord',
+            avatar: decoded.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png',
+            role: decoded.role || (decoded.is_owner ? 'Owner' : 'Moderator'),
+            is_owner: !!decoded.is_owner
+          };
+          try { localStorage.setItem('rtm_discord_user', JSON.stringify(userData)); } catch(_) {}
+        }
+      }
+
+      renderUserProfile(userData);
+      loadManageableGuilds();
+    }
+
+    function renderUserProfile(userData) {
       const userArea = document.getElementById('userProfileArea');
+      if (!userArea) return;
+
+      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
       if (userData && (token || userData.id)) {
         const avatarUrl = userData.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
         const roleLabel = userData.role || (userData.is_owner ? 'Owner' : 'Moderator');
         userArea.innerHTML = `
           <div class="user-pill">
-            <img src="${avatarUrl}" class="user-avatar-img" alt="${userData.username}">
-            <span>${userData.username}</span>
-            <span style="font-size: 0.7rem; color: #818CF8; background: rgba(88,101,242,0.15); padding: 1px 6px; border-radius: 4px;">${roleLabel}</span>
+            <img src="${avatarUrl}" class="user-avatar-img" alt="${escapeHtml(userData.username)}">
+            <span>${escapeHtml(userData.username)}</span>
+            <span style="font-size: 0.7rem; color: #818CF8; background: rgba(88,101,242,0.15); padding: 1px 6px; border-radius: 4px;">${escapeHtml(roleLabel)}</span>
             <button onclick="logoutDashboard()" style="background:none;border:none;color:#EF4444;cursor:pointer;font-size:0.8rem;margin-left:4px;" title="Logout">✕</button>
           </div>
         `;
-
-        if (userData.guilds && Array.isArray(userData.guilds)) {
-          userGuildsList = userData.guilds;
-        }
+      } else {
+        userArea.innerHTML = `
+          <button class="btn-primary" onclick="loginDiscordOAuth()" style="padding: 6px 14px; font-size: 0.8rem;">
+            <span>Masuk dengan Discord</span>
+          </button>
+        `;
       }
-
-      loadManageableGuilds();
     }
 
     function loginDiscordOAuth() {
@@ -1569,59 +1607,90 @@
     }
 
     function logoutDashboard() {
-      localStorage.removeItem('rtm_admin_token');
-      sessionStorage.removeItem('rtm_admin_token');
-      localStorage.removeItem('rtm_discord_user');
+      try {
+        localStorage.removeItem('rtm_admin_token');
+        sessionStorage.removeItem('rtm_admin_token');
+        localStorage.removeItem('rtm_discord_user');
+      } catch(_) {}
       window.location.reload();
     }
 
-    // 2. Load Guilds (Server Selector)
+    // 2. Load Guilds (Server Selector) - STRICT VALID GUILDS ONLY
     function loadManageableGuilds() {
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
+      const grid = document.getElementById('guildsCardGrid');
       
-      // If user already has guilds from session
-      if (userGuildsList && userGuildsList.length > 0) {
-        renderGuildCards(userGuildsList);
+      // If user not logged in, prompt login
+      if (!token) {
+        renderGuildCards([]);
         return;
       }
 
-      // Fetch from API
+      if (grid) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+            <div class="spinner" style="margin: 0 auto 12px;"></div>
+            Memuat daftar server Discord resmi Anda...
+          </div>
+        `;
+      }
+
       fetch(`${API_BASE}/api/bot/user-guilds`, {
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+        headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(r => r.json())
       .then(data => {
         if (data && data.status === 'success' && Array.isArray(data.guilds)) {
           userGuildsList = data.guilds;
+          if (data.user) {
+            renderUserProfile(data.user);
+          }
           renderGuildCards(userGuildsList);
         } else {
-          fallbackGuilds();
+          renderGuildCards([]);
         }
       })
-      .catch(() => {
-        fallbackGuilds();
+      .catch(err => {
+        console.error("Gagal mengambil server pengguna:", err);
+        renderGuildCards([]);
       });
-    }
-
-    function fallbackGuilds() {
-      const defaultGuilds = [
-        { id: "1039509114008649778", name: "Server Utama RTM (Official)", permission_label: "👑 Owner", bot_present: true },
-        { id: "765138959625486357", name: "Server Komunitas Kawan Sejalan", permission_label: "🛡️ Administrator", bot_present: true },
-        { id: "788337048997199882", name: "Server Gaming & Community", permission_label: "⚙️ Kelola Server", bot_present: true },
-        { id: "722619465644113962", name: "Server RTM Backup & Partner", permission_label: "🛡️ Administrator", bot_present: true },
-        { id: "759846717696245810", name: "Server VIP Reswan", permission_label: "👑 Owner", bot_present: true }
-      ];
-      renderGuildCards(defaultGuilds);
     }
 
     function renderGuildCards(guilds) {
       const grid = document.getElementById('guildsCardGrid');
       const noPermAlert = document.getElementById('noPermissionAlert');
+      if (!grid) return;
       
+      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
+
+      if (!token) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-muted); background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 14px;">
+            <div style="font-size: 2.2rem; margin-bottom: 12px;">🔐</div>
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Silakan Masuk dengan Discord</div>
+            <p style="font-size: 0.88rem; max-width: 480px; margin: 0 auto 20px; color: var(--text-secondary);">
+              Untuk mengelola konfigurasi bot pada server Discord Anda, silakan hubungkan akun Discord terlebih dahulu.
+            </p>
+            <button onclick="loginDiscordOAuth()" class="btn-primary" style="padding: 10px 24px;">
+              <span>Masuk dengan Discord</span>
+            </button>
+          </div>
+        `;
+        if (noPermAlert) noPermAlert.style.display = 'none';
+        return;
+      }
+
       if (!guilds || guilds.length === 0) {
         grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-            Tidak ada server yang memenuhi izin Administrator atau Kelola Server.
+          <div style="grid-column: 1 / -1; text-align: center; padding: 44px 20px; color: var(--text-muted); background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 14px;">
+            <div style="font-size: 2.2rem; margin-bottom: 10px;">🛡️</div>
+            <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Tidak Ada Server yang Dapat Dikelola</div>
+            <p style="font-size: 0.85rem; max-width: 480px; margin: 0 auto 16px; color: var(--text-secondary);">
+              Akun Discord Anda saat ini belum memiliki hak <strong>Administrator</strong> atau <strong>Kelola Server (Manage Server)</strong> di server Discord yang Anda masuki, atau bot belum diundang ke server tersebut.
+            </p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 10px 20px;">
+              <span>➕ Undang RTMbot ke Server Baru</span>
+            </a>
           </div>
         `;
         if (noPermAlert) noPermAlert.style.display = 'flex';
@@ -1631,18 +1700,18 @@
       if (noPermAlert) noPermAlert.style.display = 'none';
 
       grid.innerHTML = guilds.map(g => {
-        const initials = (g.name || 'Server').substring(0, 3).toUpperCase();
-        const avatarHtml = g.icon ? `<img src="${g.icon}" alt="${g.name}">` : `<span>${initials}</span>`;
+        const initials = escapeHtml((g.name || 'Server').substring(0, 3).toUpperCase());
+        const avatarHtml = g.icon ? `<img src="${g.icon}" alt="${escapeHtml(g.name)}">` : `<span>${initials}</span>`;
         const botStatusBadge = g.bot_present 
           ? `<span class="badge-pill badge-status-online">🟢 Bot Terhubung</span>`
           : `<span class="badge-pill badge-status-absent">⚪ Belum Ada Bot</span>`;
         
         const actionBtn = g.bot_present
-          ? `<button type="button" class="btn-manage-guild" onclick="selectGuildToManage('${g.id}', '${escapeHtml(g.name)}')"><span>⚙️ Kelola Server</span></button>`
+          ? `<button type="button" class="btn-manage-guild action-manage-click" data-gid="${g.id}" data-gname="${escapeHtml(g.name)}"><span>⚙️ Kelola Server</span></button>`
           : `<a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246&permissions=8&integration_type=0&scope=bot+applications.commands&guild_id=${g.id}" target="_blank" class="btn-invite-guild"><span>➕ Undang Bot</span></a>`;
 
         return `
-          <div class="guild-card" data-guild-id="${g.id}" data-guild-name="${g.name.toLowerCase()}">
+          <div class="guild-card" data-guild-id="${g.id}" data-guild-name="${escapeHtml(g.name.toLowerCase())}">
             <div>
               <div class="guild-card-top">
                 <div class="guild-avatar">${avatarHtml}</div>
@@ -1653,7 +1722,7 @@
               </div>
 
               <div class="guild-badges-row" style="margin-top: 12px;">
-                <span class="badge-pill badge-perm-admin">${g.permission_label || '🛡️ Admin'}</span>
+                <span class="badge-pill badge-perm-admin">${escapeHtml(g.permission_label || '🛡️ Admin')}</span>
                 ${botStatusBadge}
               </div>
             </div>
@@ -1664,6 +1733,15 @@
           </div>
         `;
       }).join('');
+
+      // Safe event listener binding
+      grid.querySelectorAll('.action-manage-click').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const gid = btn.getAttribute('data-gid');
+          const gname = btn.getAttribute('data-gname');
+          selectGuildToManage(gid, gname);
+        });
+      });
     }
 
     function filterGuildCards() {
