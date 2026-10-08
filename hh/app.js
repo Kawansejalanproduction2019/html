@@ -784,6 +784,12 @@ async function deleteWish(name, message) {
           list = list.filter(w => !(w.name === name && w.message === message));
           localStorage.setItem('rtm_ilham_wishes', JSON.stringify(list));
         }
+        const mySaved = localStorage.getItem('rtm_ilham_my_wishes');
+        if (mySaved) {
+          let myList = JSON.parse(mySaved);
+          myList = myList.filter(w => !(w.name === name && w.message === message));
+          localStorage.setItem('rtm_ilham_my_wishes', JSON.stringify(myList));
+        }
       } catch (e) {}
 
       initGreetingsWall();
@@ -814,29 +820,87 @@ function initGreetingsWall() {
   let allWishes = DEFAULT_GREETINGS;
   try {
     const saved = localStorage.getItem('rtm_ilham_wishes');
+    const mySaved = localStorage.getItem('rtm_ilham_my_wishes');
+    let localList = [];
     if (saved) {
-      let parsed = JSON.parse(saved);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        parsed = parsed.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
-        allWishes = parsed.length > 0 ? parsed : DEFAULT_GREETINGS;
-        localStorage.setItem('rtm_ilham_wishes', JSON.stringify(allWishes));
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) localList = parsed;
+    }
+    if (mySaved) {
+      const myParsed = JSON.parse(mySaved);
+      if (Array.isArray(myParsed)) {
+        myParsed.forEach(mw => {
+          if (!localList.some(w => w.name === mw.name && w.message === mw.message)) {
+            localList.push(mw);
+          }
+        });
       }
+    }
+    if (localList.length > 0) {
+      localList = localList.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
+      allWishes = localList.length > 0 ? localList : DEFAULT_GREETINGS;
+      localStorage.setItem('rtm_ilham_wishes', JSON.stringify(allWishes));
     }
   } catch (e) {
     allWishes = DEFAULT_GREETINGS;
   }
   renderWishes(allWishes);
 
-  // 2. Gentle deferred server sync so initial page load stays 100% lightweight & fast
+  // 2. Gentle deferred server sync that MERGES instead of clobbering local wishes
   setTimeout(() => {
     fetch(WISHES_API_URL)
       .then(res => res.json())
       .then(data => {
-        if (data && data.status === 'success' && Array.isArray(data.wishes) && data.wishes.length > 0) {
-          const filtered = data.wishes.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
-          const finalWishes = filtered.length > 0 ? filtered : DEFAULT_GREETINGS;
+        if (data && data.status === 'success' && Array.isArray(data.wishes)) {
+          const serverWishes = data.wishes.filter(w => !EXCLUDED_WISH_NAMES.includes(w.name));
+          
+          // Get any locally cached wishes & user's own wishes
+          let currentLocal = [];
+          try {
+            const saved = localStorage.getItem('rtm_ilham_wishes');
+            if (saved) currentLocal = JSON.parse(saved) || [];
+            const myWishesRaw = localStorage.getItem('rtm_ilham_my_wishes');
+            if (myWishesRaw) {
+              const myParsed = JSON.parse(myWishesRaw) || [];
+              myParsed.forEach(mw => {
+                if (!currentLocal.some(w => w.name === mw.name && w.message === mw.message)) {
+                  currentLocal.push(mw);
+                }
+              });
+            }
+          } catch (e) {}
+
+          // Merge: start with server wishes, preserve any local wishes missing on server
+          const merged = [...serverWishes];
+          const missingOnServer = [];
+
+          currentLocal.forEach(localW => {
+            const existsOnServer = merged.some(sw => sw.name === localW.name && sw.message === localW.message);
+            if (!existsOnServer && !EXCLUDED_WISH_NAMES.includes(localW.name)) {
+              merged.push(localW);
+              missingOnServer.push(localW);
+            }
+          });
+
+          const finalWishes = merged.length > 0 ? merged : DEFAULT_GREETINGS;
           renderWishes(finalWishes);
           localStorage.setItem('rtm_ilham_wishes', JSON.stringify(finalWishes));
+
+          // Auto-sync missing wishes to server in background
+          if (missingOnServer.length > 0) {
+            missingOnServer.forEach(pendingWish => {
+              fetch(WISHES_API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  name: pendingWish.name,
+                  role: pendingWish.role || 'Sahabat',
+                  message: pendingWish.message,
+                  avatar: pendingWish.avatar || '💌'
+                })
+              }).catch(() => {});
+            });
+          }
         }
       })
       .catch(err => {
@@ -908,12 +972,23 @@ function submitNewWish(event) {
     time: 'Baru saja'
   };
 
-  // Immediate optimistic local update (No code / PIN needed for visitors)
+  // Immediate optimistic local update + local permanent backup
   try {
     const saved = localStorage.getItem('rtm_ilham_wishes');
     const currentList = saved ? JSON.parse(saved) : [...DEFAULT_GREETINGS];
-    currentList.push(newEntry);
+    if (!currentList.some(w => w.name === newEntry.name && w.message === newEntry.message)) {
+      currentList.push(newEntry);
+    }
     localStorage.setItem('rtm_ilham_wishes', JSON.stringify(currentList));
+
+    // Also store in dedicated my-wishes collection for lifetime device persistence
+    const mySaved = localStorage.getItem('rtm_ilham_my_wishes');
+    const myList = mySaved ? JSON.parse(mySaved) : [];
+    if (!myList.some(w => w.name === newEntry.name && w.message === newEntry.message)) {
+      myList.push(newEntry);
+    }
+    localStorage.setItem('rtm_ilham_my_wishes', JSON.stringify(myList));
+
     renderWishes(currentList);
   } catch (e) {}
 
