@@ -946,7 +946,7 @@
         function startPollingUser() {
             if (pollingInterval) clearInterval(pollingInterval);
             checkAdminRepliesNow();
-            pollingInterval = setInterval(checkAdminRepliesNow, 750);
+            pollingInterval = setInterval(checkAdminRepliesNow, 2500);
         }
 
         function endHandoff(notice) {
