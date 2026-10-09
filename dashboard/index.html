@@ -1058,7 +1058,7 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">Welcome Channel ID</label>
-              <input type="text" id="cfg_welcome_channel_id" class="dash-input" placeholder="ID Channel Sambutan (contoh: 1379762287149187162)">
+              <select id="cfg_welcome_channel_id" class="dash-input"><option value="">-- Pilih Kanal Sambutan --</option></select>
               <span class="form-hint">Saluran tempat bot menyambut member baru</span>
             </div>
 
@@ -1105,7 +1105,7 @@
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">Boost Channel ID</label>
-              <input type="text" id="cfg_boost_channel_id" class="dash-input" placeholder="ID Channel Pengumuman Boost">
+              <select id="cfg_boost_channel_id" class="dash-input"><option value="">-- Pilih Kanal Boost --</option></select>
             </div>
 
             <div class="form-group">
@@ -1148,13 +1148,13 @@
 
             <div class="form-group">
               <label class="form-label">Audit Log Channel ID</label>
-              <input type="text" id="cfg_log_channel_id" class="dash-input" placeholder="ID Channel Log Tindakan">
+              <select id="cfg_log_channel_id" class="dash-input"><option value="">-- Pilih Kanal Log Tindakan --</option></select>
               <span class="form-hint">Merekap kick, ban, warn, mute</span>
             </div>
 
             <div class="form-group">
               <label class="form-label">Mod Panel Channel ID</label>
-              <input type="text" id="cfg_mod_panel_channel_id" class="dash-input" placeholder="ID Channel Khusus Mod Panel">
+              <select id="cfg_mod_panel_channel_id" class="dash-input"><option value="">-- Pilih Kanal Mod Panel --</option></select>
               <span class="form-hint">Tempat tombol mod panel aktif</span>
             </div>
           </div>
@@ -1457,14 +1457,45 @@
             <span class="cmd-pill" onclick="pickCommand('!botinfo')">!botinfo</span>
           </div>
 
-          <div class="form-grid-2" style="margin-bottom: 12px;">
+          <div class="form-grid-2" style="margin-bottom: 14px;">
             <div class="form-group">
-              <label class="form-label">Perintah Bot (Command)</label>
-              <input type="text" id="cmd_input" class="dash-input" style="font-family: var(--font-mono);" placeholder="Contoh: !clear 20 atau !help">
+              <label class="form-label">Katalog Perintah Bot</label>
+              <select id="cmd_action_select" class="dash-input" onchange="onCommandSelectChange()">
+                <option value="clear" selected>🗑️ Hapus Pesan Massal (Clear)</option>
+                <option value="slowmode">⏱️ Atur Slowmode Kanal</option>
+                <option value="lock">🔒 Kunci Kanal Teks (Lock)</option>
+                <option value="unlock">🔓 Buka Kunci Kanal (Unlock)</option>
+                <option value="say">📢 Kirim Pesan Bot (Say)</option>
+                <option value="ping">⚡ Cek Latensi & Status Bot (Ping)</option>
+                <option value="custom">⌨️ Perintah Kustom (Ketik Manual)</option>
+              </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Target Channel ID (Opsional)</label>
-              <input type="text" id="cmd_target_channel" class="dash-input" style="font-family: var(--font-mono);" placeholder="ID Channel tujuan eksekusi">
+              <label class="form-label">Target Kanal Discord</label>
+              <select id="cmd_target_channel" class="dash-input">
+                <option value="">-- Pilih Kanal Tujuan --</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="cmd_params_container" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px; margin-bottom: 16px;">
+            <div id="cmd_param_amount_wrap" class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Jumlah Pesan yang Dihapus (1 - 100)</label>
+              <input type="number" id="cmd_param_amount" class="dash-input" value="10" min="1" max="100" placeholder="10">
+              <span class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">Bot akan menghapus riwayat pesan secara instan dan bersih tanpa memposting teks perintah mentah.</span>
+            </div>
+            <div id="cmd_param_slowmode_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+              <label class="form-label">Durasi Slowmode (Detik)</label>
+              <input type="number" id="cmd_param_seconds" class="dash-input" value="5" min="0" max="21600" placeholder="5">
+              <span class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">Ketik 0 untuk mematikan slowmode pada kanal yang dipilih.</span>
+            </div>
+            <div id="cmd_param_message_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+              <label class="form-label">Isi Pesan Teks</label>
+              <textarea id="cmd_param_message" class="dash-input" rows="2" placeholder="Tuliskan pesan yang akan diposting bot ke kanal..."></textarea>
+            </div>
+            <div id="cmd_param_custom_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+              <label class="form-label">Sintaks Perintah Bebas</label>
+              <input type="text" id="cmd_param_custom" class="dash-input" style="font-family: var(--font-mono);" placeholder="Contoh: !rank @member atau ?help">
             </div>
           </div>
 
@@ -1783,6 +1814,7 @@
 
     // 3. Switch Screen & Select Guild
     function selectGuildToManage(guildId, guildName) {
+      loadGuildChannels(guildId);
       currentGuildId = guildId;
       currentGuildName = guildName || `Server #${guildId}`;
 
@@ -2054,7 +2086,171 @@
       .catch(err => alert('Error pengiriman: ' + err));
     }
 
+        // Channel Dropdowns & Guild Channels Loader
+    let guildChannelsList = [];
+
+    async function loadGuildChannels(guildId) {
+      if (!guildId) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/bot/guild/${guildId}/channels`);
+        const data = await res.json();
+        if (data && data.status === 'success' && Array.isArray(data.channels)) {
+          guildChannelsList = data.channels;
+          renderGuildChannelDropdowns();
+        }
+      } catch (err) {
+        console.warn('Gagal mengambil daftar channel:', err);
+      }
+    }
+
+    function renderGuildChannelDropdowns() {
+      const channelSelectIds = [
+        'cfg_welcome_channel_id',
+        'cfg_boost_channel_id',
+        'cfg_log_channel_id',
+        'cfg_mod_panel_channel_id',
+        'cmd_target_channel'
+      ];
+
+      channelSelectIds.forEach(selectId => {
+        const el = document.getElementById(selectId);
+        if (!el) return;
+        const currentVal = el.value;
+
+        let html = '<option value="">-- Pilih Kanal Discord --</option>';
+        const textChannels = guildChannelsList.filter(c => c.type_name === 'text');
+        const voiceChannels = guildChannelsList.filter(c => c.type_name === 'voice');
+
+        if (textChannels.length > 0) {
+          html += '<optgroup label="Kanal Teks & Pengumuman">';
+          textChannels.forEach(c => {
+            html += `<option value="${c.id}"># ${c.name} (${c.id})</option>`;
+          });
+          html += '</optgroup>';
+        }
+
+        if (voiceChannels.length > 0) {
+          html += '<optgroup label="Kanal Suara">';
+          voiceChannels.forEach(c => {
+            html += `<option value="${c.id}">🔊 ${c.name} (${c.id})</option>`;
+          });
+          html += '</optgroup>';
+        }
+
+        el.innerHTML = html;
+        if (currentVal) {
+          el.value = currentVal;
+          if (!el.value) {
+            // Keep existing saved ID if not found in list
+            const opt = document.createElement('option');
+            opt.value = currentVal;
+            opt.textContent = `Channel ID: ${currentVal}`;
+            el.appendChild(opt);
+            el.value = currentVal;
+          }
+        }
+      });
+    }
+
+    function onCommandSelectChange() {
+      const action = document.getElementById('cmd_action_select').value;
+      const amountWrap = document.getElementById('cmd_param_amount_wrap');
+      const slowmodeWrap = document.getElementById('cmd_param_slowmode_wrap');
+      const messageWrap = document.getElementById('cmd_param_message_wrap');
+      const customWrap = document.getElementById('cmd_param_custom_wrap');
+
+      amountWrap.style.display = (action === 'clear') ? 'block' : 'none';
+      slowmodeWrap.style.display = (action === 'slowmode') ? 'block' : 'none';
+      messageWrap.style.display = (action === 'say') ? 'block' : 'none';
+      customWrap.style.display = (action === 'custom') ? 'block' : 'none';
+    }
+
     // 8. Remote Console & Command Runner
+    function pickCommand(cmd) {
+      const customWrap = document.getElementById('cmd_param_custom_wrap');
+      document.getElementById('cmd_action_select').value = 'custom';
+      onCommandSelectChange();
+      document.getElementById('cmd_param_custom').value = cmd;
+    }
+
+    function dispatchBotCommandNow() {
+      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
+      const action = document.getElementById('cmd_action_select').value;
+      const ch = (document.getElementById('cmd_target_channel').value || '').trim();
+
+      let cmd = '';
+      if (action === 'clear') {
+        const amt = document.getElementById('cmd_param_amount').value || '10';
+        cmd = `clear ${amt}`;
+        if (!ch) {
+          alert('Harap pilih Target Kanal Discord terlebih dahulu untuk menghapus pesan.');
+          return;
+        }
+      } else if (action === 'slowmode') {
+        const sec = document.getElementById('cmd_param_seconds').value || '5';
+        cmd = `slowmode ${sec}`;
+        if (!ch) {
+          alert('Harap pilih Target Kanal Discord untuk mengatur slowmode.');
+          return;
+        }
+      } else if (action === 'lock') {
+        cmd = 'lock';
+        if (!ch) {
+          alert('Harap pilih Target Kanal Discord yang akan dikunci.');
+          return;
+        }
+      } else if (action === 'unlock') {
+        cmd = 'unlock';
+        if (!ch) {
+          alert('Harap pilih Target Kanal Discord yang akan dibuka.');
+          return;
+        }
+      } else if (action === 'say') {
+        const msg = (document.getElementById('cmd_param_message').value || '').trim();
+        if (!msg) {
+          alert('Masukkan isi pesan yang akan diposting bot.');
+          return;
+        }
+        if (!ch) {
+          alert('Harap pilih Target Kanal Discord tujuan pesan.');
+          return;
+        }
+        cmd = `say ${msg}`;
+      } else if (action === 'ping') {
+        cmd = 'ping';
+      } else if (action === 'custom') {
+        cmd = (document.getElementById('cmd_param_custom').value || '').trim();
+        if (!cmd) {
+          alert('Masukkan sintaks perintah bot.');
+          return;
+        }
+      }
+
+      fetch(`${API_BASE}/api/admin/bot-command/dispatch`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        body: JSON.stringify({
+          token: token,
+          command: cmd,
+          guild_id: currentGuildId,
+          channel_id: ch,
+          issuer: 'Web Panel (' + currentGuildName + ')'
+        })
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (res.status === 'success') {
+          showToast('⚡ Perintah berhasil dikirim ke bot!');
+          loadCommandLogs();
+        } else {
+          alert('Gagal dispatch: ' + (res.message || 'Periksa token'));
+        }
+      })
+      .catch(err => alert('Error dispatch: ' + err));
+    }
     function pickCommand(cmd) {
       document.getElementById('cmd_input').value = cmd;
     }
