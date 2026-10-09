@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RTMBOT Control Center | Pilih Server &amp; Konfigurasi Lengkap</title>
+  <title>RTMBOT Control Center | Portal Manajemen Server Discord</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,27 +11,32 @@
   
   <style>
     :root {
-      --bg-base: #0B0F19;
-      --bg-surface: #111827;
-      --bg-card: #161F30;
-      --bg-card-hover: #1E293B;
-      --bg-input: #0D1321;
-      --border-subtle: #222F43;
-      --border-highlight: #334460;
+      --bg-base: #090D16;
+      --bg-surface: #0F172A;
+      --bg-card: #152033;
+      --bg-card-hover: #1A273D;
+      --bg-input: #0B111D;
+      --border-subtle: #1F2C40;
+      --border-highlight: #2C3E5A;
       --text-main: #F8FAFC;
       --text-muted: #94A3B8;
       --text-faint: #64748B;
       --blurple: #5865F2;
       --blurple-hover: #4752C4;
-      --blurple-subtle: rgba(88, 101, 242, 0.15);
+      --blurple-subtle: rgba(88, 101, 242, 0.12);
       --emerald: #10B981;
       --emerald-subtle: rgba(16, 185, 129, 0.12);
       --amber: #F59E0B;
       --amber-subtle: rgba(245, 158, 11, 0.12);
       --rose: #EF4444;
-      --font-display: 'Plus Jakarta Sans', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --rose-subtle: rgba(239, 68, 68, 0.12);
+      --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,8 +54,8 @@
 
     /* Top Navigation Bar */
     .dash-header {
-      background: rgba(17, 24, 39, 0.92);
-      backdrop-filter: blur(14px);
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
@@ -71,595 +76,467 @@
     }
 
     .brand-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
       background: var(--blurple);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
       color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.35);
       flex-shrink: 0;
     }
 
-    .brand-info h1 {
+    .brand-text h1 {
       font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: -0.2px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
     }
 
-    .brand-info span {
+    .brand-text p {
       font-size: 0.75rem;
       color: var(--text-muted);
-    }
-
-    .header-center {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .server-switcher-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(88, 101, 242, 0.12);
-      border: 1px solid rgba(88, 101, 242, 0.3);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #C7D2FE;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .server-switcher-badge:hover {
-      background: rgba(88, 101, 242, 0.2);
-      border-color: var(--blurple);
-      color: #FFFFFF;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
-    .btn-dash {
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
-      background: #1A2436;
-      color: #E2E8F0;
-      text-decoration: none;
+    .badge-status {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--emerald-subtle);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.25);
     }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--emerald);
+    }
+
+    .user-profile-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 5px 12px 5px 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+
+    .user-avatar-mini {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--border-subtle);
+    }
+
+    .user-name-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .user-role-badge {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--blurple-subtle);
+      color: var(--blurple);
+    }
+
+    .btn-dash {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
     .btn-dash:hover {
-      background: #243048;
-      color: #FFFFFF;
+      background: var(--bg-card-hover);
       border-color: var(--border-highlight);
     }
 
-    .btn-discord-login {
+    .btn-dash-primary {
       background: var(--blurple);
       color: #FFFFFF;
-      border: none;
+      border-color: var(--blurple);
     }
-    .btn-discord-login:hover {
+
+    .btn-dash-primary:hover {
       background: var(--blurple-hover);
+      border-color: var(--blurple-hover);
     }
 
-    .user-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #1A2436;
-      border: 1px solid var(--border-subtle);
-      padding: 4px 10px 4px 6px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
+    .btn-dash-danger {
+      background: var(--rose-subtle);
+      color: var(--rose);
+      border-color: rgba(239, 68, 68, 0.25);
     }
 
-    .user-avatar-img {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      object-fit: cover;
+    .btn-dash-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
     }
 
-    /* Main Container */
+    /* Layout Container */
     .dash-container {
-      max-width: 1200px;
+      max-width: 1240px;
       width: 100%;
       margin: 0 auto;
-      padding: 28px 20px 90px;
+      padding: 24px 20px 80px;
       flex: 1;
     }
 
-    /* Screen Transitions */
+    /* View Screens */
     .view-screen {
       display: none;
     }
     .view-screen.active {
       display: block;
-      animation: fadeIn 0.2s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
-    /* =========================================
-       VIEW 1: SERVER SELECTION SCREEN
-       ========================================= */
-    .guild-select-hero {
-      margin-bottom: 28px;
-      text-align: center;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .guild-select-hero h2 {
-      font-family: var(--font-display);
-      font-size: 1.85rem;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      margin-bottom: 8px;
-    }
-    .guild-select-hero p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Notice & Alert */
-    .alert-banner {
-      background: rgba(245, 158, 11, 0.08);
-      border: 1px solid rgba(245, 158, 11, 0.35);
-      border-radius: 12px;
-      padding: 16px 20px;
+    /* Server Selection Screen */
+    .section-lead {
       margin-bottom: 24px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      color: #FEF3C7;
-      font-size: 0.88rem;
-    }
-    .alert-banner strong {
-      color: #FBBF24;
     }
 
-    /* Search & Quick ID Bar */
-    .search-filter-bar {
+    .section-lead h2 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      margin-bottom: 4px;
+    }
+
+    .section-lead p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    .guild-filter-bar {
       display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 26px;
-      align-items: center;
-      justify-content: space-between;
     }
-    .search-box-wrap {
+
+    .guild-search-input {
       flex: 1;
-      min-width: 280px;
-      position: relative;
-    }
-    .search-input {
-      width: 100%;
-      height: 44px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 8px 16px 8px 40px;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-    .search-input:focus {
-      border-color: var(--blurple);
-    }
-    .search-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-faint);
+      min-width: 240px;
     }
 
-    .direct-id-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .id-input {
-      width: 220px;
-      height: 44px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 8px 14px;
-      color: var(--text-main);
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      outline: none;
-    }
-    .id-input:focus {
-      border-color: var(--blurple);
-    }
-
-    /* Guilds Card Grid */
-    .guilds-grid {
+    .guild-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
     }
 
     .guild-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 20px;
+      border-radius: var(--radius-lg);
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 16px;
-      transition: all 0.2s ease;
-      position: relative;
+      gap: 14px;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+      cursor: pointer;
     }
+
     .guild-card:hover {
-      border-color: var(--border-highlight);
       background: var(--bg-card-hover);
+      border-color: var(--border-highlight);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
     .guild-card-top {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .guild-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: #1E293B;
+    .guild-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: var(--font-display);
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #94A3B8;
-      border: 1px solid var(--border-highlight);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-muted);
       flex-shrink: 0;
-      overflow: hidden;
-    }
-    .guild-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
 
-    .guild-card-info {
-      flex: 1;
-      min-width: 0;
+    .guild-info h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 3px;
     }
-    .guild-name {
-      font-family: var(--font-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 4px;
-    }
-    .guild-meta {
-      font-size: 0.76rem;
+
+    .guild-info p {
+      font-size: 0.75rem;
       color: var(--text-faint);
       font-family: var(--font-mono);
     }
 
-    .guild-badges-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .badge-pill {
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .badge-perm-owner {
-      background: rgba(245, 158, 11, 0.15);
-      color: #FBBF24;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    .badge-perm-admin {
-      background: rgba(88, 101, 242, 0.15);
-      color: #A5B4FC;
-      border: 1px solid rgba(88, 101, 242, 0.3);
-    }
-    .badge-perm-manager {
-      background: rgba(16, 185, 129, 0.15);
-      color: #6EE7B7;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-status-online {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34D399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-status-absent {
-      background: rgba(100, 116, 139, 0.15);
-      color: #94A3B8;
-      border: 1px solid rgba(100, 116, 139, 0.3);
-    }
-
-    .guild-actions-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .btn-manage-guild {
-      flex: 1;
-      height: 38px;
-      background: var(--blurple);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-    .btn-manage-guild:hover {
-      background: var(--blurple-hover);
-      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
-    }
-
-    .btn-invite-guild {
-      flex: 1;
-      height: 38px;
-      background: transparent;
-      color: #FBBF24;
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      border-radius: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.15s ease;
-    }
-    .btn-invite-guild:hover {
-      background: rgba(245, 158, 11, 0.12);
-      border-color: #F59E0B;
-    }
-
-    /* =========================================
-       VIEW 2: GUILD WORKSPACE SCREEN
-       ========================================= */
-    .workspace-header-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
+    .guild-card-bottom {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
     }
 
-    .ws-server-identity {
+    .guild-role-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Workspace Screen */
+    .workspace-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px 22px;
       display: flex;
+      justify-content: space-between;
       align-items: center;
       gap: 16px;
-    }
-
-    .ws-server-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: #1E293B;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 800;
-      border: 1px solid var(--border-highlight);
-      overflow: hidden;
-    }
-    .ws-server-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .ws-server-title h2 {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.2px;
-    }
-
-    .ws-server-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 4px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
-    .btn-change-guild {
-      background: #1E293B;
-      color: #E2E8F0;
-      border: 1px solid var(--border-highlight);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
+    .workspace-guild-profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .workspace-guild-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .workspace-guild-meta h2 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .workspace-guild-meta p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.15s ease;
-    }
-    .btn-change-guild:hover {
-      background: #2D3B52;
-      color: #FFFFFF;
-      border-color: var(--blurple);
     }
 
-    /* Tabs Navigation */
-    .dash-tabs-bar {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 24px;
-      padding-bottom: 4px;
-      scrollbar-width: thin;
-    }
-
-    .tab-btn {
+    .copy-id-btn {
       background: transparent;
       border: none;
-      color: var(--text-muted);
-      font-family: var(--font-display);
-      font-size: 0.88rem;
+      color: var(--text-faint);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-decoration: underline;
+    }
+
+    .copy-id-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Workspace Tabs */
+    .workspace-tabs {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 22px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab-item {
+      font-family: var(--font-body);
+      font-size: 0.84rem;
       font-weight: 600;
       padding: 10px 16px;
-      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
       cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-    .tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .tab-btn.active {
-      color: #FFFFFF;
-      background: var(--blurple);
-      box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
     }
 
-    .tab-pane {
+    .tab-item:hover {
+      color: var(--text-main);
+    }
+
+    .tab-item.active {
+      color: var(--blurple);
+      border-color: var(--blurple);
+    }
+
+    .tab-content {
       display: none;
     }
-    .tab-pane.active {
+    .tab-content.active {
       display: block;
-      animation: fadeIn 0.2s ease;
     }
 
-    /* Forms and Panels */
+    /* Panel Box & Cards */
     .panel-box {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 20px;
     }
 
     .panel-box-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--border-subtle);
+      gap: 12px;
     }
+
     .panel-box-header h3 {
       font-family: var(--font-display);
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
     }
+
     .panel-box-header p {
       font-size: 0.82rem;
       color: var(--text-muted);
-      margin-top: 2px;
     }
 
+    /* Forms & Inputs */
     .form-grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
+      gap: 16px;
+      margin-bottom: 16px;
     }
+
     .form-grid-3 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
+      margin-bottom: 16px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      margin-bottom: 14px;
     }
+
     .form-label {
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      color: #E2E8F0;
+      color: var(--text-main);
     }
+
     .form-hint {
       font-size: 0.74rem;
-      color: var(--text-faint);
+      color: var(--text-muted);
+      line-height: 1.4;
     }
 
-    .dash-input {
-      width: 100%;
-      min-height: 42px;
+    .dash-input, .dash-select, .dash-textarea {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: var(--text-main);
       background: var(--bg-input);
       border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 8px 12px;
-      color: var(--text-main);
-      font-family: var(--font-body);
-      font-size: 0.88rem;
+      border-radius: var(--radius-md);
+      padding: 9px 12px;
+      width: 100%;
       outline: none;
-      transition: border-color 0.15s ease;
-    }
-    .dash-input:focus {
-      border-color: var(--blurple);
-    }
-    .dash-textarea {
-      min-height: 80px;
-      resize: vertical;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    /* Switch Component */
+    .dash-input:focus, .dash-select:focus, .dash-textarea:focus {
+      border-color: var(--blurple);
+      box-shadow: 0 0 0 2px var(--blurple-subtle);
+    }
+
+    .dash-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Custom Toggles */
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+    }
+
+    .toggle-info h4 {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .toggle-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
     .switch {
       position: relative;
       display: inline-block;
@@ -667,859 +544,891 @@
       height: 24px;
       flex-shrink: 0;
     }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
-      position: absolute; cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #2D3748;
-      transition: .2s ease;
-      border-radius: 999px;
-      border: 1px solid #4A5568;
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
     }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--border-subtle);
+      transition: .2s;
+      border-radius: 24px;
+    }
+
     .slider:before {
-      position: absolute; content: "";
-      height: 16px; width: 16px; left: 3px; bottom: 3px;
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
       background-color: #FFFFFF;
-      transition: .2s ease;
+      transition: .2s;
       border-radius: 50%;
     }
+
     input:checked + .slider {
-      background-color: var(--emerald);
-      border-color: var(--emerald);
+      background-color: var(--blurple);
     }
+
     input:checked + .slider:before {
       transform: translateX(20px);
     }
 
-    /* Quick Command Pills */
-    .command-pills {
+    /* Remote Console & Command Runner */
+    .cmd-quick-pills {
       display: flex;
-      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .cmd-pill {
-      background: #1E293B;
-      border: 1px solid var(--border-subtle);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: #93C5FD;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-    .cmd-pill:hover {
-      background: var(--blurple);
-      color: #FFFFFF;
-      border-color: var(--blurple);
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
-    /* Discord Embed Mockup 1:1 Preview */
-    .discord-mockup-wrap {
-      background: #313338;
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid #2B2D31;
-      font-family: 'Inter', sans-serif;
+    .cmd-pill {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 5px 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.15s ease, border-color 0.15s ease;
     }
-    .discord-msg-head {
+
+    .cmd-pill:hover {
+      color: var(--text-main);
+      border-color: var(--border-highlight);
+    }
+
+    .cmd-preview-box {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 8px;
-    }
-    .discord-avatar-fake {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--blurple);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #FFFFFF;
-      font-weight: 700;
-      font-size: 0.9rem;
-      overflow: hidden;
-    }
-    .discord-user-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .discord-bot-tag {
-      background: #5865F2;
-      color: #FFFFFF;
-      font-size: 0.65rem;
-      padding: 1px 4px;
-      border-radius: 4px;
-      font-weight: 700;
-    }
-    .discord-timestamp {
-      font-size: 0.72rem;
-      color: #949BA4;
-      font-weight: 400;
     }
 
-    .discord-embed-card {
-      background: #2B2D31;
-      border-left: 4px solid var(--blurple);
-      border-radius: 4px;
-      padding: 12px 16px;
-      margin-top: 6px;
-      max-width: 520px;
-    }
-    .discord-embed-author {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: #FFFFFF;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-    .discord-embed-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #00A8FC;
-      margin-bottom: 6px;
-    }
-    .discord-embed-desc {
-      font-size: 0.88rem;
-      color: #DBDEE1;
-      line-height: 1.4;
-      white-space: pre-wrap;
-    }
-    .discord-embed-footer {
+    .cmd-preview-label {
       font-size: 0.72rem;
-      color: #949BA4;
-      margin-top: 10px;
+      font-weight: 600;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    /* Channel Rules Table */
-    .rules-table {
+    .cmd-preview-code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--emerald);
+      word-break: break-all;
+    }
+
+    /* Table Styles */
+    .data-table-wrap {
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      background: var(--bg-surface);
+    }
+
+    .data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.84rem;
-    }
-    .rules-table th {
       text-align: left;
-      padding: 10px 12px;
-      background: #111827;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+    }
+
+    .data-table th {
+      padding: 10px 14px;
       font-weight: 600;
-    }
-    .rules-table td {
-      padding: 10px 12px;
+      color: var(--text-muted);
+      background: var(--bg-card);
       border-bottom: 1px solid var(--border-subtle);
+      white-space: nowrap;
     }
 
-    /* Command Log Card */
-    .cmd-log-card {
-      background: #0E1422;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 10px;
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .log-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
       font-family: var(--font-mono);
-      font-size: 0.82rem;
     }
-    .cmd-log-card-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
+    .log-badge-completed {
+      background: var(--emerald-subtle);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.25);
     }
-    .cmd-badge-pending { color: #FBBF24; }
-    .cmd-badge-running { color: #60A5FA; }
-    .cmd-badge-success { color: #34D399; }
-    .cmd-badge-failed { color: #F87171; }
+    .log-badge-pending {
+      background: var(--amber-subtle);
+      color: var(--amber);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+    .log-badge-failed {
+      background: var(--rose-subtle);
+      color: var(--rose);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
 
-    /* Sticky Save Action Bar */
-    .save-action-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(22, 31, 48, 0.95);
-      border: 1px solid var(--border-highlight);
-      border-radius: 14px;
-      padding: 14px 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    /* Sticky Action Bar */
+    .sticky-action-bar {
       position: sticky;
-      bottom: 24px;
+      bottom: 20px;
       z-index: 90;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-highlight);
+      border-radius: var(--radius-lg);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      margin-top: 24px;
     }
 
-    .btn-save-primary {
-      background: var(--emerald);
-      color: #FFFFFF;
-      font-family: var(--font-display);
-      font-size: 0.92rem;
-      font-weight: 700;
-      padding: 10px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.15s ease;
-    }
-    .btn-save-primary:hover {
-      background: #059669;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    .action-bar-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
     }
 
     /* Toast Notification */
-    .save-toast {
+    .toast-box {
       position: fixed;
-      bottom: 90px;
+      bottom: 24px;
       right: 24px;
-      background: var(--emerald);
-      color: #FFFFFF;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.88rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-      z-index: 999;
-      display: none;
-      animation: toastSlide 0.3s ease;
-    }
-    @keyframes toastSlide {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      background: var(--bg-card);
+      border: 1px solid var(--border-highlight);
+      color: var(--text-main);
+      padding: 12px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 500;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 200;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      pointer-events: none;
     }
 
+    .toast-box.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .dash-header { padding: 12px 16px; flex-wrap: wrap; }
-      .workspace-header-card { flex-direction: column; align-items: flex-start; }
-      .save-action-bar { flex-direction: column; gap: 12px; align-items: stretch; text-align: center; }
-      .btn-save-primary { justify-content: center; }
+      .dash-header { padding: 12px 16px; }
+      .dash-container { padding: 16px 14px 60px; }
+      .workspace-header { flex-direction: column; align-items: flex-start; }
+      .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; }
+      .sticky-action-bar { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
+  <!-- Top Header Navigation -->
   <header class="dash-header">
-    <div class="brand-group" onclick="showGuildSelectScreen()" style="cursor: pointer;">
-      <div class="brand-avatar">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-        </svg>
+    <a href="#" class="brand-group" onclick="showGuildSelectScreen(); return false;">
+      <div class="brand-avatar">R</div>
+      <div class="brand-text">
+        <h1>RTMBOT</h1>
+        <p>Control Center Portal</p>
       </div>
-      <div class="brand-info">
-        <h1>RTMBOT Panel</h1>
-        <span>Control Center &amp; Server Manager</span>
-      </div>
-    </div>
+    </a>
 
-    <!-- Center active server indicator -->
-    <div class="header-center" id="navServerIndicator" style="display: none;">
-      <div class="server-switcher-badge" onclick="showGuildSelectScreen()" title="Klik untuk mengganti server yang sedang dikelola">
-        <span>🔄 Ganti Server:</span>
-        <strong id="navCurrentServerName">Server Utama RTM</strong>
-      </div>
-    </div>
-
-    <!-- Actions Right -->
     <div class="header-actions">
-      <a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-dash" title="Undang Bot ke Server Discord">
-        <span>➕ Undang Bot</span>
-      </a>
-      <a href="/" class="btn-dash" title="Ke Beranda">
-        <span>🌐 Beranda Hub</span>
-      </a>
+      <span class="badge-status">
+        <span class="status-dot"></span>
+        Gateway Terhubung
+      </span>
 
-      <!-- Profile Area -->
-      <div id="userProfileArea">
-        <button type="button" class="btn-dash btn-discord-login" onclick="loginDiscordOAuth()">
-          <span>Masuk dengan Discord</span>
-        </button>
+      <div id="userProfileWrap" style="display: none;">
+        <div class="user-profile-pill">
+          <img id="userAvatarImg" class="user-avatar-mini" src="" alt="Avatar">
+          <span id="userNameTxt" class="user-name-text">Pengguna</span>
+          <span id="userRoleBadge" class="user-role-badge">Admin</span>
+        </div>
       </div>
+
+      <button type="button" id="loginBtn" class="btn-dash btn-dash-primary" onclick="loginDiscordOAuth()">
+        Login Discord
+      </button>
+      <button type="button" id="logoutBtn" class="btn-dash btn-dash-danger" style="display: none;" onclick="logoutDashboard()">
+        Keluar
+      </button>
     </div>
   </header>
 
+  <!-- Main Container -->
   <main class="dash-container">
 
-    <!-- ==============================================================
-         VIEW 1: SERVER SELECTION SCREEN (Pilih Server Discord Dulu)
-         ============================================================== -->
+    <!-- ================= VIEW 1: PILIH SERVER DISCORD ================= -->
     <section id="guildSelectView" class="view-screen active">
-      <div class="guild-select-hero">
-        <h2>Pilih Server Discord untuk Dikelola</h2>
-        <p>Pilih server tempat Anda memiliki izin <strong>Administrator</strong> atau <strong>Kelola Server (Manage Guild)</strong> untuk mulai mengonfigurasi fitur bot secara mandiri.</p>
+      <div class="section-lead">
+        <h2>Pilih Server yang Ingin Dikelola</h2>
+        <p>Daftar server Discord di mana akun Anda memiliki izin kelola (Administrator / Kelola Server) dan RTMBOT aktif terpasang.</p>
       </div>
 
-      <!-- Permission Warning Banner (Shown if user has no admin servers) -->
-      <div id="noPermissionAlert" class="alert-banner" style="display: none;">
-        <span style="font-size: 1.4rem;">⚠️</span>
-        <div>
-          <strong>Akses Server Terbatas:</strong> Akun Discord Anda saat ini belum memiliki izin <em>Administrator</em> atau <em>Kelola Server</em> di server tempat RTMBOT bergabung.
-          <div style="margin-top: 6px; font-size: 0.84rem; color: #FDE68A;">
-            • Pastikan Anda login dengan akun Discord yang memiliki role Admin.<br>
-            • Atau jika ini server baru, Anda dapat mengundang RTMBOT terlebih dahulu dengan mengklik tombol <strong>Undang Bot</strong> di bawah.
+      <div class="guild-filter-bar">
+        <input type="text" id="guildSearchInput" class="dash-input guild-search-input" placeholder="Cari nama atau ID server..." oninput="filterGuildCards()">
+        <button type="button" class="btn-dash" onclick="loadManageableGuilds()">
+          Muat Ulang Daftar
+        </button>
+      </div>
+
+      <div id="guildListGrid" class="guild-grid">
+        <div style="grid-column: 1 / -1; padding: 40px 20px; text-align: center; color: var(--text-muted);">
+          Memuat daftar server terhubung...
+        </div>
+      </div>
+
+      <div class="panel-box" style="margin-top: 32px;">
+        <div class="panel-box-header">
+          <div>
+            <h3>Akses Langsung Menggunakan Server ID</h3>
+            <p>Jika server tidak muncul dalam daftar filter di atas, masukkan Server ID secara manual untuk langsung membuka workspace.</p>
           </div>
         </div>
-      </div>
-
-      <!-- Search & Direct Guild ID Input -->
-      <div class="search-filter-bar">
-        <div class="search-box-wrap">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="guildSearchInput" class="search-input" placeholder="Cari nama atau ID server..." oninput="filterGuildCards()">
-        </div>
-
-        <div class="direct-id-box">
-          <input type="text" id="directGuildIdInput" class="id-input" placeholder="ID Server Langsung (Guild ID)...">
-          <button type="button" class="btn-dash" onclick="openDirectGuildId()">
-            <span>⚡ Kelola ID</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Guilds Cards Grid -->
-      <div class="guilds-grid" id="guildsCardGrid">
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-          Memuat daftar server Discord Anda...
+        <div style="display: flex; gap: 12px; max-width: 500px;">
+          <input type="text" id="directGuildIdInput" class="dash-input" placeholder="Contoh: 1039509114008649778">
+          <button type="button" class="btn-dash btn-dash-primary" onclick="openDirectGuildId()">Buka Workspace</button>
         </div>
       </div>
     </section>
 
-
-    <!-- ==============================================================
-         VIEW 2: GUILD WORKSPACE SCREEN (Granular Settings for Selected Server)
-         ============================================================== -->
+    <!-- ================= VIEW 2: SERVER WORKSPACE ================= -->
     <section id="guildWorkspaceView" class="view-screen">
       
-      <!-- Selected Server Identity Banner -->
-      <div class="workspace-header-card">
-        <div class="ws-server-identity">
-          <div class="ws-server-avatar" id="wsServerAvatar">
-            <span>RTM</span>
-          </div>
-          <div class="ws-server-title">
-            <h2 id="wsServerName">Server Utama RTM (Official)</h2>
-            <div class="ws-server-meta">
-              <span class="badge-pill badge-perm-admin" id="wsServerPermBadge">🛡️ Administrator</span>
-              <span class="badge-pill badge-status-online" id="wsBotStatusBadge">🟢 Bot Terhubung</span>
-              <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-faint);" id="wsServerIdBadge">ID: 1039509114008649778</span>
-            </div>
+      <!-- Workspace Server Bar -->
+      <div class="workspace-header">
+        <div class="workspace-guild-profile">
+          <img id="wsGuildIcon" class="workspace-guild-icon" src="" alt="Icon">
+          <div class="workspace-guild-meta">
+            <h2 id="wsGuildName">Nama Server Discord</h2>
+            <p>
+              ID: <span id="wsGuildId" style="font-family: var(--font-mono);">000000000000000000</span>
+              <button type="button" class="copy-id-btn" onclick="copyActiveGuildId()">Salin</button>
+              • <span class="badge-status" style="padding: 2px 8px;"><span class="status-dot"></span> Bot Aktif</span>
+            </p>
           </div>
         </div>
-
-        <button type="button" class="btn-change-guild" onclick="showGuildSelectScreen()">
-          <span>← Ganti Server</span>
-        </button>
+        <div>
+          <button type="button" class="btn-dash" onclick="showGuildSelectScreen()">
+            Ganti Server
+          </button>
+        </div>
       </div>
 
-      <!-- Tabs Bar -->
-      <div class="dash-tabs-bar">
-        <button type="button" class="tab-btn active" onclick="switchTab('tabModeration', this)">
-          <span>🛡️ Sentinel &amp; Moderasi</span>
+      <!-- Navigation Tabs -->
+      <nav class="workspace-tabs">
+        <button type="button" class="tab-item active" onclick="switchWorkspaceTab('tabModeration', this)">
+          Moderasi &amp; Server
         </button>
-        <button type="button" class="tab-btn" onclick="switchTab('tabWebhook', this)">
-          <span>📢 Webhook Studio &amp; Embed</span>
+        <button type="button" class="tab-item" onclick="switchWorkspaceTab('tabWebhook', this)">
+          Webhook &amp; Siaran
         </button>
-        <button type="button" class="tab-btn" onclick="switchTab('tabFeeds', this)">
-          <span>📡 Radar Konten &amp; Notif</span>
+        <button type="button" class="tab-item" onclick="switchWorkspaceTab('tabFeeds', this)">
+          Radar Konten &amp; Feeds
         </button>
-        <button type="button" class="tab-btn" onclick="switchTab('tabAI', this)">
-          <span>🧠 AI Persona &amp; Cyber</span>
+        <button type="button" class="tab-item" onclick="switchWorkspaceTab('tabAI', this)">
+          Gemini AI &amp; Cyber
         </button>
-        <button type="button" class="tab-btn" onclick="switchTab('tabVoice', this)">
-          <span>🔊 Temp Voice &amp; Kas</span>
+        <button type="button" class="tab-item" onclick="switchWorkspaceTab('tabVoice', this)">
+          Voice Hub &amp; Leveling
         </button>
-        <button type="button" class="tab-btn" onclick="switchTab('tabConsole', this)">
-          <span>💻 Remote Web Console</span>
+        <button type="button" class="tab-item" onclick="switchWorkspaceTab('tabConsole', this)">
+          Remote Bot Console
         </button>
-      </div>
+      </nav>
 
-      <!-- ================= TAB 1: MODERASI & SENTINEL ================= -->
-      <div id="tabModeration" class="tab-pane active">
-        
-        <!-- Welcome System -->
+      <!-- TAB 1: MODERASI & SERVER -->
+      <div id="tabModeration" class="tab-content active">
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>👋 Pengaturan Sambutan &amp; Perpisahan (Welcome &amp; Goodbye)</h3>
-              <p>Atur saluran dan pesan ketika member baru bergabung atau meninggalkan server.</p>
+              <h3>Pengaturan Kanal Server Utama</h3>
+              <p>Tentukan rute kanal Discord resmi untuk penyambutan member baru, notifikasi boost, log audit, dan mod panel.</p>
             </div>
           </div>
 
           <div class="form-grid-2">
             <div class="form-group">
-              <label class="form-label">Welcome Channel ID</label>
-              <select id="cfg_welcome_channel_id" class="dash-input"><option value="">-- Pilih Kanal Sambutan --</option></select>
-              <span class="form-hint">Saluran tempat bot menyambut member baru</span>
+              <label class="form-label">Kanal Sambutan (Welcome Channel)</label>
+              <select id="cfg_welcome_channel_id" class="dash-select">
+                <option value="">-- Pilih Kanal Sambutan --</option>
+              </select>
             </div>
+            <div class="form-group">
+              <label class="form-label">Kanal Notifikasi Boost</label>
+              <select id="cfg_boost_channel_id" class="dash-select">
+                <option value="">-- Pilih Kanal Boost --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kanal Audit Log &amp; Spam</label>
+              <select id="cfg_log_channel_id" class="dash-select">
+                <option value="">-- Pilih Kanal Log --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kanal Panel Moderasi (Mod Panel)</label>
+              <select id="cfg_mod_panel_channel_id" class="dash-select">
+                <option value="">-- Pilih Kanal Mod Panel --</option>
+              </select>
+            </div>
+          </div>
 
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Role Otomatis Member Baru (Auto Role ID)</label>
+              <input type="text" id="cfg_auto_role_id" class="dash-input" placeholder="ID Role Discord...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Batas Ambang Jebakan Spam (Spam Trap Threshold)</label>
+              <input type="number" id="cfg_trap_threshold" class="dash-input" value="5" min="1" max="20" placeholder="5">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <div>
+              <h3>Pesan Sambutan &amp; Perpisahan</h3>
+              <p>Kustomisasi teks sambutan dan kartu selamat datang bagi member yang baru bergabung ke server.</p>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label">Judul Embed Sambutan</label>
-              <input type="text" id="cfg_welcome_embed_title" class="dash-input" placeholder="Contoh: Selamat Datang di Komunitas!">
-              <span class="form-hint">Judul embed kartu ucapan selamat datang</span>
+              <input type="text" id="cfg_welcome_embed_title" class="dash-input" placeholder="Selamat Datang di Server!">
             </div>
-
             <div class="form-group">
-              <label class="form-label">Nama Pengirim Embed (Sender Name)</label>
-              <input type="text" id="cfg_welcome_sender_name" class="dash-input" placeholder="Contoh: Tim Moderator RTM">
-              <span class="form-hint">Nama yang tampil sebagai footer kartu welcome</span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">URL Banner Gambar Sambutan</label>
-              <input type="text" id="cfg_welcome_banner_url" class="dash-input" placeholder="https://cdn.discordapp.com/.../banner.png">
-              <span class="form-hint">Gambar besar yang ditampilkan di bawah teks welcome</span>
+              <label class="form-label">Nama Pengirim Sambutan</label>
+              <input type="text" id="cfg_welcome_sender_name" class="dash-input" placeholder="Tim Moderator Server">
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 16px;">
-            <label class="form-label">Pesan Sambutan (Welcome Message)</label>
-            <textarea id="cfg_welcome_message" class="dash-input dash-textarea" placeholder="Selamat datang {user} di server {guild_name}! Silakan baca peraturan di channel rules."></textarea>
-            <span class="form-hint">Gunakan variabel <code>{user}</code> untuk mention dan <code>{guild_name}</code> untuk nama server.</span>
+          <div class="form-group">
+            <label class="form-label">URL Banner Sambutan (Gambar)</label>
+            <input type="text" id="cfg_welcome_banner_url" class="dash-input" placeholder="https://cdn.discordapp.com/...">
           </div>
 
-          <div class="form-group" style="margin-top: 16px;">
-            <label class="form-label">Pesan Perpisahan (Goodbye Message)</label>
-            <textarea id="cfg_goodbye_message" class="dash-input dash-textarea" placeholder="Sampai jumpa {user}! Terima kasih atas kebersamaannya."></textarea>
+          <div class="form-group">
+            <label class="form-label">Teks Pesan Sambutan</label>
+            <textarea id="cfg_welcome_message" class="dash-textarea" placeholder="Selamat datang {user} di {server}! Pastikan membaca aturan server..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Teks Pesan Perpisahan (Goodbye Message)</label>
+            <textarea id="cfg_goodbye_message" class="dash-textarea" placeholder="Selamat jalan {user}, terima kasih telah berkontribusi di komunitas ini..."></textarea>
           </div>
         </div>
 
-        <!-- Server Booster Appreciation -->
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>🚀 Apresiasi Server Booster</h3>
-              <p>Kirimkan apresiasi khusus saat ada member yang melakukan Boost server.</p>
+              <h3>Proteksi Auto-Moderasi Server</h3>
+              <p>Sistem pertahanan otomatis untuk memblokir spam chat, tautan berbahaya, dan kata terlarang.</p>
             </div>
           </div>
 
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Boost Channel ID</label>
-              <select id="cfg_boost_channel_id" class="dash-input"><option value="">-- Pilih Kanal Boost --</option></select>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Anti-Spam Cepat</h4>
+              <p>Mendeteksi dan menghapus pesan spam repetitif secara otomatis.</p>
             </div>
-
-            <div class="form-group">
-              <label class="form-label">Judul Embed Boost</label>
-              <input type="text" id="cfg_boost_embed_title" class="dash-input" placeholder="TERIMA KASIH SERVER BOOSTER!">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Nama Pengirim Boost</label>
-              <input type="text" id="cfg_boost_sender_name" class="dash-input" placeholder="Tim Server">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">URL Gambar Banner Boost</label>
-              <input type="text" id="cfg_boost_image_url" class="dash-input" placeholder="https://...">
-            </div>
+            <label class="switch">
+              <input type="checkbox" id="cfg_automod_anti_spam" checked>
+              <span class="slider"></span>
+            </label>
           </div>
 
-          <div class="form-group" style="margin-top: 16px;">
-            <label class="form-label">Pesan Apresiasi Boost</label>
-            <textarea id="cfg_boost_message" class="dash-input dash-textarea" placeholder="Terima kasih banyak, {user}, telah menjadi Server Booster di {guild_name}! ❤️"></textarea>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Filter Link Ilegal &amp; Phishing</h4>
+              <p>Mencegah penyebaran link mencurigakan dan undangan server liar.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="cfg_automod_filter_links" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Filter Kata Terlarang (Badwords)</h4>
+              <p>Menyaring kata-kata kasar dan ujaran kebencian di kanal umum.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="cfg_automod_filter_badwords" checked>
+              <span class="slider"></span>
+            </label>
           </div>
         </div>
 
-        <!-- Core Security & Auto-Roles -->
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>🛡️ Keamanan &amp; Peran Otomatis (Auto-Role &amp; Audit Logs)</h3>
-              <p>Konfigurasi role otomatis untuk member baru dan saluran pencatatan audit log.</p>
+              <h3>Aturan Khusus per Kanal (Channel Rules)</h3>
+              <p>Atur pembatasan khusus pada kanal tertentu (larang bot, larang media, larang URL, atau hapus otomatis).</p>
             </div>
+            <button type="button" class="btn-dash" onclick="addNewChannelRuleRow()">Tambah Aturan</button>
           </div>
 
-          <div class="form-grid-3">
-            <div class="form-group">
-              <label class="form-label">Auto-Role ID</label>
-              <input type="text" id="cfg_auto_role_id" class="dash-input" placeholder="ID Role Member Baru">
-              <span class="form-hint">Diberikan instan saat join</span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Audit Log Channel ID</label>
-              <select id="cfg_log_channel_id" class="dash-input"><option value="">-- Pilih Kanal Log Tindakan --</option></select>
-              <span class="form-hint">Merekap kick, ban, warn, mute</span>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Mod Panel Channel ID</label>
-              <select id="cfg_mod_panel_channel_id" class="dash-input"><option value="">-- Pilih Kanal Mod Panel --</option></select>
-              <span class="form-hint">Tempat tombol mod panel aktif</span>
-            </div>
-          </div>
-
-          <!-- Auto-Mod Switches -->
-          <div style="margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border-subtle);">
-            <div class="form-label" style="margin-bottom: 12px;">Filter Sentinel Auto-Mod Server</div>
-            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                <input type="checkbox" id="cfg_automod_anti_spam" checked>
-                <span>Anti-Spam Filter (Deteksi flood chat beruntun)</span>
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                <input type="checkbox" id="cfg_automod_filter_links" checked>
-                <span>Anti-Phishing Links (Hapus link mencurigakan)</span>
-              </label>
-              <label style="display: flex; align-items: center; gap: 8px; font-size: 0.88rem; cursor: pointer;">
-                <input type="checkbox" id="cfg_automod_filter_badwords" checked>
-                <span>Filter Kata Kasar (Bad words auto-delete)</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Channel Rules Table -->
-        <div class="panel-box">
-          <div class="panel-box-header">
-            <div>
-              <h3>🔒 Aturan Khusus Saluran (Per-Channel Rules)</h3>
-              <p>Terapkan restriksi bot, prefix, media, url, atau auto-delete pada channel spesifik.</p>
-            </div>
-            <button type="button" class="btn-dash" onclick="addNewChannelRuleRow()">
-              <span>➕ Tambah Channel Rule</span>
-            </button>
-          </div>
-
-          <div style="overflow-x: auto;">
-            <table class="rules-table">
+          <div class="data-table-wrap">
+            <table class="data-table" id="channelRulesTable">
               <thead>
                 <tr>
-                  <th>Channel ID</th>
+                  <th>Kanal Discord</th>
                   <th>Blokir Bot</th>
                   <th>Blokir Media</th>
                   <th>Blokir Prefix</th>
                   <th>Blokir URL</th>
-                  <th>Auto-Hapus (Detik)</th>
+                  <th>Auto Delete (Detik)</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
-              <tbody id="channelRulesTableBody">
+              <tbody id="channelRulesBody">
+                <tr>
+                  <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 18px;">
+                    Belum ada aturan khusus kanal. Klik "Tambah Aturan" untuk memasang aturan baru.
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-
       </div>
 
-      <!-- ================= TAB 2: WEBHOOK STUDIO & EMBED ================= -->
-      <div id="tabWebhook" class="tab-pane">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px;">
-          
-          <!-- Webhook Dispatch Form -->
-          <div class="panel-box" style="margin-bottom: 0;">
-            <div class="panel-box-header">
-              <div>
-                <h3>📢 Webhook Dispatcher</h3>
-                <p>Kirim pengumuman langsung ke channel server melalui Webhook Discord.</p>
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label class="form-label">Discord Webhook URL</label>
-              <input type="url" id="wb_target_url" class="dash-input" placeholder="https://discord.com/api/webhooks/...">
-              <span class="form-hint">Hanya menerima URL resmi domain <code>discord.com</code></span>
-            </div>
-
-            <div class="form-grid-2" style="margin-bottom: 14px;">
-              <div class="form-group">
-                <label class="form-label">Nama Pengirim (Bot Name)</label>
-                <input type="text" id="wb_sender_name" class="dash-input" value="RTMBOT Official" oninput="updateEmbedPreview()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Avatar URL Pengirim</label>
-                <input type="text" id="wb_avatar_url" class="dash-input" placeholder="https://cdn.discordapp.com/..." oninput="updateEmbedPreview()">
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label class="form-label">Pesan Biasa (Teks di luar embed)</label>
-              <input type="text" id="wb_content_text" class="dash-input" placeholder="Contoh: @everyone Pengumuman baru!" oninput="updateEmbedPreview()">
-            </div>
-
-            <div class="panel-box-header" style="margin-top: 18px;">
-              <h4>🎨 Embed Customizer</h4>
-            </div>
-
-            <div class="form-grid-2" style="margin-bottom: 14px;">
-              <div class="form-group">
-                <label class="form-label">Judul Embed (Title)</label>
-                <input type="text" id="wb_embed_title" class="dash-input" value="PENGUMUMAN RESMI SERVER" oninput="updateEmbedPreview()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Warna Aksen Embed</label>
-                <input type="color" id="wb_embed_color" style="height: 42px; width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle); background: var(--bg-input); cursor: pointer;" value="#5865F2" oninput="updateEmbedPreview()">
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label class="form-label">Isi Deskripsi Embed (Markdown didukung)</label>
-              <textarea id="wb_embed_desc" class="dash-input dash-textarea" placeholder="Tuliskan isi pengumuman lengkap..." oninput="updateEmbedPreview()">Halo semua! Ini adalah pengumuman resmi yang dikirim langsung melalui Control Center RTMBOT.</textarea>
-            </div>
-
-            <div class="form-grid-2" style="margin-bottom: 14px;">
-              <div class="form-group">
-                <label class="form-label">Author Name</label>
-                <input type="text" id="wb_embed_author" class="dash-input" placeholder="Admin Server" oninput="updateEmbedPreview()">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Footer Text</label>
-                <input type="text" id="wb_embed_footer" class="dash-input" placeholder="RTMBOT Sentinel • Hari ini" oninput="updateEmbedPreview()">
-              </div>
-            </div>
-
-            <button type="button" class="btn-save-primary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="sendDiscordWebhookNow()">
-              <span>🚀 Kirim Pesan Webhook Sekarang</span>
-            </button>
-          </div>
-
-          <!-- Live 1:1 Discord Preview Mockup -->
-          <div>
-            <div class="panel-box">
-              <div class="panel-box-header">
-                <h3>👁️ Pratinjau Tampilan 1:1 Discord</h3>
-              </div>
-
-              <div class="discord-mockup-wrap">
-                <div class="discord-msg-head">
-                  <div class="discord-avatar-fake" id="prevBotAvatar">🤖</div>
-                  <div>
-                    <div class="discord-user-title">
-                      <span id="prevBotName">RTMBOT Official</span>
-                      <span class="discord-bot-tag">BOT</span>
-                      <span class="discord-timestamp">Hari ini pukul 14.30</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div id="prevContentText" style="color: #DBDEE1; font-size: 0.95rem; margin-bottom: 8px;"></div>
-
-                <div class="discord-embed-card" id="prevEmbedCard">
-                  <div class="discord-embed-author" id="prevEmbedAuthor" style="display: none;"></div>
-                  <div class="discord-embed-title" id="prevEmbedTitle">PENGUMUMAN RESMI SERVER</div>
-                  <div class="discord-embed-desc" id="prevEmbedDesc">Halo semua! Ini adalah pengumuman resmi yang dikirim langsung melalui Control Center RTMBOT.</div>
-                  <div class="discord-embed-footer" id="prevEmbedFooter">RTMBOT Sentinel</div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ================= TAB 3: RADAR KONTEN & NOTIFIKASI ================= -->
-      <div id="tabFeeds" class="tab-pane">
+      <!-- TAB 2: WEBHOOK & SIARAN -->
+      <div id="tabWebhook" class="tab-content">
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>📡 Radar Notifikasi Konten Otomatis</h3>
-              <p>Rute channel pengumuman siaran YouTube, TikTok, dan Instagram (reSwan.notif_config).</p>
+              <h3>Webhook Studio &amp; Broadcaster</h3>
+              <p>Kirimkan pengumuman atau siaran embed profesional langsung ke kanal Discord menggunakan Webhook.</p>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Discord Webhook URL</label>
+              <input type="text" id="wh_url" class="dash-input" placeholder="https://discord.com/api/webhooks/..." oninput="updateEmbedPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kanal Tujuan (Opsional)</label>
+              <select id="wh_target_channel" class="dash-select">
+                <option value="">-- Gunakan Kanal Default Webhook --</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Nama Pengirim Webhook</label>
+              <input type="text" id="wh_username" class="dash-input" value="RTMBOT Pengumuman" oninput="updateEmbedPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Avatar URL Pengirim</label>
+              <input type="text" id="wh_avatar_url" class="dash-input" placeholder="https://..." oninput="updateEmbedPreview()">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Judul Embed</label>
+              <input type="text" id="wh_embed_title" class="dash-input" placeholder="Judul Pengumuman Penting" oninput="updateEmbedPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Warna Aksen Embed</label>
+              <input type="color" id="wh_embed_color" class="dash-input" value="#5865F2" style="height: 42px; padding: 2px;" onchange="updateEmbedPreview()">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Isi Deskripsi Embed (Mendukung Markdown)</label>
+            <textarea id="wh_embed_description" class="dash-textarea" rows="4" placeholder="Tuliskan isi pesan pengumuman..." oninput="updateEmbedPreview()"></textarea>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">URL Gambar Banner Embed</label>
+              <input type="text" id="wh_embed_image" class="dash-input" placeholder="https://..." oninput="updateEmbedPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teks Footer Embed</label>
+              <input type="text" id="wh_embed_footer" class="dash-input" placeholder="RTMBOT Official Portal" oninput="updateEmbedPreview()">
+            </div>
+          </div>
+
+          <!-- Live Preview -->
+          <div style="margin-top: 18px;">
+            <div class="form-label" style="margin-bottom: 8px;">Pratinjau Tampilan Embed (Live Preview)</div>
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px;">
+              <div id="embedPreviewCard" style="border-left: 4px solid var(--blurple); background: var(--bg-card); border-radius: 4px; padding: 14px; max-width: 520px;">
+                <div id="prevUsername" style="font-size: 0.84rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">RTMBOT Pengumuman</div>
+                <div id="prevTitle" style="font-size: 0.95rem; font-weight: 700; color: #FFFFFF; margin-bottom: 6px;">Judul Pengumuman</div>
+                <div id="prevDesc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; white-space: pre-wrap; margin-bottom: 8px;">Deskripsi pengumuman akan ditampilkan di sini secara realtime.</div>
+                <img id="prevImg" src="" alt="" style="display: none; max-width: 100%; border-radius: 4px; margin-bottom: 8px;">
+                <div id="prevFooter" style="font-size: 0.72rem; color: var(--text-faint);">RTMBOT Official Portal</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 18px;">
+            <button type="button" class="btn-dash btn-dash-primary" style="width: 100%; justify-content: center; padding: 11px;" onclick="sendDiscordWebhookNow()">
+              Kirim Siaran Webhook Sekarang
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: RADAR KONTEN & FEEDS -->
+      <div id="tabFeeds" class="tab-content">
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <div>
+              <h3>Radar Notifikasi Konten Otomatis</h3>
+              <p>Rute kanal pengumuman otomatis untuk live stream dan postingan media sosial.</p>
             </div>
           </div>
 
           <div class="form-grid-3">
             <div class="form-group">
-              <label class="form-label">🔴 Saluran Notif YouTube (Channel ID)</label>
-              <input type="text" id="cfg_feed_yt_channel" class="dash-input" placeholder="ID Saluran Discord YouTube">
+              <label class="form-label">Kanal Notifikasi YouTube</label>
+              <select id="cfg_feed_yt_channel" class="dash-select">
+                <option value="">-- Pilih Kanal YouTube --</option>
+              </select>
             </div>
-
             <div class="form-group">
-              <label class="form-label">🎵 Saluran Notif TikTok (Channel ID)</label>
-              <input type="text" id="cfg_feed_tiktok_channel" class="dash-input" placeholder="ID Saluran Discord TikTok">
+              <label class="form-label">Kanal Notifikasi TikTok</label>
+              <select id="cfg_feed_tiktok_channel" class="dash-select">
+                <option value="">-- Pilih Kanal TikTok --</option>
+              </select>
             </div>
-
             <div class="form-group">
-              <label class="form-label">📸 Saluran Notif Instagram (Channel ID)</label>
-              <input type="text" id="cfg_feed_ig_channel" class="dash-input" placeholder="ID Saluran Discord IG">
+              <label class="form-label">Kanal Notifikasi Instagram</label>
+              <select id="cfg_feed_ig_channel" class="dash-select">
+                <option value="">-- Pilih Kanal Instagram --</option>
+              </select>
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 18px;">
-            <label class="form-label">Format Template Pesan YouTube Stream</label>
-            <textarea id="cfg_feed_yt_template" class="dash-input dash-textarea" placeholder="🚨 {creator} sedang LIVE di YouTube! Yuk gabung sekarang di: {url}"></textarea>
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label">Format Template Pesan YouTube Live</label>
+            <textarea id="cfg_feed_yt_template" class="dash-textarea" placeholder="{creator} sedang LIVE di YouTube! Tonton sekarang di: {url}"></textarea>
           </div>
         </div>
       </div>
 
-      <!-- ================= TAB 4: AI PERSONA & CYBER DEFENSE ================= -->
-      <div id="tabAI" class="tab-pane">
+      <!-- TAB 4: GEMINI AI & CYBER -->
+      <div id="tabAI" class="tab-content">
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>🧠 AI Persona &amp; Bot Activity Status</h3>
-              <p>Konfigurasi status Rich Presence Discord dan karakter AI asisten server.</p>
+              <h3>Gemini AI Persona &amp; Aktivitas Bot</h3>
+              <p>Konfigurasi status Rich Presence Discord dan master prompt kepribadian asisten AI.</p>
             </div>
           </div>
 
           <div class="form-grid-3">
             <div class="form-group">
               <label class="form-label">Tipe Aktivitas Bot</label>
-              <select id="cfg_bot_act_type" class="dash-input">
+              <select id="cfg_bot_act_type" class="dash-select">
                 <option value="playing">Playing (Memainkan Game)</option>
                 <option value="streaming">Streaming (Siaran Langsung)</option>
                 <option value="listening">Listening (Mendengarkan Musik)</option>
                 <option value="watching">Watching (Menonton)</option>
               </select>
             </div>
-
             <div class="form-group">
               <label class="form-label">Nama Status Aktivitas</label>
-              <input type="text" id="cfg_bot_act_name" class="dash-input" placeholder="Contoh: Mengamankan Server RTM">
+              <input type="text" id="cfg_bot_act_name" class="dash-input" placeholder="Contoh: Mengamankan Server">
             </div>
-
             <div class="form-group">
-              <label class="form-label">Saluran Blokir Gambar (Cyber Defense)</label>
-              <input type="text" id="cfg_cyber_img_channel" class="dash-input" placeholder="ID Channel Block Gambar">
+              <label class="form-label">Kanal Blokir Gambar (Cyber Defense)</label>
+              <select id="cfg_cyber_img_channel" class="dash-select">
+                <option value="">-- Pilih Kanal Blokir Gambar --</option>
+              </select>
             </div>
           </div>
 
-          <div class="form-group" style="margin-top: 16px;">
-            <label class="form-label">Instruksi Karakter Khusus AI Server (Prompt)</label>
-            <textarea id="cfg_ai_instructions" class="dash-input dash-textarea" placeholder="Tuliskan kepribadian bot ketika diajak mengobrol di server ini..."></textarea>
+          <div class="form-group" style="margin-top: 14px;">
+            <label class="form-label">Instruksi Karakter Khusus AI Server (Master System Prompt)</label>
+            <textarea id="cfg_ai_instructions" class="dash-textarea" rows="4" placeholder="Tuliskan kepribadian dan batasan AI ketika berinteraksi di server ini..."></textarea>
           </div>
         </div>
       </div>
 
-      <!-- ================= TAB 5: DYNAMIC VOICE & KAS ================= -->
-      <div id="tabVoice" class="tab-pane">
+      <!-- TAB 5: VOICE HUB & LEVELING -->
+      <div id="tabVoice" class="tab-content">
         <div class="panel-box">
           <div class="panel-box-header">
             <div>
-              <h3>🔊 Dynamic Voice Hub (Temp Voice Rooms)</h3>
-              <p>Kelola pembuatan voice room sementara otomatis saat member join ke Hub Generator.</p>
+              <h3>Dynamic Voice Hub (Generator Ruang Suara Sementara)</h3>
+              <p>Kelola pembuatan voice room otomatis saat member bergabung ke Hub Generator.</p>
             </div>
           </div>
 
           <div class="form-grid-2">
             <div class="form-group">
-              <label class="form-label">Generator Hub Voice Channel ID</label>
-              <input type="text" id="cfg_voice_hub_channel" class="dash-input" placeholder="ID Saluran Voice Hub">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Kategori Penempatan Saluran Sementara (Category ID)</label>
-              <input type="text" id="cfg_voice_category_id" class="dash-input" placeholder="ID Kategori Ruang Suara">
-            </div>
-          </div>
-        </div>
-
-        <div class="panel-box">
-          <div class="panel-box-header">
-            <div>
-              <h3>💰 Kas &amp; Saldo Komunitas Server</h3>
-              <p>Merekap total peredaran uang virtual dan kas komunitas di server.</p>
-            </div>
-          </div>
-
-          <div class="form-grid-2">
-            <div class="form-group">
-              <label class="form-label">Total Akun Terdaftar di Sistem Ekonomi</label>
-              <input type="text" id="cfg_econ_total_users" class="dash-input" value="3,420 Akun Aktif" readonly>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Kas Cadangan Server (Server Vault)</label>
-              <input type="text" id="cfg_econ_server_vault" class="dash-input" value="Rp 128,500,000 RTM Coin" readonly>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= TAB 6: REMOTE WEB CONSOLE ================= -->
-      <div id="tabConsole" class="tab-pane">
-        <div class="panel-box">
-          <div class="panel-box-header">
-            <div>
-              <h3>💻 Remote Bot Console &amp; Command Runner</h3>
-              <p>Jalankan perintah bot apa saja langsung dari web dan lihat riwayat hasil eksekusinya secara realtime.</p>
-            </div>
-            <span class="badge-pill badge-status-online">🟢 IPC Worker Standby</span>
-          </div>
-
-          <div class="command-pills">
-            <span class="cmd-pill" onclick="pickCommand('!help')">!help</span>
-            <span class="cmd-pill" onclick="pickCommand('!modpanel')">!modpanel</span>
-            <span class="cmd-pill" onclick="pickCommand('!settings')">!settings</span>
-            <span class="cmd-pill" onclick="pickCommand('!clear 10')">!clear 10</span>
-            <span class="cmd-pill" onclick="pickCommand('!stats')">!stats</span>
-            <span class="cmd-pill" onclick="pickCommand('/rank')">/rank</span>
-            <span class="cmd-pill" onclick="pickCommand('/leaderboard')">/leaderboard</span>
-            <span class="cmd-pill" onclick="pickCommand('!ping')">!ping</span>
-            <span class="cmd-pill" onclick="pickCommand('!botinfo')">!botinfo</span>
-          </div>
-
-          <div class="form-grid-2" style="margin-bottom: 14px;">
-            <div class="form-group">
-              <label class="form-label">Katalog Perintah Bot</label>
-              <select id="cmd_action_select" class="dash-input" onchange="onCommandSelectChange()">
-                <option value="clear" selected>🗑️ Hapus Pesan Massal (Clear)</option>
-                <option value="slowmode">⏱️ Atur Slowmode Kanal</option>
-                <option value="lock">🔒 Kunci Kanal Teks (Lock)</option>
-                <option value="unlock">🔓 Buka Kunci Kanal (Unlock)</option>
-                <option value="say">📢 Kirim Pesan Bot (Say)</option>
-                <option value="ping">⚡ Cek Latensi & Status Bot (Ping)</option>
-                <option value="custom">⌨️ Perintah Kustom (Ketik Manual)</option>
+              <label class="form-label">Kanal Hub Generator Suara (Voice Channel)</label>
+              <select id="cfg_voice_hub_channel" class="dash-select">
+                <option value="">-- Pilih Kanal Hub Suara --</option>
               </select>
             </div>
             <div class="form-group">
+              <label class="form-label">Kategori Penempatan Saluran Sementara (Category ID)</label>
+              <input type="text" id="cfg_voice_category_id" class="dash-input" placeholder="Contoh: 1039509114008649779">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <div>
+              <h3>Panel Voice Activity &amp; Leaderboard</h3>
+              <p>Papan statistik peringkat aktif voice 10 besar dan rekor sesi tunggal terlama server.</p>
+            </div>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            Panel voice publik server menampilkan <b>TOP 10 VOICE AKUMULASI</b>, <b>TOP 10 SESI VOICE TERLAMA</b>, serta rekor sesi room terpanjang. Anda dapat memicu pembuatan atau pembaruan panel secara langsung dari Remote Console tab perintah.
+          </p>
+        </div>
+      </div>
+
+      <!-- TAB 6: REMOTE BOT CONSOLE & COMMAND RUNNER -->
+      <div id="tabConsole" class="tab-content">
+        <div class="panel-box">
+          <div class="panel-box-header">
+            <div>
+              <h3>Remote Bot Console &amp; Command Runner</h3>
+              <p>Jalankan perintah bot Discord apa saja langsung dari web dan lihat riwayat hasil eksekusinya secara realtime.</p>
+            </div>
+            <span class="badge-status">
+              <span class="status-dot"></span>
+              IPC Antrean Siap
+            </span>
+          </div>
+
+          <!-- Quick Command Preset Badges -->
+          <div style="margin-bottom: 12px;">
+            <span style="font-size: 0.75rem; font-weight: 600; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em;">Preset Cepat:</span>
+          </div>
+          <div class="cmd-quick-pills">
+            <span class="cmd-pill" onclick="selectCommandPreset('ping')">ping</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('clear')">clear 10</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('slowmode')">slowmode 5</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('lock')">lock</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('unlock')">unlock</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('say')">say</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('announce')">announce</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('voicepanel')">voicepanel</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('modpanel')">modpanel</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('leaderboard')">leaderboard</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('botinfo')">botinfo</span>
+            <span class="cmd-pill" onclick="selectCommandPreset('serverinfo')">serverinfo</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Katalog Perintah Bot</label>
+              <select id="cmd_action_select" class="dash-select" onchange="onCommandSelectChange()">
+                <optgroup label="Moderasi & Kanal">
+                  <option value="clear" selected>Hapus Pesan Massal (Clear)</option>
+                  <option value="slowmode">Atur Slowmode Kanal</option>
+                  <option value="lock">Kunci Kanal Teks (Lock)</option>
+                  <option value="unlock">Buka Kunci Kanal (Unlock)</option>
+                  <option value="kick">Keluarkan Anggota (Kick)</option>
+                  <option value="ban">Blokir Anggota (Ban)</option>
+                  <option value="unban">Cabut Blokir Anggota (Unban)</option>
+                  <option value="timeout">Bungkam Sementara (Timeout)</option>
+                  <option value="voice_disconnect">Putus Sambungan Voice (Disconnect)</option>
+                  <option value="modpanel">Kirim Panel Moderasi</option>
+                </optgroup>
+                <optgroup label="Siaran & Pengumuman">
+                  <option value="say">Kirim Pesan Bot (Say)</option>
+                  <option value="announce">Siarkan Pengumuman Embed (Announce)</option>
+                </optgroup>
+                <optgroup label="Voice & Leveling">
+                  <option value="voicepanel">Pasang / Perbarui Panel Voice Leaderboard</option>
+                  <option value="voicerecord">Cek Rekor Voice Room Terlama</option>
+                  <option value="leaderboard">Tampilkan Leaderboard EXP</option>
+                </optgroup>
+                <optgroup label="Gemini AI">
+                  <option value="tanya">Tanya Gemini AI (Prompt)</option>
+                  <option value="rangkum_chat">Rangkum Obrolan Kanal</option>
+                  <option value="reset_chat">Reset Memori Obrolan AI</option>
+                </optgroup>
+                <optgroup label="Utilitas & Status">
+                  <option value="ping">Cek Latensi Gateway (Ping)</option>
+                  <option value="botinfo">Statistik & Info Bot</option>
+                  <option value="serverinfo">Informasi Detail Server</option>
+                </optgroup>
+                <optgroup label="Lanjutan">
+                  <option value="custom">Perintah Kustom Bebas</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label class="form-label">Target Kanal Discord</label>
-              <select id="cmd_target_channel" class="dash-input">
+              <select id="cmd_target_channel" class="dash-select" onchange="updateCommandSyntaxPreview()">
                 <option value="">-- Pilih Kanal Tujuan --</option>
               </select>
             </div>
           </div>
 
-          <div id="cmd_params_container" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px; margin-bottom: 16px;">
-            <div id="cmd_param_amount_wrap" class="form-group" style="margin-bottom: 0;">
+          <!-- Dynamic Parameters Form -->
+          <div id="cmd_params_container" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px;">
+            
+            <!-- Clear Param -->
+            <div id="cmd_wrap_amount" class="form-group" style="margin-bottom: 0;">
               <label class="form-label">Jumlah Pesan yang Dihapus (1 - 100)</label>
-              <input type="number" id="cmd_param_amount" class="dash-input" value="10" min="1" max="100" placeholder="10">
-              <span class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">Bot akan menghapus riwayat pesan secara instan dan bersih tanpa memposting teks perintah mentah.</span>
+              <input type="number" id="cmd_param_amount" class="dash-input" value="10" min="1" max="100" placeholder="10" oninput="updateCommandSyntaxPreview()">
+              <span class="form-hint">Pesan akan dihapus secara native dan bersih tanpa jejak teks mentah.</span>
             </div>
-            <div id="cmd_param_slowmode_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+
+            <!-- Slowmode Param -->
+            <div id="cmd_wrap_slowmode" class="form-group" style="display: none; margin-bottom: 0;">
               <label class="form-label">Durasi Slowmode (Detik)</label>
-              <input type="number" id="cmd_param_seconds" class="dash-input" value="5" min="0" max="21600" placeholder="5">
-              <span class="form-hint" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">Ketik 0 untuk mematikan slowmode pada kanal yang dipilih.</span>
+              <input type="number" id="cmd_param_seconds" class="dash-input" value="5" min="0" max="21600" placeholder="5" oninput="updateCommandSyntaxPreview()">
+              <span class="form-hint">Isi 0 untuk menonaktifkan slowmode pada kanal target.</span>
             </div>
-            <div id="cmd_param_message_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+
+            <!-- User ID Param (for Kick, Ban, Unban, Timeout, Disconnect) -->
+            <div id="cmd_wrap_user_id" class="form-group" style="display: none;">
+              <label class="form-label">ID Pengguna Target (User ID)</label>
+              <input type="text" id="cmd_param_user_id" class="dash-input" placeholder="Contoh: 1000737066822410311" oninput="updateCommandSyntaxPreview()">
+            </div>
+
+            <!-- Duration Minutes Param (for Timeout) -->
+            <div id="cmd_wrap_duration" class="form-group" style="display: none;">
+              <label class="form-label">Durasi Bungkam (Menit)</label>
+              <input type="number" id="cmd_param_duration" class="dash-input" value="10" min="1" max="40320" placeholder="10" oninput="updateCommandSyntaxPreview()">
+            </div>
+
+            <!-- Reason Param (for Moderation actions) -->
+            <div id="cmd_wrap_reason" class="form-group" style="display: none;">
+              <label class="form-label">Alasan Tindakan Moderasi</label>
+              <input type="text" id="cmd_param_reason" class="dash-input" placeholder="Tulis alasan..." oninput="updateCommandSyntaxPreview()">
+            </div>
+
+            <!-- Message Text Param (for Say) -->
+            <div id="cmd_wrap_message" class="form-group" style="display: none; margin-bottom: 0;">
               <label class="form-label">Isi Pesan Teks</label>
-              <textarea id="cmd_param_message" class="dash-input" rows="2" placeholder="Tuliskan pesan yang akan diposting bot ke kanal..."></textarea>
+              <textarea id="cmd_param_message" class="dash-textarea" rows="2" placeholder="Tuliskan pesan..." oninput="updateCommandSyntaxPreview()"></textarea>
             </div>
-            <div id="cmd_param_custom_wrap" class="form-group" style="display: none; margin-bottom: 0;">
+
+            <!-- Announce Params -->
+            <div id="cmd_wrap_announce" style="display: none;">
+              <div class="form-group">
+                <label class="form-label">Judul Pengumuman</label>
+                <input type="text" id="cmd_param_ann_title" class="dash-input" placeholder="Contoh: Pembaruan Jadwal" oninput="updateCommandSyntaxPreview()">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label">Isi Detail Pengumuman</label>
+                <textarea id="cmd_param_ann_desc" class="dash-textarea" rows="3" placeholder="Tulis isi pengumuman..." oninput="updateCommandSyntaxPreview()"></textarea>
+              </div>
+            </div>
+
+            <!-- AI Question Param -->
+            <div id="cmd_wrap_question" class="form-group" style="display: none; margin-bottom: 0;">
+              <label class="form-label">Pertanyaan untuk Gemini AI</label>
+              <textarea id="cmd_param_question" class="dash-textarea" rows="2" placeholder="Tuliskan pertanyaan..." oninput="updateCommandSyntaxPreview()"></textarea>
+            </div>
+
+            <!-- Custom Command Param -->
+            <div id="cmd_wrap_custom" class="form-group" style="display: none; margin-bottom: 0;">
               <label class="form-label">Sintaks Perintah Bebas</label>
-              <input type="text" id="cmd_param_custom" class="dash-input" style="font-family: var(--font-mono);" placeholder="Contoh: !rank @member atau ?help">
+              <input type="text" id="cmd_param_custom" class="dash-input" style="font-family: var(--font-mono);" placeholder="Contoh: !rank @member atau ?help" oninput="updateCommandSyntaxPreview()">
             </div>
           </div>
 
-          <button type="button" class="btn-save-primary" onclick="dispatchBotCommandNow()">
-            <span>⚡ Eksekusi Perintah Sekarang</span>
-          </button>
+          <!-- Live Syntax Preview -->
+          <div class="cmd-preview-box">
+            <span class="cmd-preview-label">Sintaks:</span>
+            <span id="cmdSyntaxPreviewTxt" class="cmd-preview-code">clear 10</span>
+          </div>
 
-          <div style="margin-top: 24px;">
-            <div class="form-label" style="margin-bottom: 10px;">📋 Riwayat Eksekusi Antrean (IPC Live Logs)</div>
-            <div id="commandLogsList">
-              <div style="color: var(--text-muted); font-size: 0.85rem;">Memuat riwayat eksekusi...</div>
+          <div>
+            <button type="button" id="btnExecuteCommand" class="btn-dash btn-dash-primary" style="width: 100%; justify-content: center; padding: 11px;" onclick="dispatchBotCommandNow()">
+              Eksekusi Perintah Sekarang
+            </button>
+          </div>
+
+          <!-- Execution Logs -->
+          <div style="margin-top: 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div class="form-label">Riwayat Eksekusi Antrean (IPC Live Logs)</div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <label style="font-size: 0.75rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" id="autoRefreshLogsCheck" checked> Auto-refresh (3d)
+                </label>
+                <button type="button" class="btn-dash" style="padding: 4px 10px; font-size: 0.75rem;" onclick="loadCommandLogs()">
+                  Segarkan
+                </button>
+              </div>
+            </div>
+
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Waktu</th>
+                    <th>Perintah</th>
+                    <th>Kanal Tujuan</th>
+                    <th>Pengirim</th>
+                    <th>Status</th>
+                    <th>Hasil Respon Bot</th>
+                  </tr>
+                </thead>
+                <tbody id="commandLogsBody">
+                  <tr>
+                    <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 18px;">
+                      Memuat riwayat eksekusi...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Sticky Save Action Bar -->
-      <div class="save-action-bar">
-        <div>
-          <div style="font-weight: 700; font-size: 0.95rem;" id="stickyServerTitle">Simpan Konfigurasi Server</div>
-          <div style="font-size: 0.78rem; color: var(--text-muted);">Pembaruan langsung disimpan ke MongoDB <code>reSwan.moderation_settings</code> per server.</div>
+      <div class="sticky-action-bar">
+        <div class="action-bar-status">
+          Konfigurasi Server: <b id="actionBarGuildName" style="color: var(--text-main);">-</b>
         </div>
-        <button type="button" class="btn-save-primary" onclick="saveActiveGuildConfiguration()">
-          <span>💾 Simpan Pengaturan Server Ini</span>
+        <button type="button" id="btnSaveAllConfig" class="btn-dash btn-dash-primary" onclick="saveActiveGuildConfiguration()">
+          Simpan Semua Konfigurasi Server
         </button>
       </div>
 
@@ -1527,112 +1436,81 @@
 
   </main>
 
-  <div id="saveToast" class="save-toast">✅ Konfigurasi server berhasil disimpan!</div>
+  <!-- Toast Notification Box -->
+  <div id="toastBox" class="toast-box">Notifikasi tersimpan</div>
 
   <script>
+    // Configuration & State
     const API_BASE = 'https://api.rtmbot.biz.id';
+    let currentGuildId = '1039509114008649778';
+    let currentGuildName = 'Komunitas Server';
+    let manageableGuildsList = [];
+    let serverChannelsCache = {};
+    let logsIntervalId = null;
 
-    // Global State
-    let currentGuildId = '';
-    let currentGuildName = 'Pilih Server';
-    let userGuildsList = [];
-    let activeGuildConfig = {};
-
+    // 1. JWT & Auth Helpers
     function parseJwt(token) {
       try {
         if (!token || typeof token !== 'string') return null;
         const parts = token.split('.');
-        if (parts.length < 2) return null;
+        if (parts.length !== 3) return null;
         let base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-        while (base64.length % 4 !== 0) {
-          base64 += '=';
-        }
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        while (base64.length % 4 !== 0) base64 += '=';
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
         return JSON.parse(jsonPayload);
       } catch (e) {
-        try {
-          let b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-          while (b64.length % 4 !== 0) b64 += '=';
-          return JSON.parse(atob(b64));
-        } catch (_) {
-          return null;
-        }
+        return null;
       }
     }
 
-    // 1. Session Init
     function initUserSession() {
       const urlParams = new URLSearchParams(window.location.search);
       const urlToken = urlParams.get('token');
-      const urlUser = urlParams.get('user');
-
       if (urlToken) {
-        try {
-          localStorage.setItem('rtm_admin_token', urlToken);
-          sessionStorage.setItem('rtm_admin_token', urlToken);
-        } catch(e) {}
-        if (urlUser) {
-          try {
-            localStorage.setItem('rtm_discord_user', decodeURIComponent(urlUser));
-          } catch(e) {
-            try { localStorage.setItem('rtm_discord_user', urlUser); } catch(_) {}
-          }
-        }
-        try {
-          window.history.replaceState({}, document.title, window.location.pathname);
-        } catch(e) {}
+        localStorage.setItem('rtm_admin_token', urlToken);
+        sessionStorage.setItem('rtm_admin_token', urlToken);
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
       }
 
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      const userRaw = localStorage.getItem('rtm_discord_user');
-      let userData = null;
-
-      if (userRaw) {
-        try { userData = JSON.parse(userRaw); } catch(e) {}
-      }
-
-      if (!userData && token) {
-        const decoded = parseJwt(token);
-        if (decoded) {
-          userData = {
-            id: decoded.discord_id || '',
-            username: decoded.username || 'Pengguna Discord',
-            avatar: decoded.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png',
-            role: decoded.role || (decoded.is_owner ? 'Owner' : 'Moderator'),
-            is_owner: !!decoded.is_owner
-          };
-          try { localStorage.setItem('rtm_discord_user', JSON.stringify(userData)); } catch(_) {}
+      if (token) {
+        const payload = parseJwt(token);
+        if (payload) {
+          renderUserProfile(payload);
+          loadManageableGuilds();
+          return;
         }
       }
 
-      renderUserProfile(userData);
+      // Guest / Fallback session
+      document.getElementById('loginBtn').style.display = 'inline-flex';
+      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('userProfileWrap').style.display = 'none';
       loadManageableGuilds();
     }
 
     function renderUserProfile(userData) {
-      const userArea = document.getElementById('userProfileArea');
-      if (!userArea) return;
+      document.getElementById('loginBtn').style.display = 'none';
+      document.getElementById('logoutBtn').style.display = 'inline-flex';
+      document.getElementById('userProfileWrap').style.display = 'flex';
 
-      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      if (userData && (token || userData.id)) {
-        const avatarUrl = userData.avatar || 'https://cdn.discordapp.com/embed/avatars/0.png';
-        const roleLabel = userData.role || (userData.is_owner ? 'Owner' : 'Moderator');
-        userArea.innerHTML = `
-          <div class="user-pill">
-            <img src="${avatarUrl}" class="user-avatar-img" alt="${escapeHtml(userData.username)}">
-            <span>${escapeHtml(userData.username)}</span>
-            <span style="font-size: 0.7rem; color: #818CF8; background: rgba(88,101,242,0.15); padding: 1px 6px; border-radius: 4px;">${escapeHtml(roleLabel)}</span>
-            <button onclick="logoutDashboard()" style="background:none;border:none;color:#EF4444;cursor:pointer;font-size:0.8rem;margin-left:4px;" title="Logout">✕</button>
-          </div>
-        `;
+      const uname = userData.username || userData.sub || 'Pengguna';
+      document.getElementById('userNameTxt').textContent = uname;
+      
+      const roleTxt = userData.role_title || userData.role || 'Admin';
+      document.getElementById('userRoleBadge').textContent = roleTxt;
+
+      const avatarElem = document.getElementById('userAvatarImg');
+      if (userData.avatar && userData.id) {
+        avatarElem.src = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`;
       } else {
-        userArea.innerHTML = `
-          <button class="btn-primary" onclick="loginDiscordOAuth()" style="padding: 6px 14px; font-size: 0.8rem;">
-            <span>Masuk dengan Discord</span>
-          </button>
-        `;
+        avatarElem.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
       }
     }
 
@@ -1640,359 +1518,383 @@
       const returnUrl = window.location.href.split('?')[0];
       fetch(`${API_BASE}/api/auth/discord/login?return_to=${encodeURIComponent(returnUrl)}`)
         .then(r => r.json())
-        .then(data => {
-          if (data && data.url) window.location.href = data.url;
-          else window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify%20guilds`;
+        .then(res => {
+          if (res.status === 'success' && res.url) {
+            window.location.href = res.url;
+          } else {
+            alert('Gagal inisiasi login: ' + (res.message || 'Periksa server API'));
+          }
         })
-        .catch(() => {
-          window.location.href = `https://discord.com/api/oauth2/authorize?client_id=1382001133970653246&redirect_uri=${encodeURIComponent(API_BASE + '/api/auth/discord/callback')}&response_type=code&scope=identify%20guilds`;
-        });
+        .catch(err => alert('Gagal menghubungi API login: ' + err));
     }
 
     function logoutDashboard() {
-      try {
-        localStorage.removeItem('rtm_admin_token');
-        sessionStorage.removeItem('rtm_admin_token');
-        localStorage.removeItem('rtm_discord_user');
-      } catch(_) {}
+      localStorage.removeItem('rtm_admin_token');
+      sessionStorage.removeItem('rtm_admin_token');
       window.location.reload();
     }
 
-    // 2. Load Guilds (Server Selector) - STRICT VALID GUILDS ONLY
+    // 2. Guild List & Selection
     function loadManageableGuilds() {
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      const grid = document.getElementById('guildsCardGrid');
-      
-      // If user not logged in, prompt login
-      if (!token) {
-        renderGuildCards([]);
-        return;
-      }
-
-      if (grid) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
-            <div class="spinner" style="margin: 0 auto 12px;"></div>
-            Memuat daftar server Discord resmi Anda...
-          </div>
-        `;
-      }
+      const grid = document.getElementById('guildListGrid');
+      grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 30px; text-align: center; color: var(--text-muted);">Memuat daftar server...</div>';
 
       fetch(`${API_BASE}/api/bot/user-guilds`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       })
       .then(r => r.json())
-      .then(data => {
-        if (data && data.status === 'success' && Array.isArray(data.guilds)) {
-          userGuildsList = data.guilds;
-          if (data.user) {
-            userData = data.user;
-            try { localStorage.setItem('rtm_discord_user', JSON.stringify(userData)); } catch(_) {}
-            renderUserProfile(userData);
-          }
-          renderGuildCards(userGuildsList);
+      .then(res => {
+        if (res.status === 'success' && Array.isArray(res.guilds)) {
+          manageableGuildsList = res.guilds;
+          renderGuildCards(res.guilds);
         } else {
-          renderGuildCards([]);
+          // Fallback to active server
+          manageableGuildsList = [{
+            id: '1039509114008649778',
+            name: 'Komunitas RTMBOT',
+            icon: '',
+            permission_label: 'Server Default',
+            is_owner: true,
+            bot_present: true
+          }];
+          renderGuildCards(manageableGuildsList);
         }
       })
-      .catch(err => {
-        console.error("Gagal mengambil server pengguna:", err);
-        renderGuildCards([]);
+      .catch(() => {
+        manageableGuildsList = [{
+          id: '1039509114008649778',
+          name: 'Komunitas RTMBOT',
+          icon: '',
+          permission_label: 'Server Default',
+          is_owner: true,
+          bot_present: true
+        }];
+        renderGuildCards(manageableGuildsList);
       });
     }
 
     function renderGuildCards(guilds) {
-      const grid = document.getElementById('guildsCardGrid');
-      const noPermAlert = document.getElementById('noPermissionAlert');
-      if (!grid) return;
-      
-      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-
-      if (!token) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-muted); background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 14px;">
-            <div style="font-size: 2.2rem; margin-bottom: 12px;">🔐</div>
-            <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Silakan Masuk dengan Discord</div>
-            <p style="font-size: 0.88rem; max-width: 480px; margin: 0 auto 20px; color: var(--text-secondary);">
-              Untuk mengelola konfigurasi bot pada server Discord Anda, silakan hubungkan akun Discord terlebih dahulu.
-            </p>
-            <button onclick="loginDiscordOAuth()" class="btn-primary" style="padding: 10px 24px;">
-              <span>Masuk dengan Discord</span>
-            </button>
-          </div>
-        `;
-        if (noPermAlert) noPermAlert.style.display = 'none';
-        return;
-      }
-
+      const grid = document.getElementById('guildListGrid');
       if (!guilds || guilds.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 44px 20px; color: var(--text-muted); background: rgba(255,255,255,0.02); border: 1px dashed var(--border-color); border-radius: 14px;">
-            <div style="font-size: 2.2rem; margin-bottom: 10px;">🛡️</div>
-            <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Tidak Ada Server yang Dapat Dikelola</div>
-            <p style="font-size: 0.85rem; max-width: 480px; margin: 0 auto 16px; color: var(--text-secondary);">
-              Akun Discord Anda saat ini belum memiliki hak <strong>Administrator</strong> atau <strong>Kelola Server (Manage Server)</strong> di server Discord yang Anda masuki, atau bot belum diundang ke server tersebut.
-            </p>
-            <a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246&permissions=8&integration_type=0&scope=bot+applications.commands" target="_blank" class="btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 10px 20px;">
-              <span>➕ Undang RTMbot ke Server Baru</span>
-            </a>
-          </div>
-        `;
-        if (noPermAlert) noPermAlert.style.display = 'flex';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: var(--text-muted);">Tidak ditemukan server dengan hak akses kelola. Masukkan Server ID secara manual di bawah.</div>';
         return;
       }
-
-      if (noPermAlert) noPermAlert.style.display = 'none';
 
       grid.innerHTML = guilds.map(g => {
-        const initials = escapeHtml((g.name || 'Server').substring(0, 3).toUpperCase());
-        const avatarHtml = g.icon ? `<img src="${g.icon}" alt="${escapeHtml(g.name)}">` : `<span>${initials}</span>`;
-        const botStatusBadge = g.bot_present 
-          ? `<span class="badge-pill badge-status-online">🟢 Bot Terhubung</span>`
-          : `<span class="badge-pill badge-status-absent">⚪ Belum Ada Bot</span>`;
-        
-        const actionBtn = g.bot_present
-          ? `<button type="button" class="btn-manage-guild action-manage-click" data-gid="${g.id}" data-gname="${escapeHtml(g.name)}"><span>⚙️ Kelola Server</span></button>`
-          : `<a href="https://discord.com/oauth2/authorize?client_id=1382001133970653246&permissions=8&integration_type=0&scope=bot+applications.commands&guild_id=${g.id}" target="_blank" class="btn-invite-guild"><span>➕ Undang Bot</span></a>`;
+        const iconHtml = g.icon
+          ? `<img class="guild-icon" src="${g.icon}" alt="">`
+          : `<div class="guild-icon">${(g.name || 'S').charAt(0).toUpperCase()}</div>`;
+        const roleLabel = g.permission_label || (g.is_owner ? 'Owner' : 'Pengelola');
 
         return `
-          <div class="guild-card" data-guild-id="${g.id}" data-guild-name="${escapeHtml(g.name.toLowerCase())}">
-            <div>
-              <div class="guild-card-top">
-                <div class="guild-avatar">${avatarHtml}</div>
-                <div class="guild-card-info">
-                  <div class="guild-name" title="${escapeHtml(g.name)}">${escapeHtml(g.name)}</div>
-                  <div class="guild-meta">ID: ${g.id}</div>
-                </div>
-              </div>
-
-              <div class="guild-badges-row" style="margin-top: 12px;">
-                <span class="badge-pill badge-perm-admin">${escapeHtml(g.permission_label || '🛡️ Admin')}</span>
-                ${botStatusBadge}
+          <div class="guild-card" onclick="selectGuildToManage('${g.id}', '${escapeHtml(g.name)}')">
+            <div class="guild-card-top">
+              ${iconHtml}
+              <div class="guild-info">
+                <h3>${escapeHtml(g.name)}</h3>
+                <p>${g.id}</p>
               </div>
             </div>
-
-            <div class="guild-actions-row">
-              ${actionBtn}
+            <div class="guild-card-bottom">
+              <span class="guild-role-tag">${escapeHtml(roleLabel)}</span>
+              <button type="button" class="btn-dash btn-dash-primary" style="padding: 4px 10px; font-size: 0.74rem;">Buka</button>
             </div>
           </div>
         `;
       }).join('');
-
-      // Safe event listener binding
-      grid.querySelectorAll('.action-manage-click').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const gid = btn.getAttribute('data-gid');
-          const gname = btn.getAttribute('data-gname');
-          selectGuildToManage(gid, gname);
-        });
-      });
     }
 
     function filterGuildCards() {
       const q = (document.getElementById('guildSearchInput').value || '').toLowerCase().trim();
-      const cards = document.querySelectorAll('.guild-card');
-      cards.forEach(c => {
-        const name = c.getAttribute('data-guild-name') || '';
-        const id = c.getAttribute('data-guild-id') || '';
-        if (name.includes(q) || id.includes(q)) {
-          c.style.display = 'flex';
-        } else {
-          c.style.display = 'none';
-        }
-      });
+      if (!q) {
+        renderGuildCards(manageableGuildsList);
+        return;
+      }
+      const filtered = manageableGuildsList.filter(g =>
+        (g.name || '').toLowerCase().includes(q) || (g.id || '').includes(q)
+      );
+      renderGuildCards(filtered);
     }
 
     function openDirectGuildId() {
-      const id = (document.getElementById('directGuildIdInput').value || '').trim();
-      if (!id || !/^\d{16,21}$/.test(id)) {
-        alert('Masukkan Guild ID Discord yang valid (17-20 digit angka).');
+      const gid = (document.getElementById('directGuildIdInput').value || '').trim();
+      if (!gid || !/^\d+$/.test(gid)) {
+        alert('Masukkan Server ID numerik yang valid.');
         return;
       }
-      selectGuildToManage(id, `Server #${id}`);
+      selectGuildToManage(gid, `Server #${gid}`);
     }
 
-    // 3. Switch Screen & Select Guild
     function selectGuildToManage(guildId, guildName) {
-      loadGuildChannels(guildId);
       currentGuildId = guildId;
       currentGuildName = guildName || `Server #${guildId}`;
 
-      document.getElementById('wsServerName').innerText = currentGuildName;
-      document.getElementById('wsServerIdBadge').innerText = `ID: ${currentGuildId}`;
-      document.getElementById('wsServerAvatar').innerHTML = `<span>${currentGuildName.substring(0, 3).toUpperCase()}</span>`;
-      document.getElementById('navCurrentServerName').innerText = currentGuildName;
-      document.getElementById('stickyServerTitle').innerText = `Simpan: ${currentGuildName}`;
+      document.getElementById('wsGuildName').textContent = currentGuildName;
+      document.getElementById('wsGuildId').textContent = currentGuildId;
+      document.getElementById('actionBarGuildName').textContent = currentGuildName;
+
+      // Icon
+      const matched = manageableGuildsList.find(x => x.id === guildId);
+      const iconElem = document.getElementById('wsGuildIcon');
+      if (matched && matched.icon) {
+        iconElem.src = matched.icon;
+        iconElem.style.display = 'block';
+      } else {
+        iconElem.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+      }
 
       document.getElementById('guildSelectView').classList.remove('active');
       document.getElementById('guildWorkspaceView').classList.add('active');
-      document.getElementById('navServerIndicator').style.display = 'flex';
 
+      // Load channels and configuration
+      loadGuildChannels(guildId);
       loadActiveGuildConfig(guildId);
       loadCommandLogs();
+      startLogsAutoRefresh();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function showGuildSelectScreen() {
       document.getElementById('guildWorkspaceView').classList.remove('active');
       document.getElementById('guildSelectView').classList.add('active');
-      document.getElementById('navServerIndicator').style.display = 'none';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      stopLogsAutoRefresh();
     }
 
-    // 4. Tab Switching
-    function switchTab(tabId, btnElem) {
-      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    function copyActiveGuildId() {
+      navigator.clipboard.writeText(currentGuildId).then(() => {
+        showToast('ID Server disalin ke clipboard');
+      });
+    }
 
+    // 3. Workspace Tab Navigation
+    function switchWorkspaceTab(tabId, btnElem) {
+      document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+
+      btnElem.classList.add('active');
       const targetPane = document.getElementById(tabId);
       if (targetPane) targetPane.classList.add('active');
-      if (btnElem) btnElem.classList.add('active');
+
+      if (tabId === 'tabConsole') {
+        loadCommandLogs();
+      }
     }
 
-    // 5. Load Active Guild Config from API
-    function loadActiveGuildConfig(guildId) {
-      fetch(`${API_BASE}/api/bot/guild/${guildId}`)
-        .then(r => r.json())
-        .then(data => {
-          if (data && data.status === 'success' && data.config) {
-            activeGuildConfig = data.config;
-            populateGuildForm(data.config);
-          }
-        })
-        .catch(err => {
-          console.error("Gagal memuat config guild:", err);
+    // 4. Channel Fetching & Dropdowns
+    async function loadGuildChannels(guildId) {
+      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
+      try {
+        const res = await fetch(`${API_BASE}/api/bot/guild/${guildId}/channels`, {
+          headers: token ? { 'Authorization': `Bearer ${token}` } : {}
         });
+        const data = await res.json();
+        if (data.status === 'success' && Array.isArray(data.channels)) {
+          serverChannelsCache[guildId] = data.channels;
+          renderGuildChannelDropdowns();
+        }
+      } catch (e) {
+        console.warn('Gagal mengambil daftar channel:', e);
+      }
+    }
+
+    function renderGuildChannelDropdowns() {
+      const channels = serverChannelsCache[currentGuildId] || [];
+      const textChannels = channels.filter(c => c.type === 'text' || !c.type);
+      const voiceChannels = channels.filter(c => c.type === 'voice');
+
+      let optionsHtml = '<option value="">-- Pilih Kanal Discord --</option>';
+      if (textChannels.length > 0) {
+        optionsHtml += '<optgroup label="Kanal Teks">';
+        optionsHtml += textChannels.map(c => `<option value="${c.id}">#${escapeHtml(c.name)}</option>`).join('');
+        optionsHtml += '</optgroup>';
+      }
+      if (voiceChannels.length > 0) {
+        optionsHtml += '<optgroup label="Kanal Suara">';
+        optionsHtml += voiceChannels.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
+        optionsHtml += '</optgroup>';
+      }
+
+      const dropdownIds = [
+        'cfg_welcome_channel_id',
+        'cfg_boost_channel_id',
+        'cfg_log_channel_id',
+        'cfg_mod_panel_channel_id',
+        'cfg_feed_yt_channel',
+        'cfg_feed_tiktok_channel',
+        'cfg_feed_ig_channel',
+        'cfg_cyber_img_channel',
+        'cfg_voice_hub_channel',
+        'wh_target_channel',
+        'cmd_target_channel'
+      ];
+
+      dropdownIds.forEach(id => {
+        const elem = document.getElementById(id);
+        if (elem) {
+          const prevVal = elem.value;
+          elem.innerHTML = optionsHtml;
+          if (prevVal) elem.value = prevVal;
+        }
+      });
+      updateCommandSyntaxPreview();
+    }
+
+    // 5. Config Loading & Saving
+    function loadActiveGuildConfig(guildId) {
+      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
+      fetch(`${API_BASE}/api/bot/guild/${guildId}`, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (res.status === 'success' && res.config) {
+          populateGuildForm(res.config);
+        }
+      })
+      .catch(e => console.error('Error load config:', e));
     }
 
     function populateGuildForm(cfg) {
-      // Welcome
+      cfg = cfg || {};
+      cfg.automod = cfg.automod || {};
+
       document.getElementById('cfg_welcome_channel_id').value = cfg.welcome_channel_id || '';
-      document.getElementById('cfg_welcome_embed_title').value = cfg.welcome_embed_title || 'Selamat Datang!';
-      document.getElementById('cfg_welcome_sender_name').value = cfg.welcome_sender_name || 'Tim Moderator RTM';
+      document.getElementById('cfg_welcome_embed_title').value = cfg.welcome_embed_title || 'Selamat Datang di Server!';
+      document.getElementById('cfg_welcome_sender_name').value = cfg.welcome_sender_name || 'Tim Moderator Server';
       document.getElementById('cfg_welcome_banner_url').value = cfg.welcome_banner_url || '';
       document.getElementById('cfg_welcome_message').value = cfg.welcome_message || '';
       document.getElementById('cfg_goodbye_message').value = cfg.goodbye_message || '';
 
-      // Boost
       document.getElementById('cfg_boost_channel_id').value = cfg.boost_channel_id || '';
-      document.getElementById('cfg_boost_embed_title').value = cfg.boost_embed_title || 'TERIMA KASIH SERVER BOOSTER!';
-      document.getElementById('cfg_boost_sender_name').value = cfg.boost_sender_name || 'Tim Server';
-      document.getElementById('cfg_boost_image_url').value = cfg.boost_image_url || '';
-      document.getElementById('cfg_boost_message').value = cfg.boost_message || '';
-
-      // Core & AutoMod
       document.getElementById('cfg_auto_role_id').value = cfg.auto_role_id || '';
       document.getElementById('cfg_log_channel_id').value = cfg.log_channel_id || '';
       document.getElementById('cfg_mod_panel_channel_id').value = cfg.mod_panel_channel_id || '';
+      document.getElementById('cfg_trap_threshold').value = cfg.trap_threshold || 5;
 
-      if (cfg.automod) {
-        document.getElementById('cfg_automod_anti_spam').checked = cfg.automod.anti_spam !== false;
-        document.getElementById('cfg_automod_filter_links').checked = cfg.automod.filter_links !== false;
-        document.getElementById('cfg_automod_filter_badwords').checked = cfg.automod.filter_badwords !== false;
-      }
+      document.getElementById('cfg_automod_anti_spam').checked = cfg.automod.anti_spam !== false;
+      document.getElementById('cfg_automod_filter_links').checked = cfg.automod.filter_links !== false;
+      document.getElementById('cfg_automod_filter_badwords').checked = cfg.automod.filter_badwords !== false;
 
-      // Channel Rules
+      // Feeds & AI
+      document.getElementById('cfg_feed_yt_channel').value = cfg.feed_yt_channel || '';
+      document.getElementById('cfg_feed_tiktok_channel').value = cfg.feed_tiktok_channel || '';
+      document.getElementById('cfg_feed_ig_channel').value = cfg.feed_ig_channel || '';
+      document.getElementById('cfg_feed_yt_template').value = cfg.feed_yt_template || '';
+
+      document.getElementById('cfg_bot_act_type').value = cfg.bot_activity_type || 'playing';
+      document.getElementById('cfg_bot_act_name').value = cfg.bot_activity_name || '';
+      document.getElementById('cfg_cyber_img_channel').value = cfg.cyber_img_channel || '';
+      document.getElementById('cfg_ai_instructions').value = cfg.ai_instructions || '';
+
+      document.getElementById('cfg_voice_hub_channel').value = cfg.voice_hub_channel || '';
+      document.getElementById('cfg_voice_category_id').value = cfg.voice_category_id || '';
+
       renderChannelRulesTable(cfg.channel_rules || {});
     }
 
     function renderChannelRulesTable(rules) {
-      const tbody = document.getElementById('channelRulesTableBody');
-      const channelIds = Object.keys(rules);
-
-      if (channelIds.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-faint);padding:20px;">Belum ada aturan khusus saluran untuk server ini. Klik tombol tambah di atas untuk membuat.</td></tr>`;
+      const tbody = document.getElementById('channelRulesBody');
+      const keys = Object.keys(rules || {});
+      if (keys.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 18px;">Belum ada aturan khusus kanal. Klik "Tambah Aturan" untuk memasang aturan baru.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = channelIds.map(cid => {
+      tbody.innerHTML = keys.map(cid => {
         const r = rules[cid] || {};
         return `
           <tr data-cid="${cid}">
-            <td><code style="color:#C7D2FE;">${cid}</code></td>
-            <td><input type="checkbox" class="rule-disallow-bots" ${r.disallow_bots ? 'checked' : ''}></td>
-            <td><input type="checkbox" class="rule-disallow-media" ${r.disallow_media ? 'checked' : ''}></td>
-            <td><input type="checkbox" class="rule-disallow-prefix" ${r.disallow_prefix ? 'checked' : ''}></td>
-            <td><input type="checkbox" class="rule-disallow-url" ${r.disallow_url ? 'checked' : ''}></td>
-            <td><input type="number" class="dash-input rule-auto-delete" style="width:70px;min-height:30px;padding:2px 6px;" value="${r.auto_delete_seconds || 0}"></td>
-            <td><button type="button" onclick="deleteChannelRuleRow('${cid}')" style="background:none;border:none;color:#EF4444;cursor:pointer;font-weight:600;">Hapus</button></td>
+            <td><input type="text" class="dash-input rule-channel-id" value="${cid}" style="font-family: var(--font-mono); width: 170px;"></td>
+            <td style="text-align: center;"><input type="checkbox" class="rule-disallow-bots" ${r.disallow_bots ? 'checked' : ''}></td>
+            <td style="text-align: center;"><input type="checkbox" class="rule-disallow-media" ${r.disallow_media ? 'checked' : ''}></td>
+            <td style="text-align: center;"><input type="checkbox" class="rule-disallow-prefix" ${r.disallow_prefix ? 'checked' : ''}></td>
+            <td style="text-align: center;"><input type="checkbox" class="rule-disallow-url" ${r.disallow_url ? 'checked' : ''}></td>
+            <td><input type="number" class="dash-input rule-auto-delete" value="${r.auto_delete_seconds || 0}" style="width: 80px;"></td>
+            <td><button type="button" class="btn-dash btn-dash-danger" style="padding: 4px 8px; font-size: 0.74rem;" onclick="deleteChannelRuleRow('${cid}')">Hapus</button></td>
           </tr>
         `;
       }).join('');
     }
 
     function addNewChannelRuleRow() {
-      const cid = prompt('Masukkan Channel ID Discord:');
-      if (!cid || !/^\d{16,21}$/.test(cid.trim())) {
-        if (cid) alert('Channel ID tidak valid.');
-        return;
-      }
-      if (!activeGuildConfig.channel_rules) activeGuildConfig.channel_rules = {};
-      activeGuildConfig.channel_rules[cid.trim()] = {
-        disallow_bots: false,
-        disallow_media: false,
-        disallow_prefix: false,
-        disallow_url: false,
-        auto_delete_seconds: 0
-      };
-      renderChannelRulesTable(activeGuildConfig.channel_rules);
+      const tbody = document.getElementById('channelRulesBody');
+      const tempId = 'ch_' + Date.now();
+      const row = document.createElement('tr');
+      row.setAttribute('data-cid', tempId);
+      row.innerHTML = `
+        <td><input type="text" class="dash-input rule-channel-id" placeholder="ID Kanal Discord..." style="font-family: var(--font-mono); width: 170px;"></td>
+        <td style="text-align: center;"><input type="checkbox" class="rule-disallow-bots"></td>
+        <td style="text-align: center;"><input type="checkbox" class="rule-disallow-media"></td>
+        <td style="text-align: center;"><input type="checkbox" class="rule-disallow-prefix"></td>
+        <td style="text-align: center;"><input type="checkbox" class="rule-disallow-url"></td>
+        <td><input type="number" class="dash-input rule-auto-delete" value="0" style="width: 80px;"></td>
+        <td><button type="button" class="btn-dash btn-dash-danger" style="padding: 4px 8px; font-size: 0.74rem;" onclick="this.closest('tr').remove()">Hapus</button></td>
+      `;
+      if (tbody.querySelector('td[colspan]')) tbody.innerHTML = '';
+      tbody.appendChild(row);
     }
 
     function deleteChannelRuleRow(cid) {
-      if (activeGuildConfig.channel_rules && activeGuildConfig.channel_rules[cid]) {
-        delete activeGuildConfig.channel_rules[cid];
-        renderChannelRulesTable(activeGuildConfig.channel_rules);
-      }
+      const tr = document.querySelector(`tr[data-cid="${cid}"]`);
+      if (tr) tr.remove();
     }
 
-    // 6. Save Active Guild Config
     function saveActiveGuildConfiguration() {
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      const btn = event ? event.target.closest('button') : null;
-      if (btn) btn.disabled = true;
+      const btn = document.getElementById('btnSaveAllConfig');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
 
-      // Extract form values
-      const updatedConfig = { ...activeGuildConfig };
-      updatedConfig.guild_id = currentGuildId;
-      updatedConfig.welcome_channel_id = document.getElementById('cfg_welcome_channel_id').value.trim() || null;
-      updatedConfig.welcome_embed_title = document.getElementById('cfg_welcome_embed_title').value.trim();
-      updatedConfig.welcome_sender_name = document.getElementById('cfg_welcome_sender_name').value.trim();
-      updatedConfig.welcome_banner_url = document.getElementById('cfg_welcome_banner_url').value.trim();
-      updatedConfig.welcome_message = document.getElementById('cfg_welcome_message').value.trim();
-      updatedConfig.goodbye_message = document.getElementById('cfg_goodbye_message').value.trim();
+      const updated = {
+        welcome_channel_id: document.getElementById('cfg_welcome_channel_id').value.trim() || null,
+        welcome_embed_title: document.getElementById('cfg_welcome_embed_title').value.trim(),
+        welcome_sender_name: document.getElementById('cfg_welcome_sender_name').value.trim(),
+        welcome_banner_url: document.getElementById('cfg_welcome_banner_url').value.trim(),
+        welcome_message: document.getElementById('cfg_welcome_message').value.trim(),
+        goodbye_message: document.getElementById('cfg_goodbye_message').value.trim(),
 
-      updatedConfig.boost_channel_id = document.getElementById('cfg_boost_channel_id').value.trim() || null;
-      updatedConfig.boost_embed_title = document.getElementById('cfg_boost_embed_title').value.trim();
-      updatedConfig.boost_sender_name = document.getElementById('cfg_boost_sender_name').value.trim();
-      updatedConfig.boost_image_url = document.getElementById('cfg_boost_image_url').value.trim();
-      updatedConfig.boost_message = document.getElementById('cfg_boost_message').value.trim();
+        boost_channel_id: document.getElementById('cfg_boost_channel_id').value.trim() || null,
+        auto_role_id: document.getElementById('cfg_auto_role_id').value.trim() || null,
+        log_channel_id: document.getElementById('cfg_log_channel_id').value.trim() || null,
+        mod_panel_channel_id: document.getElementById('cfg_mod_panel_channel_id').value.trim() || null,
+        trap_threshold: parseInt(document.getElementById('cfg_trap_threshold').value || '5', 10),
 
-      updatedConfig.auto_role_id = document.getElementById('cfg_auto_role_id').value.trim() || null;
-      updatedConfig.log_channel_id = document.getElementById('cfg_log_channel_id').value.trim() || null;
-      updatedConfig.mod_panel_channel_id = document.getElementById('cfg_mod_panel_channel_id').value.trim() || null;
+        automod: {
+          anti_spam: document.getElementById('cfg_automod_anti_spam').checked,
+          filter_links: document.getElementById('cfg_automod_filter_links').checked,
+          filter_badwords: document.getElementById('cfg_automod_filter_badwords').checked
+        },
 
-      updatedConfig.automod = {
-        anti_spam: document.getElementById('cfg_automod_anti_spam').checked,
-        filter_links: document.getElementById('cfg_automod_filter_links').checked,
-        filter_badwords: document.getElementById('cfg_automod_filter_badwords').checked
+        feed_yt_channel: document.getElementById('cfg_feed_yt_channel').value.trim() || null,
+        feed_tiktok_channel: document.getElementById('cfg_feed_tiktok_channel').value.trim() || null,
+        feed_ig_channel: document.getElementById('cfg_feed_ig_channel').value.trim() || null,
+        feed_yt_template: document.getElementById('cfg_feed_yt_template').value.trim(),
+
+        bot_activity_type: document.getElementById('cfg_bot_act_type').value,
+        bot_activity_name: document.getElementById('cfg_bot_act_name').value.trim(),
+        cyber_img_channel: document.getElementById('cfg_cyber_img_channel').value.trim() || null,
+        ai_instructions: document.getElementById('cfg_ai_instructions').value.trim(),
+
+        voice_hub_channel: document.getElementById('cfg_voice_hub_channel').value.trim() || null,
+        voice_category_id: document.getElementById('cfg_voice_category_id').value.trim() || null,
+        channel_rules: {}
       };
 
-      // Read channel rules rows
-      const rows = document.querySelectorAll('#channelRulesTableBody tr');
-      const updatedRules = {};
-      rows.forEach(tr => {
-        const cid = tr.getAttribute('data-cid');
+      // Collect rules
+      document.querySelectorAll('#channelRulesBody tr[data-cid]').forEach(tr => {
+        const idInp = tr.querySelector('.rule-channel-id');
+        const cid = idInp ? idInp.value.trim() : '';
         if (cid) {
-          updatedRules[cid] = {
-            disallow_bots: tr.querySelector('.rule-disallow-bots') ? tr.querySelector('.rule-disallow-bots').checked : false,
-            disallow_media: tr.querySelector('.rule-disallow-media') ? tr.querySelector('.rule-disallow-media').checked : false,
-            disallow_prefix: tr.querySelector('.rule-disallow-prefix') ? tr.querySelector('.rule-disallow-prefix').checked : false,
-            disallow_url: tr.querySelector('.rule-disallow-url') ? tr.querySelector('.rule-disallow-url').checked : false,
-            auto_delete_seconds: parseInt(tr.querySelector('.rule-auto-delete') ? tr.querySelector('.rule-auto-delete').value : 0) || 0
+          updated.channel_rules[cid] = {
+            disallow_bots: tr.querySelector('.rule-disallow-bots')?.checked || false,
+            disallow_media: tr.querySelector('.rule-disallow-media')?.checked || false,
+            disallow_prefix: tr.querySelector('.rule-disallow-prefix')?.checked || false,
+            disallow_url: tr.querySelector('.rule-disallow-url')?.checked || false,
+            auto_delete_seconds: parseInt(tr.querySelector('.rule-auto-delete')?.value || '0', 10)
           };
         }
       });
-      updatedConfig.channel_rules = updatedRules;
 
       fetch(`${API_BASE}/api/bot/guild/${currentGuildId}`, {
         method: 'POST',
@@ -2000,71 +1902,70 @@
           'Content-Type': 'application/json',
           'Authorization': token ? `Bearer ${token}` : ''
         },
-        body: JSON.stringify({ token: token, config: updatedConfig })
+        body: JSON.stringify({ token, config: updated })
       })
       .then(r => r.json())
       .then(res => {
-        if (btn) btn.disabled = false;
+        btn.disabled = false;
+        btn.textContent = 'Simpan Semua Konfigurasi Server';
         if (res.status === 'success') {
-          showToast(`✅ Pengaturan untuk ${currentGuildName} berhasil disimpan ke MongoDB!`);
+          showToast('Konfigurasi server berhasil disimpan!');
         } else {
-          alert('Gagal menyimpan: ' + (res.message || 'Periksa otentikasi'));
+          alert('Gagal menyimpan: ' + (res.message || 'Periksa otorisasi'));
         }
       })
       .catch(err => {
-        if (btn) btn.disabled = false;
-        alert('Kendala koneksi ke server: ' + err);
+        btn.disabled = false;
+        btn.textContent = 'Simpan Semua Konfigurasi Server';
+        alert('Error: ' + err);
       });
     }
 
-    // 7. Webhook Dispatcher
+    // 6. Webhook Live Preview & Send
     function updateEmbedPreview() {
-      const name = document.getElementById('wb_sender_name').value || 'RTMBOT Official';
-      const content = document.getElementById('wb_content_text').value || '';
-      const title = document.getElementById('wb_embed_title').value || '';
-      const color = document.getElementById('wb_embed_color').value || '#5865F2';
-      const desc = document.getElementById('wb_embed_desc').value || '';
-      const author = document.getElementById('wb_embed_author').value || '';
-      const footer = document.getElementById('wb_embed_footer').value || '';
+      const username = document.getElementById('wh_username').value || 'RTMBOT Pengumuman';
+      const title = document.getElementById('wh_embed_title').value || 'Judul Pengumuman';
+      const desc = document.getElementById('wh_embed_description').value || 'Deskripsi pengumuman akan ditampilkan di sini secara realtime.';
+      const color = document.getElementById('wh_embed_color').value || '#5865F2';
+      const imgUrl = document.getElementById('wh_embed_image').value.trim();
+      const footer = document.getElementById('wh_embed_footer').value || 'RTMBOT Official Portal';
 
-      document.getElementById('prevBotName').innerText = name;
-      document.getElementById('prevContentText').innerText = content;
-      document.getElementById('prevEmbedTitle').innerText = title;
-      document.getElementById('prevEmbedCard').style.borderLeftColor = color;
-      document.getElementById('prevEmbedDesc').innerText = desc;
+      document.getElementById('prevUsername').textContent = username;
+      document.getElementById('prevTitle').textContent = title;
+      document.getElementById('prevDesc').textContent = desc;
+      document.getElementById('embedPreviewCard').style.borderLeftColor = color;
 
-      const authElem = document.getElementById('prevEmbedAuthor');
-      if (author) {
-        authElem.innerText = author;
-        authElem.style.display = 'block';
+      const imgElem = document.getElementById('prevImg');
+      if (imgUrl) {
+        imgElem.src = imgUrl;
+        imgElem.style.display = 'block';
       } else {
-        authElem.style.display = 'none';
+        imgElem.style.display = 'none';
       }
-
-      document.getElementById('prevEmbedFooter').innerText = footer || 'RTMBOT Sentinel';
+      document.getElementById('prevFooter').textContent = footer;
     }
 
     function sendDiscordWebhookNow() {
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      const webhookUrl = (document.getElementById('wb_target_url').value || '').trim();
-      if (!webhookUrl) {
-        alert('Harap masukkan URL Discord Webhook tujuan.');
+      const url = document.getElementById('wh_url').value.trim();
+      if (!url) {
+        alert('Masukkan Discord Webhook URL terlebih dahulu.');
         return;
       }
 
       const payload = {
         token: token,
-        webhook_url: webhookUrl,
-        username: document.getElementById('wb_sender_name').value.trim(),
-        avatar_url: document.getElementById('wb_avatar_url').value.trim(),
-        content: document.getElementById('wb_content_text').value.trim(),
-        embed: {
-          title: document.getElementById('wb_embed_title').value.trim(),
-          description: document.getElementById('wb_embed_desc').value.trim(),
-          color: document.getElementById('wb_embed_color').value.trim(),
-          author_name: document.getElementById('wb_embed_author').value.trim(),
-          footer_text: document.getElementById('wb_embed_footer').value.trim()
-        }
+        webhook_url: url,
+        channel_id: document.getElementById('wh_target_channel').value.trim() || undefined,
+        username: document.getElementById('wh_username').value.trim() || 'RTMBOT Pengumuman',
+        avatar_url: document.getElementById('wh_avatar_url').value.trim() || undefined,
+        embeds: [{
+          title: document.getElementById('wh_embed_title').value.trim() || 'Pengumuman Resmi',
+          description: document.getElementById('wh_embed_description').value.trim() || '',
+          color: parseInt(document.getElementById('wh_embed_color').value.replace('#', ''), 16) || 0x5865F2,
+          image: document.getElementById('wh_embed_image').value.trim() ? { url: document.getElementById('wh_embed_image').value.trim() } : undefined,
+          footer: { text: document.getElementById('wh_embed_footer').value.trim() || 'RTMBOT Official' }
+        }]
       };
 
       fetch(`${API_BASE}/api/admin/send-webhook`, {
@@ -2078,153 +1979,259 @@
       .then(r => r.json())
       .then(res => {
         if (res.status === 'success') {
-          showToast('🚀 Pesan Webhook berhasil terkirim ke Discord!');
+          showToast('Webhook berhasil disiarkan!');
         } else {
-          alert('Gagal mengirim webhook: ' + (res.message || 'Cek URL Webhook'));
+          alert('Gagal mengirim webhook: ' + (res.message || 'Periksa URL Webhook'));
         }
       })
-      .catch(err => alert('Error pengiriman: ' + err));
+      .catch(err => alert('Error pengiriman webhook: ' + err));
     }
 
-        // Channel Dropdowns & Guild Channels Loader
-    let guildChannelsList = [];
-
-    async function loadGuildChannels(guildId) {
-      if (!guildId) return;
-      try {
-        const res = await fetch(`${API_BASE}/api/bot/guild/${guildId}/channels`);
-        const data = await res.json();
-        if (data && data.status === 'success' && Array.isArray(data.channels)) {
-          guildChannelsList = data.channels;
-          renderGuildChannelDropdowns();
-        }
-      } catch (err) {
-        console.warn('Gagal mengambil daftar channel:', err);
-      }
-    }
-
-    function renderGuildChannelDropdowns() {
-      const channelSelectIds = [
-        'cfg_welcome_channel_id',
-        'cfg_boost_channel_id',
-        'cfg_log_channel_id',
-        'cfg_mod_panel_channel_id',
-        'cmd_target_channel'
-      ];
-
-      channelSelectIds.forEach(selectId => {
-        const el = document.getElementById(selectId);
-        if (!el) return;
-        const currentVal = el.value;
-
-        let html = '<option value="">-- Pilih Kanal Discord --</option>';
-        const textChannels = guildChannelsList.filter(c => c.type_name === 'text');
-        const voiceChannels = guildChannelsList.filter(c => c.type_name === 'voice');
-
-        if (textChannels.length > 0) {
-          html += '<optgroup label="Kanal Teks & Pengumuman">';
-          textChannels.forEach(c => {
-            html += `<option value="${c.id}"># ${c.name} (${c.id})</option>`;
-          });
-          html += '</optgroup>';
-        }
-
-        if (voiceChannels.length > 0) {
-          html += '<optgroup label="Kanal Suara">';
-          voiceChannels.forEach(c => {
-            html += `<option value="${c.id}">🔊 ${c.name} (${c.id})</option>`;
-          });
-          html += '</optgroup>';
-        }
-
-        el.innerHTML = html;
-        if (currentVal) {
-          el.value = currentVal;
-          if (!el.value) {
-            // Keep existing saved ID if not found in list
-            const opt = document.createElement('option');
-            opt.value = currentVal;
-            opt.textContent = `Channel ID: ${currentVal}`;
-            el.appendChild(opt);
-            el.value = currentVal;
-          }
-        }
-      });
-    }
-
+    // 7. Remote Command Runner & IPC Logs
     function onCommandSelectChange() {
       const action = document.getElementById('cmd_action_select').value;
-      const amountWrap = document.getElementById('cmd_param_amount_wrap');
-      const slowmodeWrap = document.getElementById('cmd_param_slowmode_wrap');
-      const messageWrap = document.getElementById('cmd_param_message_wrap');
-      const customWrap = document.getElementById('cmd_param_custom_wrap');
+      
+      const wrapAmount = document.getElementById('cmd_wrap_amount');
+      const wrapSlowmode = document.getElementById('cmd_wrap_slowmode');
+      const wrapUserId = document.getElementById('cmd_wrap_user_id');
+      const wrapDuration = document.getElementById('cmd_wrap_duration');
+      const wrapReason = document.getElementById('cmd_wrap_reason');
+      const wrapMessage = document.getElementById('cmd_wrap_message');
+      const wrapAnnounce = document.getElementById('cmd_wrap_announce');
+      const wrapQuestion = document.getElementById('cmd_wrap_question');
+      const wrapCustom = document.getElementById('cmd_wrap_custom');
 
-      amountWrap.style.display = (action === 'clear') ? 'block' : 'none';
-      slowmodeWrap.style.display = (action === 'slowmode') ? 'block' : 'none';
-      messageWrap.style.display = (action === 'say') ? 'block' : 'none';
-      customWrap.style.display = (action === 'custom') ? 'block' : 'none';
+      // Hide all parameter blocks
+      wrapAmount.style.display = 'none';
+      wrapSlowmode.style.display = 'none';
+      wrapUserId.style.display = 'none';
+      wrapDuration.style.display = 'none';
+      wrapReason.style.display = 'none';
+      wrapMessage.style.display = 'none';
+      wrapAnnounce.style.display = 'none';
+      wrapQuestion.style.display = 'none';
+      wrapCustom.style.display = 'none';
+
+      // Show specific
+      if (action === 'clear') {
+        wrapAmount.style.display = 'block';
+      } else if (action === 'slowmode') {
+        wrapSlowmode.style.display = 'block';
+      } else if (action === 'kick' || action === 'ban') {
+        wrapUserId.style.display = 'block';
+        wrapReason.style.display = 'block';
+      } else if (action === 'unban' || action === 'voice_disconnect') {
+        wrapUserId.style.display = 'block';
+      } else if (action === 'timeout') {
+        wrapUserId.style.display = 'block';
+        wrapDuration.style.display = 'block';
+        wrapReason.style.display = 'block';
+      } else if (action === 'say') {
+        wrapMessage.style.display = 'block';
+      } else if (action === 'announce') {
+        wrapAnnounce.style.display = 'block';
+      } else if (action === 'tanya') {
+        wrapQuestion.style.display = 'block';
+      } else if (action === 'rangkum_chat') {
+        wrapAmount.style.display = 'block';
+      } else if (action === 'custom') {
+        wrapCustom.style.display = 'block';
+      }
+
+      updateCommandSyntaxPreview();
     }
 
-    // 8. Remote Console & Command Runner
-    function pickCommand(cmd) {
-      const customWrap = document.getElementById('cmd_param_custom_wrap');
-      document.getElementById('cmd_action_select').value = 'custom';
+    function selectCommandPreset(cmdType) {
+      const sel = document.getElementById('cmd_action_select');
+      if (cmdType === 'ping') sel.value = 'ping';
+      else if (cmdType === 'clear') sel.value = 'clear';
+      else if (cmdType === 'slowmode') sel.value = 'slowmode';
+      else if (cmdType === 'lock') sel.value = 'lock';
+      else if (cmdType === 'unlock') sel.value = 'unlock';
+      else if (cmdType === 'say') sel.value = 'say';
+      else if (cmdType === 'announce') sel.value = 'announce';
+      else if (cmdType === 'voicepanel') sel.value = 'voicepanel';
+      else if (cmdType === 'modpanel') sel.value = 'modpanel';
+      else if (cmdType === 'leaderboard') sel.value = 'leaderboard';
+      else if (cmdType === 'botinfo') sel.value = 'botinfo';
+      else if (cmdType === 'serverinfo') sel.value = 'serverinfo';
+      else sel.value = 'custom';
+
       onCommandSelectChange();
-      document.getElementById('cmd_param_custom').value = cmd;
+    }
+
+    function updateCommandSyntaxPreview() {
+      const action = document.getElementById('cmd_action_select').value;
+      const previewElem = document.getElementById('cmdSyntaxPreviewTxt');
+      let syntax = '';
+
+      if (action === 'clear') {
+        const amt = document.getElementById('cmd_param_amount').value || '10';
+        syntax = `clear ${amt}`;
+      } else if (action === 'slowmode') {
+        const sec = document.getElementById('cmd_param_seconds').value || '5';
+        syntax = `slowmode ${sec}`;
+      } else if (action === 'lock') {
+        syntax = 'lock';
+      } else if (action === 'unlock') {
+        syntax = 'unlock';
+      } else if (action === 'kick') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim() || '<user_id>';
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        syntax = `kick ${uid}${r ? ' ' + r : ''}`;
+      } else if (action === 'ban') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim() || '<user_id>';
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        syntax = `ban ${uid}${r ? ' ' + r : ''}`;
+      } else if (action === 'unban') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim() || '<user_id>';
+        syntax = `unban ${uid}`;
+      } else if (action === 'timeout') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim() || '<user_id>';
+        const d = document.getElementById('cmd_param_duration').value || '10';
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        syntax = `timeout ${uid} ${d}${r ? ' ' + r : ''}`;
+      } else if (action === 'voice_disconnect') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim() || '<user_id>';
+        syntax = `voice_disconnect ${uid}`;
+      } else if (action === 'modpanel') {
+        syntax = '!modpanel';
+      } else if (action === 'voicepanel') {
+        syntax = 'voicepanel';
+      } else if (action === 'voicerecord') {
+        syntax = '!voicerecord';
+      } else if (action === 'leaderboard') {
+        syntax = '!leaderboard';
+      } else if (action === 'say') {
+        const msg = document.getElementById('cmd_param_message').value.trim();
+        syntax = `say ${msg || '<teks_pesan>'}`;
+      } else if (action === 'announce') {
+        const t = document.getElementById('cmd_param_ann_title').value.trim();
+        const d = document.getElementById('cmd_param_ann_desc').value.trim();
+        syntax = `announce ${t || '<judul>'} | ${d || '<deskripsi>'}`;
+      } else if (action === 'tanya') {
+        const q = document.getElementById('cmd_param_question').value.trim();
+        syntax = `!tanya ${q || '<pertanyaan>'}`;
+      } else if (action === 'rangkum_chat') {
+        const c = document.getElementById('cmd_param_amount').value || '30';
+        syntax = `!rangkum_chat ${c}`;
+      } else if (action === 'reset_chat') {
+        syntax = '!reset_chat';
+      } else if (action === 'ping') {
+        syntax = 'ping';
+      } else if (action === 'botinfo') {
+        syntax = 'botinfo';
+      } else if (action === 'serverinfo') {
+        syntax = 'serverinfo';
+      } else if (action === 'custom') {
+        syntax = document.getElementById('cmd_param_custom').value.trim() || '<perintah_bebas>';
+      }
+
+      previewElem.textContent = syntax;
     }
 
     function dispatchBotCommandNow() {
       const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
       const action = document.getElementById('cmd_action_select').value;
-      const ch = (document.getElementById('cmd_target_channel').value || '').trim();
+      const targetCh = (document.getElementById('cmd_target_channel').value || '').trim();
+      const btn = document.getElementById('btnExecuteCommand');
 
       let cmd = '';
       if (action === 'clear') {
         const amt = document.getElementById('cmd_param_amount').value || '10';
-        cmd = `clear ${amt}`;
-        if (!ch) {
-          alert('Harap pilih Target Kanal Discord terlebih dahulu untuk menghapus pesan.');
+        if (!targetCh) {
+          alert('Pilih Target Kanal Discord terlebih dahulu untuk menghapus pesan.');
           return;
         }
+        cmd = `clear ${amt}`;
       } else if (action === 'slowmode') {
         const sec = document.getElementById('cmd_param_seconds').value || '5';
+        if (!targetCh) {
+          alert('Pilih Target Kanal Discord untuk mengatur slowmode.');
+          return;
+        }
         cmd = `slowmode ${sec}`;
-        if (!ch) {
-          alert('Harap pilih Target Kanal Discord untuk mengatur slowmode.');
-          return;
-        }
       } else if (action === 'lock') {
+        if (!targetCh) {
+          alert('Pilih Target Kanal Discord yang akan dikunci.');
+          return;
+        }
         cmd = 'lock';
-        if (!ch) {
-          alert('Harap pilih Target Kanal Discord yang akan dikunci.');
-          return;
-        }
       } else if (action === 'unlock') {
+        if (!targetCh) {
+          alert('Pilih Target Kanal Discord yang akan dibuka kuncinya.');
+          return;
+        }
         cmd = 'unlock';
-        if (!ch) {
-          alert('Harap pilih Target Kanal Discord yang akan dibuka.');
-          return;
-        }
+      } else if (action === 'kick') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim();
+        if (!uid) { alert('Masukkan User ID target.'); return; }
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        cmd = `kick ${uid}${r ? ' ' + r : ''}`;
+      } else if (action === 'ban') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim();
+        if (!uid) { alert('Masukkan User ID target.'); return; }
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        cmd = `ban ${uid}${r ? ' ' + r : ''}`;
+      } else if (action === 'unban') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim();
+        if (!uid) { alert('Masukkan User ID target.'); return; }
+        cmd = `unban ${uid}`;
+      } else if (action === 'timeout') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim();
+        if (!uid) { alert('Masukkan User ID target.'); return; }
+        const d = document.getElementById('cmd_param_duration').value || '10';
+        const r = document.getElementById('cmd_param_reason').value.trim();
+        cmd = `timeout ${uid} ${d}${r ? ' ' + r : ''}`;
+      } else if (action === 'voice_disconnect') {
+        const uid = document.getElementById('cmd_param_user_id').value.trim();
+        if (!uid) { alert('Masukkan User ID target.'); return; }
+        cmd = `voice_disconnect ${uid}`;
+      } else if (action === 'modpanel') {
+        if (!targetCh) { alert('Pilih Target Kanal Discord untuk modpanel.'); return; }
+        cmd = '!modpanel';
+      } else if (action === 'voicepanel') {
+        if (!targetCh) { alert('Pilih Target Kanal Discord untuk voicepanel.'); return; }
+        cmd = 'voicepanel';
+      } else if (action === 'voicerecord') {
+        cmd = '!voicerecord';
+      } else if (action === 'leaderboard') {
+        cmd = '!leaderboard';
       } else if (action === 'say') {
-        const msg = (document.getElementById('cmd_param_message').value || '').trim();
-        if (!msg) {
-          alert('Masukkan isi pesan yang akan diposting bot.');
-          return;
-        }
-        if (!ch) {
-          alert('Harap pilih Target Kanal Discord tujuan pesan.');
-          return;
-        }
+        const msg = document.getElementById('cmd_param_message').value.trim();
+        if (!msg) { alert('Tuliskan isi pesan.'); return; }
+        if (!targetCh) { alert('Pilih Target Kanal Discord untuk pesan say.'); return; }
         cmd = `say ${msg}`;
+      } else if (action === 'announce') {
+        const t = document.getElementById('cmd_param_ann_title').value.trim();
+        const d = document.getElementById('cmd_param_ann_desc').value.trim();
+        if (!d) { alert('Tuliskan isi pengumuman.'); return; }
+        if (!targetCh) { alert('Pilih Target Kanal Discord untuk pengumuman.'); return; }
+        cmd = `announce ${t || 'Pengumuman'} | ${d}`;
+      } else if (action === 'tanya') {
+        const q = document.getElementById('cmd_param_question').value.trim();
+        if (!q) { alert('Tuliskan pertanyaan.'); return; }
+        cmd = `!tanya ${q}`;
+      } else if (action === 'rangkum_chat') {
+        const c = document.getElementById('cmd_param_amount').value || '30';
+        if (!targetCh) { alert('Pilih Target Kanal Discord yang akan dirangkum.'); return; }
+        cmd = `!rangkum_chat ${c}`;
+      } else if (action === 'reset_chat') {
+        if (!targetCh) { alert('Pilih Target Kanal Discord.'); return; }
+        cmd = '!reset_chat';
       } else if (action === 'ping') {
         cmd = 'ping';
+      } else if (action === 'botinfo') {
+        cmd = 'botinfo';
+      } else if (action === 'serverinfo') {
+        cmd = 'serverinfo';
       } else if (action === 'custom') {
-        cmd = (document.getElementById('cmd_param_custom').value || '').trim();
-        if (!cmd) {
-          alert('Masukkan sintaks perintah bot.');
-          return;
-        }
+        cmd = document.getElementById('cmd_param_custom').value.trim();
+        if (!cmd) { alert('Masukkan sintaks perintah.'); return; }
       }
+
+      btn.disabled = true;
+      btn.textContent = 'Mengirim Perintah...';
 
       fetch(`${API_BASE}/api/admin/bot-command/dispatch`, {
         method: 'POST',
@@ -2236,60 +2243,26 @@
           token: token,
           command: cmd,
           guild_id: currentGuildId,
-          channel_id: ch,
-          issuer: 'Web Panel (' + currentGuildName + ')'
+          channel_id: targetCh,
+          issuer: 'Web Console (' + (document.getElementById('userNameTxt').textContent || 'Admin') + ')'
         })
       })
       .then(r => r.json())
       .then(res => {
+        btn.disabled = false;
+        btn.textContent = 'Eksekusi Perintah Sekarang';
         if (res.status === 'success') {
-          showToast('⚡ Perintah berhasil dikirim ke bot!');
+          showToast('Perintah masuk ke antrean bot!');
           loadCommandLogs();
         } else {
-          alert('Gagal dispatch: ' + (res.message || 'Periksa token'));
+          alert('Gagal dispatch: ' + (res.message || 'Periksa otorisasi'));
         }
       })
-      .catch(err => alert('Error dispatch: ' + err));
-    }
-    function pickCommand(cmd) {
-      document.getElementById('cmd_input').value = cmd;
-    }
-
-    function dispatchBotCommandNow() {
-      const token = localStorage.getItem('rtm_admin_token') || sessionStorage.getItem('rtm_admin_token');
-      const cmd = (document.getElementById('cmd_input').value || '').trim();
-      const ch = (document.getElementById('cmd_target_channel').value || '').trim();
-
-      if (!cmd) {
-        alert('Masukkan perintah bot terlebih dahulu.');
-        return;
-      }
-
-      fetch(`${API_BASE}/api/admin/bot-command/dispatch`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : ''
-        },
-        body: JSON.stringify({
-          token: token,
-          command: cmd,
-          guild_id: currentGuildId,
-          channel_id: ch,
-          issuer: 'Web Panel (' + currentGuildName + ')'
-        })
-      })
-      .then(r => r.json())
-      .then(res => {
-        if (res.status === 'success') {
-          showToast('⚡ Perintah masuk ke antrean bot!');
-          document.getElementById('cmd_input').value = '';
-          loadCommandLogs();
-        } else {
-          alert('Gagal dispatch: ' + (res.message || 'Periksa token'));
-        }
-      })
-      .catch(err => alert('Error dispatch: ' + err));
+      .catch(err => {
+        btn.disabled = false;
+        btn.textContent = 'Eksekusi Perintah Sekarang';
+        alert('Gagal menghubungi API command dispatcher: ' + err);
+      });
     }
 
     function loadCommandLogs() {
@@ -2299,53 +2272,89 @@
       })
       .then(r => r.json())
       .then(res => {
-        const wrap = document.getElementById('commandLogsList');
-        if (res && res.status === 'success' && Array.isArray(res.logs) && res.logs.length > 0) {
-          wrap.innerHTML = res.logs.slice(0, 8).map(l => {
-            let badgeClass = 'cmd-badge-pending';
-            let badgeText = '🟡 Antrean';
-            if (l.status === 'running') { badgeClass = 'cmd-badge-running'; badgeText = '🔵 Berjalan'; }
-            else if (l.status === 'success') { badgeClass = 'cmd-badge-success'; badgeText = '🟢 Selesai'; }
-            else if (l.status === 'failed') { badgeClass = 'cmd-badge-failed'; badgeText = '🔴 Gagal'; }
-
-            return `
-              <div class="cmd-log-card">
-                <div class="cmd-log-card-head">
-                  <span style="font-weight:700;color:#93C5FD;">${escapeHtml(l.command || '')}</span>
-                  <span class="${badgeClass}">${badgeText}</span>
-                </div>
-                <div style="font-size:0.75rem;color:var(--text-faint);">
-                  Issuer: ${escapeHtml(l.issuer || 'Web')} • Server: ${l.guild_id || '-'} • ${l.created_at || ''}
-                </div>
-                ${l.output ? `<div style="margin-top:6px;padding:6px;background:#050811;border-radius:4px;color:#A7F3D0;font-size:0.75rem;white-space:pre-wrap;">${escapeHtml(l.output)}</div>` : ''}
-              </div>
-            `;
-          }).join('');
-        } else {
-          wrap.innerHTML = `<div style="color:var(--text-faint);font-size:0.82rem;">Belum ada riwayat perintah terkini.</div>`;
+        if (res.status === 'success' && Array.isArray(res.logs)) {
+          renderCommandLogsTable(res.logs);
         }
       })
-      .catch(() => {});
+      .catch(e => console.error('Error load logs:', e));
     }
 
+    function renderCommandLogsTable(logs) {
+      const tbody = document.getElementById('commandLogsBody');
+      if (!logs || logs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 18px;">Belum ada riwayat perintah yang dieksekusi.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = logs.map(item => {
+        const dateStr = item.created_at ? new Date(item.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '-';
+        const st = (item.status || 'pending').toLowerCase();
+        let badgeClass = 'log-badge-pending';
+        let statusLabel = 'Menunggu';
+        if (st === 'completed') {
+          badgeClass = 'log-badge-completed';
+          statusLabel = 'Selesai';
+        } else if (st === 'failed') {
+          badgeClass = 'log-badge-failed';
+          statusLabel = 'Gagal';
+        }
+
+        const outTxt = item.output ? escapeHtml(item.output) : (st === 'pending' ? '<i>Dalam antrean eksekusi...</i>' : '-');
+        const chTxt = item.channel_id ? `<span style="font-family: var(--font-mono);">${item.channel_id}</span>` : '<i>Semua</i>';
+
+        return `
+          <tr>
+            <td style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-muted);">${dateStr}</td>
+            <td><code style="background: var(--bg-card); padding: 3px 6px; border-radius: 4px; font-size: 0.76rem;">${escapeHtml(item.command || '')}</code></td>
+            <td>${chTxt}</td>
+            <td style="font-size: 0.76rem; color: var(--text-muted);">${escapeHtml(item.issuer || 'Web')}</td>
+            <td><span class="log-badge ${badgeClass}">${statusLabel}</span></td>
+            <td style="font-size: 0.78rem;">${outTxt}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function startLogsAutoRefresh() {
+      stopLogsAutoRefresh();
+      logsIntervalId = setInterval(() => {
+        const autoCheck = document.getElementById('autoRefreshLogsCheck');
+        if (autoCheck && autoCheck.checked) {
+          loadCommandLogs();
+        }
+      }, 3000);
+    }
+
+    function stopLogsAutoRefresh() {
+      if (logsIntervalId) {
+        clearInterval(logsIntervalId);
+        logsIntervalId = null;
+      }
+    }
+
+    // 8. Utility Helpers
     function showToast(msg) {
-      const t = document.getElementById('saveToast');
-      t.innerText = msg;
-      t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 3500);
+      const box = document.getElementById('toastBox');
+      box.textContent = msg;
+      box.classList.add('show');
+      setTimeout(() => box.classList.remove('show'), 3500);
     }
 
     function escapeHtml(str) {
-      return String(str || '').replace(/[&<>"']/g, m => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      }[m]));
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initUserSession);
-    } else {
+    // Initialize on Page Load
+    document.addEventListener('DOMContentLoaded', () => {
       initUserSession();
-    }
+      onCommandSelectChange();
+    });
   </script>
 </body>
 </html>
