@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detective Haruru • Misteri Kamar 28 Oktober &amp; Patisserie Quest</title>
+
+  <!-- Typography: Editorial Serif, Friendly Handwriting & Clean Modern Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Three.js 3D Engine for Genuinely 3D Birthday Cake Model -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <link rel="stylesheet" href="style.css?v=20261010_v3">
+</head>
+<body>
+
+  <!-- Background Ambient Particle Canvas (Sakura & Golden Embers) -->
+  <canvas id="ambientCanvas" class="ambient-canvas"></canvas>
+
+  <!-- Confetti Celebration Canvas -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- Top Sticky Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-brand">
+      <div class="brand-badge-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+          <circle cx="12" cy="12" r="3" fill="#E86A82"/>
+          <path d="M12 3C13.5 5.5 13.5 7.5 12 9C10.5 7.5 10.5 5.5 12 3Z" fill="#FDE8EC"/>
+          <path d="M12 21C13.5 18.5 13.5 16.5 12 15C10.5 16.5 10.5 18.5 12 21Z" fill="#FDE8EC"/>
+          <path d="M3 12C5.5 13.5 7.5 13.5 9 12C7.5 10.5 5.5 10.5 3 12Z" fill="#FDE8EC"/>
+          <path d="M21 12C18.5 13.5 16.5 13.5 15 12C16.5 10.5 18.5 10.5 21 12Z" fill="#FDE8EC"/>
+        </svg>
+      </div>
+      <div>
+        <span class="brand-title">Detective Haruru Quest</span>
+        <span class="brand-subtitle">Kasus Spesial 28 Oktober 🎂</span>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <button type="button" class="btn-sound-toggle" id="btnSoundToggle" onclick="toggleAudio()" title="Putar Soundtrack Lagu">
+        <svg id="soundSvg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <span id="soundText">Soundtrack: Putar Lagu 🎵</span>
+      </button>
+      <button type="button" class="btn-sound-toggle" id="btnMusicModalOpen" onclick="openMusicModal()" title="Pilih Lagu / YouTube">
+        <span>🎧 Ganti Lagu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hidden YouTube Audio Player Container -->
+  <div id="ytPlayerContainer" style="position: absolute; width: 1px; height: 1px; left: -9999px; top: -9999px;"></div>
+
+  <main class="quest-container">
+
+    <!-- Hero Quest Header -->
+    <section class="quest-hero">
+      <div class="quest-badge">🕵️‍♀️ Mystery Escape &bull; Patisserie Studio &bull; Bandung 2026</div>
+      <h1 class="quest-title">Misteri Kamar &amp; Labirin Haruru</h1>
+      <p class="quest-desc">
+        Kunci brankas utama terkunci di dalam lorong Labirin Rahasia! Selidiki TKP kamar, putar jarum jam analog, kumpulkan sobekan surat rahasia, taklukkan labirin berkabut lentera, dan hias kue ulang tahun impianmu!
+      </p>
+
+      <!-- Stage Stepper -->
+      <div class="stage-stepper">
+        <div class="step-item active" id="step1" onclick="switchStage(1)">
+          <span class="step-num">1</span>
+          <span class="step-label">Kamar TKP</span>
+        </div>
+        <div class="step-line" id="line1"></div>
+        <div class="step-item" id="step2" onclick="switchStage(2)">
+          <span class="step-num">2</span>
+          <span class="step-label">Labirin Lentera</span>
+        </div>
+        <div class="step-line" id="line2"></div>
+        <div class="step-item" id="step3" onclick="switchStage(3)">
+          <span class="step-num">3</span>
+          <span class="step-label">Studio Kue</span>
+        </div>
+        <div class="step-line" id="line3"></div>
+        <div class="step-item" id="step4" onclick="switchStage(4)">
+          <span class="step-num">4</span>
+          <span class="step-label">Hadiah &amp; Doa</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         STAGE 1: INTERACTIVE DETECTIVE ROOM DIORAMA (2.5D VISUAL ROOM)
+         ===================================================================== -->
+    <section class="game-stage-wrapper" id="stageRoom">
+      <div class="stage-header">
+        <div class="stage-tag-pill">Tahap 1 &bull; Olah TKP Kamar Detektif 🔍</div>
+        <h2 class="stage-title">Misteri Kamar Studi &amp; Jam Antik</h2>
+        <p class="stage-subtitle">
+          Selamat datang di kamar detektif Haruru! Klik perabot di dalam ruangan untuk menyelidiki barang bukti, setel jam pendulum antik, kumpulkan 3 sobekan surat rahasia, dan buka brankas tersembunyi!
+        </p>
+      </div>
+
+      <!-- Investigation Status Tracker HUD -->
+      <div class="investigation-hud">
+        <div class="hud-item">
+          <span class="hud-label">⏰ Jam Antik:</span>
+          <span class="hud-status" id="hudClock">Terkunci (Belum 10:28)</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">📄 Sobekan Surat:</span>
+          <span class="hud-status" id="hudScraps">0 / 3 Terkumpul</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">🔐 Brankas Rahasia:</span>
+          <span class="hud-status" id="hudSafe">Terkunci (Perlu Sandi)</span>
+        </div>
+      </div>
+
+      <!-- TRUE 2.5D VISUAL ROOM DIORAMA -->
+      <div class="room-diorama-frame" id="roomDiorama">
+        <!-- Room Architecture: Ceiling & Hanging Chandelier -->
+        <div class="room-ceiling-beam"></div>
+
+        <!-- Upper Wall Layer: Victorian Wallpaper & Wainscoting -->
+        <div class="room-wall-bg">
+          <!-- Arched Stained Glass Window overlooking Bandung Night -->
+          <div class="room-window-arch">
+            <div class="window-glass">
+              <div class="window-stars"></div>
+              <div class="window-moon">🌙</div>
+              <div class="window-rain-sparkle"></div>
+            </div>
+            <div class="window-curtain left"></div>
+            <div class="window-curtain right"></div>
+            <div class="window-sill"></div>
+          </div>
+
+          <!-- Wall Picture Frame: Detective Certificate -->
+          <div class="wall-portrait">
+            <span class="portrait-icon">🌸</span>
+            <span class="portrait-label">HARURU</span>
+          </div>
+
+        </div>
+
+        <!-- Lower Floor Layer: Parquet Wood Flooring & Persian Rug -->
+        <div class="room-floor-bg">
+          <div class="parquet-lines"></div>
+          <div class="persian-rug">
+            <div class="rug-fringe left"></div>
+            <div class="rug-inner-pattern"></div>
+            <div class="rug-fringe right"></div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE FURNITURE PLACED IN ROOM -->
+        <div class="room-furniture-layer">
+
+          <!-- 1. Jam Dinding Antik (Grandfather / Wall Clock on Wall) -->
+          <div class="room-hotspot spot-clock" onclick="openClockModal()" title="Periksa Jam Antik (Setel ke 10:28)">
+            <div class="hotspot-badge">⏰ Jam Antik</div>
+            <div class="furniture-art clock-art">
+              <svg viewBox="0 0 90 130" class="svg-furniture">
+                <!-- Wooden Hood & Case -->
+                <rect x="20" y="8" width="50" height="74" rx="8" fill="#5A3A30" stroke="#3D251E" stroke-width="2.5"/>
+                <circle cx="45" cy="38" r="22" fill="#FFF9ED" stroke="#3D251E" stroke-width="2"/>
+                <!-- Clock Face Marks -->
+                <line x1="45" y1="18" x2="45" y2="23" stroke="#3D251E" stroke-width="2"/>
+                <line x1="45" y1="53" x2="45" y2="58" stroke="#3D251E" stroke-width="2"/>
+                <line x1="25" y1="38" x2="30" y2="38" stroke="#3D251E" stroke-width="2"/>
+                <line x1="60" y1="38" x2="65" y2="38" stroke="#3D251E" stroke-width="2"/>
+                <!-- Pendulum Arm & Bob -->
+                <line x1="45" y1="65" x2="45" y2="108" stroke="#C5A059" stroke-width="2.5" class="pendulum-arm"/>
+                <circle cx="45" cy="108" r="8" fill="#E5C175" stroke="#9A7736" stroke-width="1.5" class="pendulum-bob"/>
+                <!-- Clock Hands -->
+                <line id="sceneHourHand" x1="45" y1="38" x2="45" y2="26" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+                <line id="sceneMinHand" x1="45" y1="38" x2="58" y2="38" stroke="#E86A82" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="45" cy="38" r="2.5" fill="#222"/>
+              </svg>
+            </div>
+            <div class="furniture-shadow"></div>
+          </div>
+
+          <!-- 2. Lemari Rak Buku Mahoni (Floor-Standing Library Bookshelf) -->
+          <div class="room-hotspot spot-bookshelf" onclick="openBookshelfModal()" title="Periksa Rak Buku Mahoni">
+            <div class="hotspot-badge">📚 Rak Buku</div>
+            <div class="furniture-art bookshelf-art">
+              <svg viewBox="0 0 110 180" class="svg-furniture">
+                <!-- Top Crown Moulding -->
+                <rect x="4" y="4" width="102" height="12" rx="2" fill="#543324" stroke="#381E12" stroke-width="2"/>
+                <!-- Main Bookcase Body -->
+                <rect x="8" y="14" width="94" height="152" rx="3" fill="#6A4638" stroke="#482E24" stroke-width="2.5"/>
+                <!-- Shelves Dividing Beams -->
+                <line x1="8" y1="56" x2="102" y2="56" stroke="#3A2117" stroke-width="3"/>
+                <line x1="8" y1="98" x2="102" y2="98" stroke="#3A2117" stroke-width="3"/>
+                <line x1="8" y1="138" x2="102" y2="138" stroke="#3A2117" stroke-width="3"/>
+                <!-- Shelf 1: Colorful Mystery & Detective Novels -->
+                <rect x="14" y="24" width="11" height="30" rx="2" fill="#E86A82"/>
+                <rect x="27" y="20" width="13" height="34" rx="2" fill="#5B8C68"/>
+                <rect x="42" y="28" width="15" height="26" rx="2" fill="#E5A83B"/>
+                <rect x="59" y="22" width="12" height="32" rx="2" fill="#8E7CC3"/>
+                <rect x="73" y="26" width="14" height="28" rx="2" fill="#4A7C59"/>
+                <!-- Shelf 2: Detective Dossiers & Encyplopedia Binders -->
+                <rect x="14" y="64" width="15" height="32" rx="2" fill="#D7556E"/>
+                <rect x="31" y="67" width="18" height="29" rx="2" fill="#2E6B80"/>
+                <rect x="51" y="62" width="13" height="34" rx="2" fill="#E5A83B"/>
+                <rect x="66" y="66" width="20" height="30" rx="2" fill="#6C5B7B"/>
+                <!-- Shelf 3: Manuscripts, Scrolls & Desk Globe -->
+                <circle cx="34" cy="118" r="12" fill="#64B5F6" stroke="#1E88E5" stroke-width="2"/>
+                <path d="M34 104 A14 14 0 0 1 34 132" fill="none" stroke="#D4AF37" stroke-width="2"/>
+                <rect x="58" y="112" width="32" height="22" rx="3" fill="#FFF9ED" stroke="#C5A059" stroke-width="1.5"/>
+                <!-- Bottom Plinth Cabinet Base resting on floor -->
+                <rect x="6" y="156" width="98" height="18" rx="2" fill="#543324" stroke="#381E12" stroke-width="2"/>
+                <ellipse cx="20" cy="176" rx="6" ry="3" fill="#2E180E"/>
+                <ellipse cx="90" cy="176" rx="6" ry="3" fill="#2E180E"/>
+              </svg>
+            </div>
+            <div class="furniture-shadow wide"></div>
+          </div>
+
+          <!-- 3. Sofa Beludru & Bantal (Cozy Velvet Sofa on Persian Rug) -->
+          <div class="room-hotspot spot-sofa" onclick="clickSofa()" title="Periksa Bantal Sofa (Ada Sobekan Surat?)">
+            <div class="hotspot-badge">🛋️ Sofa &amp; Bantal</div>
+            <div class="furniture-art sofa-art">
+              <svg viewBox="0 0 150 100" class="svg-furniture">
+                <!-- Sofa Backrest -->
+                <rect x="15" y="16" width="120" height="46" rx="14" fill="#EFA7A4" stroke="#C97F7C" stroke-width="2.5"/>
+                <!-- Left & Right Armrests -->
+                <rect x="8" y="34" width="20" height="42" rx="7" fill="#DE8D8A" stroke="#C97F7C" stroke-width="2"/>
+                <rect x="122" y="34" width="20" height="42" rx="7" fill="#DE8D8A" stroke="#C97F7C" stroke-width="2"/>
+                <!-- Seat Cushions -->
+                <rect x="25" y="48" width="100" height="30" rx="7" fill="#FFF0EF" stroke="#C97F7C" stroke-width="2"/>
+                <!-- Wooden Legs -->
+                <line x1="26" y1="78" x2="20" y2="94" stroke="#5A3A30" stroke-width="4.5" stroke-linecap="round"/>
+                <line x1="124" y1="78" x2="130" y2="94" stroke="#5A3A30" stroke-width="4.5" stroke-linecap="round"/>
+                <!-- Interactive Pillow on Sofa -->
+                <g id="svgPillowGroup" class="pillow-spring">
+                  <rect x="74" y="40" width="38" height="32" rx="7" fill="#FCE1A8" stroke="#DCAE46" stroke-width="2.2"/>
+                  <circle cx="93" cy="56" r="3.5" fill="#DCAE46"/>
+                </g>
+                <!-- Hidden Scrap Badge -->
+                <g id="pillowScrapFoundBadge" style="display: none;">
+                  <circle cx="93" cy="56" r="9" fill="#4CAF50"/>
+                  <text x="93" y="60" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">✓</text>
+                </g>
+              </svg>
+            </div>
+            <div class="furniture-shadow wide"></div>
+          </div>
+
+          <!-- 4. Meja Kerja Investigasi & Lampu Hijau (Detective Desk on Floor) -->
+          <div class="room-hotspot spot-desk" onclick="openDeskModal()" title="Buka Meja Rekonstruksi Sobekan">
+            <div class="hotspot-badge">🔍 Meja Detektif</div>
+            <div class="furniture-art desk-art">
+              <svg viewBox="0 0 140 105" class="svg-furniture">
+                <!-- Desk Surface Top -->
+                <rect x="10" y="38" width="120" height="22" rx="3.5" fill="#8D5B4C" stroke="#5A3A30" stroke-width="2.5"/>
+                <!-- Desk Drawers & Legs -->
+                <rect x="16" y="60" width="30" height="34" rx="2" fill="#7A4E40" stroke="#5A3A30" stroke-width="2"/>
+                <circle cx="31" cy="77" r="2.5" fill="#D4AF37"/>
+                <line x1="116" y1="60" x2="120" y2="98" stroke="#5A3A30" stroke-width="4.5" stroke-linecap="round"/>
+                <!-- Banker's Desk Lamp -->
+                <path d="M30 38 Q34 16 46 20" stroke="#333" stroke-width="3" fill="none"/>
+                <path d="M42 16 L56 24 L46 30 Z" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+                <ellipse cx="51" cy="26" rx="11" ry="7" fill="#FFF9C4" opacity="0.6"/>
+                <!-- Paper Dossier on Desk -->
+                <rect x="68" y="32" width="28" height="15" rx="1.5" fill="#FFF9EE" stroke="#C5A059" stroke-width="1"/>
+                <line x1="72" y1="36" x2="90" y2="36" stroke="#888" stroke-width="1"/>
+                <line x1="72" y1="40" x2="88" y2="40" stroke="#888" stroke-width="1"/>
+                <!-- Detective Magnifying Glass -->
+                <circle cx="106" cy="34" r="8" fill="none" stroke="#222" stroke-width="2.5"/>
+                <line x1="112" y1="40" x2="122" y2="50" stroke="#8D5B4C" stroke-width="3.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="furniture-shadow wide"></div>
+          </div>
+
+          <!-- 5. Brankas Besi Berdiri Kokoh di Lantai (Floor-Standing Vault on Pedestal) -->
+          <div class="room-hotspot spot-safe" onclick="openSafeModal()" title="Buka Brankas Rahasia (Sandi 1-0-2-8)">
+            <div class="hotspot-badge">🔐 Brankas Rahasia</div>
+            <div class="furniture-art safe-art">
+              <svg viewBox="0 0 100 135" class="svg-furniture">
+                <!-- Sturdy Mahogany Base / Pedestal resting on parquet floor -->
+                <rect x="12" y="86" width="76" height="38" rx="3" fill="#543324" stroke="#3A2014" stroke-width="2.5"/>
+                <rect x="18" y="92" width="64" height="26" rx="2" fill="#422518" stroke="#32170D" stroke-width="1.5"/>
+                <circle cx="50" cy="105" r="3.5" fill="#D4AF37" stroke="#9A771E" stroke-width="1"/>
+                <!-- Carved Bun Feet resting firmly on floor -->
+                <ellipse cx="22" cy="126" rx="7" ry="4" fill="#2A160D"/>
+                <ellipse cx="78" cy="126" rx="7" ry="4" fill="#2A160D"/>
+                <rect x="18" y="122" width="8" height="4" fill="#C5A059"/>
+                <rect x="74" y="122" width="8" height="4" fill="#C5A059"/>
+
+                <!-- Heavy Cast-Iron Vault Safe standing on the pedestal -->
+                <rect x="10" y="8" width="80" height="78" rx="6" fill="#2E3338" stroke="#1C2024" stroke-width="3"/>
+                <rect x="16" y="14" width="68" height="66" rx="4" fill="#3D4349" stroke="#22262B" stroke-width="2"/>
+                <!-- Brass Corner Rivets -->
+                <circle cx="22" cy="20" r="2.5" fill="#D4AF37"/>
+                <circle cx="78" cy="20" r="2.5" fill="#D4AF37"/>
+                <circle cx="22" cy="74" r="2.5" fill="#D4AF37"/>
+                <circle cx="78" cy="74" r="2.5" fill="#D4AF37"/>
+                <!-- Steel Hinges on Left -->
+                <rect x="8" y="24" width="5" height="12" rx="1.5" fill="#888" stroke="#333" stroke-width="1"/>
+                <rect x="8" y="58" width="5" height="12" rx="1.5" fill="#888" stroke="#333" stroke-width="1"/>
+                <!-- Golden Rotary Dial Wheel -->
+                <circle cx="50" cy="46" r="19" fill="#D4AF37" stroke="#8C6A1A" stroke-width="2.5"/>
+                <circle cx="50" cy="46" r="14" fill="#FFF3CD" stroke="#B8860B" stroke-width="1.5"/>
+                <circle cx="50" cy="46" r="6" fill="#1C2024"/>
+                <line x1="50" y1="28" x2="50" y2="34" stroke="#8C6A1A" stroke-width="2.5"/>
+                <!-- Heavy Steel Turn Lever Handle -->
+                <rect x="22" y="44" width="12" height="6" rx="2" fill="#B0B5B9" stroke="#555" stroke-width="1"/>
+                <circle cx="24" cy="47" r="2" fill="#333"/>
+              </svg>
+            </div>
+            <div class="furniture-shadow wide"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dialogue Assistant Banner -->
+      <div class="dialogue-banner">
+        <div class="dialogue-avatar">
+          <div class="avatar-circle">🕵️‍♀️</div>
+        </div>
+        <div class="dialogue-content">
+          <div class="dialogue-speaker">Detektif Haruru &bull; Petunjuk Kasus:</div>
+          <p class="dialogue-text" id="dialogueText">
+            "Kamar ini menyimpan kunci rahasia! Mulailah dengan menyetel Jam Dinding Antik ke <strong>pukul 10:28</strong>, periksa bantal sofa dan rak buku, lalu susun sobekan surat di meja investigasi!"
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         STAGE 2: EXPEDITION LABYRINTH RPG WITH DYNAMIC TORCHLIGHT (21x21)
+         ===================================================================== -->
+    <section class="game-stage-wrapper" id="stageMaze" style="display: none;">
+      <div class="stage-header">
+        <div class="stage-tag-pill">Tahap 2 &bull; Gerbang Labirin Terbuka! 🗝️</div>
+        <h2 class="stage-title">Ekspedisi Labirin Lentera Haruru</h2>
+        <p class="stage-subtitle">
+          Bawa lentera menerobos lorong gelap labirin 21x21! Kumpulkan <strong>3 Bintang Memori ⭐</strong>, temukan <strong>Kunci Perak 🗝️</strong> untuk membuka <strong>Jeruji Besi 🚪</strong>, waspadai <strong>Bayangan Pengelana 👻</strong>, dan raih <strong>Kunci Emas 🔑</strong> di ujung jalan!
+        </p>
+      </div>
+
+      <div class="maze-wrapper-grid">
+
+        <!-- Maze Canvas Screen -->
+        <div class="maze-canvas-container">
+          <!-- In-Game Toast Banner for Smooth Feedback -->
+          <div id="mazeToastBanner" class="maze-toast-banner" style="display: none;"></div>
+
+          <div class="maze-screen-glow">
+            <canvas id="mazeCanvas" width="504" height="504"></canvas>
+          </div>
+
+          <div class="maze-legend-bar">
+            <span>🔴 Detektif Lentera</span>
+            <span>⭐ Bintang Memori (0/3)</span>
+            <span>🗝️ Kunci Perak</span>
+            <span>🚪 Jeruji Besi</span>
+            <span>👻 Bayangan Patroli</span>
+            <span>🔑 Kunci Emas</span>
+          </div>
+        </div>
+
+        <!-- Maze Controls & Dashboard -->
+        <div class="maze-hud-panel">
+          <div class="maze-stats-card">
+            <h4 class="card-heading">🎒 Inventori Ekspedisi</h4>
+            <div class="stat-row">
+              <span class="stat-name">⭐ Bintang Memori:</span>
+              <span class="stat-val" id="mazeStarCount">0 / 3</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">🗝️ Kunci Perak:</span>
+              <span class="stat-val" id="mazeSilverKeyStatus">Belum Ditemukan</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">🚪 Gerbang Jeruji:</span>
+              <span class="stat-val" id="mazeGateStatus">Terkunci</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-name">👣 Langkah:</span>
+              <span class="stat-val" id="mazeStepCount">0</span>
+            </div>
+          </div>
+
+          <!-- Detective Compass Hint Button -->
+          <div class="maze-hint-box">
+            <button type="button" class="btn-compass-hint" onclick="triggerCompassHint()" title="Beri petunjuk arah ke relik terdekat">
+              <span>🧭 Kompas Detektif (Petunjuk Arah)</span>
+            </button>
+            <div class="compass-hint-text" id="compassHintText">💡 Klik kompas jika butuh bantuan arah!</div>
+          </div>
+
+          <p class="maze-instruction">
+            Gunakan tombol panah keyboard / WASD atau D-Pad di bawah untuk melangkah:
+          </p>
+
+          <!-- On-screen Ergonomic D-Pad -->
+          <div class="dpad-box">
+            <button type="button" class="btn-dpad dpad-up" onclick="movePlayer(0, -1)" aria-label="Atas">▲</button>
+            <div class="dpad-row">
+              <button type="button" class="btn-dpad dpad-left" onclick="movePlayer(-1, 0)" aria-label="Kiri">◀</button>
+              <div class="dpad-core">🌸</div>
+              <button type="button" class="btn-dpad dpad-right" onclick="movePlayer(1, 0)" aria-label="Kanan">▶</button>
+            </div>
+            <button type="button" class="btn-dpad dpad-down" onclick="movePlayer(0, 1)" aria-label="Bawah">▼</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         STAGE 3: GENUINELY 3D THREE.JS PATISSERIE CAKE & CANDLE BLOWOUT
+         ===================================================================== -->
+    <section class="game-stage-wrapper" id="stageCake" style="display: none;">
+      <div class="stage-header">
+        <div class="stage-tag-pill">Tahap 3 &bull; Kunci Emas Didapatkan! 🎂</div>
+        <h2 class="stage-title">Studio Patisserie &amp; Desain Kue 3D Haruru</h2>
+        <p class="stage-subtitle">
+          Selamat! Kunci emas berhasil Anda ambil. Sekarang, kreasikan kue 3D tingkat impianmu: putar 360°, pilih selai lelehan, pasang topping buah sepuasnya, lalu nyalakan dan tiup lilin ulang tahunmu!
+        </p>
+      </div>
+
+      <div class="patisserie-layout">
+
+        <!-- Three.js 3D Interactive Cake Viewport -->
+        <div class="cake-display-stand" id="cakeDropZone">
+          <div class="cake-3d-viewport" id="cake3dContainer"></div>
+          <div class="cake-3d-hint">
+            <span>🖱️ Seret kursor / usap layar untuk memutar kue 360° secara interaktif!</span>
+          </div>
+        </div>
+
+        <!-- Patisserie Controls Palette -->
+        <div class="patisserie-palette">
+          <div class="palette-group">
+            <h4 class="palette-title">1. Pilih Rasa Selai Lelehan (3D Glaze):</h4>
+            <div class="glaze-selector-grid">
+              <button type="button" class="btn-glaze active" onclick="setCakeGlaze('strawberry')">
+                <span class="glaze-dot" style="background: #FCE4EC; border: 1px solid #E86A82;"></span>
+                <span>Strawberry Glaze 🍓</span>
+              </button>
+              <button type="button" class="btn-glaze" onclick="setCakeGlaze('matcha')">
+                <span class="glaze-dot" style="background: #D9EAD3; border: 1px solid #5B8C68;"></span>
+                <span>Matcha Drip 🍵</span>
+              </button>
+              <button type="button" class="btn-glaze" onclick="setCakeGlaze('chocolate')">
+                <span class="glaze-dot" style="background: #8D6E63; border: 1px solid #5D4037;"></span>
+                <span>Choco Ganache 🍫</span>
+              </button>
+              <button type="button" class="btn-glaze" onclick="setCakeGlaze('caramel')">
+                <span class="glaze-dot" style="background: #FFE082; border: 1px solid #FFA000;"></span>
+                <span>Gold Caramel 🍯</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="palette-group">
+            <h4 class="palette-title">2. Tambahkan Topping Buah 3D &amp; Lilin Cantik:</h4>
+            <div class="toppings-selector-grid">
+              <button type="button" class="btn-topping-item" onclick="addCakeTopping('strawberry')">
+                <span class="topping-emoji">🍓</span>
+                <span>Stroberi Segar</span>
+              </button>
+              <button type="button" class="btn-topping-item" onclick="addCakeTopping('macaron')">
+                <span class="topping-emoji">🧁</span>
+                <span>Macaron Pink</span>
+              </button>
+              <button type="button" class="btn-topping-item" onclick="addCakeTopping('cherry')">
+                <span class="topping-emoji">🍒</span>
+                <span>Ceri Manis</span>
+              </button>
+              <button type="button" class="btn-topping-item" onclick="addCakeTopping('blossom')">
+                <span class="topping-emoji">🌸</span>
+                <span>Bunga Sakura</span>
+              </button>
+              <button type="button" class="btn-topping-item" onclick="addCakeTopping('pearl')">
+                <span class="topping-emoji">⚪</span>
+                <span>Mutiara Cokelat</span>
+              </button>
+              <button type="button" class="btn-topping-item" id="btnToppingCandle" onclick="toggleCandle()">
+                <span class="topping-emoji">🕯️</span>
+                <span>Pasang Lilin Cantik</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cake Action Buttons -->
+          <div class="cake-action-bar">
+            <button type="button" class="btn-clear-cake" onclick="clearCakeToppings()">Bersihkan Hiasan</button>
+            <button type="button" class="btn-ignite-cake" id="btnCakeIgnite" onclick="igniteOrBlowCandle()">
+              <span>Nyalakan Lilin ✨</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         STAGE 4: THE GRAND CELEBRATION, REAL LUXURY COUPONS & DETECTIVE LICENSE
+         ===================================================================== -->
+    <section class="game-stage-wrapper celebration-stage" id="stageCelebration" style="display: none;">
+      <div class="celebration-container">
+
+        <div class="celeb-header">
+          <div class="celeb-badge">✨ Kasus Selesai • Selamat Ulang Tahun ✨</div>
+          <h2 class="celeb-title">Barakallahu Fii Umrik, Haruru! 🌸</h2>
+          <p class="celeb-sub">28 Oktober 2026 &bull; Dedikasi Spesial dari Mas Ilham &amp; Sahabat Discord RTM</p>
+        </div>
+
+        <!-- Special Letter Parchment -->
+        <div class="letter-parchment">
+          <div class="parchment-stamp">28 OKT</div>
+          <h3 class="letter-dear">Untuk Haruru yang Hebat &amp; Selalu Menginspirasi,</h3>
+          <p class="letter-p">
+            Selamat bertambah usia di tanggal 28 Oktober yang penuh berkah ini! Deduksimu sungguh luar biasa telah memecahkan teka-teki jam kuno, mengungkap sobekan rahasia, menembus labirin berkabut lentera, dan mendesain kue ulang tahun 3D yang begitu mempesona.
+          </p>
+          <p class="letter-p">
+            Doa tulus dari kami semua: Semoga Haruru senantiasa dilimpahkan kesehatan yang prima, kebahagiaan lahir dan batin, rezeki yang berkah berlimpah, serta kemudahan dalam mengejar setiap cita-cita dan impian besar yang ada di depan mata.
+          </p>
+          <p class="letter-p">
+            Terima kasih sudah menjadi teman yang luar biasa, selalu membawa tawa, dan menghangatkan obrolan di Discord. Tetaplah menjadi pribadi yang ceria, hangat, dan penuh semangat!
+          </p>
+          <p class="letter-signature">&mdash; Mas Ilham Endriadi &amp; Segenap Sahabat Discord RTM</p>
+        </div>
+
+        <!-- Official Detective License Generator -->
+        <div class="license-generator-card">
+          <h4 class="license-section-title">🎖️ Kartu Lisensi Resmi Detektif Haruru (Koleksi Digital)</h4>
+          <p class="license-desc">Lisensi kehormatan atas keberhasilan memecahkan Kasus 28 Oktober:</p>
+
+          <div class="license-badge-frame" id="licenseFrame">
+            <div class="license-gold-border">
+              <div class="license-top-row">
+                <span class="license-agency">BIRO DETEKTIF SWASTA HARURU</span>
+                <span class="license-class">RANK: S-CLASS</span>
+              </div>
+              <div class="license-body-row">
+                <div class="license-photo-box">
+                  <div class="license-photo-avatar">🕵️‍♀️</div>
+                  <span class="license-photo-label">HARURU</span>
+                </div>
+                <div class="license-info-box">
+                  <div class="license-name">HARURU • MASTER DETECTIVE</div>
+                  <div class="license-meta">NO. LISENSI: <strong>HR-2810-2026</strong></div>
+                  <div class="license-meta">TANGGAL: <strong>28 OKTOBER 2026</strong></div>
+                  <div class="license-meta">STATUS: <strong>RESMI &amp; AKTIF</strong></div>
+                  <div class="license-jurisdiction">WILAYAH: BANDUNG &bull; DISCORD RTM</div>
+                </div>
+                <div class="license-wax-seal">
+                  <div class="wax-circle">
+                    <span>🌸 28</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="license-btn-row">
+            <button type="button" class="btn-download-license" onclick="downloadDetectiveLicense()">
+              <span>📥 Simpan Kartu Lisensi (Download PNG)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- REAL HIGH-VALUE TREAT COUPONS FROM MAS ILHAM -->
+        <div class="scratch-cards-block">
+          <div class="coupons-header-row">
+            <h4 class="scratch-title">🎁 Kupon Traktiran &amp; Hadiah Spesial dari Mas Ilham:</h4>
+            <span class="coupons-subtitle">Bebas diklaim kapan saja &bull; Berlaku resmi seumur hidup tanpa tanggal kedaluwarsa!</span>
+          </div>
+
+          <div class="scratch-grid">
+
+            <!-- Kupon 1: All You Can Eat / Kuliner Resto Favorit -->
+            <div class="scratch-card-wrapper" id="cardCoupon1">
+              <div class="coupon-gold-badge">VIP TREAT #1</div>
+              <div class="scratch-secret-content">
+                <span class="secret-icon">🥩</span>
+                <span class="secret-title">Kupon All You Can Eat / Kuliner Resto Favorit</span>
+                <span class="secret-desc">Bebas makan apa aja &amp; di mana aja sepuasnya (Gyu-Kaku, Sushi Hiro, steakhouse, atau resto favorit Haruru). Mas Ilham bayar lunas 100%!</span>
+                <div class="coupon-serial">SERIAL: AYCE-HARURU-VIP-2810</div>
+                <div class="coupon-stamp" id="stampCoupon1">TERVERIFIKASI RESMI<br><small>SIAP DITAGIH KE MAS ILHAM</small></div>
+              </div>
+              <canvas class="scratch-canvas" id="scratchCanvas1" width="320" height="180"></canvas>
+              <div class="scratch-action-row">
+                <button type="button" class="btn-claim-voucher" onclick="claimCoupon(1)">
+                  <span>Klaim Voucher Resmi ✨</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Kupon 2: Wishlist Kado Impian -->
+            <div class="scratch-card-wrapper" id="cardCoupon2">
+              <div class="coupon-gold-badge">VIP TREAT #2</div>
+              <div class="scratch-secret-content">
+                <span class="secret-icon">🎁</span>
+                <span class="secret-title">Kupon Wishlist Kado Impian (Mas Ilham Wujudkan)</span>
+                <span class="secret-desc">Pilih 1 barang / kado impian apa pun yang lagi dipengenin! Kirim foto atau linknya, Mas Ilham langsung checkout-in &amp; kirim ke alamat Haruru!</span>
+                <div class="coupon-serial">SERIAL: WISHLIST-KADO-HR28</div>
+                <div class="coupon-stamp" id="stampCoupon2">TERVERIFIKASI RESMI<br><small>SIAP DITAGIH KE MAS ILHAM</small></div>
+              </div>
+              <canvas class="scratch-canvas" id="scratchCanvas2" width="320" height="180"></canvas>
+              <div class="scratch-action-row">
+                <button type="button" class="btn-claim-voucher" onclick="claimCoupon(2)">
+                  <span>Klaim Voucher Resmi ✨</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Kupon 3: Coffee & Dessert Date Seharian -->
+            <div class="scratch-card-wrapper" id="cardCoupon3">
+              <div class="coupon-gold-badge">VIP TREAT #3</div>
+              <div class="scratch-secret-content">
+                <span class="secret-icon">☕</span>
+                <span class="secret-title">Kupon Coffee &amp; Dessert Date Seharian Penuh</span>
+                <span class="secret-desc">Seharian penuh santai nongkrong di cafe estetik favorit Bandung, ngopi specialty, matcha dessert sepuasnya, ngobrol seru ditemani Mas Ilham.</span>
+                <div class="coupon-serial">SERIAL: DATE-CAFE-BDG-2026</div>
+                <div class="coupon-stamp" id="stampCoupon3">TERVERIFIKASI RESMI<br><small>SIAP DITAGIH KE MAS ILHAM</small></div>
+              </div>
+              <canvas class="scratch-canvas" id="scratchCanvas3" width="320" height="180"></canvas>
+              <div class="scratch-action-row">
+                <button type="button" class="btn-claim-voucher" onclick="claimCoupon(3)">
+                  <span>Klaim Voucher Resmi ✨</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Kupon 4: Golden Pass Hak Veto -->
+            <div class="scratch-card-wrapper" id="cardCoupon4">
+              <div class="coupon-gold-badge">VIP GOLDEN PASS #4</div>
+              <div class="scratch-secret-content">
+                <span class="secret-icon">👑</span>
+                <span class="secret-title">Kupon Golden Pass: Hak Veto &amp; Request Bebas</span>
+                <span class="secret-desc">Kupon sakti penyelamat darurat! Minta tolong apa aja, minta dihibur pas lagi bad mood, ditemenin begadang, atau 1 permintaan yang gak boleh ditolak Mas Ilham!</span>
+                <div class="coupon-serial">SERIAL: GOLDEN-VETO-PASS-28</div>
+                <div class="coupon-stamp" id="stampCoupon4">TERVERIFIKASI RESMI<br><small>SIAP DITAGIH KE MAS ILHAM</small></div>
+              </div>
+              <canvas class="scratch-canvas" id="scratchCanvas4" width="320" height="180"></canvas>
+              <div class="scratch-action-row">
+                <button type="button" class="btn-claim-voucher" onclick="claimCoupon(4)">
+                  <span>Klaim Voucher Resmi ✨</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bonus: Bikin Kupon Custom Sendiri -->
+          <div class="custom-coupon-builder">
+            <h5 class="builder-title">✍️ Kurang Pas? Terbitkan Kupon Traktiran Custom Sendiri:</h5>
+            <p class="builder-desc">Ketik traktiran atau permintaan apa pun yang Haruru inginkan dari Mas Ilham:</p>
+            <div class="builder-input-row">
+              <input type="text" id="customCouponInput" class="builder-input" placeholder="Contoh: Traktir Nonton Bioskop VIP + Popcorn Caramel..." maxlength="100">
+              <button type="button" class="btn-generate-coupon" onclick="generateCustomCoupon()">
+                <span>Cetak Voucher Resmi 🎫</span>
+              </button>
+            </div>
+            <div id="customCouponResult" class="custom-coupon-result" style="display: none;"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         CORKBOARD MEMO WALL: KARTU UCAPAN TERHUBUNG DATABASE CLOUD (SUPABASE)
+         ===================================================================== -->
+    <section class="corkboard-section" id="corkboardSection">
+      <div class="corkboard-header">
+        <div class="corkboard-header-top">
+          <span class="corkboard-tag">📌 Papan Memo Persahabatan</span>
+          <button type="button" class="btn-board-mod-pill" id="modToggleBtn" onclick="toggleModerationMode()" title="Kelola kartu ucapan">
+            <span id="modToggleIcon">🔒</span> <span id="modToggleText">Kelola Papan</span>
+          </button>
+        </div>
+        <h2 class="corkboard-title">Papan Doa &amp; Kartu Ucapan Sahabat</h2>
+        <p class="corkboard-desc">
+          Doa tulus, pesan ceria, dan harapan terbaik dari para sahabat di Discord untuk hari bahagia Haruru di 28 Oktober.
+        </p>
+      </div>
+
+      <!-- Realistic Framed Cork Pinboard -->
+      <div class="corkboard-frame-container">
+        <div class="corkboard-wood-border">
+          <div class="corkboard-texture-surface">
+            <!-- Live Greetings Grid -->
+            <div class="corkboard-grid" id="corkboardGrid">
+              <div class="corkboard-loading-state">
+                <span>Memuat kartu ucapan sahabat... ⏳</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Tambah Kartu Ucapan -->
+      <form class="add-note-card" id="formSubmitWish" onsubmit="submitNewWish(event)">
+        <h3 class="form-title">Tuliskan Doa &amp; Ucapanmu untuk Haruru ✍️</h3>
+        <p class="form-subtitle">Kartu ucapanmu akan langsung tertempel di papan dan tersimpan aman di database server ✨</p>
+        
+        <div class="form-row">
+          <input type="text" id="inputName" class="form-input" placeholder="Nama Anda (contoh: Kawan Discord / Sahabat)" required maxlength="60">
+          <input type="text" id="inputRole" class="form-input" placeholder="Asal / Hubungan (contoh: Sahabat Bandung / Squad Mabar)" maxlength="60">
+        </div>
+
+        <div class="form-avatar-row">
+          <label class="avatar-label">Pilih Ikon Kartu:</label>
+          <div class="avatar-selector">
+            <label><input type="radio" name="wishAvatar" value="🌸" checked> <span>🌸</span></label>
+            <label><input type="radio" name="wishAvatar" value="✨"> <span>✨</span></label>
+            <label><input type="radio" name="wishAvatar" value="💌"> <span>💌</span></label>
+            <label><input type="radio" name="wishAvatar" value="🎉"> <span>🎉</span></label>
+            <label><input type="radio" name="wishAvatar" value="🎂"> <span>🎂</span></label>
+            <label><input type="radio" name="wishAvatar" value="☕"> <span>☕</span></label>
+            <label><input type="radio" name="wishAvatar" value="🤖"> <span>🤖</span></label>
+          </div>
+        </div>
+
+        <textarea id="inputMsg" class="form-textarea" placeholder="Tuliskan doa, pesan ceria, dan harapan terbaikmu untuk Haruru di hari ulang tahunnya..." required maxlength="600"></textarea>
+        
+        <button type="submit" class="btn-submit-note" id="btnSubmitWish">
+          <span>Tempelkan ke Papan Memo 📌</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Padang & Bandung Story Bridge -->
+    <section class="friendship-bridge">
+      <div class="bridge-card">
+        <span class="bridge-tag">Padang &bull; Bandung</span>
+        <h3 class="bridge-title">Dua Cerita Hangat di Bulan Oktober 🌸</h3>
+        <p class="bridge-text">
+          Dari Mas Ilham (7 Oktober di Ranah Minang) hingga Haruru (28 Oktober di Kota Kembang). Jarak terbentang seberang pulau, namun kehangatan canda tawa dan persahabatan di Discord selalu mendekatkan semuanya.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="quest-footer">
+    <p>Didedikasikan spesial untuk hari ulang tahun Haruru (28 Oktober) &bull; Persahabatan Discord 2026</p>
+  </footer>
+
+  <!-- =====================================================================
+       PUZZLE MODALS (INTERACTIVE CLOCK, BOOKSHELF, JIGSAW DESK, ROTARY SAFE)
+       ===================================================================== -->
+
+  <!-- Modal 1: Jam Antik Draggable Analog Hands -->
+  <div id="modalClock" class="cozy-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>⏰ Jam Dinding Antik &bull; Teka-Teki Waktu</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalClock')">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="riddle-box">
+          <p class="riddle-text">
+            "Waktu kelahiran sang bintang: <strong>Bulan ke-10, tanggal 28</strong>.<br>
+            Setel jam analog ini tepat ke <strong>Pukul 10:28</strong> untuk membuka kompartemen rahasia!"
+          </p>
+        </div>
+
+        <!-- Interactive Drag/Adjust Clock Face -->
+        <div class="analog-clock-container">
+          <svg viewBox="0 0 200 200" class="svg-analog-clock" id="interactiveClockSvg">
+            <circle cx="100" cy="100" r="92" fill="#FFFDF8" stroke="#5A3A30" stroke-width="6"/>
+            <circle cx="100" cy="100" r="86" fill="none" stroke="#E5D5C3" stroke-width="1.5"/>
+
+            <!-- Clock Hour Numbers -->
+            <text x="100" y="32" font-family="'Outfit', sans-serif" font-weight="bold" font-size="16" fill="#3D251E" text-anchor="middle">12</text>
+            <text x="172" y="105" font-family="'Outfit', sans-serif" font-weight="bold" font-size="16" fill="#3D251E" text-anchor="middle">3</text>
+            <text x="100" y="178" font-family="'Outfit', sans-serif" font-weight="bold" font-size="16" fill="#3D251E" text-anchor="middle">6</text>
+            <text x="28" y="105" font-family="'Outfit', sans-serif" font-weight="bold" font-size="16" fill="#3D251E" text-anchor="middle">9</text>
+
+            <!-- Hour Hand -->
+            <line id="analogHourHand" x1="100" y1="100" x2="100" y2="52" stroke="#3D251E" stroke-width="5" stroke-linecap="round"/>
+            <!-- Minute Hand -->
+            <line id="analogMinHand" x1="100" y1="100" x2="100" y2="34" stroke="#E86A82" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Center Pivot Pin -->
+            <circle cx="100" cy="100" r="5" fill="#3D251E"/>
+            <circle cx="100" cy="100" r="2.5" fill="#E86A82"/>
+          </svg>
+
+          <div class="clock-digital-readout" id="clockDisplay">12:00</div>
+        </div>
+
+        <div class="clock-btn-row">
+          <button type="button" class="btn-clock-adj" onclick="adjustClockHour(-1)">-1 Jam</button>
+          <button type="button" class="btn-clock-adj" onclick="adjustClockHour(1)">+1 Jam</button>
+          <button type="button" class="btn-clock-adj" onclick="adjustClockMinute(-1)">-1 Mnt</button>
+          <button type="button" class="btn-clock-adj" onclick="adjustClockMinute(1)">+1 Mnt</button>
+          <button type="button" class="btn-clock-adj" onclick="adjustClockMinute(5)">+5 Mnt</button>
+        </div>
+
+        <button type="button" class="btn-confirm-clock" onclick="checkClockPuzzle()">
+          Kunci Pengaturan Waktu 🕰️
+        </button>
+        <p id="clockFeedback" class="form-feedback" style="display: none;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Rak Buku Klasik -->
+  <div id="modalBookshelf" class="cozy-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>📚 Rak Buku Misteri</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalBookshelf')">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="riddle-text">
+          Ada 5 jilid buku di rak ini. Salah satunya memiliki rongga rahasia yang menyembunyikan sobekan dokumen:
+        </p>
+
+        <div class="book-choices-grid">
+          <button type="button" class="btn-book-choice" onclick="inspectBook('autumn')">
+            <span class="book-spine" style="background: #E86A82;"></span>
+            <span class="book-title">Catatan Musim Gugur</span>
+          </button>
+          <button type="button" class="btn-book-choice" onclick="inspectBook('bandung')">
+            <span class="book-spine" style="background: #5B8C68;"></span>
+            <span class="book-title">Kota Kembang (Bandung)</span>
+          </button>
+          <button type="button" class="btn-book-choice" onclick="inspectBook('padang')">
+            <span class="book-spine" style="background: #E5A83B;"></span>
+            <span class="book-title">Ranah Minang (Padang)</span>
+          </button>
+          <button type="button" class="btn-book-choice" onclick="inspectBook('haruru28')">
+            <span class="book-spine" style="background: #8E7CC3;"></span>
+            <span class="book-title">Detektif Haruru &bull; Edisi 28</span>
+          </button>
+          <button type="button" class="btn-book-choice" onclick="inspectBook('melody')">
+            <span class="book-spine" style="background: #4A7C59;"></span>
+            <span class="book-title">Harmoni Musik Jiwa</span>
+          </button>
+        </div>
+        <p id="bookFeedback" class="form-feedback" style="display: none;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Meja Rekonstruksi Sobekan Kertas (Jigsaw Puzzle) -->
+  <div id="modalDesk" class="cozy-modal" style="display: none;">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h4>🔍 Meja Investigasi: Rekonstruksi Dokumen Sobek</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalDesk')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-instruction">
+          Seret potongan kertas sobek ke area perakitan untuk menyatukannya kembali!
+        </p>
+
+        <!-- Scraps Tray Status -->
+        <div class="scraps-tray">
+          <div class="scrap-slot" id="scrapSlot1">Potongan #1 (Jam Antik) 🔒</div>
+          <div class="scrap-slot" id="scrapSlot2">Potongan #2 (Sofa) 🔒</div>
+          <div class="scrap-slot" id="scrapSlot3">Potongan #3 (Buku #28) 🔒</div>
+        </div>
+
+        <!-- Interactive Jigsaw Table -->
+        <div class="jigsaw-table" id="jigsawTable">
+          <div class="jigsaw-piece piece-1" id="piece1" draggable="true">
+            <div class="piece-content">
+              <strong>[BAGIAN 1]</strong><br>
+              "Kunci Brankas:<br>
+              Angka Pertama = 1"
+            </div>
+          </div>
+          <div class="jigsaw-piece piece-2" id="piece2" draggable="true">
+            <div class="piece-content">
+              <strong>[BAGIAN 2]</strong><br>
+              "Bulan Kelahiran = 0<br>
+              Tanggal Hari = 2"
+            </div>
+          </div>
+          <div class="jigsaw-piece piece-3" id="piece3" draggable="true">
+            <div class="piece-content">
+              <strong>[BAGIAN 3]</strong><br>
+              "Angka Terakhir = 8<br>
+              ➔ Sandi: 1 - 0 - 2 - 8"
+            </div>
+          </div>
+        </div>
+
+        <div class="jigsaw-action-row">
+          <button type="button" class="btn-snap-jigsaw" onclick="assembleScrapsTogether()">
+            🧩 Rekonstruksi Sobekan Kertas
+          </button>
+        </div>
+
+        <div id="assembledDocument" class="assembled-doc" style="display: none;">
+          <h5 class="doc-heading">📜 Pesan Rahasia yang Terungkap</h5>
+          <p class="doc-text">
+            "Sandi Brankas Labirin telah terkuak: <strong>1 - 0 - 2 - 8</strong> (Bulan ke-10, tanggal 28). Masukkan angka ini pada Brankas Sandi di kamar untuk membuka jalan menuju Labirin Kunci Emas!"
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4: Brankas Rahasia Bertombol Putar (Rotary Safe Cryptex) -->
+  <div id="modalSafe" class="cozy-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>🔐 Brankas Rahasia Gerbang Labirin</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalSafe')">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="riddle-text">
+          Putar 4 silinder kombinasi di bawah ini untuk membuka pintu rahasia menuju Labirin:
+        </p>
+
+        <!-- 4-Rotor Combination Cryptex -->
+        <div class="cryptex-dial-container">
+          <div class="cryptex-wheel">
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(0, 1)">▲</button>
+            <div class="wheel-digit" id="dialDigit0">0</div>
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(0, -1)">▼</button>
+          </div>
+          <div class="cryptex-wheel">
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(1, 1)">▲</button>
+            <div class="wheel-digit" id="dialDigit1">0</div>
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(1, -1)">▼</button>
+          </div>
+          <div class="cryptex-wheel">
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(2, 1)">▲</button>
+            <div class="wheel-digit" id="dialDigit2">0</div>
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(2, -1)">▼</button>
+          </div>
+          <div class="cryptex-wheel">
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(3, 1)">▲</button>
+            <div class="wheel-digit" id="dialDigit3">0</div>
+            <button type="button" class="btn-wheel-step" onclick="spinSafeDial(3, -1)">▼</button>
+          </div>
+        </div>
+
+        <button type="button" class="btn-confirm-safe" onclick="checkSafeCombination()">
+          Buka Kunci Brankas 🔓
+        </button>
+        <p id="safeFeedback" class="form-feedback" style="display: none;"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5: Moderasi PIN Papan Ucapan -->
+  <div id="boardModModal" class="cozy-modal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h4>🔒 Moderasi Papan Kartu Ucapan</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('boardModModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-instruction">Masukkan PIN admin untuk mengelola atau menghapus kartu ucapan:</p>
+        <form onsubmit="submitModerationPin(event)">
+          <input type="password" id="boardModPinInput" class="form-input" placeholder="Masukkan PIN admin..." autocomplete="off" required>
+          <div id="boardModError" class="form-error" style="display: none;">PIN tidak valid.</div>
+          <div class="modal-btn-row">
+            <button type="button" class="btn-cancel" onclick="closeModal('boardModModal')">Batal</button>
+            <button type="submit" class="btn-confirm" id="btnModSubmit">Buka Akses</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6: Pemutar Musik & YouTube Soundtrack Selector -->
+  <div id="modalMusic" class="cozy-modal" style="display: none;">
+    <div class="modal-card modal-large">
+      <div class="modal-header">
+        <h4>🎵 Soundtrack Spesial Ulang Tahun Haruru</h4>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modalMusic')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-instruction">Pilih musik pengiring yang paling pas untuk menemani petualangan ulang tahunmu:</p>
+        
+        <div class="music-preset-list">
+          <button type="button" class="music-preset-btn active" id="presetTrack1" onclick="selectMusicPreset('YdpiHMVL4C0', 'Ghea Indrawari - Jiwa Yang Bersedih 🌸')">
+            <span class="preset-icon">🌸</span>
+            <div class="preset-details">
+              <strong>Ghea Indrawari &bull; Jiwa Yang Bersedih</strong>
+              <small>Soundtrack Emosional Penuh Kenangan (Favorit Scrapbook)</small>
+            </div>
+            <span class="preset-badge" id="badgeTrack1">Aktif ✓</span>
+          </button>
+
+          <button type="button" class="music-preset-btn" id="presetTrack2" onclick="selectMusicPreset('170p8WkQWz4', 'Happy Birthday Cozy Lofi Music Box 🎂')">
+            <span class="preset-icon">🎂</span>
+            <div class="preset-details">
+              <strong>Happy Birthday &bull; Cozy Lofi Music Box</strong>
+              <small>Melodi Akustik Kotak Musik Lembut &amp; Menenangkan</small>
+            </div>
+            <span class="preset-badge" id="badgeTrack2">Pilih</span>
+          </button>
+
+          <button type="button" class="music-preset-btn" id="presetTrack3" onclick="selectMusicPreset('w_a5F_wM_Zk', 'Tulus - Monokrom (Kenangan Indah) 🎸')">
+            <span class="preset-icon">🎸</span>
+            <div class="preset-details">
+              <strong>Tulus &bull; Monokrom</strong>
+              <small>Lagu Hangat Apresiasi &amp; Persahabatan Sejati</small>
+            </div>
+            <span class="preset-badge" id="badgeTrack3">Pilih</span>
+          </button>
+        </div>
+
+        <div class="custom-yt-wrapper">
+          <label class="custom-yt-title">Atau Putar Lagu YouTube Pilihanmu Sendiri:</label>
+          <div class="custom-yt-input-group">
+            <input type="text" id="customYtInput" class="form-input" placeholder="Paste link YouTube atau Video ID (misal: https://youtu.be/...)" autocomplete="off">
+            <button type="button" class="btn-confirm-yt" onclick="playCustomYtUrl()">Putar 🎶</button>
+          </div>
+          <div id="ytStatusFeedback" class="form-feedback" style="display: none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Game Script -->
+  <script src="app.js?v=20261010_v3"></script>
+</body>
+</html>

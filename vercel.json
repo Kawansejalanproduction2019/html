@@ -2,6 +2,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/hh", "destination": "/hh/index.html" }
+    { "source": "/haruru", "destination": "/haruru/index.html" }
   ]
 }
