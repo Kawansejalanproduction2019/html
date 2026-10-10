@@ -1819,13 +1819,25 @@ async function loadWishesFromDatabase() {
   const grid = document.getElementById('corkboardGrid');
   if (!grid) return;
 
+  const deletedSignatures = JSON.parse(localStorage.getItem('haruru_deleted_wishes') || '[]');
+  const isExcluded = (name, msg) => {
+    const n = (name || '').toLowerCase().trim();
+    const m = (msg || '').toLowerCase().trim();
+    if (deletedSignatures.includes(`${name}|${msg}`)) return true;
+    if (n.includes('segenap keluarga discord rtm') || n.includes('kawan mabar discord rtm') || n.includes('kerabat urang awak')) return true;
+    if (m.includes('mas ilham endriadi') || m.includes('telat sehari dari tanggal 7') || m.includes('tanggal 7 kemarin')) return true;
+    return false;
+  };
+
   // 1. Initial Instant Render from Cache or Defaults
-  let localWishes = DEFAULT_WISHES;
+  let localWishes = DEFAULT_WISHES.filter(w => !isExcluded(w.name, w.message));
   try {
     const cached = localStorage.getItem('haruru_cached_wishes');
     if (cached) {
       const parsed = JSON.parse(cached);
-      if (Array.isArray(parsed) && parsed.length > 0) localWishes = parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        localWishes = parsed.filter(w => !isExcluded(w.name, w.message));
+      }
     }
   } catch (_) {}
   renderWishesGrid(localWishes);
@@ -1836,8 +1848,8 @@ async function loadWishesFromDatabase() {
     if (res.ok) {
       const data = await res.json();
       if (data && data.status === 'success' && Array.isArray(data.wishes)) {
-        // Filter out irrelevant or test wishes, prioritize Haruru's
-        const validWishes = data.wishes.filter(w => w.name && w.message);
+        // Filter out deleted, legacy, or excluded wishes
+        const validWishes = data.wishes.filter(w => w.name && w.message && !isExcluded(w.name, w.message));
         if (validWishes.length > 0) {
           localStorage.setItem('haruru_cached_wishes', JSON.stringify(validWishes));
           renderWishesGrid(validWishes);
@@ -1975,7 +1987,11 @@ async function submitNewWish(e) {
 
 // Moderation PIN Controller
 function getModerationToken() {
-  return sessionStorage.getItem('rtm_mod_token') || localStorage.getItem('rtm_mod_token') || '';
+  return sessionStorage.getItem('rtm_mod_token') ||
+         localStorage.getItem('rtm_mod_token') ||
+         sessionStorage.getItem('rtm_admin_token') ||
+         localStorage.getItem('rtm_admin_token') ||
+         '';
 }
 
 function toggleModerationMode() {
@@ -1985,6 +2001,8 @@ function toggleModerationMode() {
     if (confirm("Keluar dari mode moderasi papan kartu ucapan?")) {
       sessionStorage.removeItem('rtm_mod_token');
       localStorage.removeItem('rtm_mod_token');
+      sessionStorage.removeItem('rtm_admin_token');
+      localStorage.removeItem('rtm_admin_token');
       updateModState();
       loadWishesFromDatabase();
     }
@@ -2054,8 +2072,15 @@ async function deleteWish(name, message) {
   playClickSound();
   const token = getModerationToken();
 
-  // 1. Remove from local storage
+  // 1. Permanently cache in haruru_deleted_wishes and update local grid
   try {
+    const deletedSignatures = JSON.parse(localStorage.getItem('haruru_deleted_wishes') || '[]');
+    const sig = `${name}|${message}`;
+    if (!deletedSignatures.includes(sig)) {
+      deletedSignatures.push(sig);
+      localStorage.setItem('haruru_deleted_wishes', JSON.stringify(deletedSignatures));
+    }
+
     const cached = localStorage.getItem('haruru_cached_wishes');
     if (cached) {
       let list = JSON.parse(cached);
@@ -2065,17 +2090,31 @@ async function deleteWish(name, message) {
     }
   } catch (_) {}
 
-  // 2. Call delete API
-  try {
-    await fetch(WISHES_API_URL, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ name, message })
-    });
-  } catch (_) {}
+  // 2. Call delete API on server if authenticated
+  if (token) {
+    try {
+      const res = await fetch(WISHES_API_URL, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ name, message })
+      });
+      if (res.status === 401) {
+        sessionStorage.removeItem('rtm_mod_token');
+        localStorage.removeItem('rtm_mod_token');
+        sessionStorage.removeItem('rtm_admin_token');
+        localStorage.removeItem('rtm_admin_token');
+        updateModState();
+        alert("Sesi moderasi kedaluwarsa atau belum login (401). Kartu ucapan telah disembunyikan. Silakan login kembali untuk sinkronisasi server.");
+        openModal('boardModModal');
+        return;
+      }
+    } catch (err) {
+      console.warn("Sinkronisasi server tertunda:", err);
+    }
+  }
 
   alert("Kartu ucapan berhasil dihapus.");
 }

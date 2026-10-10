@@ -3243,7 +3243,8 @@
         const res = await fetch(`${API_BASE}/api/wishes`);
         const data = await res.json();
         if (res.ok && Array.isArray(data.wishes)) {
-          rawWishesList = data.wishes;
+          const EXCLUDED = ["Segenap Keluarga Discord RTM", "Kawan Mabar Discord RTM", "Kerabat Urang Awak"];
+          rawWishesList = data.wishes.filter(w => !EXCLUDED.includes(w.name) && !(w.message && w.message.includes('Mas Ilham Endriadi')));
           if (countEl) countEl.textContent = rawWishesList.length;
           renderWishesCards(rawWishesList);
         }
@@ -3325,7 +3326,10 @@
         const data = await res.json();
         if (res.ok && data.status === 'success') {
           alert('Ucapan berhasil dihapus!');
-          loadWishes();
+          rawWishesList = rawWishesList.filter(w => !(w.name === name && w.message === message));
+          const countEl = document.getElementById('statWishesCount');
+          if (countEl) countEl.textContent = rawWishesList.length;
+          renderWishesCards(rawWishesList);
         } else {
           alert(data.message || 'Gagal menghapus ucapan.');
         }
