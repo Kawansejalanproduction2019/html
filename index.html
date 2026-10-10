@@ -2,7 +2,7 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="google-site-verification" content="hegC6QGjlcZtAX7SPgJhRO4Cdht479-PehDHq2HpZp4">
   <title>RTMBOT: Ekosistem Digital dan Platform Otomasi</title>
   
@@ -420,6 +420,9 @@
       font-size: 0.85rem;
       line-height: 1.6;
       white-space: pre-wrap;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+      overflow-x: hidden;
       color: #38BDF8;
     }
 
@@ -427,21 +430,24 @@
       display: flex;
       gap: 8px;
       align-items: center;
+      width: 100%;
     }
 
     .terminal-prompt {
       color: #10B981;
       font-weight: 700;
       font-size: 0.9rem;
+      flex-shrink: 0;
     }
 
     .terminal-input {
       flex: 1;
+      min-width: 0;
       background: transparent;
       border: none;
       color: #F8FAFC;
       font-family: var(--font-mono);
-      font-size: 0.88rem;
+      font-size: 16px; /* Prevents auto-zoom in on iOS Safari and mobile devices */
       outline: none;
     }
 
@@ -455,6 +461,7 @@
       font-weight: 700;
       cursor: pointer;
       min-height: 36px;
+      flex-shrink: 0;
     }
 
     /* Top Floating Bar for Theme */
@@ -465,6 +472,96 @@
       z-index: 99;
       display: flex;
       gap: 10px;
+    }
+
+    /* Global Touch & Zoom Stabilization (No double-tap zoom delay or focus jumping) */
+    html, body, button, a, input, select, textarea {
+      touch-action: manipulation;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    /* Dedicated Mobile Optimization (Zero Horizontal Scroll & No Zoom Glitches) */
+    @media (max-width: 640px) {
+      html, body {
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      .hub-container {
+        padding: 16px 12px 60px;
+        gap: 18px;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+      .hub-profile-card {
+        padding: 18px 14px;
+        gap: 14px;
+        border-radius: var(--radius-md);
+        box-sizing: border-box;
+      }
+      .hub-title {
+        font-size: 1.45rem;
+      }
+      .hub-bio {
+        font-size: 0.86rem;
+      }
+      .special-birthday-banner {
+        padding: 18px 14px;
+        gap: 10px;
+        border-radius: var(--radius-md);
+        box-sizing: border-box;
+      }
+      .banner-heading {
+        font-size: 1.1rem;
+      }
+      .banner-desc {
+        font-size: 0.82rem;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .app-card {
+        padding: 12px 14px;
+        min-height: 64px;
+        box-sizing: border-box;
+      }
+      .card-name {
+        font-size: 0.9rem;
+      }
+      .card-desc {
+        font-size: 0.76rem;
+      }
+      .terminal-card {
+        padding: 16px 14px;
+        border-radius: var(--radius-md);
+        gap: 12px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .terminal-chips {
+        gap: 6px;
+      }
+      .cmd-chip {
+        padding: 6px 10px;
+        font-size: 0.74rem;
+        min-height: 34px;
+      }
+      .terminal-output-box {
+        padding: 10px 12px;
+        font-size: 0.78rem;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .top-toolbar {
+        top: 12px;
+        right: 14px;
+      }
     }
   </style>
 </head>
@@ -543,7 +640,7 @@
         <div class="banner-badge">&hearts; Edisi Spesial 28 Oktober 🎂</div>
         <div class="banner-heading">Detective Haruru: Misteri Kamar &amp; Labirin Lentera</div>
         <div class="banner-desc">
-          Edisi interaktif spesial hari ulang tahun Haruru (28 Oktober): Escape room detektif, ekspedisi labirin lentera, studio patisserie kue 3D, kartu lisensi resmi, kupon traktiran Mas Ilham, dan papan memo persahabatan Discord RTM.
+          Edisi interaktif spesial hari ulang tahun Haruru (Tanggal 28 Oktober): Escape room detektif, ekspedisi labirin lentera, studio patisserie kue 3D, kartu lisensi resmi, kupon kejutan spesial, dan papan memo persahabatan Discord RTM.
         </div>
         <div class="banner-footer-cta">
           <span>Mulai Petualangan Detektif</span>

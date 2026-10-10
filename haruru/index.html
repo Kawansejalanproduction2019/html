@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Detective Haruru • Misteri Kamar 28 Oktober &amp; Patisserie Quest</title>
 
   <base href="/haruru/">
@@ -15,7 +15,7 @@
   <!-- Three.js 3D Engine for Genuinely 3D Birthday Cake Model -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <link rel="stylesheet" href="/haruru/style.css?v=20261010_v5">
+  <link rel="stylesheet" href="/haruru/style.css?v=20261011_v2">
 </head>
 <body>
 
@@ -320,6 +320,15 @@
           </div>
 
         </div>
+      </div>
+
+      <!-- QUICK ROOM HOTSPOT SELECTOR (Mobile Touch Nav) -->
+      <div class="room-quick-nav" aria-label="Akses Cepat Perabot Kamar">
+        <button type="button" class="quick-nav-pill" onclick="openClockModal()">⏰ Jam Antik</button>
+        <button type="button" class="quick-nav-pill" onclick="openBookshelfModal()">📚 Rak Buku</button>
+        <button type="button" class="quick-nav-pill" onclick="clickSofa()">🛋️ Bantal Sofa</button>
+        <button type="button" class="quick-nav-pill" onclick="openDeskModal()">🔍 Meja Detektif</button>
+        <button type="button" class="quick-nav-pill" onclick="openSafeModal()">🔐 Brankas</button>
       </div>
 
       <!-- Dialogue Assistant Banner -->
