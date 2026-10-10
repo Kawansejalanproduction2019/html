@@ -3243,8 +3243,8 @@
         const res = await fetch(`${API_BASE}/api/wishes`);
         const data = await res.json();
         if (res.ok && Array.isArray(data.wishes)) {
-          const EXCLUDED = ["Segenap Keluarga Discord RTM", "Kawan Mabar Discord RTM", "Kerabat Urang Awak"];
-          rawWishesList = data.wishes.filter(w => !EXCLUDED.includes(w.name) && !(w.message && w.message.includes('Mas Ilham Endriadi')));
+          const EXCLUDED = ["Segenap Keluarga Discord RTM", "Kawan Mabar Discord RTM", "Kerabat Urang Awak", "Sahabat Bandung", "Mas Ilham Endriadi"];
+          rawWishesList = data.wishes.filter(w => !EXCLUDED.includes(w.name) && !(w.message && (w.message.includes('Mas Ilham Endriadi') || w.message.includes('telat sehari'))));
           if (countEl) countEl.textContent = rawWishesList.length;
           renderWishesCards(rawWishesList);
         }

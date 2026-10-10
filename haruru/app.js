@@ -62,33 +62,8 @@ const MAZE_MAP = [
 const WISHES_API_URL = 'https://api.rtmbot.biz.id/api/wishes';
 const ADMIN_API_BASE = 'https://api.rtmbot.biz.id';
 
-// Default Fallback Wishes
-const DEFAULT_WISHES = [
-  {
-    name: 'Mas Ilham Endriadi',
-    role: 'Kawan Seberang Pulau (Padang)',
-    avatar: '🌸',
-    roleClass: 'role-minang',
-    message: 'Barakallahu fii umrik Haruru! Selamat ulang tahun di tanggal 28 Oktober yang penuh berkah ini. Terima kasih udah selalu jadi teman ngobrol yang seru dan bawa aura ceria di Discord. Sehat selalu, panjang umur dalam keberkahan, dan semoga semua impianmu dimudahkan!',
-    time: 'Hari ini'
-  },
-  {
-    name: 'Segenap Squad Discord RTM',
-    role: 'Keluarga Server & Squad Mabar',
-    avatar: '🤖',
-    roleClass: 'role-discord',
-    message: 'Happy Birthday Haruru! 🎉 Jangan pernah capek jadi orang baik dan menghibur. Kapan-kapan kita gass mabar bareng lagi yaa!',
-    time: 'Hari ini'
-  },
-  {
-    name: 'Sahabat Bandung',
-    role: 'Kota Kembang',
-    avatar: '✨',
-    roleClass: 'role-bandung',
-    message: 'Wilujeng tepang taun Haruru! Semoga hari-harimu di Bandung selalu menyenangkan, cerah, dan penuh dengan hal-hal baik ✨',
-    time: 'Hari ini'
-  }
-];
+// Default Fallback Wishes (No fake wishes - only genuine community wishes)
+const DEFAULT_WISHES = [];
 
 // ==========================================================================
 // 1. INITIALIZATION & EVENT LISTENERS
@@ -126,8 +101,8 @@ function handleGlobalKeydown(e) {
 // ==========================================================================
 // 2. YOUTUBE ON-DEMAND AUDIO ENGINE & SOUND EFFECT SYNTHESIZER
 // ==========================================================================
-let currentTrackId = 'YdpiHMVL4C0'; // Default: Ghea Indrawari - Jiwa Yang Bersedih
-let currentTrackTitle = 'Ghea Indrawari - Jiwa Yang Bersedih 🌸';
+let currentTrackId = 'QqJ-Vp8mvbk'; // Default: Tulus - Monokrom (Official)
+let currentTrackTitle = 'Tulus - Monokrom 🎸';
 let ytPlayer = null;
 let isAudioPlaying = false;
 let isYtLoading = false;
@@ -290,25 +265,22 @@ function selectMusicPreset(videoId, title) {
   currentTrackTitle = title;
 
   document.querySelectorAll('.music-preset-btn').forEach(btn => btn.classList.remove('active'));
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 4; i++) {
     const badge = document.getElementById(`badgeTrack${i}`);
     if (badge) badge.textContent = 'Pilih';
   }
 
-  if (videoId === 'YdpiHMVL4C0') {
-    const b = document.getElementById('presetTrack1');
+  const trackMap = {
+    'QqJ-Vp8mvbk': { btn: 'presetTrack1', badge: 'badgeTrack1' },
+    'YdpiHMVL4C0': { btn: 'presetTrack2', badge: 'badgeTrack2' },
+    't9VWICGOD90': { btn: 'presetTrack3', badge: 'badgeTrack3' },
+    '1GWKhpN1KyA': { btn: 'presetTrack4', badge: 'badgeTrack4' }
+  };
+
+  if (trackMap[videoId]) {
+    const b = document.getElementById(trackMap[videoId].btn);
     if (b) b.classList.add('active');
-    const bg = document.getElementById('badgeTrack1');
-    if (bg) bg.textContent = 'Aktif ✓';
-  } else if (videoId === '170p8WkQWz4') {
-    const b = document.getElementById('presetTrack2');
-    if (b) b.classList.add('active');
-    const bg = document.getElementById('badgeTrack2');
-    if (bg) bg.textContent = 'Aktif ✓';
-  } else if (videoId === 'w_a5F_wM_Zk') {
-    const b = document.getElementById('presetTrack3');
-    if (b) b.classList.add('active');
-    const bg = document.getElementById('badgeTrack3');
+    const bg = document.getElementById(trackMap[videoId].badge);
     if (bg) bg.textContent = 'Aktif ✓';
   }
 
@@ -1773,30 +1745,20 @@ function downloadDetectiveLicense() {
   ctx.fillStyle = '#5D4037';
   ctx.textAlign = 'center';
   ctx.fillText(
-    'Lisensi resmi ini diterbitkan secara sah atas keberhasilan memecahkan Kasus Spesial 28 Oktober.',
+    'Lisensi resmi ini diterbitkan secara sah atas keberhasilan memecahkan Kasus Tanggal 28 Oktober.',
     canvas.width / 2,
     520
   );
 
-  // Authority signatures
+  // Authority signature
   const sigY = 585;
-  ctx.font = 'bold 16px Georgia, serif';
+  ctx.font = 'bold 17px Georgia, serif';
   ctx.fillStyle = '#3E271D';
   ctx.textAlign = 'center';
-  ctx.fillText('Mas Ilham Endriadi', 260, sigY);
+  ctx.fillText('Segenap Sahabat & Komunitas Discord RTM', canvas.width / 2, sigY);
   ctx.font = '13px "Segoe UI", sans-serif';
   ctx.fillStyle = '#795548';
-  ctx.fillText('Kawan Seberang Pulau (Padang)', 260, sigY + 22);
-
-  ctx.font = '24px sans-serif';
-  ctx.fillText('⭐ 🌸 ⭐', canvas.width / 2, sigY + 10);
-
-  ctx.font = 'bold 16px Georgia, serif';
-  ctx.fillStyle = '#3E271D';
-  ctx.fillText('Segenap Sahabat Discord RTM', canvas.width - 260, sigY);
-  ctx.font = '13px "Segoe UI", sans-serif';
-  ctx.fillStyle = '#795548';
-  ctx.fillText('Keluarga Server & Squad Mabar', canvas.width - 260, sigY + 22);
+  ctx.fillText('Keluarga Server & Tim Investigasi Sahabat', canvas.width / 2, sigY + 22);
 
   // Bottom Security Serial
   ctx.font = '11px monospace';
@@ -1824,18 +1786,18 @@ async function loadWishesFromDatabase() {
     const n = (name || '').toLowerCase().trim();
     const m = (msg || '').toLowerCase().trim();
     if (deletedSignatures.includes(`${name}|${msg}`)) return true;
-    if (n.includes('segenap keluarga discord rtm') || n.includes('kawan mabar discord rtm') || n.includes('kerabat urang awak')) return true;
+    if (n.includes('segenap keluarga discord rtm') || n.includes('kawan mabar discord rtm') || n.includes('kerabat urang awak') || n.includes('sahabat bandung')) return true;
     if (m.includes('mas ilham endriadi') || m.includes('telat sehari dari tanggal 7') || m.includes('tanggal 7 kemarin')) return true;
     return false;
   };
 
-  // 1. Initial Instant Render from Cache or Defaults
-  let localWishes = DEFAULT_WISHES.filter(w => !isExcluded(w.name, w.message));
+  // 1. Initial Instant Render from Cache
+  let localWishes = [];
   try {
     const cached = localStorage.getItem('haruru_cached_wishes');
     if (cached) {
       const parsed = JSON.parse(cached);
-      if (Array.isArray(parsed) && parsed.length > 0) {
+      if (Array.isArray(parsed)) {
         localWishes = parsed.filter(w => !isExcluded(w.name, w.message));
       }
     }
@@ -1850,10 +1812,8 @@ async function loadWishesFromDatabase() {
       if (data && data.status === 'success' && Array.isArray(data.wishes)) {
         // Filter out deleted, legacy, or excluded wishes
         const validWishes = data.wishes.filter(w => w.name && w.message && !isExcluded(w.name, w.message));
-        if (validWishes.length > 0) {
-          localStorage.setItem('haruru_cached_wishes', JSON.stringify(validWishes));
-          renderWishesGrid(validWishes);
-        }
+        localStorage.setItem('haruru_cached_wishes', JSON.stringify(validWishes));
+        renderWishesGrid(validWishes);
       }
     }
   } catch (err) {
@@ -1864,6 +1824,15 @@ async function loadWishesFromDatabase() {
 function renderWishesGrid(wishesList) {
   const grid = document.getElementById('corkboardGrid');
   if (!grid) return;
+
+  if (!wishesList || wishesList.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; color: var(--color-ink-light); padding: 48px 20px; font-style: italic;">
+        Papan memo masih kosong. Tulis ucapan selamat ulang tahunmu untuk Haruru lewat formulir di bawah ini! 📌
+      </div>
+    `;
+    return;
+  }
 
   const rotations = [-2.2, 1.8, -1.2, 2.4, -1.8, 1.4, -2.5, 2.0];
   const themes = ['theme-rose', 'theme-butter', 'theme-mint', 'theme-sky', 'theme-lavender', 'theme-peach'];
