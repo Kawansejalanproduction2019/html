@@ -708,10 +708,13 @@ body {
 
   .spot-sofa {
     bottom: 16px;
-    left: 47%;
+    left: 50%;
     transform: translateX(-50%);
     width: 114px;
     z-index: 14;
+  }
+  .spot-sofa:hover, .spot-sofa:active {
+    transform: translateX(-50%) translateY(-2px);
   }
   .sofa-art { width: 114px; height: 78px; }
 
@@ -2724,90 +2727,126 @@ body {
   }
 
   /* Stage 2: Mobile Compact Zero-Scroll Maze Layout */
+  #stageMaze .stage-header {
+    margin-bottom: 6px;
+    padding: 0 4px;
+  }
+  #stageMaze .stage-tag-pill {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+  #stageMaze .stage-title {
+    font-size: 1.15rem;
+    margin-bottom: 2px;
+  }
+  #stageMaze .stage-subtitle {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
   .maze-wrapper-grid {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 6px;
+    width: 100%;
+    box-sizing: border-box;
   }
   .maze-hud-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
+    display: contents; /* Allows children to participate directly in flex ordering */
   }
   .maze-stats-card {
-    padding: 8px 12px;
+    order: 1; /* Sleek horizontal HUD bar above canvas */
+    padding: 6px 10px;
     margin-bottom: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 4px 10px;
-    background: #FFFBF4;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 4px 8px;
+    background: #FFFDF8;
+    border: 1px solid var(--accent-gold);
+    border-radius: var(--radius-sm);
+    width: 100%;
+    box-sizing: border-box;
   }
   .maze-stats-card .card-heading {
-    display: none; /* Hide large heading on mobile to save vertical space */
+    display: none;
   }
   .maze-stats-card .stat-row {
     margin-bottom: 0;
-    font-size: 0.74rem;
+    font-size: 0.72rem;
+    gap: 4px;
   }
   .maze-canvas-container {
-    padding: 8px 6px;
+    order: 2; /* Sits in middle */
+    padding: 4px;
     width: 100%;
     box-sizing: border-box;
   }
   .maze-screen-glow {
     width: 100%;
-    max-width: 340px;
+    max-width: 280px;
     margin: 0 auto;
   }
   #mazeCanvas {
     width: 100% !important;
+    max-width: 280px !important;
     height: auto !important;
+    aspect-ratio: 1 / 1;
+    display: block;
+    margin: 0 auto;
     touch-action: none !important;
     -webkit-touch-callout: none !important;
     user-select: none !important;
   }
+  .maze-legend-bar {
+    font-size: 0.65rem;
+    gap: 4px 6px;
+    margin-top: 4px;
+    padding: 0 2px;
+  }
   .dpad-box {
-    padding: 10px 8px;
+    order: 3; /* Sits IMMEDIATELY below canvas! */
+    padding: 6px 4px;
     margin: 0 auto;
     width: 100%;
-    max-width: 320px;
+    max-width: 280px;
     touch-action: none !important;
     -webkit-touch-callout: none !important;
     user-select: none !important;
   }
   .btn-dpad {
-    width: 52px;
-    height: 52px;
-    font-size: 1.3rem;
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
     touch-action: none !important;
     -webkit-touch-callout: none !important;
     user-select: none !important;
   }
   .maze-hint-box {
+    order: 4; /* Sits directly below D-pad */
     margin: 0 auto;
     width: 100%;
-    max-width: 320px;
+    max-width: 280px;
   }
   .btn-compass-hint {
     width: 100%;
-    padding: 7px 12px;
-    font-size: 0.78rem;
+    padding: 6px 10px;
+    font-size: 0.76rem;
   }
   .compass-hint-text {
-    font-size: 0.72rem;
-    margin-top: 4px;
+    font-size: 0.7rem;
+    margin-top: 3px;
   }
   .maze-instruction {
-    font-size: 0.72rem;
-    margin: 0;
-    line-height: 1.4;
-  }
-  .maze-legend-bar {
+    order: 5;
     font-size: 0.68rem;
-    gap: 6px;
-    margin-top: 6px;
-    padding: 0 4px;
+    margin: 2px 0 0;
+    line-height: 1.3;
+    text-align: center;
   }
 
   /* Stage 3: Cake Studio */

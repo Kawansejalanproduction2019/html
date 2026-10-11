@@ -1656,7 +1656,7 @@ function claimCoupon(id) {
   }
 
   QUEST_STATE.coupons[id] = true;
-  alert(`🎉 Kupon #${id} berhasil diklaim secara resmi! Voucher ini berlaku seumur hidup dan siap kamu tagihkan ke Mas Ilham kapan saja!`);
+  alert(`🎉 Kupon #${id} berhasil diklaim secara resmi! Voucher ini berlaku seumur hidup dan siap kamu gunakan kapan saja!`);
 }
 
 function generateCustomCoupon() {
@@ -1682,7 +1682,7 @@ function generateCustomCoupon() {
         "${escapeHtml(text)}"
       </div>
       <div style="font-size: 0.8rem; color: #5D4037; margin-bottom: 10px;">
-        SERIAL: <code>${serial}</code> &bull; STATUS: <strong>100% DISETUJUI OLEH MAS ILHAM</strong>
+        SERIAL: <code>${serial}</code> &bull; STATUS: <strong>100% DISETUJUI &amp; SIAP DIGUNAKAN</strong>
       </div>
       <div style="display: inline-block; border: 2px dashed #C0392B; color: #C0392B; font-weight: 900; padding: 4px 12px; border-radius: 4px; transform: rotate(-3deg); background: #FFF;">
         RESMI TERVERIFIKASI &bull; TANGGAL: 28 OKTOBER 2026
@@ -1853,7 +1853,7 @@ function downloadDetectiveLicense() {
     { label: 'NOMOR LISENSI', val: 'HR-2810-2026' },
     { label: 'TANGGAL RESMI', val: '28 OKTOBER 2026' },
     { label: 'STATUS', val: 'AKTIF & TERVERIFIKASI RESMI' },
-    { label: 'WILAYAH KERJA', val: 'KOTA BANDUNG & SQUAD DISCORD RTM' }
+    { label: 'WILAYAH KERJA', val: 'SERVER KOMUNITAS DISCORD RTM' }
   ];
 
   fields.forEach((f, idx) => {
