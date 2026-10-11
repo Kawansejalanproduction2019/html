@@ -243,10 +243,20 @@
                   <rect x="74" y="40" width="38" height="32" rx="7" fill="#FCE1A8" stroke="#DCAE46" stroke-width="2.2"/>
                   <circle cx="93" cy="56" r="3.5" fill="#DCAE46"/>
                 </g>
-                <!-- Hidden Scrap Badge -->
-                <g id="pillowScrapFoundBadge" style="display: none;">
-                  <circle cx="93" cy="56" r="9" fill="#4CAF50"/>
-                  <text x="93" y="60" font-size="11" fill="#fff" text-anchor="middle" font-weight="bold">✓</text>
+                <!-- Hidden Scrap Badge: Authentic Parchment Fragment -->
+                <g id="pillowScrapFoundBadge" class="scrap-parchment-badge" style="display: none;">
+                  <!-- Soft golden shimmer aura -->
+                  <rect x="76" y="42" width="34" height="28" rx="4" fill="#FFE082" opacity="0.35" filter="drop-shadow(0 0 6px rgba(255, 215, 0, 0.9))"/>
+                  <!-- Vintage torn parchment fragment -->
+                  <path d="M78 44 L106 43 L108 64 L102 67 L98 64 L93 68 L88 64 L77 66 Z" fill="#FFF8E7" stroke="#C5A059" stroke-width="1.3"/>
+                  <!-- Handwritten mystery lines -->
+                  <line x1="82" y1="49" x2="102" y2="49" stroke="#8D6E63" stroke-width="1.2" stroke-linecap="round"/>
+                  <line x1="82" y1="53" x2="98" y2="53" stroke="#8D6E63" stroke-width="1" stroke-linecap="round"/>
+                  <line x1="82" y1="57" x2="94" y2="57" stroke="#8D6E63" stroke-width="1" stroke-linecap="round"/>
+                  <line x1="82" y1="61" x2="99" y2="61" stroke="#8D6E63" stroke-width="1" stroke-linecap="round"/>
+                  <!-- Mini royal red wax seal -->
+                  <circle cx="102" cy="59" r="4" fill="#C62828" stroke="#8E0000" stroke-width="0.8"/>
+                  <circle cx="102" cy="59" r="1.8" fill="#E57373"/>
                 </g>
               </svg>
             </div>
@@ -370,11 +380,12 @@
 
           <div class="maze-legend-bar">
             <span>🔴 Detektif Lentera</span>
-            <span>⭐ Bintang Memori (0/3)</span>
+            <span>⭐ Bintang (0/3)</span>
             <span>🗝️ Kunci Perak</span>
             <span>🚪 Jeruji Besi</span>
-            <span>👻 Bayangan Patroli</span>
+            <span>👻 Bayangan</span>
             <span>🔑 Kunci Emas</span>
+            <span>🌀 Portal Keluar</span>
           </div>
         </div>
 
@@ -409,18 +420,18 @@
           </div>
 
           <p class="maze-instruction">
-            Gunakan tombol panah keyboard / WASD atau D-Pad di bawah untuk melangkah:
+            Usap kanvas (swipe) atau tekan D-Pad di bawah untuk melangkah (bisa tekan lama):
           </p>
 
-          <!-- On-screen Ergonomic D-Pad -->
-          <div class="dpad-box">
-            <button type="button" class="btn-dpad dpad-up" onclick="movePlayer(0, -1)" aria-label="Atas">▲</button>
+          <!-- On-screen Ergonomic D-Pad with Continuous Hold Support -->
+          <div class="dpad-box" id="mazeDpadBox">
+            <button type="button" class="btn-dpad dpad-up" data-dx="0" data-dy="-1" aria-label="Atas">▲</button>
             <div class="dpad-row">
-              <button type="button" class="btn-dpad dpad-left" onclick="movePlayer(-1, 0)" aria-label="Kiri">◀</button>
+              <button type="button" class="btn-dpad dpad-left" data-dx="-1" data-dy="0" aria-label="Kiri">◀</button>
               <div class="dpad-core">🌸</div>
-              <button type="button" class="btn-dpad dpad-right" onclick="movePlayer(1, 0)" aria-label="Kanan">▶</button>
+              <button type="button" class="btn-dpad dpad-right" data-dx="1" data-dy="0" aria-label="Kanan">▶</button>
             </div>
-            <button type="button" class="btn-dpad dpad-down" onclick="movePlayer(0, 1)" aria-label="Bawah">▼</button>
+            <button type="button" class="btn-dpad dpad-down" data-dx="0" data-dy="1" aria-label="Bawah">▼</button>
           </div>
         </div>
 

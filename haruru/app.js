@@ -14,6 +14,7 @@ const QUEST_STATE = {
     player: { x: 1, y: 1 },
     stars: 0,
     hasSilverKey: false,
+    hasGoldenKey: false,
     gateUnlocked: false,
     steps: 0,
     solved: false,
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMazeCanvas();
   initScratchCards();
   loadWishesFromDatabase();
+  setupMazeControls();
 
   // Close modals on backdrop click
   document.querySelectorAll('.cozy-modal').forEach(modal => {
@@ -423,7 +425,10 @@ function switchStage(stageNum) {
   document.getElementById('stageCelebration').style.display = (stageNum === 4) ? 'block' : 'none';
 
   if (stageNum === 2) {
-    setTimeout(() => drawMaze(), 50);
+    setTimeout(() => {
+      drawMaze();
+      setupMazeControls();
+    }, 50);
   } else if (stageNum === 3) {
     setTimeout(() => initCake3D(), 50);
   } else if (stageNum === 4) {
@@ -536,9 +541,9 @@ function clickSofa() {
     if (badge) badge.style.display = 'block';
 
     updateScrapsTracker();
-    updateDialogue("Bantal sofa terangkat! Sobekan Surat #2 terselip di lipatan kain beludru!");
+    updateDialogue("Bantal sofa terangkat! Sobekan Surat Perkamen #2 berstempel lilin terselip di lipatan kain beludru!");
   } else {
-    updateDialogue("Bantal sofa sudah diperiksa. Sobekan surat dari sini sudah kamu ambil!");
+    updateDialogue("Bantal sofa sudah diperiksa. Sobekan Surat Perkamen #2 sudah berhasil kamu amankan!");
   }
 }
 
@@ -682,6 +687,50 @@ function initMazeCanvas() {
   mazeCtx = mazeCanvas.getContext('2d');
 }
 
+// Breadth-First Search (BFS) pathfinder for authentic corridor-following compass trail
+function findMazePath(startX, startY, targetX, targetY) {
+  if (startX === targetX && startY === targetY) return [];
+  const queue = [{ x: startX, y: startY, path: [] }];
+  const visited = new Set();
+  visited.add(`${startX},${startY}`);
+
+  const dirs = [
+    { dx: 0, dy: -1 },
+    { dx: 1, dy: 0 },
+    { dx: 0, dy: 1 },
+    { dx: -1, dy: 0 }
+  ];
+
+  while (queue.length > 0) {
+    const curr = queue.shift();
+    if (curr.x === targetX && curr.y === targetY) {
+      return curr.path.concat([{ x: targetX, y: targetY }]);
+    }
+
+    for (const d of dirs) {
+      const nx = curr.x + d.dx;
+      const ny = curr.y + d.dy;
+
+      if (ny >= 0 && ny < MAZE_MAP.length && nx >= 0 && nx < MAZE_MAP[0].length) {
+        const key = `${nx},${ny}`;
+        const tile = MAZE_MAP[ny][nx];
+        // Passable if not wall (1), and not locked iron gate (5)
+        const isPassable = tile !== 1 && (tile !== 5 || QUEST_STATE.maze.gateUnlocked);
+
+        if (isPassable && !visited.has(key)) {
+          visited.add(key);
+          queue.push({
+            x: nx,
+            y: ny,
+            path: curr.path.concat([{ x: nx, y: ny }])
+          });
+        }
+      }
+    }
+  }
+  return [];
+}
+
 function drawMaze() {
   if (!mazeCtx) initMazeCanvas();
   if (!mazeCtx) return;
@@ -735,11 +784,26 @@ function drawMaze() {
           ctx.textBaseline = 'middle';
           ctx.fillText('🚪', x + TILE_SIZE / 2, y + TILE_SIZE / 2);
         } else if (type === 2) {
-          // Goal: Golden Vault Key
+          // Goal: Golden Vault Key Altar
           ctx.font = '16px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('🔑', x + TILE_SIZE / 2, y + TILE_SIZE / 2);
+        } else if (type === 6) {
+          // Unlocked Exit Portal
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x + TILE_SIZE / 2, y + TILE_SIZE / 2, 11, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(156, 39, 176, 0.4)';
+          ctx.fill();
+          ctx.strokeStyle = '#BA68C8';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.font = '16px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('🌀', x + TILE_SIZE / 2, y + TILE_SIZE / 2);
+          ctx.restore();
         }
       }
     }
@@ -753,25 +817,38 @@ function drawMaze() {
     ctx.fillText('👻', g.x * TILE_SIZE + TILE_SIZE / 2, g.y * TILE_SIZE + TILE_SIZE / 2);
   });
 
-  // 4. Compass Guidance Beam (if active)
+  // 4. Compass Guidance Along Corridors (BFS Shortest Path, Never Clips Through Walls)
   if (compassTarget) {
+    const path = findMazePath(player.x, player.y, compassTarget.x, compassTarget.y);
     const tPixelX = compassTarget.x * TILE_SIZE + TILE_SIZE / 2;
     const tPixelY = compassTarget.y * TILE_SIZE + TILE_SIZE / 2;
 
     ctx.save();
-    ctx.strokeStyle = '#FFD54F';
-    ctx.lineWidth = 2.5;
-    ctx.setLineDash([4, 4]);
-    ctx.beginPath();
-    ctx.moveTo(pPixelX, pPixelY);
-    ctx.lineTo(tPixelX, tPixelY);
-    ctx.stroke();
+    if (path.length > 0) {
+      ctx.strokeStyle = '#FFD54F';
+      ctx.lineWidth = 3;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(pPixelX, pPixelY);
+      for (const pt of path) {
+        ctx.lineTo(pt.x * TILE_SIZE + TILE_SIZE / 2, pt.y * TILE_SIZE + TILE_SIZE / 2);
+      }
+      ctx.stroke();
 
-    // Pulse target ring
+      // Footstep dots along corridor path
+      ctx.fillStyle = '#FFA000';
+      for (let i = 0; i < path.length; i += 2) {
+        ctx.beginPath();
+        ctx.arc(path[i].x * TILE_SIZE + TILE_SIZE / 2, path[i].y * TILE_SIZE + TILE_SIZE / 2, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Pulse target ring at destination
     ctx.beginPath();
     ctx.arc(tPixelX, tPixelY, 14, 0, Math.PI * 2);
-    ctx.strokeStyle = '#FFA000';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#FFD54F';
+    ctx.lineWidth = 2.5;
     ctx.setLineDash([]);
     ctx.stroke();
     ctx.restore();
@@ -820,7 +897,7 @@ function showMazeToast(msg, duration = 3200) {
 
 function triggerCompassHint() {
   playChimeSound();
-  const { player, hasSilverKey, gateUnlocked, stars } = QUEST_STATE.maze;
+  const { player, hasSilverKey, hasGoldenKey, gateUnlocked, stars } = QUEST_STATE.maze;
   const hintText = document.getElementById('compassHintText');
 
   let target = null;
@@ -837,16 +914,19 @@ function triggerCompassHint() {
         }
       }
     }
-    label = '🧭 Kompas menunjuk ke Bintang Memori ⭐ terdekat!';
+    label = '🧭 Kompas menelusuri lorong ke Bintang Memori ⭐ terdekat!';
   } else if (!hasSilverKey) {
     target = { x: 17, y: 3 };
-    label = '🧭 Kompas bergetar: Kunci Perak 🗝️ ada di lorong kanan atas!';
+    label = '🧭 Kompas memandu jalan ke Kunci Perak 🗝️ di lorong kanan atas!';
   } else if (!gateUnlocked) {
     target = { x: 17, y: 15 };
-    label = '🧭 Kompas menunjuk ke Gerbang Jeruji Besi 🚪!';
+    label = '🧭 Kompas memandu menuju Gerbang Jeruji Besi 🚪!';
+  } else if (!hasGoldenKey) {
+    target = { x: 19, y: 19 };
+    label = '🧭 Kompas memandu jalan ke Altar Kunci Emas 🔑 di ruang utama!';
   } else {
     target = { x: 19, y: 19 };
-    label = '🧭 Kompas menunjuk ke Altar Kunci Emas 🔑 di ruang utama!';
+    label = '🧭 Kompas memandu ke Portal Keluar 🌀 untuk melanjutkan!';
   }
 
   if (target) {
@@ -927,10 +1007,21 @@ function movePlayer(dx, dy) {
 
   // 5. Goal: Golden Key Pickup!
   if (tile === 2) {
+    MAZE_MAP[newY][newX] = 6; // Transform altar into Glowing Exit Portal!
+    QUEST_STATE.maze.hasGoldenKey = true;
+    playUnlockSound();
+    playCelebrationFanfare();
+    showMazeToast("🔑 Kunci Emas berhasil diraih! Portal Keluar 🌀 terbuka di altar, masuki portal untuk melanjutkan! ✨", 3800);
+    drawMaze();
+    return;
+  }
+
+  // 6. Stepping into Exit Portal!
+  if (tile === 6 && QUEST_STATE.maze.hasGoldenKey) {
     QUEST_STATE.maze.solved = true;
     playCelebrationFanfare();
     drawMaze();
-    showMazeToast("🏆 Kunci Emas berhasil diraih! Membuka gerbang Studio Patisserie 3D... ✨", 2500);
+    showMazeToast("🌀 Haruru melangkah masuk ke Portal Ajaib! Membuka gerbang Studio Patisserie 3D... ✨", 2500);
     setTimeout(() => {
       switchStage(3);
     }, 1200);
@@ -948,6 +1039,90 @@ function movePlayer(dx, dy) {
   });
 
   drawMaze();
+}
+
+// Ergonomic Continuous Hold-to-Move & Touch Controls
+let dpadHoldInterval = null;
+let dpadHoldTimeout = null;
+
+function setupMazeControls() {
+  const dpad = document.getElementById('mazeDpadBox');
+  if (dpad && !dpad._initialized) {
+    dpad._initialized = true;
+
+    const stopHold = () => {
+      clearTimeout(dpadHoldTimeout);
+      clearInterval(dpadHoldInterval);
+      dpadHoldTimeout = null;
+      dpadHoldInterval = null;
+    };
+
+    dpad.querySelectorAll('.btn-dpad').forEach(btn => {
+      const dx = parseInt(btn.getAttribute('data-dx'), 10) || 0;
+      const dy = parseInt(btn.getAttribute('data-dy'), 10) || 0;
+      if (dx === 0 && dy === 0) return;
+
+      const handlePress = (e) => {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        stopHold();
+        movePlayer(dx, dy);
+
+        dpadHoldTimeout = setTimeout(() => {
+          dpadHoldInterval = setInterval(() => {
+            movePlayer(dx, dy);
+          }, 120);
+        }, 180);
+      };
+
+      btn.addEventListener('pointerdown', handlePress);
+      btn.addEventListener('pointerup', stopHold);
+      btn.addEventListener('pointercancel', stopHold);
+      btn.addEventListener('pointerleave', stopHold);
+      btn.addEventListener('contextmenu', e => e.preventDefault());
+    });
+
+    window.addEventListener('pointerup', stopHold);
+    window.addEventListener('blur', stopHold);
+  }
+
+  // Direct Canvas Swipe Navigation
+  const canvas = document.getElementById('mazeCanvas');
+  if (canvas && !canvas._swipeInit) {
+    canvas._swipeInit = true;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.cancelable) e.preventDefault();
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+      if (!e.changedTouches || !e.changedTouches[0]) return;
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      const deltaY = e.changedTouches[0].clientY - touchStartY;
+      const dist = Math.hypot(deltaX, deltaY);
+
+      if (dist > 18) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          movePlayer(deltaX > 0 ? 1 : -1, 0);
+        } else {
+          movePlayer(0, deltaY > 0 ? 1 : -1);
+        }
+      }
+    }, { passive: true });
+
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+  }
 }
 
 // Guard Patrol Interval
