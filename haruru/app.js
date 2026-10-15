@@ -76,11 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
   loadWishesFromDatabase();
   setupMazeControls();
 
-  // Close modals on backdrop click
+  // Close modals on backdrop click and isolate touchmove
   document.querySelectorAll('.cozy-modal').forEach(modal => {
     modal.addEventListener('click', e => {
-      if (e.target === modal) modal.style.display = 'none';
+      if (e.target === modal) closeModal(modal.id);
     });
+    modal.addEventListener('touchmove', e => {
+      if (e.target === modal) e.preventDefault();
+    }, { passive: false });
   });
 
   // Keyboard navigation for Maze
@@ -1981,7 +1984,7 @@ async function loadWishesFromDatabase() {
 
   // 2. Fetch live data from /api/wishes backend database
   try {
-    const res = await fetch(WISHES_API_URL, { timeout: 4000 });
+    const res = await fetch(`${WISHES_API_URL}?_t=${Date.now()}`, { timeout: 4000, cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (data && data.status === 'success' && Array.isArray(data.wishes)) {
@@ -2216,8 +2219,40 @@ async function deleteWish(name, message) {
   playClickSound();
   const token = getModerationToken();
 
-  // 1. Permanently cache in haruru_deleted_wishes and update local grid
+  if (!token) {
+    alert("Silakan aktifkan Mode Moderasi terlebih dahulu dan masukkan PIN untuk menghapus ucapan di server.");
+    openModal('boardModModal');
+    return;
+  }
+
   try {
+    const res = await fetch(WISHES_API_URL, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ name, message })
+    });
+
+    if (res.status === 401) {
+      sessionStorage.removeItem('rtm_mod_token');
+      localStorage.removeItem('rtm_mod_token');
+      sessionStorage.removeItem('rtm_admin_token');
+      localStorage.removeItem('rtm_admin_token');
+      updateModState();
+      alert("Sesi moderasi tidak valid atau kedaluwarsa (401). Silakan login kembali dengan PIN.");
+      openModal('boardModModal');
+      return;
+    }
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      alert(`Gagal menghapus ucapan dari server: ${errData.message || res.statusText}`);
+      return;
+    }
+
+    // Server deletion confirmed! Now update local caches
     const deletedSignatures = JSON.parse(localStorage.getItem('haruru_deleted_wishes') || '[]');
     const sig = `${name}|${message}`;
     if (!deletedSignatures.includes(sig)) {
@@ -2232,35 +2267,13 @@ async function deleteWish(name, message) {
       localStorage.setItem('haruru_cached_wishes', JSON.stringify(list));
       renderWishesGrid(list);
     }
-  } catch (_) {}
 
-  // 2. Call delete API on server if authenticated
-  if (token) {
-    try {
-      const res = await fetch(WISHES_API_URL, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ name, message })
-      });
-      if (res.status === 401) {
-        sessionStorage.removeItem('rtm_mod_token');
-        localStorage.removeItem('rtm_mod_token');
-        sessionStorage.removeItem('rtm_admin_token');
-        localStorage.removeItem('rtm_admin_token');
-        updateModState();
-        alert("Sesi moderasi kedaluwarsa atau belum login (401). Kartu ucapan telah disembunyikan. Silakan login kembali untuk sinkronisasi server.");
-        openModal('boardModModal');
-        return;
-      }
-    } catch (err) {
-      console.warn("Sinkronisasi server tertunda:", err);
-    }
+    await loadWishesFromDatabase();
+    alert("Kartu ucapan berhasil dihapus dari server dan seluruh perangkat.");
+  } catch (err) {
+    console.error("Gagal menghubungi server:", err);
+    alert("Gagal menghubungi server untuk menghapus ucapan. Periksa koneksi internet Anda.");
   }
-
-  alert("Kartu ucapan berhasil dihapus.");
 }
 
 // ==========================================================================
@@ -2268,13 +2281,25 @@ async function deleteWish(name, message) {
 // ==========================================================================
 function openModal(id) {
   const modal = document.getElementById(id);
-  if (modal) modal.style.display = 'flex';
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.classList.add('modal-open');
+    document.documentElement.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function closeModal(id) {
   playClickSound();
   const modal = document.getElementById(id);
   if (modal) modal.style.display = 'none';
+
+  const anyOpen = Array.from(document.querySelectorAll('.cozy-modal')).some(m => m.style.display === 'flex');
+  if (!anyOpen) {
+    document.body.classList.remove('modal-open');
+    document.documentElement.classList.remove('modal-open');
+    document.body.style.overflow = '';
+  }
 }
 
 function updateDialogue(msg) {

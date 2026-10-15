@@ -608,6 +608,12 @@ body {
   bottom: 28px;
   left: 25%;
   width: 155px;
+  transform: none !important;
+}
+.spot-sofa:hover,
+.spot-sofa:active,
+.spot-sofa:focus {
+  transform: none !important;
 }
 .sofa-art { width: 155px; height: 105px; pointer-events: auto; }
 
@@ -709,12 +715,15 @@ body {
   .spot-sofa {
     bottom: 16px;
     left: 50%;
-    transform: translateX(-50%);
+    margin-left: -57px;
     width: 114px;
     z-index: 14;
+    transform: none !important;
   }
-  .spot-sofa:hover, .spot-sofa:active {
-    transform: translateX(-50%) translateY(-2px);
+  .spot-sofa:hover,
+  .spot-sofa:active,
+  .spot-sofa:focus {
+    transform: none !important;
   }
   .sofa-art { width: 114px; height: 78px; }
 
@@ -796,12 +805,12 @@ body {
 }
 
 .pillow-spring {
-  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
   transform-origin: 93px 56px;
 }
 .pillow-spring.shifted {
-  /* Gentle cushion lift without distorting sofa geometry */
-  transform: translateY(-8px);
+  /* Lift cushion up and tilt gently revealing the tucked scrap */
+  transform: translateY(-16px) rotate(-6deg);
 }
 .scrap-parchment-badge {
   animation: scrapGlowPulse 2s infinite alternate ease-in-out;
@@ -860,6 +869,9 @@ body {
 .maze-wrapper-grid {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
+  grid-template-areas:
+    "canvas stats"
+    "canvas controls";
   gap: 28px;
   align-items: start;
 }
@@ -867,10 +879,12 @@ body {
 @media (max-width: 768px) {
   .maze-wrapper-grid {
     grid-template-columns: 1fr;
+    grid-template-areas: none;
   }
 }
 
 .maze-canvas-container {
+  grid-area: canvas;
   background: #110B08;
   border: 3px solid #3E271D;
   border-radius: var(--radius-md);
@@ -907,12 +921,14 @@ body {
 }
 
 .maze-hud-panel {
+  grid-area: controls;
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
 .maze-stats-card {
+  grid-area: stats;
   background: var(--bg-tint);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
@@ -2128,6 +2144,14 @@ body {
 /* ==========================================================================
    MODALS & INTERACTIVE PUZZLES STYLING
    ========================================================================== */
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+}
+
 .cozy-modal {
   position: fixed;
   top: 0;
@@ -2142,6 +2166,8 @@ body {
   justify-content: center;
   padding: 20px;
   animation: modalFade 0.25s ease;
+  overscroll-behavior: contain !important;
+  touch-action: none;
 }
 
 @keyframes modalFade {
@@ -2155,9 +2181,12 @@ body {
   border-radius: var(--radius-lg);
   max-width: 480px;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
   box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-  overflow: hidden;
   animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain !important;
+  touch-action: pan-y;
 }
 
 .modal-card.modal-large {
@@ -2751,16 +2780,13 @@ body {
   .maze-wrapper-grid {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    align-items: center;
+    gap: 8px;
     width: 100%;
     box-sizing: border-box;
   }
-  .maze-hud-panel {
-    display: contents; /* Allows children to participate directly in flex ordering */
-  }
   .maze-stats-card {
-    order: 1; /* Sleek horizontal HUD bar above canvas */
-    padding: 6px 10px;
+    padding: 6px 12px;
     margin-bottom: 0;
     display: flex;
     flex-wrap: wrap;
@@ -2770,6 +2796,7 @@ body {
     border: 1px solid var(--accent-gold);
     border-radius: var(--radius-sm);
     width: 100%;
+    max-width: 270px;
     box-sizing: border-box;
   }
   .maze-stats-card .card-heading {
@@ -2781,19 +2808,19 @@ body {
     gap: 4px;
   }
   .maze-canvas-container {
-    order: 2; /* Sits in middle */
     padding: 4px;
     width: 100%;
+    max-width: 270px;
     box-sizing: border-box;
   }
   .maze-screen-glow {
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
     margin: 0 auto;
   }
   #mazeCanvas {
     width: 100% !important;
-    max-width: 280px !important;
+    max-width: 260px !important;
     height: auto !important;
     aspect-ratio: 1 / 1;
     display: block;
@@ -2807,30 +2834,42 @@ body {
     gap: 4px 6px;
     margin-top: 4px;
     padding: 0 2px;
+    justify-content: center;
+  }
+  .maze-hud-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    max-width: 270px;
+    margin: 0 auto;
   }
   .dpad-box {
-    order: 3; /* Sits IMMEDIATELY below canvas! */
     padding: 6px 4px;
     margin: 0 auto;
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
     touch-action: none !important;
     -webkit-touch-callout: none !important;
     user-select: none !important;
   }
   .btn-dpad {
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+    width: 46px;
+    height: 46px;
+    font-size: 1.2rem;
     touch-action: none !important;
     -webkit-touch-callout: none !important;
     user-select: none !important;
   }
+  .dpad-core {
+    width: 46px;
+    height: 46px;
+  }
   .maze-hint-box {
-    order: 4; /* Sits directly below D-pad */
     margin: 0 auto;
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
   }
   .btn-compass-hint {
     width: 100%;
