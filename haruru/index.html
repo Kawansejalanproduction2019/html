@@ -15,7 +15,7 @@
   <!-- Three.js 3D Engine for Genuinely 3D Birthday Cake Model -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <link rel="stylesheet" href="/haruru/style.css?v=20261016_v4_zeroscroll">
+  <link rel="stylesheet" href="/haruru/style.css?v=20261016_v5_detective_puzzles">
 </head>
 <body>
 
@@ -109,15 +109,15 @@
       <div class="investigation-hud">
         <div class="hud-item">
           <span class="hud-label">⏰ Jam Antik:</span>
-          <span class="hud-status" id="hudClock">Terkunci (Belum 10:28)</span>
+          <span class="hud-status" id="hudClock">Misteri Jarum Waktu 🔒</span>
         </div>
         <div class="hud-item">
-          <span class="hud-label">📄 Sobekan Surat:</span>
+          <span class="hud-label">📄 Sobekan Dokumen:</span>
           <span class="hud-status" id="hudScraps">0 / 3 Terkumpul</span>
         </div>
         <div class="hud-item">
           <span class="hud-label">🔐 Brankas Rahasia:</span>
-          <span class="hud-status" id="hudSafe">Terkunci (Perlu Sandi)</span>
+          <span class="hud-status" id="hudSafe">Terkunci Ganda (Perlu Dokumen)</span>
         </div>
       </div>
 
@@ -128,7 +128,7 @@
 
         <!-- Upper Wall Layer: Victorian Wallpaper & Wainscoting -->
         <div class="room-wall-bg">
-          <!-- Arched Stained Glass Window overlooking Bandung Night -->
+          <!-- Arched Stained Glass Window overlooking Starry Night Sky -->
           <div class="room-window-arch">
             <div class="window-glass">
               <div class="window-stars"></div>
@@ -162,7 +162,7 @@
         <div class="room-furniture-layer">
 
           <!-- 1. Jam Dinding Antik (Grandfather / Wall Clock on Wall) -->
-          <div class="room-hotspot spot-clock" onclick="openClockModal()" title="Periksa Jam Antik (Setel ke 10:28)">
+          <div class="room-hotspot spot-clock" onclick="openClockModal()" title="Periksa Jam Dinding Antik (Pecahkan Teka-Teki Waktu)">
             <div class="hotspot-badge">⏰ Jam Antik</div>
             <div class="furniture-art clock-art">
               <svg viewBox="0 0 90 130" class="svg-furniture">
@@ -332,15 +332,6 @@
         </div>
       </div>
 
-      <!-- QUICK ROOM HOTSPOT SELECTOR (Mobile Touch Nav) -->
-      <div class="room-quick-nav" aria-label="Akses Cepat Perabot Kamar">
-        <button type="button" class="quick-nav-pill" onclick="openClockModal()">⏰ Jam Antik</button>
-        <button type="button" class="quick-nav-pill" onclick="openBookshelfModal()">📚 Rak Buku</button>
-        <button type="button" class="quick-nav-pill" onclick="clickSofa()">🛋️ Bantal Sofa</button>
-        <button type="button" class="quick-nav-pill" onclick="openDeskModal()">🔍 Meja Detektif</button>
-        <button type="button" class="quick-nav-pill" onclick="openSafeModal()">🔐 Brankas</button>
-      </div>
-
       <!-- Dialogue Assistant Banner -->
       <div class="dialogue-banner">
         <div class="dialogue-avatar">
@@ -349,7 +340,7 @@
         <div class="dialogue-content">
           <div class="dialogue-speaker">Detektif Haruru &bull; Petunjuk Kasus:</div>
           <p class="dialogue-text" id="dialogueText">
-            "Kamar ini menyimpan kunci rahasia! Mulailah dengan menyetel Jam Dinding Antik ke <strong>pukul 10:28</strong>, periksa bantal sofa dan rak buku, lalu susun sobekan surat di meja investigasi!"
+            "Kamar studi ini menyimpan misteri gerbang terkunci! Mulailah dengan meneliti Jam Dinding Antik, periksa setiap sudut perabot kamar, dan kumpulkan tiga sobekan dokumen rahasia!"
           </p>
         </div>
       </div>
@@ -723,7 +714,7 @@
       <!-- Form Tambah Kartu Ucapan -->
       <form class="add-note-card" id="formSubmitWish" onsubmit="submitNewWish(event)">
         <h3 class="form-title">Tuliskan Doa &amp; Ucapanmu untuk Haruru ✍️</h3>
-        <p class="form-subtitle">Kartu ucapanmu akan langsung tertempel di papan dan tersimpan aman di database server ✨</p>
+        <p class="form-subtitle">Kartu ucapanmu akan langsung tersemat indah di Papan Memo dan tersimpan abadi untuk Haruru ✨</p>
         
         <div class="form-row">
           <input type="text" id="inputName" class="form-input" placeholder="Nama Anda (contoh: Kawan Discord / Sahabat)" required maxlength="60">
@@ -771,8 +762,10 @@
       <div class="modal-body text-center">
         <div class="riddle-box">
           <p class="riddle-text">
-            "Waktu kelahiran sang bintang: <strong>Bulan ke-10, tanggal 28</strong>.<br>
-            Setel jam analog ini tepat ke <strong>Pukul 10:28</strong> untuk membuka kompartemen rahasia!"
+            "Prasasti kuno terukir pada pendulum kuningan:<br>
+            <em>'Jarum pendek beristirahat tepat di bulan kesepuluh saat dedaunan musim gugur melayang.<br>
+            Jarum panjang melangkah menuju tanggal kelahiran istimewa sang detektif.'</em><br>
+            Dengarkan detak roda gerigi dan arahkan kedua jarum ke momen rahasia tersebut!"
           </p>
         </div>
 
@@ -824,30 +817,34 @@
         <button type="button" class="btn-close-modal" onclick="closeModal('modalBookshelf')">&times;</button>
       </div>
       <div class="modal-body text-center">
-        <p class="riddle-text">
-          Ada 5 jilid buku di rak ini. Salah satunya memiliki rongga rahasia yang menyembunyikan sobekan dokumen:
-        </p>
+        <div class="riddle-box">
+          <p class="riddle-text">
+            "Sebuah memo investigasi terselip di celah rak mahoni:<br>
+            <em>'Bukan tentang catatan musim gugur, bukan pula simfoni lagu pengelana.<br>
+            Rongga rahasia tersimpan pada arsip kasus khusus yang mencatat misteri lentera kelahiran...'</em>"
+          </p>
+        </div>
 
         <div class="book-choices-grid">
           <button type="button" class="btn-book-choice" onclick="inspectBook('autumn')">
             <span class="book-spine" style="background: #E86A82;"></span>
-            <span class="book-title">Catatan Musim Gugur</span>
+            <span class="book-title">Kronik Musim Gugur: Bayangan di Balik Jendela</span>
           </button>
-          <button type="button" class="btn-book-choice" onclick="inspectBook('bandung')">
+          <button type="button" class="btn-book-choice" onclick="inspectBook('traveler')">
             <span class="book-spine" style="background: #5B8C68;"></span>
-            <span class="book-title">Kota Kembang (Bandung)</span>
+            <span class="book-title">Catatan Pengelana: Perjalanan Menembus Kabut</span>
           </button>
-          <button type="button" class="btn-book-choice" onclick="inspectBook('padang')">
+          <button type="button" class="btn-book-choice" onclick="inspectBook('symphony')">
             <span class="book-spine" style="background: #E5A83B;"></span>
-            <span class="book-title">Ranah Minang (Padang)</span>
+            <span class="book-title">Koleksi Arsip Klasik: Simfoni Lembayung</span>
           </button>
-          <button type="button" class="btn-book-choice" onclick="inspectBook('haruru28')">
+          <button type="button" class="btn-book-choice" onclick="inspectBook('haruru_archive')">
             <span class="book-spine" style="background: #8E7CC3;"></span>
-            <span class="book-title">Detektif Haruru &bull; Edisi 28</span>
+            <span class="book-title">Arsip Investigasi Khusus: Misteri Lentera 28</span>
           </button>
-          <button type="button" class="btn-book-choice" onclick="inspectBook('melody')">
+          <button type="button" class="btn-book-choice" onclick="inspectBook('cipher')">
             <span class="book-spine" style="background: #4A7C59;"></span>
-            <span class="book-title">Harmoni Musik Jiwa</span>
+            <span class="book-title">Ensiklopedia Sandi: Bahasa Rahasia Kuno</span>
           </button>
         </div>
         <p id="bookFeedback" class="form-feedback" style="display: none;"></p>
@@ -869,46 +866,51 @@
 
         <!-- Scraps Tray Status -->
         <div class="scraps-tray">
-          <div class="scrap-slot" id="scrapSlot1">Potongan #1 (Jam Antik) 🔒</div>
-          <div class="scrap-slot" id="scrapSlot2">Potongan #2 (Sofa) 🔒</div>
-          <div class="scrap-slot" id="scrapSlot3">Potongan #3 (Buku #28) 🔒</div>
+          <div class="scrap-slot" id="scrapSlot1">Sobekan #1 (Jam Antik) 🔒</div>
+          <div class="scrap-slot" id="scrapSlot2">Sobekan #2 (Sofa) 🔒</div>
+          <div class="scrap-slot" id="scrapSlot3">Sobekan #3 (Arsip Buku) 🔒</div>
         </div>
 
         <!-- Interactive Jigsaw Table -->
         <div class="jigsaw-table" id="jigsawTable">
           <div class="jigsaw-piece piece-1" id="piece1" draggable="true">
             <div class="piece-content">
-              <strong>[BAGIAN 1]</strong><br>
-              "Kunci Brankas:<br>
-              Angka Pertama = 1"
+              <strong>[SOBEKAN KIRI]</strong><br>
+              "Kombinasi Silinder Brankas:<br>
+              Digit I : Angka pembuka bulan kesepuluh [ 1 ]<br>
+              Digit II: Digit penutup bulan kesepuluh..."
             </div>
           </div>
           <div class="jigsaw-piece piece-2" id="piece2" draggable="true">
             <div class="piece-content">
-              <strong>[BAGIAN 2]</strong><br>
-              "Bulan Kelahiran = 0<br>
-              Tanggal Hari = 2"
+              <strong>[SOBEKAN TENGAH]</strong><br>
+              "...Digit II bernilai [ 0 ].<br>
+              Digit III merupakan puluhan dari tanggal lahir [ 2 ]..."
             </div>
           </div>
           <div class="jigsaw-piece piece-3" id="piece3" draggable="true">
             <div class="piece-content">
-              <strong>[BAGIAN 3]</strong><br>
-              "Angka Terakhir = 8<br>
-              ➔ Sandi: 1 - 0 - 2 - 8"
+              <strong>[SOBEKAN KANAN]</strong><br>
+              "...dan Digit IV adalah satuan dari tanggal istimewa [ 8 ].<br>
+              Rangkai keempat digit secara berurutan!"
             </div>
           </div>
         </div>
 
         <div class="jigsaw-action-row">
           <button type="button" class="btn-snap-jigsaw" onclick="assembleScrapsTogether()">
-            🧩 Rekonstruksi Sobekan Kertas
+            🧩 Rekonstruksi Sobekan Dokumen
           </button>
         </div>
 
         <div id="assembledDocument" class="assembled-doc" style="display: none;">
-          <h5 class="doc-heading">📜 Pesan Rahasia yang Terungkap</h5>
+          <h5 class="doc-heading">📜 Dokumen Sandi Berhasil Direkonstruksi!</h5>
           <p class="doc-text">
-            "Sandi Brankas Labirin telah terkuak: <strong>1 - 0 - 2 - 8</strong> (Bulan ke-10, tanggal 28). Masukkan angka ini pada Brankas Sandi di kamar untuk membuka jalan menuju Labirin Kunci Emas!"
+            <em>"Memo Rahasia Penyelidikan Haruru:<br>
+            Kombinasi empat silinder brankas tersusun rapi dari tanggal dan bulan kelahiran:<br>
+            &bull; Digit I &amp; II (Bulan ke-10) ➔ <strong>[ 1 ] [ 0 ]</strong><br>
+            &bull; Digit III &amp; IV (Tanggal 28) ➔ <strong>[ 2 ] [ 8 ]</strong><br>
+            Gerendel pengaman ganda brankas kini telah terlepas! Masukkan kombinasi empat digit ini pada silinder Brankas di sudut ruangan!"</em>
           </p>
         </div>
       </div>
@@ -924,7 +926,7 @@
       </div>
       <div class="modal-body text-center">
         <p class="riddle-text">
-          Putar 4 silinder kombinasi di bawah ini untuk membuka pintu rahasia menuju Labirin:
+          Brankas besi ini memiliki gerendel pengaman ganda. Setelah dokumen rahasia di Meja Investigasi direkonstruksi, putar 4 silinder kombinasi di bawah ini untuk membuka jalan menuju Labirin:
         </p>
 
         <!-- 4-Rotor Combination Cryptex -->
@@ -1041,6 +1043,6 @@
   </div>
 
   <!-- Core Game Script -->
-  <script src="/haruru/app.js?v=20261016_v4_zeroscroll"></script>
+  <script src="/haruru/app.js?v=20261016_v5_detective_puzzles"></script>
 </body>
 </html>

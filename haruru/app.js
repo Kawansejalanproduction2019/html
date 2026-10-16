@@ -509,14 +509,17 @@ function checkClockPuzzle() {
 
     if (fb) {
       fb.className = 'form-feedback success';
-      fb.textContent = '🎉 KLIK! Jarum tepat di 10:28! Kompartemen rahasia terbuka & Sobekan Surat #1 ditemukan!';
+      fb.textContent = '🎉 KLIK! Jarum berdentang selaras di 10:28! Kompartemen rahasia terbuka & Sobekan Dokumen #1 ditemukan!';
       fb.style.display = 'block';
     }
 
-    document.getElementById('hudClock').textContent = 'Terbuka (Pukul 10:28) ✨';
-    document.getElementById('hudClock').classList.add('done');
+    const hudClock = document.getElementById('hudClock');
+    if (hudClock) {
+      hudClock.textContent = 'Terpecahkan (Kompartemen Terbuka) ✨';
+      hudClock.classList.add('done');
+    }
     updateScrapsTracker();
-    updateDialogue("Luar biasa! Jam antik membuka kompartemen dan menjatuhkan Sobekan Surat #1!");
+    updateDialogue("Luar biasa! Kompartemen rahasia jam antik terbuka dan menjatuhkan Sobekan Dokumen Rahasia #1!");
 
     setTimeout(() => {
       closeModal('modalClock');
@@ -525,7 +528,7 @@ function checkClockPuzzle() {
     playTone(200, 'sawtooth', 0.15, 0.1);
     if (fb) {
       fb.className = 'form-feedback error';
-      fb.textContent = `Waktu masih ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}. Petunjuk: Bulan 10, tanggal 28 (10:28)!`;
+      fb.textContent = `Waktu masih ${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}. Roda gerigi pendulum belum terhubung. Perhatikan bait prasasti kuno tentang bulan kesepuluh dan tanggal kelahiran!`;
       fb.style.display = 'block';
     }
   }
@@ -544,9 +547,9 @@ function clickSofa() {
     if (badge) badge.style.display = 'block';
 
     updateScrapsTracker();
-    updateDialogue("Bantal sofa terangkat! Sobekan Surat Perkamen #2 berstempel lilin terselip di lipatan kain beludru!");
+    updateDialogue("Bantal sofa terangkat! Sobekan Dokumen Rahasia #2 berstempel lilin terselip di lipatan kain beludru!");
   } else {
-    updateDialogue("Bantal sofa sudah diperiksa. Sobekan Surat Perkamen #2 sudah berhasil kamu amankan!");
+    updateDialogue("Bantal sofa sudah diperiksa. Sobekan Dokumen Rahasia #2 sudah berhasil kamu amankan!");
   }
 }
 
@@ -560,16 +563,16 @@ function inspectBook(bookKey) {
   playClickSound();
   const fb = document.getElementById('bookFeedback');
 
-  if (bookKey === 'haruru28') {
+  if (bookKey === 'haruru_archive' || bookKey === 'haruru28') {
     QUEST_STATE.scraps.scrap3 = true;
     playUnlockSound();
     if (fb) {
       fb.className = 'form-feedback success';
-      fb.textContent = '📖 KLIK! Buku "Detektif Haruru Edisi 28" memiliki rongga rahasia! Sobekan Surat #3 berhasil diambil!';
+      fb.textContent = '📖 KLIK! Buku "Arsip Investigasi Khusus: Misteri Lentera 28" memiliki rongga rahasia! Sobekan Dokumen #3 berhasil diambil!';
       fb.style.display = 'block';
     }
     updateScrapsTracker();
-    updateDialogue("Mantap! Buku Haruru Edisi 28 menyimpan Sobekan Surat #3 di balik halamannya!");
+    updateDialogue("Mantap! Buku arsip lentera 28 menyimpan Sobekan Dokumen #3 di balik rongganya!");
 
     setTimeout(() => {
       closeModal('modalBookshelf');
@@ -578,7 +581,17 @@ function inspectBook(bookKey) {
     playTone(240, 'triangle', 0.15, 0.1);
     if (fb) {
       fb.className = 'form-feedback error';
-      fb.textContent = 'Buku ini berisi cerita hangat sahabat, namun tidak ada sobekan tersembunyi di dalamnya.';
+      if (bookKey === 'autumn') {
+        fb.textContent = 'Kronik ini hanya berisi catatan dedaunan musim gugur. Tidak ada rongga rahasia di dalamnya.';
+      } else if (bookKey === 'traveler') {
+        fb.textContent = 'Catatan pengelana ini menceritakan jejak di negeri kabut. Halamannya padat tanpa kompartemen.';
+      } else if (bookKey === 'symphony') {
+        fb.textContent = 'Koleksi simfoni ini dipenuhi partitur nada merdu, namun tidak ada dokumen tersembunyi di sini.';
+      } else if (bookKey === 'cipher') {
+        fb.textContent = 'Ensiklopedia sandi ini membahas teori kriptografi kuno, bukan buku dengan rongga rahasia.';
+      } else {
+        fb.textContent = 'Buku ini tidak menyembunyikan rongga rahasia. Periksa kembali petunjuk memo investigasi rak!';
+      }
       fb.style.display = 'block';
     }
   }
@@ -598,9 +611,9 @@ function updateScrapsTracker() {
   const s1 = document.getElementById('scrapSlot1');
   const s2 = document.getElementById('scrapSlot2');
   const s3 = document.getElementById('scrapSlot3');
-  if (s1 && scrap1) { s1.textContent = 'Potongan #1 (Jam Antik) ✓'; s1.classList.add('found'); }
-  if (s2 && scrap2) { s2.textContent = 'Potongan #2 (Sofa) ✓'; s2.classList.add('found'); }
-  if (s3 && scrap3) { s3.textContent = 'Potongan #3 (Buku #28) ✓'; s3.classList.add('found'); }
+  if (s1 && scrap1) { s1.textContent = 'Sobekan #1 (Jam Antik) ✓'; s1.classList.add('found'); }
+  if (s2 && scrap2) { s2.textContent = 'Sobekan #2 (Sofa) ✓'; s2.classList.add('found'); }
+  if (s3 && scrap3) { s3.textContent = 'Sobekan #3 (Arsip Buku) ✓'; s3.classList.add('found'); }
 }
 
 // 5D. Meja Investigasi (Jigsaw Puzzle Assembly)
@@ -614,7 +627,7 @@ function assembleScrapsTogether() {
   const { scrap1, scrap2, scrap3 } = QUEST_STATE.scraps;
 
   if (!scrap1 || !scrap2 || !scrap3) {
-    alert("Kamu belum mengumpulkan ketiga sobekan surat! Cari sobekan di Jam Antik, Bantal Sofa, dan Rak Buku terlebih dahulu.");
+    alert("Kamu belum mengumpulkan ketiga sobekan dokumen! Cari sobekan di Jam Antik, Bantal Sofa, dan Rak Buku terlebih dahulu.");
     return;
   }
 
@@ -624,12 +637,27 @@ function assembleScrapsTogether() {
   const doc = document.getElementById('assembledDocument');
   if (doc) doc.style.display = 'block';
 
-  updateDialogue("Ketiga sobekan surat berhasil disatukan! Sandi brankas adalah: 1 - 0 - 2 - 8!");
+  const hudSafe = document.getElementById('hudSafe');
+  if (hudSafe && !QUEST_STATE.safe.solved) {
+    hudSafe.textContent = 'Siap Dibuka (Perlu Masukkan Sandi) 🔓';
+  }
+
+  updateDialogue("Ketiga sobekan dokumen berhasil disatukan! Gerendel pengaman ganda brankas terbuka, periksa kombinasi sandinya!");
 }
 
 // 5E. Brankas Rahasia Bertombol Putar (Rotary Safe Cryptex)
 function openSafeModal() {
   playClickSound();
+  const fb = document.getElementById('safeFeedback');
+  if (fb) {
+    if (!QUEST_STATE.scraps.assembled) {
+      fb.className = 'form-feedback info';
+      fb.textContent = '🔒 Gerendel Pengaman Ganda Aktif: Brankas terkunci secara mekanis sampai semua sobekan dokumen direkonstruksi di Meja Investigasi.';
+      fb.style.display = 'block';
+    } else {
+      fb.style.display = 'none';
+    }
+  }
   openModal('modalSafe');
 }
 
@@ -645,8 +673,20 @@ function spinSafeDial(index, delta) {
 }
 
 function checkSafeCombination() {
-  const combo = QUEST_STATE.safe.combination.join('');
   const fb = document.getElementById('safeFeedback');
+
+  // ANTI-SKIP ENFORCEMENT: Safe cannot be opened without assembling all 3 document scraps
+  if (!QUEST_STATE.scraps.assembled) {
+    playTone(180, 'sawtooth', 0.2, 0.12);
+    if (fb) {
+      fb.className = 'form-feedback error';
+      fb.textContent = '⚠️ Gerendel Pengaman Ganda Masih Mengunci! Kumpulkan ketiga sobekan dokumen dan rekonstruksi di Meja Investigasi sebelum brankas dapat dibuka!';
+      fb.style.display = 'block';
+    }
+    return;
+  }
+
+  const combo = QUEST_STATE.safe.combination.join('');
 
   if (combo === '1028') {
     QUEST_STATE.safe.solved = true;
@@ -658,8 +698,11 @@ function checkSafeCombination() {
       fb.style.display = 'block';
     }
 
-    document.getElementById('hudSafe').textContent = 'Terbuka (Sandi 1028) ✨';
-    document.getElementById('hudSafe').classList.add('done');
+    const hudSafe = document.getElementById('hudSafe');
+    if (hudSafe) {
+      hudSafe.textContent = 'Terbuka (Gerbang Terkuak) ✨';
+      hudSafe.classList.add('done');
+    }
 
     setTimeout(() => {
       closeModal('modalSafe');
@@ -669,7 +712,7 @@ function checkSafeCombination() {
     playTone(180, 'sawtooth', 0.2, 0.12);
     if (fb) {
       fb.className = 'form-feedback error';
-      fb.textContent = `Sandi "${combo}" salah. Susun sobekan surat di Meja Investigasi untuk mengetahui sandinya!`;
+      fb.textContent = `Sandi "${combo}" belum tepat. Pelajari kembali susunan digit memo rahasia di Meja Investigasi!`;
       fb.style.display = 'block';
     }
   }
