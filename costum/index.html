@@ -18,6 +18,48 @@
       const saved = localStorage.getItem('rtm_theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
       document.documentElement.setAttribute('data-theme', saved);
     })();
+
+    // AI Channel Mode Switcher (#general-chat vs DM)
+    function setAiChannelMode(mode) {
+      const btnServer = document.getElementById('btnModeServer');
+      const btnDm = document.getElementById('btnModeDm');
+      const viewServer = document.getElementById('viewModeServer');
+      const viewDm = document.getElementById('viewModeDm');
+
+      if (!btnServer || !btnDm || !viewServer || !viewDm) return;
+
+      if (mode === 'server') {
+        btnServer.classList.add('active');
+        btnDm.classList.remove('active');
+        viewServer.classList.add('active');
+        viewDm.classList.remove('active');
+      } else {
+        btnDm.classList.add('active');
+        btnServer.classList.remove('active');
+        viewDm.classList.add('active');
+        viewServer.classList.remove('active');
+      }
+    }
+
+    // Copy Developer ID Button
+    const btnCopyDevId = document.getElementById('btnCopyDevId');
+    if (btnCopyDevId) {
+      btnCopyDevId.addEventListener('click', async () => {
+        const devId = btnCopyDevId.getAttribute('data-copy');
+        try {
+          await navigator.clipboard.writeText(devId);
+          const originalHtml = btnCopyDevId.innerHTML;
+          btnCopyDevId.innerHTML = '<span>Tersalin!</span> <code>' + devId + '</code>';
+          btnCopyDevId.style.borderColor = '#22c55e';
+          setTimeout(() => {
+            btnCopyDevId.innerHTML = originalHtml;
+            btnCopyDevId.style.borderColor = '';
+          }, 2000);
+        } catch (err) {
+          console.error('Gagal menyalin ID:', err);
+        }
+      });
+    }
   </script>
 
   <style>
@@ -739,30 +781,186 @@
       line-height: 1.55;
     }
 
-    /* Direct Contact Banner */
-    .cta-discord-banner {
-      background: var(--rtm-surface);
+    /* AI Mode Switcher Tabs */
+    .ai-mode-selector {
+      display: flex;
+      gap: 6px;
+      background: #111418;
+      padding: 4px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--rtm-border);
+      margin-bottom: 6px;
+    }
+    .ai-mode-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--rtm-text-muted);
+      cursor: pointer;
+      transition: all var(--rtm-transition);
+    }
+    .ai-mode-btn:hover {
+      color: var(--rtm-text-main);
+    }
+    .ai-mode-btn.active {
+      background: #2b2d31;
+      color: #f0f6fc;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    .ai-chat-view {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ai-chat-view.active {
+      display: flex;
+    }
+
+    /* Direct Contact Banner Studio Redesign */
+    .cta-discord-studio {
+      position: relative;
+      background: radial-gradient(circle at 50% -20%, rgba(34, 197, 94, 0.16) 0%, rgba(18, 21, 27, 0.95) 70%);
+      border: 1px solid rgba(34, 197, 94, 0.35);
       border-radius: var(--radius-lg);
-      padding: 38px 24px;
+      padding: 48px 28px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 20px;
+      box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.6), 0 0 30px -8px rgba(34, 197, 94, 0.2);
+      overflow: hidden;
     }
-
-    .cta-discord-banner h2 {
-      font-size: 1.7rem;
+    .cta-discord-studio::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #22c55e, #38bdf8, transparent);
+    }
+    .developer-live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: #4ade80;
+      font-weight: 600;
+    }
+    .live-pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulseGreen 2s infinite;
+    }
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    .live-tag-sep {
+      color: var(--rtm-text-muted);
+      font-size: 0.75rem;
+    }
+    .dev-id-tag {
+      color: var(--rtm-text-secondary);
+      font-weight: 500;
+    }
+    .cta-discord-studio h2 {
+      font-size: 2rem;
       font-weight: 800;
       color: var(--rtm-text-main);
+      letter-spacing: -0.02em;
+      max-width: 680px;
+      line-height: 1.25;
+      margin: 0;
     }
-
-    .cta-discord-banner p {
-      font-size: 0.96rem;
+    .cta-discord-studio p {
+      font-size: 0.98rem;
       color: var(--rtm-text-secondary);
-      max-width: 640px;
-      line-height: 1.6;
+      max-width: 660px;
+      line-height: 1.65;
+      margin: 0;
+    }
+    .cta-feature-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+    .feature-chip {
+      font-size: 0.8rem;
+      color: var(--rtm-text-secondary);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--rtm-border);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+    .cta-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 8px;
+    }
+    .btn-cta-discord-direct {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #5865F2;
+      color: #ffffff;
+      padding: 13px 26px;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all var(--rtm-transition);
+      box-shadow: 0 4px 14px rgba(88, 101, 242, 0.35);
+    }
+    .btn-cta-discord-direct:hover {
+      background: #4752c4;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.45);
+    }
+    .btn-cta-copy-id {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--rtm-surface-elevated);
+      color: var(--rtm-text-main);
+      border: 1px solid var(--rtm-border);
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--rtm-transition);
+    }
+    .btn-cta-copy-id:hover {
+      background: #2b2d31;
+      border-color: #5865F2;
+    }
+    .btn-cta-copy-id code {
+      font-family: var(--font-mono);
+      color: #38bdf8;
+    }
+    .cta-trust-note {
+      font-size: 0.82rem;
+      color: var(--rtm-text-muted);
+      margin-top: -6px;
     }
 
     @media (max-width: 768px) {
@@ -948,7 +1146,11 @@
 
           <!-- Real Card Image Render -->
           <div class="rank-image-container">
-            <img src="kartu-member-resmi.png" alt="Sertifikat Kartu Resmi Anggota Njan Discord" loading="lazy">
+            <img src="kartu-member-resmi.png" 
+                 onerror="if(!this.dataset.t){this.dataset.t=1;this.src='/costum/kartu-member-resmi.png';}else if(this.dataset.t==1){this.dataset.t=2;this.src='/images/kartu-member-resmi.png';}else if(this.dataset.t==2){this.dataset.t=3;this.src='../images/kartu-member-resmi.png';}else if(this.dataset.t==3){this.dataset.t=4;this.src='/kartu-member-resmi.png';}" 
+                 alt="Sertifikat Kartu Resmi Anggota Njan Discord" 
+                 loading="eager"
+                 id="rankCardImg">
           </div>
 
           <div class="rank-meta-row">
@@ -959,77 +1161,156 @@
 
         <!-- Showcase 2: Asisten AI Kontekstual Server -->
         <div class="demo-card">
-          <div>
-            <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--rtm-text-main);">Asisten AI Cerdas Berpengetahuan Server</h3>
-            <p style="font-size: 0.85rem; color: var(--rtm-text-secondary); margin-top: 2px;">Bisa diajak ngobrol santai, paham seluruh aturan &amp; fitur bot, serta mendukung DM privat</p>
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--rtm-text-main);">Asisten AI Cerdas: Aktif di Server &amp; DM Pribadi</h3>
+              <p style="font-size: 0.85rem; color: var(--rtm-text-secondary); margin-top: 2px;">Bisa diajak ngobrol santai di kanal publik (tag/prefix) dan bertindak sebagai asisten 1-on-1 di DM privat</p>
+            </div>
+            <span class="rank-badge-item">Dual-Mode Assistant</span>
+          </div>
+
+          <!-- Channel / Context Mode Switcher -->
+          <div class="ai-mode-selector">
+            <button class="ai-mode-btn active" id="btnModeServer" type="button" onclick="setAiChannelMode('server')">
+              <span>💬 #general-chat (Server Publik)</span>
+            </button>
+            <button class="ai-mode-btn" id="btnModeDm" type="button" onclick="setAiChannelMode('dm')">
+              <span>🔒 Direct Message (DM Pribadi)</span>
+            </button>
           </div>
 
           <!-- High-Fidelity Discord Chat Component -->
           <div class="discord-chat-window">
             
-            <!-- Message 1: User -->
-            <div class="chat-bubble-row">
-              <div class="chat-avatar avatar-user">NJ</div>
-              <div class="chat-content-wrap">
-                <div class="chat-author-line">
-                  <span class="chat-author-name">njan</span>
-                  <span class="chat-time">Hari ini pukul 14.20</span>
+            <!-- MODE 1: SERVER PUBLIC CHAT -->
+            <div class="ai-chat-view active" id="viewModeServer">
+              <!-- Message 1: User 1 -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-user">RY</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Reyhan</span>
+                    <span class="chat-time">Hari ini pukul 21.05</span>
+                  </div>
+                  <div class="chat-text">
+                    Woy @Raka ada rekomendasi game seru gak buat mabar malem ini? Sekalian cek saldo RSWN gua dong.
+                  </div>
                 </div>
-                <div class="chat-text">
-                  @Raka bro, server ini ada aturan apa aja buat member baru? Terus cara cek kartu lisensi gimana?
+              </div>
+
+              <!-- Message 2: Bot Reply -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-bot">RK</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Raka</span>
+                    <span class="chat-bot-badge">APP</span>
+                    <span class="chat-time">Hari ini pukul 21.05</span>
+                  </div>
+                  <div class="chat-text">
+                    Malam bro! Kalo mau mabar rame-rame gas Valorant atau Roblox bareng anak-anak voice room 🎧 Nah saldo RSWN lu saat ini ada <strong>15.420 RSWN</strong> (Rank #3 di server). Cobain gas taruhan balapan kuda di room <code>#minigames</code> ketik <code>!race 1000</code>, lumayan kalo menang dapet jackpot wkwk! 🏇🔥
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 3: User 2 -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar" style="background:#eab308; color:#000;">DN</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Dina</span>
+                    <span class="chat-time">Hari ini pukul 21.06</span>
+                  </div>
+                  <div class="chat-text">
+                    !rules channel art
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 4: Bot Reply -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-bot">RK</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Raka</span>
+                    <span class="chat-bot-badge">APP</span>
+                    <span class="chat-time">Hari ini pukul 21.06</span>
+                  </div>
+                  <div class="chat-text">
+                    Di channel <code>#art-creative</code> bebas share karya gambar &amp; video ya! Cuma dilarang promosi link luar atau konten spam. Kalau ada yang melanggar langsung auto-filter sama sistem Sentinel bot! 🛡️
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Message 2: Bot Response -->
-            <div class="chat-bubble-row">
-              <div class="chat-avatar avatar-bot">RK</div>
-              <div class="chat-content-wrap">
-                <div class="chat-author-line">
-                  <span class="chat-author-name">Raka</span>
-                  <span class="chat-bot-badge">APP</span>
-                  <span class="chat-time">Hari ini pukul 14.20</span>
-                </div>
-                <div class="chat-text">
-                  Santai bro! Buat member baru wajib ambil role di channel <code>#ambil-role</code> dulu ya biar kebuka semua room. Nah buat kartu lisensi lu, ketik aja <code>/rank</code> nanti langsung dicetak kartu resmi lengkap sama nomor lisensi unik lu kayak <code>50881-6357</code> plus info EXP &amp; saldo RSWN. Ada yang mau lu tanyain lagi gak?
-                </div>
-              </div>
-            </div>
-
-            <!-- Message 3: User Followup -->
-            <div class="chat-bubble-row">
-              <div class="chat-avatar avatar-user">NJ</div>
-              <div class="chat-content-wrap">
-                <div class="chat-author-line">
-                  <span class="chat-author-name">njan</span>
-                  <span class="chat-time">Hari ini pukul 14.21</span>
-                </div>
-                <div class="chat-text">
-                  Kalo mau bersihin chat DM kita gimana bro?
+            <!-- MODE 2: PRIVATE DM ASSISTANT -->
+            <div class="ai-chat-view" id="viewModeDm">
+              <!-- Message 1: Owner DM -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-user">BO</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Bang Owner</span>
+                    <span class="chat-time">Hari ini pukul 23.10</span>
+                  </div>
+                  <div class="chat-text">
+                    !hallo bro, bisa tolong cek ringkasan keamanan server sama status backup data malam ini?
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <!-- Message 4: Bot Response -->
-            <div class="chat-bubble-row">
-              <div class="chat-avatar avatar-bot">RK</div>
-              <div class="chat-content-wrap">
-                <div class="chat-author-line">
-                  <span class="chat-author-name">Raka</span>
-                  <span class="chat-bot-badge">APP</span>
-                  <span class="chat-time">Hari ini pukul 14.21</span>
+              <!-- Message 2: Bot DM Reply -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-bot">RK</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Raka</span>
+                    <span class="chat-bot-badge">APP</span>
+                    <span class="chat-time">Hari ini pukul 23.10</span>
+                  </div>
+                  <div class="chat-text">
+                    Siap bos! Laporan malam ini:<br>
+                    🛡️ <strong>Sentinel Defense</strong>: Menangkap 2 upaya spam massal &amp; 1 webhook phising (langsung auto-timeout 30 menit).<br>
+                    💾 <strong>Data Backup</strong>: Sinkronisasi MongoDB Atlas &amp; GitHub sukses pada pukul 12.00 WIB. Seluruh 12 modul berjalan normal tanpa error.
+                  </div>
                 </div>
-                <div class="chat-text">
-                  Gampang bgt, langsung aja ketik <code>!cleardm</code> di DM ini, ntar semua chat gua auto-bersih seketika dan memori sesi kita langsung di-reset!
+              </div>
+
+              <!-- Message 3: Clear DM Prompt -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-user">BO</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Bang Owner</span>
+                    <span class="chat-time">Hari ini pukul 23.12</span>
+                  </div>
+                  <div class="chat-text">
+                    !cleardm
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message 4: Clear DM Executed -->
+              <div class="chat-bubble-row">
+                <div class="chat-avatar avatar-bot">RK</div>
+                <div class="chat-content-wrap">
+                  <div class="chat-author-line">
+                    <span class="chat-author-name">Raka</span>
+                    <span class="chat-bot-badge">APP</span>
+                    <span class="chat-time">Hari ini pukul 23.12</span>
+                  </div>
+                  <div class="chat-text" style="color:#4ade80; font-style:italic;">
+                    ✨ Chat DM pribadi dan riwayat memori sesi telah dibersihkan secara instan tanpa jejak.
+                  </div>
                 </div>
               </div>
             </div>
 
           </div>
 
-          <div style="font-size: 0.82rem; color: var(--rtm-text-muted); display:flex; justify-content:space-between; align-items:center;">
-            <span>Mendukung Obrolan di Server &amp; DM Pribadi</span>
-            <span class="rank-badge-item">Self-Knowledge Memory</span>
+          <div style="font-size: 0.82rem; color: var(--rtm-text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+            <span>Mendukung Obrolan di Server (Tag / Prefix) &amp; DM 1-on-1</span>
+            <span class="rank-badge-item">Memori Mandiri Berbasis Kode</span>
           </div>
         </div>
 
@@ -1651,15 +1932,44 @@
       </div>
     </section>
 
-    <!-- BANNER KONTAK DISCORD -->
-    <section class="cta-discord-banner">
-      <h2>Punya Ide Bot untuk Komunitasmu?</h2>
+    <!-- BANNER STUDIO DEVELOPER DISCORD -->
+    <section class="cta-discord-studio">
+      <div class="developer-live-status">
+        <span class="live-pulse-dot"></span>
+        <span>Developer Online &amp; Siap Diskusi</span>
+        <span class="live-tag-sep">•</span>
+        <span class="dev-id-tag">Rhdevs / Abogoboga</span>
+      </div>
+
+      <h2>Punya Ide Fitur Bot Khusus untuk Komunitasmu?</h2>
       <p>
-        Ceritakan konsep servermu sekarang. Kami bantu rancang alur fitur dan bot yang pas, aman dari spammer, dan siap langsung dipakai komunitasmu.
+        Dari sistem keamanan Sentinel lapis baja, sistem leveling berlisensi resmi HD, bot minigames seru, hingga asisten AI yang paham server dan bisa diajak ngobrol di kanal maupun DM. Ceritakan konsepmu—kami wujudkan langsung siap pakai.
       </p>
-      <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-action-primary" style="padding: 12px 24px; font-size: 0.95rem; margin-top: 4px;">
-        Mulai Chat di Discord (ID: 1000737066822410311)
-      </a>
+
+      <div class="cta-feature-chips">
+        <span class="feature-chip">🛡️ Anti-Raid &amp; Trap Protection</span>
+        <span class="feature-chip">🎴 Kartu Profil HD Custom</span>
+        <span class="feature-chip">🤖 AI Persona Server &amp; DM</span>
+        <span class="feature-chip">⚡ Hosting Cloud 24 Jam / VPS</span>
+      </div>
+
+      <div class="cta-btn-group">
+        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-cta-discord-direct">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+          Mulai Diskusi di Discord
+        </a>
+        <button class="btn-cta-copy-id" id="btnCopyDevId" type="button" data-copy="1000737066822410311">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Salin ID: <code>1000737066822410311</code>
+        </button>
+      </div>
+
+      <span class="cta-trust-note">Konsultasi alur teknis &amp; fitur gratis langsung bersama pengembang bot</span>
     </section>
 
   </main>
@@ -1751,6 +2061,48 @@
         }
       });
     });
+
+    // AI Channel Mode Switcher (#general-chat vs DM)
+    function setAiChannelMode(mode) {
+      const btnServer = document.getElementById('btnModeServer');
+      const btnDm = document.getElementById('btnModeDm');
+      const viewServer = document.getElementById('viewModeServer');
+      const viewDm = document.getElementById('viewModeDm');
+
+      if (!btnServer || !btnDm || !viewServer || !viewDm) return;
+
+      if (mode === 'server') {
+        btnServer.classList.add('active');
+        btnDm.classList.remove('active');
+        viewServer.classList.add('active');
+        viewDm.classList.remove('active');
+      } else {
+        btnDm.classList.add('active');
+        btnServer.classList.remove('active');
+        viewDm.classList.add('active');
+        viewServer.classList.remove('active');
+      }
+    }
+
+    // Copy Developer ID Button
+    const btnCopyDevId = document.getElementById('btnCopyDevId');
+    if (btnCopyDevId) {
+      btnCopyDevId.addEventListener('click', async () => {
+        const devId = btnCopyDevId.getAttribute('data-copy');
+        try {
+          await navigator.clipboard.writeText(devId);
+          const originalHtml = btnCopyDevId.innerHTML;
+          btnCopyDevId.innerHTML = '<span>Tersalin!</span> <code>' + devId + '</code>';
+          btnCopyDevId.style.borderColor = '#22c55e';
+          setTimeout(() => {
+            btnCopyDevId.innerHTML = originalHtml;
+            btnCopyDevId.style.borderColor = '';
+          }, 2000);
+        } catch (err) {
+          console.error('Gagal menyalin ID:', err);
+        }
+      });
+    }
   </script>
 </body>
 </html>
