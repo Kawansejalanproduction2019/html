@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jasa Pembuatan Bot Discord Kustom &amp; Setup Server - RTMBOT Solutions</title>
-  <meta name="description" content="Layanan profesional pembuatan bot Discord kustom eksklusif dan setup server. Dilengkapi integrasi AI Gemini berpengetahuan mandiri, kartu member HD, manajemen keuangan, notifikasi media, dan hosting 24/7.">
+  <title>Jasa Pembuatan Bot Discord Custom &amp; Setup Server - RTMBOT Solutions</title>
+  <meta name="description" content="Jasa pembuatan bot Discord custom eksklusif dan penataan server. Dilengkapi asisten AI Gemini cerdas, kartu member resmi HD, leveling suara, manajer keuangan, dan hosting 24/7.">
   <link rel="canonical" href="https://www.rtmbot.biz.id/costum">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,124 +21,432 @@
   </script>
 
   <style>
-    /* Container & Spacing */
-    .promo-container {
-      max-width: 1200px;
+    /* Container & Layout */
+    .custom-page-container {
+      max-width: 1160px;
       margin: 0 auto;
       padding: 96px 20px 80px;
       display: flex;
       flex-direction: column;
-      gap: 64px;
+      gap: 56px;
     }
 
-    /* Hero Section (Promotional Focus) */
-    .promo-hero {
-      text-align: center;
-      max-width: 880px;
-      margin: 0 auto;
+    /* Hero Section */
+    .custom-hero {
+      text-align: left;
+      border-bottom: 1px solid var(--rtm-border);
+      padding-bottom: 36px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 20px 0 10px;
+      gap: 16px;
     }
 
-    .hero-kicker {
+    .hero-tagline {
       font-family: var(--font-mono);
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--rtm-primary-light);
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      background: var(--rtm-surface-elevated);
-      border: 1px solid var(--rtm-border);
-      padding: 6px 16px;
-      border-radius: var(--radius-pill);
     }
 
-    .hero-h1 {
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
+    .hero-heading {
+      font-size: clamp(2.1rem, 4.5vw, 3.2rem);
       font-weight: 900;
       line-height: 1.15;
-      letter-spacing: -1px;
+      letter-spacing: -0.8px;
       color: var(--rtm-text-main);
+      max-width: 900px;
     }
 
-    .hero-h1 span {
+    .hero-heading span {
       color: var(--rtm-primary-light);
     }
 
-    .hero-desc {
-      font-size: 1.08rem;
+    .hero-lead-text {
+      font-size: 1.05rem;
       color: var(--rtm-text-secondary);
       line-height: 1.65;
-      max-width: 760px;
+      max-width: 780px;
     }
 
-    .hero-cta-group {
+    .hero-buttons-row {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
-    .btn-cta-primary {
+    .btn-solid-primary {
       background: var(--rtm-primary);
       color: #FFFFFF !important;
       border: 1px solid var(--rtm-primary-hover);
       font-weight: 700;
-      padding: 10px 22px;
-      border-radius: var(--radius-sm);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      transition: background-color 0.2s ease, transform 0.15s ease;
-    }
-
-    .btn-cta-primary:hover {
-      background: var(--rtm-primary-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-cta-secondary {
-      background: var(--rtm-surface-elevated);
-      color: var(--rtm-text-main) !important;
-      border: 1px solid var(--rtm-border);
-      font-weight: 600;
+      font-size: 0.92rem;
       padding: 10px 20px;
       border-radius: var(--radius-sm);
       display: inline-flex;
       align-items: center;
       gap: 8px;
       text-decoration: none;
-      transition: border-color 0.2s ease;
+      transition: background-color 0.15s ease;
     }
 
-    .btn-cta-secondary:hover {
+    .btn-solid-primary:hover {
+      background: var(--rtm-primary-hover);
+    }
+
+    .btn-outline-secondary {
+      background: var(--rtm-surface-elevated);
+      color: var(--rtm-text-main) !important;
+      border: 1px solid var(--rtm-border);
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .btn-outline-secondary:hover {
       border-color: var(--rtm-border-hover);
     }
 
-    /* Proof Badges Strip */
-    .proof-strip {
+    /* Key Guarantees Row */
+    .guarantee-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      width: 100%;
-    }
-
-    .proof-box {
-      background: var(--rtm-surface);
-      border: 1px solid var(--rtm-border);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
       gap: 14px;
     }
 
-    .proof-icon-wrap {
+    .guarantee-item {
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .guarantee-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--rtm-surface-elevated);
+      border: 1px solid var(--rtm-border);
+      color: var(--rtm-primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .guarantee-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--rtm-text-main);
+    }
+
+    .guarantee-sub {
+      font-size: 0.76rem;
+      color: var(--rtm-text-muted);
+    }
+
+    /* Section Headings */
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--rtm-primary-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: var(--rtm-text-main);
+    }
+
+    .section-subtext {
+      font-size: 0.92rem;
+      color: var(--rtm-text-secondary);
+      line-height: 1.55;
+      max-width: 760px;
+    }
+
+    /* Visual Discord Showcases (Human Craft) */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 860px) {
+      .showcase-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .showcase-card {
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--rtm-shadow-sm);
+    }
+
+    .showcase-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .showcase-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .showcase-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--rtm-text-main);
+    }
+
+    .showcase-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--rtm-surface-elevated);
+      border: 1px solid var(--rtm-border);
+      color: var(--rtm-primary-light);
+    }
+
+    .showcase-desc {
+      font-size: 0.86rem;
+      color: var(--rtm-text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Discord Component Visual Mockups */
+    .discord-mockup {
+      background: #1e1f22;
+      border: 1px solid #2b2d31;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    /* Rank Card Mockup */
+    .rank-card-mockup {
+      background: linear-gradient(135deg, #1b2838 0%, #171d25 100%);
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rank-header-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rank-avatar-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #3b82f6;
+      border: 2px solid #5865F2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #fff;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .rank-user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .rank-name {
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    .rank-license-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #e2e8f0;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      width: fit-content;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .rank-progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #2b2d31;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .rank-progress-fill {
+      width: 68%;
+      height: 100%;
+      background: #22c55e;
+      border-radius: 4px;
+    }
+
+    .rank-stats-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    /* Discord Chat Mockup */
+    .discord-msg-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .bot-avatar-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #238636;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .discord-msg-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .discord-msg-author {
+      font-weight: 700;
+      color: #f0f6fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    .bot-app-pill {
+      background: #5865F2;
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .discord-msg-text {
+      color: #dbdee1;
+      line-height: 1.45;
+      font-size: 0.84rem;
+    }
+
+    /* Discord Buttons Row Mockup */
+    .discord-btn-mockup-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .discord-ui-btn {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      cursor: default;
+    }
+
+    .btn-blurple {
+      background: #5865F2;
+      color: #ffffff;
+    }
+
+    .btn-grey {
+      background: #4e5058;
+      color: #ffffff;
+    }
+
+    .btn-green {
+      background: #248046;
+      color: #ffffff;
+    }
+
+    /* Services Grid */
+    .services-catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .service-item-card {
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .service-item-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .service-icon-box {
       width: 40px;
       height: 40px;
       border-radius: var(--radius-sm);
@@ -151,506 +459,252 @@
       flex-shrink: 0;
     }
 
-    .proof-text-title {
-      font-size: 0.95rem;
+    .service-item-title {
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--rtm-text-main);
     }
 
-    .proof-text-sub {
-      font-size: 0.78rem;
-      color: var(--rtm-text-muted);
-    }
-
-    /* Section Headers */
-    .section-header-block {
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .section-kicker {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--rtm-primary-light);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .section-title {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: var(--rtm-text-main);
-      letter-spacing: -0.5px;
-    }
-
-    .section-subtitle {
-      font-size: 0.96rem;
-      color: var(--rtm-text-secondary);
-      line-height: 1.6;
-      max-width: 800px;
-    }
-
-    /* Solutions / Use Cases Grid (4 Cards) */
-    .solutions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-
-    .solution-card {
-      background: var(--rtm-surface);
-      border: 1px solid var(--rtm-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      box-shadow: var(--rtm-shadow-sm);
-      transition: border-color 0.2s ease, transform 0.2s ease;
-    }
-
-    .solution-card:hover {
-      border-color: var(--rtm-primary-light);
-      transform: translateY(-2px);
-    }
-
-    .solution-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-md);
-      background: var(--rtm-surface-elevated);
-      border: 1px solid var(--rtm-border);
-      color: var(--rtm-primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .solution-name {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--rtm-text-main);
-    }
-
-    .solution-desc {
-      font-size: 0.88rem;
-      color: var(--rtm-text-secondary);
-      line-height: 1.5;
-    }
-
-    .solution-features-list {
+    .service-bullets {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-top: 6px;
-      font-size: 0.84rem;
-      color: var(--rtm-text-main);
+      font-size: 0.86rem;
+      color: var(--rtm-text-secondary);
     }
 
-    .solution-features-list li {
+    .service-bullets li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 8px;
     }
 
-    .bullet-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--rtm-primary-light);
+    .bullet-arrow {
+      color: var(--rtm-primary-light);
+      font-weight: bold;
       flex-shrink: 0;
     }
 
-    /* Packages Grid (3 Cards) */
-    .packages-grid {
+    /* Workflow Cards */
+    .workflow-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 24px;
-    }
-
-    .package-card {
-      background: var(--rtm-surface);
-      border: 1px solid var(--rtm-border);
-      border-radius: var(--radius-lg);
-      padding: 32px 26px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-shadow: var(--rtm-shadow-sm);
-      position: relative;
-    }
-
-    .package-card.recommended {
-      border-color: var(--rtm-primary-light);
-      box-shadow: 0 0 0 1px var(--rtm-primary-light), var(--rtm-shadow-md);
-    }
-
-    .package-badge-tag {
-      align-self: flex-start;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--rtm-primary-light);
-      background: var(--rtm-surface-elevated);
-      border: 1px solid var(--rtm-border);
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
-      text-transform: uppercase;
-    }
-
-    .package-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--rtm-text-main);
-    }
-
-    .package-summary {
-      font-size: 0.9rem;
-      color: var(--rtm-text-secondary);
-      line-height: 1.5;
-    }
-
-    .package-items-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      font-size: 0.88rem;
-    }
-
-    .package-item-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      color: var(--rtm-text-main);
-    }
-
-    .item-check-icon {
-      color: var(--rtm-primary-light);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .package-action-btn {
-      margin-top: auto;
-      text-align: center;
-      padding: 10px 18px;
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      display: block;
-    }
-
-    .btn-package-solid {
-      background: var(--rtm-primary);
-      color: #FFFFFF !important;
-      border: 1px solid var(--rtm-primary-hover);
-    }
-
-    .btn-package-solid:hover {
-      background: var(--rtm-primary-hover);
-    }
-
-    .btn-package-outline {
-      background: var(--rtm-surface-elevated);
-      color: var(--rtm-text-main) !important;
-      border: 1px solid var(--rtm-border);
-    }
-
-    .btn-package-outline:hover {
-      border-color: var(--rtm-border-hover);
-    }
-
-    /* Workflow Steps (4 Cards) */
-    .workflow-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
     }
 
-    .workflow-step {
+    .workflow-card {
       background: var(--rtm-surface);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-md);
-      padding: 24px 20px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .step-badge {
+    .step-idx {
       font-family: var(--font-mono);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--rtm-primary-light);
       background: var(--rtm-surface-elevated);
-      border: 1px solid var(--rtm-border);
-      width: 34px;
-      height: 34px;
+      width: 30px;
+      height: 30px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid var(--rtm-border);
     }
 
-    .step-heading {
-      font-size: 1.05rem;
+    .step-title {
+      font-size: 1rem;
       font-weight: 700;
       color: var(--rtm-text-main);
     }
 
-    .step-text {
-      font-size: 0.86rem;
+    .step-desc {
+      font-size: 0.84rem;
       color: var(--rtm-text-secondary);
       line-height: 1.5;
     }
 
-    /* Portfolio Capability Matrix Section */
-    .portfolio-section {
+    /* Technical Capability Matrix / Command Explorer */
+    .explorer-panel {
       background: var(--rtm-surface);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-lg);
-      padding: 36px 30px;
+      padding: 30px 24px;
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 22px;
       box-shadow: var(--rtm-shadow-sm);
     }
 
-    /* Search & Filter Toolbar inside Portfolio */
-    .portfolio-toolbar {
+    .explorer-toolbar {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       background: var(--rtm-surface-elevated);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-md);
-      padding: 18px 20px;
+      padding: 16px;
     }
 
-    .search-box-wrap {
+    .search-wrap {
       position: relative;
       width: 100%;
     }
 
-    .search-icon {
+    .search-input-field {
+      width: 100%;
+      height: 40px;
+      padding: 6px 12px 6px 38px;
+      background: var(--rtm-surface);
+      border: 1px solid var(--rtm-border);
+      border-radius: var(--radius-sm);
+      color: var(--rtm-text-main);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+    }
+
+    .search-input-field:focus {
+      outline: none;
+      border-color: var(--rtm-primary-light);
+    }
+
+    .search-svg {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--rtm-text-muted);
       pointer-events: none;
     }
 
-    .search-input {
-      width: 100%;
-      height: 42px;
-      padding: 8px 14px 8px 42px;
-      background: var(--rtm-surface);
-      border: 1px solid var(--rtm-border);
-      border-radius: var(--radius-sm);
-      color: var(--rtm-text-main);
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: var(--rtm-primary-light);
-      box-shadow: 0 0 0 3px rgba(63, 185, 80, 0.15);
-    }
-
-    .category-tabs {
+    .filter-tabs-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 6px;
     }
 
-    .tab-btn {
-      min-height: 34px;
-      padding: 4px 12px;
+    .filter-tab {
+      padding: 4px 10px;
       background: var(--rtm-surface);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-sm);
       color: var(--rtm-text-secondary);
-      font-family: var(--font-body);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       transition: all 0.15s ease;
     }
 
-    .tab-btn:hover {
+    .filter-tab:hover {
       color: var(--rtm-text-main);
       border-color: var(--rtm-border-hover);
     }
 
-    .tab-btn.active {
+    .filter-tab.active {
       background: var(--rtm-primary);
       border-color: var(--rtm-primary);
       color: #FFFFFF;
     }
 
-    /* Modules Catalog Feed */
-    .modules-feed {
+    /* Modules List */
+    .modules-list {
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 20px;
     }
 
-    .module-card {
+    .module-item {
       background: var(--rtm-surface-elevated);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-md);
-      padding: 24px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      transition: border-color 0.2s ease;
+      gap: 14px;
     }
 
-    .module-card:hover {
-      border-color: var(--rtm-border-hover);
-    }
-
-    .module-header {
+    .module-item-head {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
+      align-items: center;
+      gap: 10px;
       flex-wrap: wrap;
       border-bottom: 1px solid var(--rtm-border);
-      padding-bottom: 14px;
+      padding-bottom: 10px;
     }
 
-    .module-meta-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .module-badge-tag {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--rtm-primary-light);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .module-title {
-      font-size: 1.25rem;
-      font-weight: 800;
+    .module-item-title {
+      font-size: 1.15rem;
+      font-weight: 700;
       color: var(--rtm-text-main);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
-    .module-counts {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--rtm-text-muted);
-      background: var(--rtm-surface);
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--rtm-border);
-    }
-
-    .module-desc {
-      font-size: 0.92rem;
+    .module-item-sub {
+      font-size: 0.85rem;
       color: var(--rtm-text-secondary);
-      line-height: 1.55;
+      line-height: 1.5;
     }
 
     /* Command Table */
-    .command-table-wrap {
+    .cmd-table-container {
       overflow-x: auto;
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-sm);
       background: var(--rtm-surface);
     }
 
-    .command-table {
+    .cmd-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       text-align: left;
     }
 
-    .command-table th {
+    .cmd-table th {
       background: var(--rtm-surface-elevated);
       color: var(--rtm-text-muted);
       font-weight: 600;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.4px;
-      padding: 9px 12px;
+      padding: 8px 10px;
       border-bottom: 1px solid var(--rtm-border);
     }
 
-    .command-table td {
-      padding: 11px 12px;
+    .cmd-table td {
+      padding: 10px;
       border-bottom: 1px solid var(--rtm-border);
       color: var(--rtm-text-secondary);
       vertical-align: top;
     }
 
-    .command-table tr:last-child td {
+    .cmd-table tr:last-child td {
       border-bottom: none;
     }
 
-    .cmd-name {
+    .cmd-syntax {
       font-family: var(--font-mono);
       font-weight: 600;
       color: var(--rtm-text-main);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
-    .cmd-badge {
+    .cmd-type-tag {
       font-family: var(--font-mono);
       font-size: 0.68rem;
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 2px 5px;
+      border-radius: 3px;
       font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--rtm-border);
+      color: var(--rtm-text-main);
     }
 
-    .badge-slash {
-      background: rgba(35, 134, 54, 0.2);
-      color: var(--rtm-primary-light);
-      border: 1px solid rgba(63, 185, 80, 0.3);
-    }
-
-    .badge-prefix {
-      background: rgba(210, 153, 34, 0.15);
-      color: var(--rtm-accent-warm);
-      border: 1px solid rgba(227, 179, 65, 0.3);
-    }
-
-    .badge-hybrid {
-      background: rgba(56, 139, 253, 0.15);
-      color: #79C0FF;
-      border: 1px solid rgba(56, 139, 253, 0.3);
-    }
-
-    .cmd-param {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--rtm-text-muted);
-    }
-
-    .cmd-copy-btn {
+    .copy-btn {
       background: transparent;
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-sm);
@@ -662,86 +716,80 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      transition: all 0.15s ease;
-      white-space: nowrap;
     }
 
-    .cmd-copy-btn:hover {
+    .copy-btn:hover {
       border-color: var(--rtm-border-hover);
       color: var(--rtm-text-main);
-      background: var(--rtm-surface-elevated);
     }
 
-    .cmd-copy-btn.copied {
+    .copy-btn.copied {
       border-color: var(--rtm-primary-light);
       color: var(--rtm-primary-light);
     }
 
-    /* FAQ Section */
-    .faq-grid {
+    /* FAQ List */
+    .faq-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
     }
 
-    .faq-item {
+    .faq-card {
       background: var(--rtm-surface);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-md);
-      padding: 22px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .faq-q {
-      font-size: 1rem;
+    .faq-question {
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--rtm-text-main);
     }
 
-    .faq-a {
-      font-size: 0.88rem;
+    .faq-answer {
+      font-size: 0.86rem;
       color: var(--rtm-text-secondary);
       line-height: 1.55;
     }
 
-    /* Conversion CTA Box */
-    .cta-conversion-box {
+    /* Direct Contact Banner */
+    .contact-banner {
       background: var(--rtm-surface);
       border: 1px solid var(--rtm-border);
       border-radius: var(--radius-lg);
-      padding: 44px 28px;
+      padding: 36px 24px;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      gap: 18px;
-      box-shadow: var(--rtm-shadow-md);
+      gap: 14px;
     }
 
-    .cta-conversion-box h2 {
-      font-size: 1.85rem;
-      font-weight: 900;
-      letter-spacing: -0.5px;
+    .contact-banner h2 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--rtm-text-main);
     }
 
-    .cta-conversion-box p {
-      font-size: 1rem;
-      max-width: 680px;
+    .contact-banner p {
+      font-size: 0.95rem;
+      color: var(--rtm-text-secondary);
+      max-width: 620px;
       line-height: 1.6;
     }
 
     @media (max-width: 768px) {
-      .promo-container {
+      .custom-page-container {
         padding: 80px 16px 60px;
-        gap: 48px;
+        gap: 40px;
       }
-      .portfolio-section {
-        padding: 20px 16px;
-      }
-      .module-card {
-        padding: 16px;
+      .explorer-panel {
+        padding: 20px 14px;
       }
     }
   </style>
@@ -753,16 +801,16 @@
     <div class="rtm-nav-container">
       <a href="../" class="rtm-brand">
         <span class="rtm-brand-badge">RTMBOT</span>
-        <span>Custom Solutions</span>
+        <span>Jasa Bot &amp; Server</span>
       </a>
 
       <div class="rtm-nav-actions">
         <a href="../" class="rtm-btn-link">Beranda</a>
-        <a href="#solusi" class="rtm-btn-link">Solusi</a>
-        <a href="#paket" class="rtm-btn-link">Paket Layanan</a>
-        <a href="#portofolio" class="rtm-btn-link">Portofolio Fitur</a>
-        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-cta-primary" style="padding: 6px 14px; font-size: 0.85rem;">
-          Konsultasi Discord
+        <a href="#showcase" class="rtm-btn-link">Fitur Unggulan</a>
+        <a href="#layanan" class="rtm-btn-link">Layanan</a>
+        <a href="#katalog" class="rtm-btn-link">Katalog Perintah</a>
+        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-solid-primary" style="padding: 6px 12px; font-size: 0.82rem;">
+          Chat Discord
         </a>
         <button id="themeToggleBtn" class="rtm-btn-icon" aria-label="Ganti Tema Tampilan">
           <svg id="themeIconDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -784,1037 +832,835 @@
     </div>
   </nav>
 
-  <main class="promo-container">
+  <main class="custom-page-container">
 
-    <!-- HERO SECTION (PROMOSI & JASA) -->
-    <section class="promo-hero">
-      <span class="hero-kicker">Layanan Pembuatan Bot Discord Kustom &amp; Penataan Komunitas</span>
-      <h1 class="hero-h1">Bangun Bot Discord Eksklusif dengan <span>Fitur &amp; Identitas Impian Anda</span></h1>
-      <p class="hero-desc">
-        Tingkatkan interaktivitas, keamanan, dan profesionalisme server Anda dengan bot Discord kustom yang dirancang dari nol: Asisten AI cerdas berpengetahuan khusus, kartu anggota grafis HD resmi, notifikasi media otomatis, manajemen kas internal, dan kontrol suara dinamis.
+    <!-- HERO SECTION -->
+    <header class="custom-hero">
+      <span class="hero-tagline">Pembuatan Bot Discord Kustom &amp; Setup Server</span>
+      <h1 class="hero-heading">Bikin Bot Discord Custom yang <span>Pas untuk Server Kamu</span></h1>
+      <p class="hero-lead-text">
+        Bebas request fitur sesuai konsep komunitasmu. Menggunakan nama dan avatar server sendiri, online 24 jam tanpa perlu sewa VPS, dan dilengkapi asisten AI cerdas berpengetahuan khusus.
       </p>
 
-      <div class="hero-cta-group">
-        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-cta-primary">
+      <div class="hero-buttons-row">
+        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-solid-primary">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
           </svg>
-          Konsultasikan Ide Bot Anda (Gratis)
+          Konsultasi Langsung di Discord
         </a>
-        <a href="#portofolio" class="btn-cta-secondary">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-            <polyline points="2 17 12 22 22 17"></polyline>
-            <polyline points="2 12 12 17 22 12"></polyline>
-          </svg>
-          Lihat Bukti Portofolio Fitur
+        <a href="#showcase" class="btn-outline-secondary">
+          Lihat Contoh Tampilan Fitur
         </a>
       </div>
 
-      <!-- Trust Badges Strip -->
-      <div class="proof-strip" style="margin-top: 24px;">
-        <div class="proof-box">
-          <div class="proof-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
+      <!-- Guarantees Row -->
+      <div class="guarantee-grid" style="margin-top: 18px;">
+        <div class="guarantee-item">
+          <div class="guarantee-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
           </div>
           <div>
-            <div class="proof-text-title">100% Brand Eksklusif</div>
-            <div class="proof-text-sub">Nama, avatar, &amp; persona bot milik Anda</div>
+            <div class="guarantee-title">Branding 100% Eksklusif</div>
+            <div class="guarantee-sub">Nama, avatar &amp; status milikmu</div>
           </div>
         </div>
 
-        <div class="proof-box">
-          <div class="proof-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-              <line x1="6" y1="6" x2="6.01" y2="6"></line>
-              <line x1="6" y1="18" x2="6.01" y2="18"></line>
-            </svg>
+        <div class="guarantee-item">
+          <div class="guarantee-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
           </div>
           <div>
-            <div class="proof-text-title">Hosting Siap Pakai 24/7</div>
-            <div class="proof-text-sub">Operasional stabil tanpa repot kelola server</div>
+            <div class="guarantee-title">Hosting Siap Pakai 24/7</div>
+            <div class="guarantee-sub">Aktif terus tanpa repot sewa VPS</div>
           </div>
         </div>
 
-        <div class="proof-box">
-          <div class="proof-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 4 23 10 17 10"></polyline>
-              <polyline points="1 20 1 14 7 14"></polyline>
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-            </svg>
+        <div class="guarantee-item">
+          <div class="guarantee-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
           </div>
           <div>
-            <div class="proof-text-title">Garansi Perbaikan Bug</div>
-            <div class="proof-text-sub">Pendampingan teknis langsung developer</div>
-          </div>
-        </div>
-
-        <div class="proof-box">
-          <div class="proof-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 14 14"></polyline>
-            </svg>
-          </div>
-          <div>
-            <div class="proof-text-title">Arsitektur Teruji</div>
-            <div class="proof-text-sub">15 modular cogs &amp; 178+ perintah aktif</div>
+            <div class="guarantee-title">Garansi Perbaikan Bug</div>
+            <div class="guarantee-sub">Pendampingan langsung developer</div>
           </div>
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- SOLUSI SESUAI TIPE SERVER (USE CASES) -->
-    <section id="solusi" style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="section-header-block">
-        <span class="section-kicker">Solusi Kustom</span>
-        <h2 class="section-title">Disesuaikan untuk Segala Kebutuhan Komunitas</h2>
-        <p class="section-subtitle">
-          Setiap server memiliki target audiens dan alur kerja yang berbeda. Kami membangun modul logika yang tepat guna sesuai karakteristik server Anda.
+    <!-- VISUAL DISCORD SHOWCASE -->
+    <section id="showcase" style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="section-head">
+        <span class="section-tag">Showcase Desain Komponen</span>
+        <h2 class="section-h2">Contoh Nyata Fitur yang Bisa Kami Pasang</h2>
+        <p class="section-subtext">
+          Bukan sekadar teks perintah, bot kustom hadir dengan kartu grafis HD, tombol Discord interaktif, dan respons AI yang natural.
         </p>
       </div>
 
-      <div class="solutions-grid">
-        <!-- Card 1 -->
-        <div class="solution-card">
-          <div class="solution-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-          </div>
-          <h3 class="solution-name">Streamer &amp; Content Creator</h3>
-          <p class="solution-desc">Tingkatkan retensi penonton dan otomatisasi penyiaran konten lintas platform media sosial.</p>
-          <ul class="solution-features-list">
-            <li><span class="bullet-dot"></span> Radar notifikasi live YouTube, TikTok, &amp; Instagram</li>
-            <li><span class="bullet-dot"></span> Kartu sambutan anggota baru berdesain khusus</li>
-            <li><span class="bullet-dot"></span> Integrasi role membership YouTube otomatis</li>
-          </ul>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="solution-card">
-          <div class="solution-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-              <circle cx="8" cy="12" r="2"></circle>
-              <path d="M14 12h4"></path>
-              <path d="M16 10v4"></path>
-            </svg>
-          </div>
-          <h3 class="solution-name">Komunitas Gaming &amp; Tongkrongan</h3>
-          <p class="solution-desc">Bangun atmosfer obrolan yang selalu hidup dengan gamifikasi seru dan saluran suara otomatis.</p>
-          <ul class="solution-features-list">
-            <li><span class="bullet-dot"></span> Kartu rank HD berlisensi resmi ringkas (Pillow renderer)</li>
-            <li><span class="bullet-dot"></span> Minigames taruhan kuda, Werewolf, &amp; sambung kata</li>
-            <li><span class="bullet-dot"></span> Dynamic Join-to-Create Temporary Voice Channel</li>
-          </ul>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="solution-card">
-          <div class="solution-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="11" width="18" height="10" rx="2"></rect>
-              <circle cx="12" cy="5" r="2"></circle>
-              <path d="M12 7v4"></path>
-              <line x1="8" y1="16" x2="8.01" y2="16"></line>
-              <line x1="16" y1="16" x2="16.01" y2="16"></line>
-            </svg>
-          </div>
-          <h3 class="solution-name">Asisten AI Berpengetahuan Khusus</h3>
-          <p class="solution-desc">Tanamkan kecerdasan buatan Gemini yang memahami seluruh aturan, produk, dan isi server Anda.</p>
-          <ul class="solution-features-list">
-            <li><span class="bullet-dot"></span> Memori pengetahuan internal (bisa menjawab seputar server)</li>
-            <li><span class="bullet-dot"></span> Interaksi natural lewat tag, reply, maupun DM pribadi</li>
-            <li><span class="bullet-dot"></span> Pembersihan memori &amp; chat DM mandiri (!cleardm)</li>
-          </ul>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="solution-card">
-          <div class="solution-icon-box">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="1" x2="12" y2="23"></line>
-              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-            </svg>
-          </div>
-          <h3 class="solution-name">Organisasi, Toko &amp; Finansial</h3>
-          <p class="solution-desc">Kelola administrasi, arus kas, dan pelayanan anggota dengan alur kerja terstruktur.</p>
-          <ul class="solution-features-list">
-            <li><span class="bullet-dot"></span> Pencatatan cash in/out, pagu anggaran, &amp; ekspor CSV</li>
-            <li><span class="bullet-dot"></span> Tiket bantuan bertingkat dengan log transkrip</li>
-            <li><span class="bullet-dot"></span> Webhook mirror relay pesan antar kanal/server</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- PAKET LAYANAN & PILIHAN PENGEMBANGAN -->
-    <section id="paket" style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="section-header-block">
-        <span class="section-kicker">Paket Layanan</span>
-        <h2 class="section-title">Pilihan Solusi Sesuai Tahap Pertumbuhan Server</h2>
-        <p class="section-subtitle">
-          Transparan, efisien, dan fleksibel. Pilih paket siap pakai atau diskusikan kustomisasi fitur spesifik sesuai rancangan Anda.
-        </p>
-      </div>
-
-      <div class="packages-grid">
-        <!-- Paket 1 -->
-        <div class="package-card">
-          <span class="package-badge-tag">Fondasi Server</span>
-          <h3 class="package-title">Setup Server Pro</h3>
-          <p class="package-summary">Restrukturisasi menyeluruh untuk server baru atau server yang membutuhkan penataan ulang profesional.</p>
-          
-          <div class="package-items-list">
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Penataan struktur kategori teks &amp; voice channel teratur</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Konfigurasi hak akses (permission) ketat anti-kebocoran</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Panel ambil role mandiri berbasis tombol &amp; menu dropdown</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Sistem tiket bantuan komunitas dengan kanal privat</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Kanal log audit lengkap (keamanan, pesan, voice)</span>
+      <div class="showcase-grid">
+        
+        <!-- Showcase 1: Kartu Rank Lisensi Resmi -->
+        <div class="showcase-card">
+          <div class="showcase-head">
+            <div class="showcase-title-wrap">
+              <h3 class="showcase-title">Kartu Anggota Resmi &amp; Rank HD</h3>
+              <span class="showcase-badge">Pillow High-Resolution Generator</span>
             </div>
           </div>
-
-          <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="package-action-btn btn-package-outline">
-            Pesan Setup Server
-          </a>
-        </div>
-
-        <!-- Paket 2 (Recommended) -->
-        <div class="package-card recommended">
-          <span class="package-badge-tag" style="background: var(--rtm-primary); color: #fff; border-color: var(--rtm-primary);">Paling Populer</span>
-          <h3 class="package-title">Bot Komunitas &amp; AI</h3>
-          <p class="package-summary">Solusi lengkap bot berdedikasi tinggi dengan fitur gamifikasi, kecerdasan buatan, dan kontrol suara dinamis.</p>
-          
-          <div class="package-items-list">
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Nama, avatar, bio profil, &amp; persona bot 100% custom</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Integrasi Asisten AI Gemini dengan memori server</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Kartu profil rank HD berlisensi resmi ringkas (Pillow)</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Dynamic Join-to-Create Voice Room dengan panel tombol</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Minigames interaktif (balap taruhan kuda, werewolf, kuis)</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Hosting aktif 24 jam &amp; garansi penanganan bug</span>
-            </div>
-          </div>
-
-          <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="package-action-btn btn-package-solid">
-            Konsultasi Paket Ini
-          </a>
-        </div>
-
-        <!-- Paket 3 -->
-        <div class="package-card">
-          <span class="package-badge-tag">Kustomisasi Bebas</span>
-          <h3 class="package-title">Full Custom Solution</h3>
-          <p class="package-summary">Pengembangan arsitektur bot khusus dari nol untuk skema bisnis, integrasi API pihak ketiga, atau kebutuhan spesifik.</p>
-          
-          <div class="package-items-list">
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Fitur kustom bebas tanpa batas sesuai ide spesifik Anda</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Integrasi API eksternal (Payment gateway, website, database)</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Sistem keuangan arus kas (cash in/out) &amp; ekspor CSV</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Radar penyiaran media otomatis YouTube, TikTok, &amp; Instagram</span>
-            </div>
-            <div class="package-item-row">
-              <svg class="item-check-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              <span>Dukungan migrasi ke VPS pribadi dan dokumentasi penuh</span>
-            </div>
-          </div>
-
-          <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="package-action-btn btn-package-outline">
-            Diskusikan Proyek Kustom
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ALUR KERJA PEMESANAN (WORKFLOW) -->
-    <section style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="section-header-block">
-        <span class="section-kicker">Alur Kerja</span>
-        <h2 class="section-title">Proses Transparan dari Konsep hingga Peluncuran</h2>
-        <p class="section-subtitle">
-          Kami menjamin setiap tahapan pengerjaan berjalan terarah, teruji, dan sesuai ekspektasi Anda.
-        </p>
-      </div>
-
-      <div class="workflow-grid">
-        <div class="workflow-step">
-          <div class="step-badge">01</div>
-          <h3 class="step-heading">Konsultasi Kebutuhan</h3>
-          <p class="step-text">Sampaikan konsep server, daftar fitur yang diinginkan, dan preferensi persona bot Anda bersama developer kami.</p>
-        </div>
-
-        <div class="workflow-step">
-          <div class="step-badge">02</div>
-          <h3 class="step-heading">Spesifikasi &amp; Estimasi</h3>
-          <p class="step-text">Penyusunan lingkup pekerjaan yang jelas beserta penawaran biaya yang rasional dan transparan tanpa biaya tersembunyi.</p>
-        </div>
-
-        <div class="workflow-step">
-          <div class="step-badge">03</div>
-          <h3 class="step-heading">Koding &amp; Uji Coba Demo</h3>
-          <p class="step-text">Pengembangan kodingan bot di server pengujian (staging) agar Anda bisa langsung mencoba setiap tombol dan alur perintah.</p>
-        </div>
-
-        <div class="workflow-step">
-          <div class="step-badge">04</div>
-          <h3 class="step-heading">Deploy &amp; Garansi Aktif</h3>
-          <p class="step-text">Bot diundang ke server utama Anda, hosting 24/7 diaktifkan, dan masa garansi pendampingan langsung berjalan.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PORTOFOLIO & MATRIKS FITUR TEKNIS LENGKAP -->
-    <section id="portofolio" class="portfolio-section">
-      <div class="section-header-block">
-        <span class="section-kicker">Bukti Portofolio &amp; Kapabilitas</span>
-        <h2 class="section-title">Katalog Modul &amp; Perintah yang Pernah Kami Bangun</h2>
-        <p class="section-subtitle">
-          Berikut adalah bukti portofolio teknis 15 cogs modular dan 178+ perintah yang telah teruji beroperasi stabil. Anda dapat memilih modul-modul ini untuk langsung diintegrasikan ke bot pesanan Anda.
-        </p>
-      </div>
-
-      <!-- Toolbar Search & Filter -->
-      <div class="portfolio-toolbar">
-        <div class="search-box-wrap">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" id="commandSearch" class="search-input" placeholder="Cari fitur atau perintah (misal: setup, tarot, cash_in, trap, lisensi, clear)..." aria-label="Cari perintah atau fitur">
-        </div>
-
-        <div class="category-tabs" id="categoryTabs">
-          <button class="tab-btn active" data-category="all">Semua Modul (12)</button>
-          <button class="tab-btn" data-category="moderation">Moderasi &amp; Sentinel</button>
-          <button class="tab-btn" data-category="ai">AI &amp; Self-Knowledge</button>
-          <button class="tab-btn" data-category="finance">Manajer Finansial</button>
-          <button class="tab-btn" data-category="notif">Radar Media</button>
-          <button class="tab-btn" data-category="leveling">Leveling &amp; Voice</button>
-          <button class="tab-btn" data-category="games">Minigames &amp; Party</button>
-          <button class="tab-btn" data-category="economy">Ekonomi RSWN</button>
-          <button class="tab-btn" data-category="webhook">Webhook Relay</button>
-          <button class="tab-btn" data-category="tempvoice">Dynamic Voice</button>
-          <button class="tab-btn" data-category="utility">Utilitas &amp; Lisensi</button>
-          <button class="tab-btn" data-category="backup">Cloud &amp; Backup</button>
-        </div>
-      </div>
-
-      <!-- Modules Feed -->
-      <div class="modules-feed" id="modulesFeed">
-
-        <!-- MODUL 1: Moderasi & Sentinel -->
-        <article class="module-card" data-category="moderation">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Keamanan Server</span>
-              <h3 class="module-title">Moderasi &amp; Sentinel Defense</h3>
-            </div>
-            <span class="module-counts">cogs/moderation.py • 20 Perintah</span>
-          </div>
-          <p class="module-desc">
-            Sistem proteksi server otomatis: Dasbor Master Setup (/setup), Live Modpanel (/modpanel) dengan Voice Pulse, Honeypot Trap (/trap) yang menjatuhkan timeout 28 hari pada spammer, serta AI Anti-Phishing Filter.
+          <p class="showcase-desc">
+            Setiap anggota server dapat memeriksa kartu profil dengan progress bar EXP, peringkat level, dan nomor lisensi resmi berformat ringkas (5 digit user + 4 digit server).
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="rank-card-mockup">
+            <div class="rank-header-row">
+              <div class="rank-avatar-placeholder">RF</div>
+              <div class="rank-user-info">
+                <span class="rank-name">Rizwan Fadilah</span>
+                <span class="rank-license-badge">LISENSI: 99885-9882</span>
+              </div>
+            </div>
+            <div class="rank-progress-bar">
+              <div class="rank-progress-fill"></div>
+            </div>
+            <div class="rank-stats-row">
+              <span>Level 14 • Anggota Resmi</span>
+              <span>EXP: 3,420 / 5,000</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Showcase 2: Asisten AI Tongkrongan -->
+        <div class="showcase-card">
+          <div class="showcase-head">
+            <div class="showcase-title-wrap">
+              <h3 class="showcase-title">Asisten AI Persona Khusus</h3>
+              <span class="showcase-badge">Gemini 2.5 + Codebase Memory</span>
+            </div>
+          </div>
+          <p class="showcase-desc">
+            Bisa diajak ngobrol santai lewat tag @Bot, reply pesan, atau awalan tanda seru (!). AI ini memahami seluruh fitur bot dan bisa menghapus obrolan privat di DM (!cleardm).
+          </p>
+
+          <div class="discord-mockup">
+            <div class="discord-msg-row">
+              <div class="bot-avatar-badge">RK</div>
+              <div class="discord-msg-body">
+                <div class="discord-msg-author">
+                  <span>Raka</span>
+                  <span class="bot-app-pill">APP</span>
+                </div>
+                <div class="discord-msg-text">
+                  Yo bro! Mau atur server? Lu tinggal ketik <code>/setup</code> buat buka Master Dashboard (bisa set Auto-Role, Tiket, &amp; Log). Kalo mau bersihin DM pribadi kita, ketik aja <code>!cleardm</code> ya!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Showcase 3: Temporary Voice Channel Panel -->
+        <div class="showcase-card">
+          <div class="showcase-head">
+            <div class="showcase-title-wrap">
+              <h3 class="showcase-title">Voice Room Dinamis (Join-to-Create)</h3>
+              <span class="showcase-badge">Interactive Control Panel</span>
+            </div>
+          </div>
+          <p class="showcase-desc">
+            Kanal suara otomatis dibuat saat member masuk kanal trigger dan langsung terhapus saat kosong. Dilengkapi tombol kontrol instan di dalam voice text chat.
+          </p>
+
+          <div class="discord-mockup">
+            <div class="discord-msg-text" style="font-weight: 700; color: #f0f6fc;">
+              🎛️ Panel Kontrol Voice Room Kamu
+            </div>
+            <div class="discord-msg-text" style="font-size: 0.8rem; color: #94a3b8;">
+              Status: Room Terbuka • Kapasitas: 4 Orang
+            </div>
+            <div class="discord-btn-mockup-row">
+              <button class="discord-ui-btn btn-blurple">🔒 Gembok Room</button>
+              <button class="discord-ui-btn btn-grey">👁️ Sembunyikan</button>
+              <button class="discord-ui-btn btn-grey">👥 +1 Kursi</button>
+              <button class="discord-ui-btn btn-green">✏️ Ganti Nama</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Showcase 4: Finansial Arus Kas -->
+        <div class="showcase-card">
+          <div class="showcase-head">
+            <div class="showcase-title-wrap">
+              <h3 class="showcase-title">Manajer Keuangan &amp; Arus Kas</h3>
+              <span class="showcase-badge">Metode Perencana 50/30/20</span>
+            </div>
+          </div>
+          <p class="showcase-desc">
+            Pencatatan kas harian (cash in/out), evaluasi anggaran bulanan, peringatan overbudget, dan ekspor riwayat mutasi langsung ke format spreadsheet CSV.
+          </p>
+
+          <div class="discord-mockup">
+            <div class="discord-msg-text" style="font-weight: 700; color: #f0f6fc; border-bottom: 1px solid #35363c; padding-bottom: 6px;">
+              💼 Laporan Arus Kas Bulanan
+            </div>
+            <div class="discord-stats-row" style="display:flex; justify-content:space-between; font-size:0.8rem;">
+              <span style="color:#22c55e;">+ Pemasukan: Rp 7.500.000</span>
+              <span style="color:#ef4444;">- Pengeluaran: Rp 3.200.000</span>
+            </div>
+            <div style="font-size: 0.78rem; color: #38bdf8;">
+              Saldo Kas Bersih: Rp 4.300.000 (Rasio Tabungan: 57%)
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LAYANAN YANG TERSEDIA -->
+    <section id="layanan" style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="section-head">
+        <span class="section-tag">Pilihan Layanan</span>
+        <h2 class="section-h2">Apa Saja yang Bisa Kami Bantu?</h2>
+        <p class="section-subtext">
+          Bisa pesan pembuatan bot lengkap dari nol, penambahan modul tertentu, atau sekadar penataan server komunitas agar rapi dan aman.
+        </p>
+      </div>
+
+      <div class="services-catalog">
+        <div class="service-item-card">
+          <div class="service-item-header">
+            <div class="service-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            </div>
+            <h3 class="service-item-title">Setup &amp; Rapikan Server</h3>
+          </div>
+          <ul class="service-bullets">
+            <li><span class="bullet-arrow">›</span> Struktur kanal teks dan suara rapi &amp; teratur</li>
+            <li><span class="bullet-arrow">›</span> Setting permission peran ketat anti-kebocoran admin</li>
+            <li><span class="bullet-arrow">›</span> Panel ambil role mandiri tombol/dropdown</li>
+            <li><span class="bullet-arrow">›</span> Kanal verifikasi anggota baru &amp; sistem tiket privat</li>
+          </ul>
+        </div>
+
+        <div class="service-item-card">
+          <div class="service-item-header">
+            <div class="service-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path></svg>
+            </div>
+            <h3 class="service-item-title">Bot Custom Komunitas &amp; AI</h3>
+          </div>
+          <ul class="service-bullets">
+            <li><span class="bullet-arrow">›</span> Bot eksklusif pakai nama dan avatar server sendiri</li>
+            <li><span class="bullet-arrow">›</span> Asisten AI Gemini berpengetahuan khusus server</li>
+            <li><span class="bullet-arrow">›</span> Kartu profil rank HD berlisensi resmi ringkas</li>
+            <li><span class="bullet-arrow">›</span> Minigames balapan kuda taruhan, werewolf &amp; kuis</li>
+          </ul>
+        </div>
+
+        <div class="service-item-card">
+          <div class="service-item-header">
+            <div class="service-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path></svg>
+            </div>
+            <h3 class="service-item-title">Integrasi Sistem Khusus</h3>
+          </div>
+          <ul class="service-bullets">
+            <li><span class="bullet-arrow">›</span> Webhook mirror relay pesan antar kanal &amp; server</li>
+            <li><span class="bullet-arrow">›</span> Pencatatan kas internal &amp; ekspor CSV spreadsheet</li>
+            <li><span class="bullet-arrow">›</span> Koneksi basis data MongoDB Atlas</li>
+            <li><span class="bullet-arrow">›</span> Hosting siap pakai 24 jam dengan uptime tinggi</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALUR KERJA -->
+    <section style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="section-head">
+        <span class="section-tag">Cara Pemesanan</span>
+        <h2 class="section-h2">Alur Kerja yang Jelas &amp; Transparan</h2>
+        <p class="section-subtext">
+          Dari diskusi konsep hingga bot live di server Anda, semuanya dipantau bersama.
+        </p>
+      </div>
+
+      <div class="workflow-strip">
+        <div class="workflow-card">
+          <div class="step-idx">01</div>
+          <div class="step-title">Ngobrol Kebutuhan</div>
+          <div class="step-desc">Sampaikan ide bot, fitur apa saja yang diinginkan, dan gaya persona yang cocok untuk server kamu.</div>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-idx">02</div>
+          <div class="step-title">Estimasi &amp; Desain</div>
+          <div class="step-desc">Kami buatkan ringkasan modul fitur beserta estimasi waktu pengerjaan yang masuk akal dan biaya yang jelas.</div>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-idx">03</div>
+          <div class="step-title">Uji Coba di Server Demo</div>
+          <div class="step-desc">Bot dicoba bersama di server staging testing agar kamu bisa mencoba tombol dan fiturnya langsung.</div>
+        </div>
+
+        <div class="workflow-card">
+          <div class="step-idx">04</div>
+          <div class="step-title">Masuk ke Server Kamu</div>
+          <div class="step-desc">Bot diundang ke server utama, hosting 24/7 diaktifkan, dan garansi perbaikan bug langsung berjalan.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KATALOG PERINTAH TERUJI (BUKTI PORTOFOLIO TEKNIS) -->
+    <section id="katalog" class="explorer-panel">
+      <div class="section-head">
+        <span class="section-tag">Katalog Perintah Teruji</span>
+        <h2 class="section-h2">Daftar Modul &amp; Perintah Siap Pasang</h2>
+        <p class="section-subtext">
+          Fitur-fitur di bawah ini telah teruji stabil di arsitektur bot kami. Kamu bebas memilih fitur mana saja yang ingin disematkan ke bot pesananmu.
+        </p>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="explorer-toolbar">
+        <div class="search-wrap">
+          <svg class="search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="commandSearch" class="search-input-field" placeholder="Cari nama perintah atau kata kunci (contoh: setup, tarot, cash_in, trap, lisensi, rank, clear)..." aria-label="Cari perintah">
+        </div>
+
+        <div class="filter-tabs-row" id="categoryTabs">
+          <button class="filter-tab active" data-category="all">Semua Perintah</button>
+          <button class="filter-tab" data-category="moderation">Moderasi &amp; Keamanan</button>
+          <button class="filter-tab" data-category="ai">AI &amp; Obrolan</button>
+          <button class="filter-tab" data-category="leveling">Leveling &amp; Kartu</button>
+          <button class="filter-tab" data-category="finance">Keuangan Kasir</button>
+          <button class="filter-tab" data-category="games">Minigames</button>
+          <button class="filter-tab" data-category="economy">Ekonomi Komunitas</button>
+          <button class="filter-tab" data-category="webhook">Webhook Relay</button>
+          <button class="filter-tab" data-category="utility">Utilitas Server</button>
+          <button class="filter-tab" data-category="backup">Cloud Backup</button>
+        </div>
+      </div>
+
+      <!-- Modules List -->
+      <div class="modules-list" id="modulesFeed">
+
+        <!-- Modul: Moderasi -->
+        <div class="module-item" data-category="moderation">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Moderasi &amp; Sentinel Defense</h3>
+            <span class="cmd-type-tag">20 Perintah</span>
+          </div>
+          <p class="module-item-sub">
+            Master Setup (/setup), Live Modpanel (/modpanel), Honeypot Trap (/trap), AI Anti-Phishing Filter, dan pembersihan pesan massal.
+          </p>
+
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">/setup</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Admin</span></td>
-                  <td>Master Server Setup: Konfigurasi Auto-Role, Log, Booster, Welcome Message, &amp; Ticket.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/setup">Salin</button></td>
+                  <td><span class="cmd-syntax">/setup</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Admin</span></td>
+                  <td>Master Server Setup: Auto-Role, Log, Booster, Welcome Message, &amp; Ticket.</td>
+                  <td><button class="copy-btn" data-copy="/setup">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/modpanel</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Mod</span></td>
-                  <td>Dasbor moderasi real-time dengan status Voice Pulse dan tombol aksi cepat moderator.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/modpanel">Salin</button></td>
+                  <td><span class="cmd-syntax">/modpanel</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Mod</span></td>
+                  <td>Dasbor moderasi real-time dengan status Voice Pulse dan aksi cepat moderator.</td>
+                  <td><button class="copy-btn" data-copy="/modpanel">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/panelrole</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Admin</span></td>
-                  <td>Pembuat panel ambil role mandiri menggunakan tombol interaktif atau menu dropdown.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/panelrole">Salin</button></td>
+                  <td><span class="cmd-syntax">/panelrole</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Admin</span></td>
+                  <td>Buat panel ambil role mandiri menggunakan tombol interaktif atau menu dropdown.</td>
+                  <td><button class="copy-btn" data-copy="/panelrole">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/ticket</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Admin</span></td>
-                  <td>Penyedia sistem tiket bantuan komunitas dengan kanal privat dan log transkrip.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/ticket">Salin</button></td>
+                  <td><span class="cmd-syntax">/ticket</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Admin</span></td>
+                  <td>Sistem tiket bantuan komunitas dengan kanal privat dan log transkrip.</td>
+                  <td><button class="copy-btn" data-copy="/ticket">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/trap</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Admin</span></td>
-                  <td>Aktifkan kanal honeypot untuk mendeteksi akun mencurigakan dan auto-timeout 28 hari.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/trap">Salin</button></td>
+                  <td><span class="cmd-syntax">/trap</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Admin</span></td>
+                  <td>Aktifkan kanal honeypot untuk mendeteksi spammer dan auto-timeout 28 hari.</td>
+                  <td><button class="copy-btn" data-copy="/trap">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/cyber_toggle</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Admin</span></td>
-                  <td>Nyalakan atau matikan filter AI anti-phishing dan pendeteksi spam tautan seketika.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/cyber_toggle">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/clear <span class="cmd-param">&lt;jumlah&gt; [channel]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Mod</span></td>
+                  <td><span class="cmd-syntax">/clear &lt;jumlah&gt;</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Mod</span></td>
                   <td>Hapus pesan massal di kanal teks atau suara hingga 100 pesan sekaligus.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/clear">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/clear">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/ban <span class="cmd-param">&lt;member&gt; [alasan]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Ban Perms</span></td>
+                  <td><span class="cmd-syntax">/ban &lt;member&gt;</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Ban Perms</span></td>
                   <td>Blokir permanen pengguna dari server dengan proteksi hierarki peran otomatis.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/ban">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/ban">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 2: AI Gemini & Self-Knowledge -->
-        <article class="module-card" data-category="ai">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Kecerdasan Buatan</span>
-              <h3 class="module-title">AI Gemini &amp; Self-Knowledge Engine</h3>
-            </div>
-            <span class="module-counts">cogs/gemini.py • 8 Perintah + Obrolan Cerdas</span>
+        <!-- Modul: AI Gemini -->
+        <div class="module-item" data-category="ai">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Asisten AI Gemini &amp; Self-Knowledge</h3>
+            <span class="cmd-type-tag">Interaksi Cerdas</span>
           </div>
-          <p class="module-desc">
-            Model AI Gemini yang dipadukan dengan memori internal kode (AST parser). Pengguna dapat bertanya seputar kode dan fungsi bot tanpa command baru. Mendukung obrolan personal via DM dan pembersihan chat DM.
+          <p class="module-item-sub">
+            AI Gemini yang paham data bot, ngobrol santai di server, asisten privat di DM, dan pembersihan chat DM.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">@RTMBOT <span class="cmd-param">&lt;pertanyaan&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-slash">Natural • Semua</span></td>
-                  <td>Tanyakan apa saja seputar kode, cara pakai perintah, alur setup, atau obrolan santai ke AI Raka.</td>
-                  <td><button class="cmd-copy-btn" data-copy="@RTMBOT cara pakai setup">Salin</button></td>
+                  <td><span class="cmd-syntax">@Bot &lt;tanya&gt;</span></td>
+                  <td><span class="cmd-type-tag">Natural • Semua</span></td>
+                  <td>Tanya apa saja seputar server, kode, atau obrolan santai ke asisten AI.</td>
+                  <td><button class="copy-btn" data-copy="@RTMBOT cara pakai setup">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!&lt;pertanyaan&gt;</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Semua</span></td>
-                  <td>Tanya langsung via awalan tanda seru (contoh: <code>!bagaimana cara kerja honeypot?</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="!apa saja perintah ekonomi?">Salin</button></td>
+                  <td><span class="cmd-syntax">!&lt;pertanyaan&gt;</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Semua</span></td>
+                  <td>Tanya langsung via tanda seru (contoh: <code>!bagaimana cara kerja tiket?</code>).</td>
+                  <td><button class="copy-btn" data-copy="!apa saja perintah ekonomi?">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!cleardm <span class="cmd-param">[jumlah]</span></span></td>
-                  <td><span class="cmd-badge badge-prefix">DM Command • Private</span></td>
-                  <td>Hapus seluruh pesan bot di obrolan DM pribadi dan bersihkan riwayat memori sesi percakapan.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!cleardm">Salin</button></td>
+                  <td><span class="cmd-syntax">!cleardm</span></td>
+                  <td><span class="cmd-type-tag">DM Command</span></td>
+                  <td>Hapus seluruh pesan bot di obrolan DM pribadi dan reset sesi memori percakapan.</td>
+                  <td><button class="copy-btn" data-copy="!cleardm">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/tarot</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Tarik 3 kartu Tarot (Masa Lalu, Sekarang, Depan) dengan tafsiran filosofis AI.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/tarot">Salin</button></td>
+                  <td><span class="cmd-syntax">/tarot</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Tarik 3 kartu Tarot dengan interpretasi makna mendalam dari AI.</td>
+                  <td><button class="copy-btn" data-copy="/tarot">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/zodiak <span class="cmd-param">&lt;nama/tanggal&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Ramalan peruntungan zodiak hari ini dengan analisis astrologi kasual AI.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/zodiak">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/confess</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Formulir modal rahasia untuk mengirim pesan curhatan anonim ke kanal komunitas.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/confess">Salin</button></td>
+                  <td><span class="cmd-syntax">/confess</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Formulir modal rahasia untuk mengirim curhatan anonim ke kanal komunitas.</td>
+                  <td><button class="copy-btn" data-copy="/confess">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 3: Asisten Keuangan Pribadi -->
-        <article class="module-card" data-category="finance">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Manajemen Finansial</span>
-              <h3 class="module-title">Asisten Keuangan &amp; Arus Kas</h3>
-            </div>
-            <span class="module-counts">cogs/finance.py • 8 Perintah Finansial</span>
+        <!-- Modul: Leveling & Kartu -->
+        <div class="module-item" data-category="leveling">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Leveling, Kartu HD &amp; Voice Pulse</h3>
+            <span class="cmd-type-tag">16 Perintah</span>
           </div>
-          <p class="module-desc">
-            Manajer arus kas terstruktur: Catat pemasukan/pengeluaran, evaluasi anggaran 50/30/20, dasbor saldo bersih, peringatan batas overbudget, dan ekspor CSV spreadsheet.
+          <p class="module-item-sub">
+            Sistem EXP chat/suara, kartu rank Pillow HD nomor lisensi 5+4 digit, live voice panel, dan giveaway.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">/cash_in <span class="cmd-param">&lt;nominal&gt; [kategori]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Catat pemasukan kas (Gaji, Bisnis, Freelance) (alias: <code>!in</code>, <code>!masuk</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/cash_in">Salin</button></td>
+                  <td><span class="cmd-syntax">/rank [member]</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Lihat kartu profil rank grafis HD resmi dengan nomor lisensi ringkas unik.</td>
+                  <td><button class="copy-btn" data-copy="/rank">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/cash_out <span class="cmd-param">&lt;nominal&gt; [kategori]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Catat pengeluaran kas dengan proteksi batas pagu belanja (alias: <code>!out</code>, <code>!keluar</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/cash_out">Salin</button></td>
+                  <td><span class="cmd-syntax">/leaderboard</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Tampilkan peringkat member dengan EXP dan level tertinggi di server.</td>
+                  <td><button class="copy-btn" data-copy="/leaderboard">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/keuangan</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Buka dasbor finansial lengkap, saldo kas bersih, dan tombol aksi cepat.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/keuangan">Salin</button></td>
+                  <td><span class="cmd-syntax">/voicepanel</span></td>
+                  <td><span class="cmd-type-tag">Slash • Admin</span></td>
+                  <td>Pasang papan live aktivitas voice yang otomatis stay di pesan terbawah kanal.</td>
+                  <td><button class="copy-btn" data-copy="/voicepanel">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/cashflow</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Laporan arus kas bulanan, komposisi persentase belanja, &amp; 10 mutasi terakhir.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/cashflow">Salin</button></td>
+                  <td><span class="cmd-syntax">/voicetime</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Cek total jam aktif di saluran suara (all-time, mingguan, &amp; peringkat server).</td>
+                  <td><button class="copy-btn" data-copy="/voicetime">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/anggaran <span class="cmd-param">&lt;nominal&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Tetapkan pagu batas maksimal belanja bulanan dengan peringatan overbudget.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/anggaran">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/export_keuangan</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Unduh seluruh riwayat transaksi keuangan pribadi ke format file spreadsheet CSV.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/export_keuangan">Salin</button></td>
+                  <td><span class="cmd-syntax">/giveaway</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Mod</span></td>
+                  <td>Mulai pengundian giveaway berhadiah via antarmuka tombol interaktif.</td>
+                  <td><button class="copy-btn" data-copy="/giveaway">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 4: Radar Media Sosial Otomatis -->
-        <article class="module-card" data-category="notif">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Penyiaran Konten</span>
-              <h3 class="module-title">Radar Media Multi-Platform</h3>
-            </div>
-            <span class="module-counts">cogs/notif.py • 6 Perintah Pemilik</span>
+        <!-- Modul: Keuangan -->
+        <div class="module-item" data-category="finance">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Manajer Keuangan &amp; Kasir</h3>
+            <span class="cmd-type-tag">8 Perintah</span>
           </div>
-          <p class="module-desc">
-            Deteksi otomatis tautan YouTube (Live, Video, Shorts), TikTok (Video, Live), dan Instagram (Reels) dari kanal sumber ke kanal tujuan dengan format embed kustom dan cache anti-duplikasi.
+          <p class="module-item-sub">
+            Pencatatan kas in/out, pagu belanja bulanan, evaluasi rasio tabungan 50/30/20, dan ekspor CSV.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">!addpath <span class="cmd-param">&lt;source&gt; &lt;target&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Hubungkan kanal sumber link dengan kanal penyiaran notifikasi media tujuan.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!addpath">Salin</button></td>
+                  <td><span class="cmd-syntax">/cash_in &lt;nominal&gt;</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Catat penerimaan kas (Gaji, Bisnis, Freelance) (alias: <code>!in</code>, <code>!masuk</code>).</td>
+                  <td><button class="copy-btn" data-copy="/cash_in">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!config</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Dasbor pengaturan interaktif format pesan, role ping target, dan tombol tonton.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!config">Salin</button></td>
+                  <td><span class="cmd-syntax">/cash_out &lt;nominal&gt;</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Catat pengeluaran kas dengan verifikasi pagu anggaran (alias: <code>!out</code>, <code>!keluar</code>).</td>
+                  <td><button class="copy-btn" data-copy="/cash_out">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!checkcache</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Periksa daftar URL media terbaru yang tersimpan dalam antrean cache anti-spam.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!checkcache">Salin</button></td>
+                  <td><span class="cmd-syntax">/keuangan</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Dasbor saldo kas bersih, rasio tabungan, dan tombol aksi finansial.</td>
+                  <td><button class="copy-btn" data-copy="/keuangan">Salin</button></td>
+                </tr>
+                <tr>
+                  <td><span class="cmd-syntax">/export_keuangan</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
+                  <td>Unduh seluruh catatan transaksi keuangan pribadi ke format file spreadsheet CSV.</td>
+                  <td><button class="copy-btn" data-copy="/export_keuangan">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 5: Leveling & Kartu Anggota Resmi -->
-        <article class="module-card" data-category="leveling">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Progresi &amp; Gamifikasi</span>
-              <h3 class="module-title">Leveling &amp; Kartu Anggota Resmi</h3>
-            </div>
-            <span class="module-counts">cogs/leveling.py + card_generator.py • 16 Perintah</span>
+        <!-- Modul: Minigames -->
+        <div class="module-item" data-category="games">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Minigames &amp; Party Games</h3>
+            <span class="cmd-type-tag">15 Perintah</span>
           </div>
-          <p class="module-desc">
-            Perolehan EXP dari obrolan dan keaktifan suara. Kartu profil HD resmi berlisensi ringkas (5 digit user + 4 digit server), Voice Pulse real-time (/voicepanel), dan sistem giveaway terpadu.
+          <p class="module-item-sub">
+            Balapan kuda taruhan, Werewolf deduksi peran, sambung kata berantai, dan voting Si Paling.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">/rank <span class="cmd-param">[member]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Lihat kartu profil anggota grafis HD resmi dengan nomor lisensi ringkas (Pillow render).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/rank">Salin</button></td>
+                  <td><span class="cmd-syntax">!balapan</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Member</span></td>
+                  <td>Mulai arena taruhan balap kuda multiplayer berhadiah koin (alias: <code>!race</code>).</td>
+                  <td><button class="copy-btn" data-copy="!balapan">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/leaderboard</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
-                  <td>Tampilkan peringkat 10 member dengan level dan perolehan EXP tertinggi di server.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/leaderboard">Salin</button></td>
+                  <td><span class="cmd-syntax">!taruhan &lt;nominal&gt; &lt;kuda&gt;</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Member</span></td>
+                  <td>Pasang taruhan pada kuda jagoanmu sebelum balapan dimulai.</td>
+                  <td><button class="copy-btn" data-copy="!taruhan">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/voicepanel</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Admin</span></td>
-                  <td>Pasang papan live aktivitas voice yang otomatis turun ke pesan terbawah kanal.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/voicepanel">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/voicetime <span class="cmd-param">[member]</span></span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Cek total waktu aktif di voice channel (all-time, mingguan, &amp; ranking server).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/voicetime">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/giveaway</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Mod</span></td>
-                  <td>Mulai pengundian hadiah (giveaway) berhadiah via antarmuka tombol interaktif.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/giveaway">Salin</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-
-        <!-- MODUL 6: Minigames & Party Tavern -->
-        <article class="module-card" data-category="games">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Hiburan Komunitas</span>
-              <h3 class="module-title">Minigames &amp; Party Games</h3>
-            </div>
-            <span class="module-counts">cogs/minigames.py + party_games.py • 15 Perintah</span>
-          </div>
-          <p class="module-desc">
-            Game interaktif multiplayer: Balapan kuda taruhan (!balapan), game deduksi Werewolf (/ww), sambung suku kata berantai (!sambung), voting Si Paling (!siapapaling), dan kuis asah otak.
-          </p>
-
-          <div class="command-table-wrap">
-            <table class="command-table">
-              <thead>
-                <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="cmd-name">!games</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Member</span></td>
-                  <td>Katalog interaktif seluruh minigames dan panduan bermain via menu dropdown.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!games">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">!balapan</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Member</span></td>
-                  <td>Mulai arena taruhan balap kuda multiplayer berhadiah koin RSWN (alias: <code>!race</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="!balapan">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">!taruhan <span class="cmd-param">&lt;jumlah&gt; &lt;kuda&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Member</span></td>
-                  <td>Pasang taruhan koin pada kuda jagoan Anda sebelum balapan dimulai.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!taruhan">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/ww</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Member</span></td>
+                  <td><span class="cmd-syntax">/ww</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Member</span></td>
                   <td>Lobi permainan Werewolf klasik (warga desa vs serigala peran tersembunyi).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/ww">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/ww">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!sambung</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Member</span></td>
-                  <td>Game sambung suku kata berantai dengan bonus EXP dan koin (alias: <code>!sk</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="!sambung">Salin</button></td>
+                  <td><span class="cmd-syntax">!sambung</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Member</span></td>
+                  <td>Game sambung suku kata berantai dengan bonus EXP dan koin.</td>
+                  <td><button class="copy-btn" data-copy="!sambung">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!siapapaling</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Member</span></td>
-                  <td>Permainan voting rahasia seru dengan diagram batang hasil perolehan suara.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!siapapaling">Salin</button></td>
+                  <td><span class="cmd-syntax">!siapapaling</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Member</span></td>
+                  <td>Game voting rahasia dengan grafik diagram batang hasil perolehan suara terbanyak.</td>
+                  <td><button class="copy-btn" data-copy="!siapapaling">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 7: Ekonomi Komunitas RSWN -->
-        <article class="module-card" data-category="economy">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Ekonomi Virtual</span>
-              <h3 class="module-title">Ekonomi RSWN &amp; Perbankan</h3>
-            </div>
-            <span class="module-counts">cogs/leveling.py • 7 Perintah</span>
+        <!-- Modul: Ekonomi -->
+        <div class="module-item" data-category="economy">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Ekonomi Komunitas &amp; Perbankan</h3>
+            <span class="cmd-type-tag">7 Perintah</span>
           </div>
-          <p class="module-desc">
-            Ekosistem ekonomi virtual: Toko server (/shop), rekening tabungan perbankan (/bank), misi harian (/daily_quest), transfer koin antar member, dan pekerjaan kasual (!work).
+          <p class="module-item-sub">
+            Toko server, tabungan bank, quest harian, transfer saldo antar member, dan pekerjaan kasual.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">/shop</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
+                  <td><span class="cmd-syntax">/shop</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
                   <td>Katalog toko interaktif untuk membeli item, peran, dan badge kartu profil.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/shop">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/shop">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/bank</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Periksa saldo rekening bank RSWN dan status saldo kas di dompet.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/bank">Salin</button></td>
+                  <td><span class="cmd-syntax">/bank</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Periksa saldo rekening bank komunitas dan status saldo kas dompet.</td>
+                  <td><button class="copy-btn" data-copy="/bank">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/daily_quest</span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Periksa target quest harian dan klaim hadiah EXP serta bonus koin RSWN.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/daily_quest">Salin</button></td>
+                  <td><span class="cmd-syntax">/daily_quest</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Periksa target quest harian dan klaim hadiah EXP serta bonus koin.</td>
+                  <td><button class="copy-btn" data-copy="/daily_quest">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/transfercoins <span class="cmd-param">&lt;member&gt; &lt;jumlah&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-slash">Slash • Member</span></td>
-                  <td>Kirimkan sejumlah koin RSWN milik Anda ke akun member lain secara aman.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/transfercoins">Salin</button></td>
+                  <td><span class="cmd-syntax">/transfercoins</span></td>
+                  <td><span class="cmd-type-tag">Slash • Member</span></td>
+                  <td>Kirimkan koin milikmu ke member lain secara aman dan tercatat.</td>
+                  <td><button class="copy-btn" data-copy="/transfercoins">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 8: Webhook Relay & Mirroring -->
-        <article class="module-card" data-category="webhook">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Jembatan Server</span>
-              <h3 class="module-title">Webhook Relay &amp; Mirroring</h3>
-            </div>
-            <span class="module-counts">cogs/webhook.py • 4 Perintah Admin</span>
+        <!-- Modul: Webhook Relay -->
+        <div class="module-item" data-category="webhook">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Webhook Mirror &amp; Relay</h3>
+            <span class="cmd-type-tag">4 Perintah</span>
           </div>
-          <p class="module-desc">
-            Pencerminan pesan otomatis lintas kanal dan server Discord melalui Webhook API berlatensi rendah dengan penyimpanan konfigurasi persisten di MongoDB.
+          <p class="module-item-sub">
+            Pencerminan pesan otomatis lintas kanal dan server Discord via Webhook API berlatensi rendah.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">!setwebhook <span class="cmd-param">&lt;target_url&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Admin</span></td>
-                  <td>Tautkan kanal ini ke Webhook tujuan untuk mencerminkan pesan masuk secara otomatis.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!setwebhook">Salin</button></td>
+                  <td><span class="cmd-syntax">!setwebhook &lt;url&gt;</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Admin</span></td>
+                  <td>Tautkan kanal ini ke Webhook tujuan untuk mencerminkan pesan masuk otomatis.</td>
+                  <td><button class="copy-btn" data-copy="!setwebhook">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!delwebhook</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Admin</span></td>
+                  <td><span class="cmd-syntax">!delwebhook</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Admin</span></td>
                   <td>Hapus dan nonaktifkan relay webhook yang aktif pada kanal saat ini.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!delwebhook">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="!delwebhook">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!listwebhook</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Admin</span></td>
+                  <td><span class="cmd-syntax">!listwebhook</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Admin</span></td>
                   <td>Daftar seluruh kanal di server yang memiliki relay webhook aktif.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!listwebhook">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="!listwebhook">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 9: Dynamic Temporary Voice -->
-        <article class="module-card" data-category="tempvoice">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Otomasi Suara</span>
-              <h3 class="module-title">Dynamic Join-to-Create Voice</h3>
-            </div>
-            <span class="module-counts">cogs/temp_voice.py • Voice Trigger &amp; Panel</span>
+        <!-- Modul: Utilitas Server -->
+        <div class="module-item" data-category="utility">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Utilitas Komunitas &amp; Profiling</h3>
+            <span class="cmd-type-tag">7 Perintah</span>
           </div>
-          <p class="module-desc">
-            Pembuatan saluran suara privat otomatis saat member bergabung ke kanal trigger. Dilengkapi panel tombol interaktif: Gembok kamar, sembunyikan room (invisible), ubah kuota kursi, dan ganti nama room.
-          </p>
-        </article>
-
-        <!-- MODUL 10: Utilitas & Profiling -->
-        <article class="module-card" data-category="utility">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Alat Pendukung</span>
-              <h3 class="module-title">Utilitas Komunitas &amp; Profiling</h3>
-            </div>
-            <span class="module-counts">cogs/info.py + quotes.py • 7 Perintah</span>
-          </div>
-          <p class="module-desc">
-            Utilitas pendukung: Pusat bantuan modular (/help), konversi teks ke gambar lembaran buku tulisan tangan (/tulis), inspeksi detail akun (/user, /avatar), dan kurasi kutipan (/quote).
+          <p class="module-item-sub">
+            Pusat bantuan modular (/help), konversi teks ke gambar buku tulisan tangan (/tulis), inspeksi profil (/user, /avatar).
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">/help</span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Semua</span></td>
+                  <td><span class="cmd-syntax">/help</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Semua</span></td>
                   <td>Pusat panduan interaktif modular berbasis menu dropdown (alias: <code>!help</code>, <code>!h</code>).</td>
-                  <td><button class="cmd-copy-btn" data-copy="/help">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/help">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/tulis <span class="cmd-param">&lt;nama&gt; &lt;teks&gt;</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Semua</span></td>
+                  <td><span class="cmd-syntax">/tulis &lt;nama&gt; &lt;teks&gt;</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Semua</span></td>
                   <td>Ubah teks biasa menjadi gambar lembaran buku bergaris tulisan tangan realistis.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/tulis">Salin</button></td>
+                  <td><button class="copy-btn" data-copy="/tulis">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">/user <span class="cmd-param">[user]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Semua</span></td>
-                  <td>Inspeksi detail akun Discord: tanggal buat akun, tanggal gabung server, &amp; roles.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/user">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">/avatar <span class="cmd-param">[user]</span></span></td>
-                  <td><span class="cmd-badge badge-hybrid">Hybrid • Semua</span></td>
-                  <td>Unduh avatar profil pengguna dalam resolusi tinggi.</td>
-                  <td><button class="cmd-copy-btn" data-copy="/avatar">Salin</button></td>
+                  <td><span class="cmd-syntax">/user [user]</span></td>
+                  <td><span class="cmd-type-tag">Hybrid • Semua</span></td>
+                  <td>Inspeksi detail akun: tanggal pembuatan akun, tanggal gabung server, &amp; roles.</td>
+                  <td><button class="copy-btn" data-copy="/user">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
+        </div>
 
-        <!-- MODUL 11: Cloud Backup & Repositori -->
-        <article class="module-card" data-category="backup">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Ketahanan Data</span>
-              <h3 class="module-title">Cloud Backup &amp; Sinkronisasi Repositori</h3>
-            </div>
-            <span class="module-counts">main.py • 3 Perintah Admin</span>
+        <!-- Modul: Cloud Backup -->
+        <div class="module-item" data-category="backup">
+          <div class="module-item-head">
+            <h3 class="module-item-title">Cloud Backup &amp; Ketahanan Data</h3>
+            <span class="cmd-type-tag">3 Perintah</span>
           </div>
-          <p class="module-desc">
-            Pencadangan ganda otomatis berkas JSON ke MongoDB Atlas &amp; GitHub API (!backupnow), pengiriman arsip ZIP data ke webhook log rahasia (!sendbackup), dan backup modular file Python (!cogbackup).
+          <p class="module-item-sub">
+            Pencadangan ganda otomatis ke MongoDB Atlas, sinkronisasi file GitHub, dan arsip ZIP via webhook.
           </p>
 
-          <div class="command-table-wrap">
-            <table class="command-table">
+          <div class="cmd-table-container">
+            <table class="cmd-table">
               <thead>
                 <tr>
-                  <th style="width: 25%;">Perintah</th>
-                  <th style="width: 15%;">Tipe &amp; Akses</th>
-                  <th style="width: 48%;">Deskripsi Fungsional</th>
-                  <th style="width: 12%;">Salin</th>
+                  <th style="width:25%;">Perintah</th>
+                  <th style="width:18%;">Tipe</th>
+                  <th style="width:45%;">Fungsi</th>
+                  <th style="width:12%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="cmd-name">!backupnow</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Inisiasi pencadangan instan seluruh file konfigurasi JSON ke MongoDB dan GitHub.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!backupnow">Salin</button></td>
+                  <td><span class="cmd-syntax">!backupnow</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Owner</span></td>
+                  <td>Pencadangan instan seluruh file konfigurasi JSON ke MongoDB dan GitHub.</td>
+                  <td><button class="copy-btn" data-copy="!backupnow">Salin</button></td>
                 </tr>
                 <tr>
-                  <td><span class="cmd-name">!sendbackup</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Kirimkan salinan arsip data terbaru berformat file ZIP ke webhook log cadangan.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!sendbackup">Salin</button></td>
-                </tr>
-                <tr>
-                  <td><span class="cmd-name">!cogbackup</span></td>
-                  <td><span class="cmd-badge badge-prefix">Prefix • Owner</span></td>
-                  <td>Menu interaktif untuk mencadangkan kode modul Python individual (.py) ke webhook.</td>
-                  <td><button class="cmd-copy-btn" data-copy="!cogbackup">Salin</button></td>
+                  <td><span class="cmd-syntax">!sendbackup</span></td>
+                  <td><span class="cmd-type-tag">Prefix • Owner</span></td>
+                  <td>Kirimkan salinan arsip data terbaru berformat ZIP ke webhook log cadangan.</td>
+                  <td><button class="copy-btn" data-copy="!sendbackup">Salin</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </article>
-
-        <!-- MODUL 12: Layanan Kustom Terpadu -->
-        <article class="module-card" data-category="utility">
-          <div class="module-header">
-            <div class="module-meta-group">
-              <span class="module-badge-tag">Layanan Terpadu</span>
-              <h3 class="module-title">Kustomisasi Penuh &amp; Dukungan Teknis</h3>
-            </div>
-            <span class="module-counts">Konsultasi Eksklusif</span>
-          </div>
-          <p class="module-desc">
-            Setiap bot yang kami bangun dilengkapi opsi kustomisasi menyeluruh: Nama bot, avatar profil, persona balasan AI, pesan sambutan, hierarki peran, dan integrasi API pihak ketiga sesuai spesifikasi server Anda.
-          </p>
-        </article>
+        </div>
 
       </div>
     </section>
 
-    <!-- FAQ SEPUTAR LAYANAN BOT KUSTOM -->
-    <section style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="section-header-block">
-        <span class="section-kicker">Pertanyaan Umum</span>
-        <h2 class="section-title">Hal yang Sering Ditanyakan Mengenai Pembuatan Bot Kustom</h2>
-        <p class="section-subtitle">
-          Informasi transparan mengenai proses teknis, biaya, dan pemeliharaan server bot.
+    <!-- FAQ -->
+    <section style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="section-head">
+        <span class="section-tag">Tanya Jawab</span>
+        <h2 class="section-h2">Pertanyaan Seputar Pembuatan Bot</h2>
+        <p class="section-subtext">
+          Jawaban jujur seputar hosting, kepemilikan kode, dan pemeliharaan server bot.
         </p>
       </div>
 
-      <div class="faq-grid">
-        <div class="faq-item">
-          <div class="faq-q">Berapa lama proses pembuatan bot custom?</div>
-          <div class="faq-a">Untuk paket setup server dan bot komunitas standar biasanya memakan waktu 2 hingga 4 hari kerja. Untuk proyek custom tingkat lanjut dengan integrasi API khusus berkisar antara 5 hingga 10 hari kerja.</div>
+      <div class="faq-list">
+        <div class="faq-card">
+          <div class="faq-question">Berapa lama pengerjaan bot custom?</div>
+          <div class="faq-answer">Untuk bot komunitas standar rata-rata selesai dalam 2 hingga 4 hari kerja. Untuk proyek custom yang membutuhkan integrasi khusus memakan waktu sekitar 5 hingga 8 hari kerja.</div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-q">Apakah saya harus menyediakan server atau VPS sendiri?</div>
-          <div class="faq-a">Tidak perlu. Kami sudah menyediakan infrastruktur cloud hosting awal yang siap pakai aktif 24 jam. Namun, jika Anda memiliki VPS sendiri dan ingin melakukan self-hosting, kami siap membantu setup penuh dan menyerahkan seluruh kode sumbernya.</div>
+        <div class="faq-card">
+          <div class="faq-question">Apakah saya harus sewa VPS atau server sendiri?</div>
+          <div class="faq-answer">Tidak perlu. Kami sediakan infrastruktur cloud hosting aktif 24 jam. Namun jika kamu punya VPS sendiri dan ingin self-host, kami bantu setupkan sampai tuntas.</div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-q">Bisakah nama dan avatar bot menggunakan identitas saya sendiri?</div>
-          <div class="faq-a">Tentu saja. Bot dirancang 100% white-label di mana Anda bertindak sebagai pemilik aplikasi di Discord Developer Portal dengan nama, ikon, bio, dan banner komunitas Anda sendiri.</div>
+        <div class="faq-card">
+          <div class="faq-question">Apakah nama dan avatar bot bisa pakai milik saya?</div>
+          <div class="faq-answer">Pasti. Bot dibuat langsung di aplikasi Discord Developer milikmu, sehingga nama, avatar profil, bio, dan status sepenuhnya milik server kamu.</div>
         </div>
 
-        <div class="faq-item">
-          <div class="faq-q">Bagaimana jika terjadi update dari Discord atau ada bug?</div>
-          <div class="faq-a">Kami memberikan masa garansi perbaikan bug dan pendampingan teknis. Jika terjadi perubahan kebijakan Discord API, kami akan menyesuaikan kode bot agar operasional komunitas Anda tetap berjalan mulus.</div>
+        <div class="faq-card">
+          <div class="faq-question">Bagaimana jika terjadi error atau perubahan dari Discord?</div>
+          <div class="faq-answer">Kami sediakan masa garansi perbaikan bug dan pendampingan teknis. Jika Discord memperbarui library atau API-nya, kode bot akan kami sesuaikan agar tetap jalan normal.</div>
         </div>
       </div>
     </section>
 
-    <!-- CONVERSION CTA BANNER -->
-    <section class="cta-conversion-box">
-      <h2>Siap Mengembangkan Bot Impian untuk Server Anda?</h2>
+    <!-- BANNER KONTAK DISCORD -->
+    <section class="contact-banner">
+      <h2>Punya Ide Bot untuk Komunitasmu?</h2>
       <p>
-        Diskusikan kebutuhan komunitas atau organisasi Anda bersama kami hari ini. Kami siap memberikan konsultasi teknis, saran arsitektur, dan penawaran yang rasional.
+        Ceritakan konsep servermu sekarang. Kami bantu rancang alur fitur dan bot yang pas, stabil, dan siap langsung dipakai komunitasmu.
       </p>
-      <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px;">
-        <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-cta-primary" style="padding: 12px 24px; font-size: 0.95rem;">
-          Hubungi Pengembang di Discord (ID: 1000737066822410311)
-        </a>
-        <a href="../" class="btn-cta-secondary" style="padding: 12px 20px;">
-          Kembali ke Beranda
-        </a>
-      </div>
+      <a href="https://discord.com/users/1000737066822410311" target="_blank" rel="noopener noreferrer" class="btn-solid-primary" style="padding: 12px 24px; font-size: 0.95rem; margin-top: 4px;">
+        Mulai Chat di Discord (ID: 1000737066822410311)
+      </a>
     </section>
 
   </main>
 
   <!-- Footer -->
-  <footer class="rtm-footer" style="padding: 36px 20px; text-align: center; border-top: 1px solid var(--rtm-border); font-size: 0.88rem; color: var(--rtm-text-muted);">
-    <p>&copy; 2026 <a href="https://www.rtmbot.biz.id" style="color: var(--rtm-text-main); text-decoration: none; font-weight: 600;">RTMBOT Solutions</a>. Layanan Otomasi &amp; Pengembangan Bot Discord Profesional.</p>
+  <footer class="rtm-footer" style="padding: 32px 20px; text-align: center; border-top: 1px solid var(--rtm-border); font-size: 0.86rem; color: var(--rtm-text-muted);">
+    <p>&copy; 2026 <a href="https://www.rtmbot.biz.id" style="color: var(--rtm-text-main); text-decoration: none; font-weight: 600;">RTMBOT Solutions</a>. Layanan Bot Discord &amp; Penataan Komunitas.</p>
   </footer>
 
-  <!-- Interactive JavaScript Engine -->
+  <!-- Scripts -->
   <script>
     // Theme Management
     function toggleTheme() {
@@ -1840,25 +1686,25 @@
 
     // Live Search & Category Filtering
     const searchInput = document.getElementById('commandSearch');
-    const categoryTabs = document.querySelectorAll('.tab-btn');
-    const moduleCards = document.querySelectorAll('.module-card');
+    const categoryTabs = document.querySelectorAll('.filter-tab');
+    const moduleItems = document.querySelectorAll('.module-item');
 
     let activeCategory = 'all';
 
     function filterModules() {
       const query = (searchInput.value || '').trim().toLowerCase();
 
-      moduleCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        const cardText = card.innerText.toLowerCase();
+      moduleItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        const itemText = item.innerText.toLowerCase();
 
-        const matchesCategory = (activeCategory === 'all' || cardCategory === activeCategory);
-        const matchesQuery = (!query || cardText.includes(query));
+        const matchesCategory = (activeCategory === 'all' || itemCategory === activeCategory);
+        const matchesQuery = (!query || itemText.includes(query));
 
         if (matchesCategory && matchesQuery) {
-          card.style.display = 'flex';
+          item.style.display = 'flex';
         } else {
-          card.style.display = 'none';
+          item.style.display = 'none';
         }
       });
     }
@@ -1877,7 +1723,7 @@
     });
 
     // Copy Command to Clipboard
-    document.querySelectorAll('.cmd-copy-btn').forEach(btn => {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const cmd = btn.getAttribute('data-copy');
         if (!cmd) return;
