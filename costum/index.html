@@ -2561,11 +2561,13 @@
 
     .discord-messages-body {
       background: #313338;
-      padding: 16px 16px 8px 16px;
-      min-height: 250px;
+      padding: 16px 16px 12px 16px;
+      min-height: 280px;
+      max-height: 580px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .discord-scenario-view {
@@ -2620,10 +2622,72 @@
       color: #ffffff;
     }
 
-    .avatar-bot-raka {
-      background: linear-gradient(135deg, #0284c7, #0ea5e9);
-      color: #ffffff;
-      box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+    .avatar-bot-raka, .avatar-bot-rtm {
+      background: #0f172a;
+      color: #f59e0b;
+      border: 1.5px solid rgba(245, 158, 11, 0.45);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .discord-game-embed {
+      background: #2b2d31;
+      border-radius: 4px;
+      border-left: 4px solid #3b82f6;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 520px;
+    }
+
+    .game-embed-header {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #f2f3f5;
+    }
+
+    .game-embed-desc {
+      font-size: 0.85rem;
+      color: #dbdee1;
+      line-height: 1.4;
+    }
+
+    .game-embed-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 10px 12px;
+      border-radius: 6px;
+    }
+
+    .game-field-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .game-field-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #949ba4;
+    }
+
+    .game-field-val {
+      font-size: 0.82rem;
+      color: #dbdee1;
+      line-height: 1.4;
+    }
+
+    .game-embed-footer {
+      font-size: 0.72rem;
+      color: #949ba4;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 6px;
     }
 
     .avatar-user-suspect {
@@ -3222,10 +3286,10 @@
         <div class="demo-card">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
             <div>
-              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--rtm-text-main);">Asisten AI Server: Paham Konteks Komunitas</h3>
-              <p style="font-size: 0.85rem; color: var(--rtm-text-secondary); margin-top: 2px;">Bisa cek saldo kas virtual, pantau room voice mabar, dan respon obrolan santai member</p>
+              <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--rtm-text-main);">RTMxBadut: Asisten Cerdas &amp; Mesin Komunitas Server</h3>
+              <p style="font-size: 0.85rem; color: var(--rtm-text-secondary); margin-top: 2px;">Satu bot terpadu untuk cek saldo kas RSWN, pembuatan kartu sertifikat HD, minigames balap kuda, dan moderasi otomatis</p>
             </div>
-            <span class="rank-badge-item">Asisten AI Server</span>
+            <span class="rank-badge-item">Bot Resmi Komunitas</span>
           </div>
 
           <!-- Ultra High-Fidelity Discord Desktop Frame -->
@@ -3246,194 +3310,201 @@
               </div>
             </div>
 
-            <!-- Scenario Switcher Pills -->
-            <div class="discord-scenario-bar">
-              <button class="scenario-pill-btn active" id="btnScenario_saldo" type="button" onclick="switchDiscordScenario('saldo')">
-                <span>💬 Cek Saldo &amp; Mabar Voice</span>
-              </button>
-              <button class="scenario-pill-btn" id="btnScenario_sentinel" type="button" onclick="switchDiscordScenario('sentinel')">
-                <span>🛡️ Filter Link Phishing</span>
-              </button>
-              <button class="scenario-pill-btn" id="btnScenario_kartu" type="button" onclick="switchDiscordScenario('kartu')">
-                <span>🎴 Cek Kartu Anggota (/rank)</span>
-              </button>
-            </div>
-
-            <!-- Messages Body -->
+            <!-- Messages Body (Single Unified Continuous Channel) -->
             <div class="discord-messages-body">
               
-              <!-- SCENARIO 1: SALDO & MABAR VOICE (HUMAN BANTER) -->
-              <div class="discord-scenario-view active" id="viewScenario_saldo">
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-reyhan">RY</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Reyhan</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.05</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      <span class="discord-mention">@Raka</span> cek saldo gua dong, sekalian voice mabar lagi ada orang gak?
-                    </div>
+              <!-- 1. DRH71 Cek Saldo Kas & Voice Mabar -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-reyhan">DR</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user">DRH71</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.17</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    <span class="discord-mention">@RTMxBadut</span> cek saldo kas RSWN gua dong, sama voice mabar lagi ada orang gak?
                   </div>
                 </div>
+              </div>
 
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-bot-raka">RK</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-bot">Raka</span>
-                      <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.05</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      Saldo lu saat ini ada <strong>15.420 RSWN</strong> (Rank #3 server). Di voice <strong>🔊 Mabar Gaming</strong> lagi ada 3 orang tuh main Valorant, masuk gih daripada bengong.
-                    </div>
+              <!-- 2. RTMxBadut Respon Saldo Valid & Info Voice -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-bot-rtm">RTM</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-bot">RTMxBadut</span>
+                    <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.17</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    Saldo kas RSWN Anda saat ini ada <strong>49,215 RSWN</strong> (Rank #1 S-Class Master). Di voice <strong>🔊 Mabar Gaming</strong> lagi ada 3 orang tuh main Valorant, masuk gih daripada bengong.
                   </div>
                 </div>
+              </div>
 
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-reyhan">RY</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Reyhan</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.06</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      wkwk bentar mau main balap kuda di <code>#minigames</code> dulu, pasang kuda 2 gas <code>!balapan</code>
-                    </div>
+              <!-- 3. DRH71 Command !rank -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-reyhan">DR</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user">DRH71</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.17</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    <code>!rank</code>
                   </div>
                 </div>
+              </div>
 
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-bot-raka">RK</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-bot">Raka</span>
-                      <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.06</span>
+              <!-- 4. RTMxBadut Kirim Gambar Sertifikat Resmi HD Langsung di Chat -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-bot-rtm">RTM</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-bot">RTMxBadut</span>
+                    <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.17</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    Sertifikat Kartu Resmi Anggota berhasil diterbitkan untuk <strong>DRH71</strong>:
+                  </div>
+                  <div class="discord-attachment-card" style="margin-top: 8px; max-width: 460px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 8px 24px rgba(0,0,0,0.5); background: #1e1f22;">
+                    <img src="kartu-member-resmi.png" 
+                         onerror="this.onerror=null;this.src='images/kartu-member-resmi.png';" 
+                         alt="KARTU RESMI ANGGOTA • RESWAN" 
+                         loading="lazy" 
+                         style="display: block; width: 100%; height: auto;">
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Reyhan Memulai Minigame Balap Kuda -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-dina">RY</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user">Reyhan</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.19</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    <code>!balapan</code>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 6. RTMxBadut Mengaktifkan Arena Balapan Kuda & Taruhan -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-bot-rtm">RTM</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-bot">RTMxBadut</span>
+                    <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.19</span>
+                  </div>
+                  <div class="discord-game-embed">
+                    <div class="game-embed-header">
+                      <span>🐎 Balapan Kuda Dimulai! 🐎</span>
                     </div>
-                    <div class="discord-msg-body">
-                      Ketik <code>!taruhan 500 2</code> ya. Awas kudanya mogok lagi kayak kemarin, jangan ngomel wkwk 🏇
+                    <div class="game-embed-desc">
+                      Waktunya memasang taruhan! Kamu punya <strong>30 detik</strong> untuk bertaruh sebelum race dimulai.
+                    </div>
+                    <div class="game-embed-grid">
+                      <div class="game-field-item">
+                        <span class="game-field-title">Kuda yang Berkompetisi</span>
+                        <div class="game-field-val">
+                          1. 🐎 <strong>Shadowfax</strong> (Odds: 1.8x)<br>
+                          2. 🐎 <strong>Spirit</strong> (Odds: 2.2x)<br>
+                          3. 🐎 <strong>Black Beauty</strong> (Odds: 2.5x)
+                        </div>
+                      </div>
+                      <div class="game-field-item">
+                        <span class="game-field-title">Cara Bertaruh</span>
+                        <div class="game-field-val">
+                          Ketik <code>!taruhan &lt;jumlah_rswn&gt; &lt;nomor_kuda&gt;</code> (Contoh: <code>!taruhan 500 2</code>)
+                        </div>
+                      </div>
+                    </div>
+                    <div class="game-embed-footer">
+                      <span>⏱️ Taruhan ditutup dalam 30 detik</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- SCENARIO 2: FILTER LINK PHISHING (REAL DISCORD ACTION) -->
-              <div class="discord-scenario-view" id="viewScenario_sentinel">
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-suspect">SP</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user" style="color:#ef4444;">SuspectUser_99</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.12</span>
-                    </div>
-                    <div class="discord-msg-body" style="text-decoration: line-through; opacity: 0.6;">
-                      free discord nitro 3 bulan buruan klaim di sini: http://nitro-gift-drop.xyz/claim
-                    </div>
+              <!-- 7. Reyhan Pasang Taruhan -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-dina">RY</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user">Reyhan</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.19</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    <code>!taruhan 500 2</code> gas Spirit auto podium 1!
                   </div>
                 </div>
+              </div>
 
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-bot-raka">RK</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-bot">Sentinel Automod</span>
-                      <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.12</span>
-                    </div>
-                    <div class="discord-alert-embed">
-                      <div class="embed-header-line">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                        <span>Peringatan Keamanan: Link Phishing Dihapus</span>
-                      </div>
-                      <div class="embed-body-desc">
-                        Pesan dari <strong>@SuspectUser_99</strong> dihapus otomatis karena terdeteksi link phishing berisiko. Pengguna dikenakan sanksi <strong>Timeout 1 Jam</strong>.
-                      </div>
-                    </div>
+              <!-- 8. RTMxBadut Konfirmasi Taruhan -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-bot-rtm">RTM</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-bot">RTMxBadut</span>
+                    <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.19</span>
+                  </div>
+                  <div class="discord-msg-body">
+                    ✅ Taruhan diterima! <strong>Reyhan</strong> memasang <strong>500 RSWN</strong> pada Kuda #2 (Spirit). Semoga tembus, awas kudanya mogok lagi kayak kemarin wkwk 🏇
                   </div>
                 </div>
+              </div>
 
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-reyhan">RY</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Reyhan</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.12</span>
+              <!-- 9. Spammer Masuk & Kirim Link Phishing -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-suspect">SP</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user" style="color:#ef4444;">SuspectUser_99</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.20</span>
+                  </div>
+                  <div class="discord-msg-body" style="text-decoration: line-through; opacity: 0.6;">
+                    free discord nitro 3 bulan buruan klaim di sini: http://nitro-gift-drop.xyz/claim
+                  </div>
+                </div>
+              </div>
+
+              <!-- 10. RTMxBadut AutoMod Sikat Link Phishing -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-bot-rtm">RTM</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-bot">RTMxBadut</span>
+                    <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.20</span>
+                  </div>
+                  <div class="discord-alert-embed">
+                    <div class="embed-header-line">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                      <span>Peringatan Keamanan: Link Phishing Dihapus</span>
                     </div>
-                    <div class="discord-msg-body">
-                      wkwk bot spam baru masuk langsung kena sikat auto-filter
+                    <div class="embed-body-desc">
+                      Pesan dari <strong>@SuspectUser_99</strong> dihapus otomatis karena terdeteksi link phishing berisiko. Pengguna dikenakan sanksi <strong>Timeout 1 Jam</strong>.
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- SCENARIO 3: CEK KARTU ANGGOTA /RANK (CASUAL & NATURAL) -->
-              <div class="discord-scenario-view" id="viewScenario_kartu">
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-dina">DN</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Dina</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.15</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      <code>/rank</code>
-                    </div>
+              <!-- 11. Reyhan Reaksi Natural -->
+              <div class="discord-msg-row">
+                <div class="discord-avatar avatar-user-dina">RY</div>
+                <div class="discord-msg-content">
+                  <div class="discord-msg-header">
+                    <span class="discord-name-user">Reyhan</span>
+                    <span class="discord-msg-timestamp">Hari ini pukul 16.20</span>
                   </div>
-                </div>
-
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-bot-raka">RK</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-bot">Raka</span>
-                      <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.15</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      Sertifikat Kartu Resmi kamu siap! Nomor ID Registrasi: <strong>#3018</strong> (Rank #8 • Class-A). File gambar HD sudah dikirim di channel ini.
-                    </div>
-                  </div>
-                </div>
-
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-dina">DN</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Dina</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.16</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      eh min, kalau nanti ada member yang leave server, nomor urut #3018 ini bakal ganti gak?
-                    </div>
-                  </div>
-                </div>
-
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-bot-raka">RK</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-bot">Raka</span>
-                      <span class="discord-badge-app"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> APP</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.16</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      Enggak Din, nomor registrasi kamu udah dicatat permanen di database server, jadi gak bakal bergeser walau ada member lain yang keluar masuk.
-                    </div>
-                  </div>
-                </div>
-
-                <div class="discord-msg-row">
-                  <div class="discord-avatar avatar-user-dina">DN</div>
-                  <div class="discord-msg-content">
-                    <div class="discord-msg-header">
-                      <span class="discord-name-user">Dina</span>
-                      <span class="discord-msg-timestamp">Hari ini pukul 21.16</span>
-                    </div>
-                    <div class="discord-msg-body">
-                      wih mantap, makasih min!
-                    </div>
+                  <div class="discord-msg-body">
+                    wkwk bot spam baru masuk langsung kena sikat auto-filter RTMxBadut
                   </div>
                 </div>
               </div>
@@ -3445,7 +3516,7 @@
               <div class="typing-dots">
                 <span></span><span></span><span></span>
               </div>
-              <span><strong>Raka</strong> sedang mengetik...</span>
+              <span><strong>RTMxBadut</strong> sedang mengetik...</span>
             </div>
 
             <!-- Discord Input Bar Mockup -->
@@ -3463,8 +3534,8 @@
           </div>
 
           <div style="font-size: 0.82rem; color: var(--rtm-text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-top: 10px;">
-            <span>Mendukung Obrolan di Server (Tag / Prefix) &amp; DM 1-on-1</span>
-            <span class="rank-badge-item">Paham Konteks Server</span>
+            <span>Aliran Chat Nyata: Cek Saldo Kas, Kartu HD, Arena Balapan, &amp; AutoMod</span>
+            <span class="rank-badge-item">Paham Konteks Komunitas</span>
           </div>
         </div>
 
@@ -4151,16 +4222,6 @@
   </script>
 
   <script>
-    // Scenario Switcher for Discord Glass Titanium Showcase
-    function switchDiscordScenario(scenarioId) {
-      document.querySelectorAll('.scenario-pill-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.discord-scenario-view').forEach(view => view.classList.remove('active'));
-      
-      const targetBtn = document.getElementById('btnScenario_' + scenarioId);
-      const targetView = document.getElementById('viewScenario_' + scenarioId);
-      if (targetBtn) targetBtn.classList.add('active');
-      if (targetView) targetView.classList.add('active');
-    }
 
     // Dynamic Live Member Counter with Odometer Count-Up Animation
     function animateCountUp(element, start, end, duration, suffix = ' Member') {
