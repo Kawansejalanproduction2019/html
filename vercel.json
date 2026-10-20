@@ -2,7 +2,21 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/haruru", "destination": "/haruru/index.html" },
-    { "source": "/haruru/", "destination": "/haruru/index.html" }
+    {
+      "source": "/haruru",
+      "destination": "/haruru/index.html"
+    },
+    {
+      "source": "/haruru/",
+      "destination": "/haruru/index.html"
+    },
+    {
+      "source": "/commands",
+      "destination": "/commands.html"
+    },
+    {
+      "source": "/commands/",
+      "destination": "/commands.html"
+    }
   ]
 }
